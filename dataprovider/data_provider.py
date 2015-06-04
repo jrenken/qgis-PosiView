@@ -5,8 +5,9 @@ Created on 03.06.2015
 '''
 from PyQt4.Qt import QObject
 import dataparser
-from PyQt4.QtCore import pyqtSignal
-
+from PyQt4.QtCore import pyqtSignal, pyqtSlot
+import datadevice
+from collections import deque
 
 class DataProvider(QObject):
     '''
@@ -27,12 +28,31 @@ class DataProvider(QObject):
         self.name = params.setdefault('Name', 'DataProvider_' + str(DataProvider.dataProviderCount))
         self.params = params
         self.connected = False
-        self.iodevice = None
+        self.dataDevice = None
         self.keepConnection = True
         self.parser = dataparser.createParser( self.params.setdefault('Parser', 'IxUsbl') )
-        
+        self.dataDevice = None
+        self.lineBuffer = deque()
      
     def properties(self):
         return self.params
 
-
+    
+    def connectDevice(self):
+        self.dataDevice = datadevice.createDataDevice(self.params)
+        if self.dataDevice is not None:
+            pass
+    
+    def disconnectDevice(self):
+        pass
+    
+    @pyqtSlot()
+    def onDataAvailable(self):
+        data = self.dataDevice.readData()
+        self.lineBuffer.extend(data.splitlines())
+        for s in self.lineBuffer:
+            d = self.parser.parse(s)
+            if d:
+                d['name'] = self.name
+                self.newDataReceived.emit( d )
+            
