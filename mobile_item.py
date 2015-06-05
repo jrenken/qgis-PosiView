@@ -20,6 +20,14 @@ class MobileItem(QObject):
     def __init__(self, iface, params = {}, parent = None):
         '''
         Constructor
+        :param iface: An interface instance that will be passed to this class
+            which provides the hook by which you can manipulate the QGIS
+            application at run time.
+        :type iface: QgsInterface
+        :param params: A dictionary defining all the properties of the mobile item
+        :type params: dictionary
+        :param parent: Parent object for the new item. Defaults None.
+        :type parent: QObject
         '''
         super(MobileItem, self).__init__(parent)
 

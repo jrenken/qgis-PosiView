@@ -23,9 +23,7 @@
 from PyQt4.QtCore import QSettings, QTranslator, qVersion, QCoreApplication
 from PyQt4.QtGui import QAction, QIcon
 # Initialize Qt resources from file resources.py
-import resources_rc
-# Import the code for the dialog
-from posi_view_dialog import PosiViewDialog
+#import resources_rc
 import os.path
 
 
@@ -58,8 +56,6 @@ class PosiView:
             if qVersion() > '4.3.3':
                 QCoreApplication.installTranslator(self.translator)
 
-        # Create the dialog (after translation) and keep reference
-        self.dlg = PosiViewDialog()
 
         # Declare instance attributes
         self.actions = []
@@ -90,6 +86,7 @@ class PosiView:
         text,
         callback,
         enabled_flag=True,
+        checkable_flag = False,
         add_to_menu=True,
         add_to_toolbar=True,
         status_tip=None,
@@ -110,6 +107,10 @@ class PosiView:
         :param enabled_flag: A flag indicating if the action should be enabled
             by default. Defaults to True.
         :type enabled_flag: bool
+
+        :param checkable_flag: A flag indicating if the action should be checkable
+            by default. Defaults to False.
+        :type checkable: bool
 
         :param add_to_menu: Flag indicating whether the action should also
             be added to the menu. Defaults to True.
@@ -138,6 +139,7 @@ class PosiView:
         action = QAction(icon, text, parent)
         action.triggered.connect(callback)
         action.setEnabled(enabled_flag)
+        action.setCheckable(checkable_flag)
 
         if status_tip is not None:
             action.setStatusTip(status_tip)
@@ -201,9 +203,15 @@ class PosiView:
         del self.toolbar
 
 
-    def run(self):
+    def run(self, checked = False):
         """Run method that performs all the real work"""
-        pass
+        if checked:
+            pass
+        else:
+            # unload
+            # disable other actions
+            pass
+        
     
     def startTracking(self):
         pass

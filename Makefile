@@ -48,7 +48,9 @@ PY_FILES = \
 	posi_view_dialog.py \
 	__init__.py
 
-UI_FILES = posi_view_dialog_base.ui
+UI_FILES = ui/posiview_properties_base.ui
+
+COMPILED_UI_FILES = posiview_properties_base.py
 
 EXTRAS = icon.png metadata.txt
 
