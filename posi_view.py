@@ -160,11 +160,33 @@ class PosiView:
     def initGui(self):
         """Create the menu entries and toolbar icons inside the QGIS GUI."""
 
-        icon_path = ':/plugins/PosiView/icon.png'
+        iconPath = ':/plugins/PosiView/icon.png'
         self.add_action(
-            icon_path,
-            text=self.tr(u'Start Tracking'),
+            os.path.join(iconPath, 'icon.png'),
+            text=self.tr(u'PosiView'),
             callback=self.run,
+            status_tip = tr(u'Start PosiView'),
+            parent=self.iface.mainWindow())
+        
+        self.add_action(
+            os.path.join(iconPath, 'icon.png'),            
+            text=self.tr(u'Start Tracking'),
+            callback=self.startTracking,
+            status_tip = tr(u'Start tracking'),
+            parent=self.iface.mainWindow())
+
+        self.add_action(
+            os.path.join(iconPath, 'icon.png'),
+            text=self.tr(u'Stop Tracking'),
+            callback=self.stopTracking,
+            status_tip = tr(u'Stop tracking'),
+            parent=self.iface.mainWindow())
+
+        self.add_action(
+            os.path.join(iconPath, 'icon.png'),
+            text=self.tr(u'Configurem PosiView'),
+            callback=self.configure,
+            status_tip = tr(u'Configure PosiView'),
             parent=self.iface.mainWindow())
 
 
@@ -181,12 +203,15 @@ class PosiView:
 
     def run(self):
         """Run method that performs all the real work"""
-        # show the dialog
-        self.dlg.show()
-        # Run the dialog event loop
-        result = self.dlg.exec_()
-        # See if OK was pressed
-        if result:
-            # Do something useful here - delete the line containing pass and
-            # substitute with your code.
-            pass
+        pass
+    
+    def startTracking(self):
+        pass
+    
+    def stopTracking(self):
+        pass
+    
+    def configure(self):
+        pass
+    
+
