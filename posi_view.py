@@ -20,13 +20,14 @@
  *                                                                         *
  ***************************************************************************/
 """
-from PyQt4.QtCore import QSettings, QTranslator, qVersion, QCoreApplication
+from PyQt4.QtCore import QSettings, QTranslator, qVersion, QCoreApplication, Qt
 from PyQt4.QtGui import QAction, QIcon
 # Initialize Qt resources from file resources.py
-#import resources_rc
+import resources_rc
 import os.path
 from posiview_project import PosiViewProject
-
+from gui.tracking_dock import TrackingDock
+from gui.guidance_dock import GuidanceDock
 
 class PosiView:
     """QGIS Plugin Implementation."""
@@ -65,6 +66,14 @@ class PosiView:
         self.toolbar = self.iface.addToolBar(u'PosiView')
         self.toolbar.setObjectName(u'PosiView')
         self.project = PosiViewProject(self.iface)
+        
+        self.tracking = TrackingDock()
+        self.iface.addDockWidget(Qt.LeftDockWidgetArea, self.tracking)
+        self.tracking.hide()
+        self.guidance = GuidanceDock();
+        self.iface.addDockWidget(Qt.LeftDockWidgetArea, self.guidance)
+        self.guidance.hide()
+
     # noinspection PyMethodMayBeStatic
     def tr(self, message):
         """Get the translation for a string using Qt translation API.
@@ -163,7 +172,7 @@ class PosiView:
     def initGui(self):
         """Create the menu entries and toolbar icons inside the QGIS GUI."""
 
-        iconPath = ':/plugins/PosiView/icon.png'
+        iconPath = ':/plugins/PosiView'
         self.add_action(
             os.path.join(iconPath, 'icon.png'),
             text = self.tr(u'PosiView'),
@@ -211,9 +220,15 @@ class PosiView:
     def run(self, checked = False):
         """Run method that performs all the real work"""
         if checked:
-            self.project.loadTestProject()
+            self.project.loadTestProject()        
+            for item in self.project.mobileItems.values():
+                self.tracking.addMobile(item)
+ 
+            self.tracking.show()
             pass
         else:
+            self.tracking.removeMobiles()
+            self.tracking.hide()
             self.project.unload()
             # unload
             # disable other actions
@@ -222,7 +237,7 @@ class PosiView:
     
     def startTracking(self):
         self.project.startTracking()
-    
+        
     def stopTracking(self):
         self.project.stopTracking()
     

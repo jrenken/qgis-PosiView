@@ -56,6 +56,7 @@ class MobileItem(QObject):
         self.timer.timeout.connect(self.timeout)
         self.timeoutTime = int( params.get('timeout', 3000) )
         self.enabled = True
+#         print "Hello Mobile", self.name
 
     def removeFromCanvas(self):
         self.canvas.scene().removeItem(self.marker)
@@ -105,12 +106,12 @@ class MobileItem(QObject):
             self.marker.newCoords(pt)
             self.newPosition.emit(self.position, data.get('depth', 0.0))
             self.timer.start(self.timeoutTime)
-            print self.name, " NewPosition: ", pt
+#             print self.name, " NewPosition: ", pt
             
         if data.has_key('heading'):
             self.newAttitude.emit(data['heading'], data.get('pitch', 0.0), data.get('roll', 0.0))
             self.marker.newHeading(data['heading'])
-            print self.name, ' New attitude ', data['heading'] 
+#             print self.name, ' New attitude ', data['heading'] 
 
     @pyqtSlot(float)
     def onScaleChange(self, scale):

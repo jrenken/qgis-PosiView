@@ -46,6 +46,7 @@ class PositionMarker(QgsMapCanvasItem):
         super(PositionMarker, self).__init__(canvas)
         self.setZValue(int( params.get('zValue', 100) ))
         self.updateSize()
+#         print "Hello positionMarker", self.type
         
         
     def properties(self):
@@ -64,6 +65,7 @@ class PositionMarker(QgsMapCanvasItem):
    
     def newCoords(self, pos):
         if self.pos != pos:
+#             print "marker: New Position"
             self.updateTrack()
             self.pos = QgsPoint(pos) # copy
             self.updatePosition()
@@ -121,17 +123,17 @@ class PositionMarker(QgsMapCanvasItem):
         pen = QPen(self.color)
         pen.setWidth( self.penWidth )
         painter.setPen( pen )
-        if self.type is 'CROSS':
+        if self.type == 'CROSS':
             painter.drawLine( QLineF( -s, 0, s, 0) )
             painter.drawLine( QLineF( 0, -s, 0, s) )
-        elif self.type is 'X':
+        elif self.type == 'X':
             painter.drawLine( QLineF( -s, -s, s, s) )
             painter.drawLine( QLineF( -s, s, s, -s) )
-        elif self.type is 'BOX':
+        elif self.type == 'BOX':
             brush = QBrush(self.fillColor)
             painter.setBrush(brush)
             painter.drawConvexPolygon(self.paintShape)
-        elif self.type is 'SHAPE':
+        elif self.type == 'SHAPE':
             painter.setRenderHint(QPainter.Antialiasing, True)
             brush = QBrush(self.fillColor)
             painter.setBrush(brush)

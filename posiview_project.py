@@ -166,11 +166,11 @@ class PosiViewProject(object):
         for k in item.dataProvider.keys():
             item.subscribePositionProvider(self.dataProviders[k], item.dataProvider[k])
         
-        item = MobileItem(self.iface, {'Name': 'Beacon_7', 'timeout': 11000, 'provider' : { 'Gaps': 7 } })
+        item = MobileItem(self.iface, {'Name': 'Beacon_7', 'timeout': 11000, 'provider' : { 'Gaps': 1 } })
         self.mobileItems[item.name] = item
         for k in item.dataProvider.keys():
             item.subscribePositionProvider(self.dataProviders[k],  item.dataProvider[k])
-        item = MobileItem(self.iface, {'Name': 'Ship', 'type' : 'shape', 'timeout': 11000,
+        item = MobileItem(self.iface, {'Name': 'Ship', 'type' : 'shape', 'timeout': 5000,
                                        'fillColor': 'orange', 'provider' : { 'Gaps': 0 } })
         self.mobileItems[item.name] = item
         for k in item.dataProvider.keys():

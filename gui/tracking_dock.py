@@ -10,11 +10,10 @@ from PyQt4 import QtGui, uic
 from PyQt4.QtCore import Qt 
 from PyQt4.Qt import pyqtSlot, QSize
 from qgis.core import QgsPoint
-import resources_rc
 from PyQt4.QtGui import QIcon
 
 FORM_CLASS, _ = uic.loadUiType(os.path.join(
-    os.path.dirname(__file__), 'tracking_dock_base.ui'))
+    os.path.dirname(__file__), '..', 'ui', 'tracking_dock_base.ui'))
 
 class TrackingDock(QtGui.QDockWidget, FORM_CLASS):
     '''
@@ -36,6 +35,12 @@ class TrackingDock(QtGui.QDockWidget, FORM_CLASS):
     def addMobile(self, mobile):
         display = TrackingDisplay(mobile, self)
         self.verticalLayout.addWidget(display)
+        
+    def removeMobiles(self):
+        allTracking = self.findChildren(TrackingDisplay)
+        for w in allTracking:
+            self.verticalLayout.removeWidget(w)
+            w.deleteLater()
         
         
         
