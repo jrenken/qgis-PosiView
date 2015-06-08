@@ -3,8 +3,9 @@ Created on 04.06.2015
 
 @author: jrenken
 '''
-from dataprovider.datadevice.datadevice import DataDevice
+from .datadevice import DataDevice
 from PyQt4.QtNetwork import QUdpSocket, QHostAddress, QAbstractSocket
+from PyQt4.QtCore import pyqtSignal
 
 
 class UdpDevice(DataDevice):
@@ -12,6 +13,7 @@ class UdpDevice(DataDevice):
     Implementation of a UDP server socket
     '''
 
+    readyRead = pyqtSignal()
 
     def __init__(self, params = {}, parent = None):
         '''
@@ -21,21 +23,23 @@ class UdpDevice(DataDevice):
         
         self.iodevice = QUdpSocket()
         self.reconnect = int(params.get('Reconnect', 1000))
-        self.host = self.params.get('Host', None)
-        self.port = int(self.params.get('Port', 2000))
+        self.host = params.get('Host', None)
+        self.port = int(params.get('Port', 2000))
         self.iodevice.readyRead.connect( self.readyRead )
 
     def connectDevice(self):
+        print "Hey, try to connect ", self.host, self.port
         result = False
         if self.host is None:
-            result = self.iodevice.bind(self.port) is False
+            print "Connect"
+            result = self.iodevice.bind(self.port)
         else:        
             ha = QHostAddress(self.host)
             result = self.iodevice.bind(ha, self.port)  
-        
+        print "Device connected?: ", result
         if result is False:
             if self.reconnect > 0:
-                self.timer.singleShot(int, self, self.onReconnectTimer)
+                self.timer.singleShot(self.reconnect, self, self.onReconnectTimer)
         else:
             self.deviceConnected.emit() 
             

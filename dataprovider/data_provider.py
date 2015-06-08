@@ -4,8 +4,8 @@ Created on 03.06.2015
 @author: jrenken
 '''
 from PyQt4.Qt import QObject
-import dataparser
 from PyQt4.QtCore import pyqtSignal, pyqtSlot
+import dataparser
 import datadevice
 from collections import deque
 
@@ -24,35 +24,49 @@ class DataProvider(QObject):
         '''
         Constructor
         '''
+        super(DataProvider, self).__init__(parent)
         DataProvider.dataProviderCount += 1
         self.name = params.setdefault('Name', 'DataProvider_' + str(DataProvider.dataProviderCount))
         self.params = params
         self.connected = False
         self.dataDevice = None
         self.keepConnection = True
-        self.parser = dataparser.createParser( self.params.setdefault('Parser', 'IxUsbl') )
+        self.parser = dataparser.createParser( self.params.setdefault('Parser', 'IX_USBL') )
         self.dataDevice = None
         self.lineBuffer = deque()
+        print "Hello dataprovider", self.name
      
     def properties(self):
         return self.params
 
+    def start(self):
+        self.connectDevice()
+        
+    def stop(self):
+        self.disconnectDevice()
     
     def connectDevice(self):
         self.dataDevice = datadevice.createDataDevice(self.params)
+        print self.dataDevice, self.params
         if self.dataDevice is not None:
-            pass
+            self.dataDevice.readyRead.connect(self.onDataAvailable)
+            self.dataDevice.connectDevice()
     
     def disconnectDevice(self):
-        pass
+        if self.dataDevice is not None:
+            self.dataDevice.disconnectDevice()
+            self.dataDevice.readyRead.disconnect()
+            self.dataDevice.deleteLater()
+            self.dataDevice = None
     
     @pyqtSlot()
     def onDataAvailable(self):
         data = self.dataDevice.readData()
         self.lineBuffer.extend(data.splitlines())
-        for s in self.lineBuffer:
-            d = self.parser.parse(s)
+        while len(self.lineBuffer):
+            d = self.parser.parse(self.lineBuffer.popleft())
             if d:
                 d['name'] = self.name
+                print d
                 self.newDataReceived.emit( d )
             

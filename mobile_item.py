@@ -3,8 +3,9 @@ Created on 05.06.2015
 
 @author: jrenken
 '''
-from PyQt4.QtCore import QObject, pyqtSlot
-from qgis.core import QgsPoint
+from PyQt4.QtCore import QObject, pyqtSlot, QTimer, pyqtSignal
+from qgis.core import QgsPoint, QgsCoordinateTransform, QgsCoordinateReferenceSystem
+from position_marker import PositionMarker
 # from qgis.core import 
 
 
@@ -15,6 +16,10 @@ class MobileItem(QObject):
     '''
 
     mobileItemCount = 0
+
+    newPosition = pyqtSignal(QgsPoint, float)
+    newAttitude = pyqtSignal(float, float, float)   # heading, pitch, roll
+    timeout = pyqtSignal()
 
 
     def __init__(self, iface, params = {}, parent = None):
@@ -35,8 +40,27 @@ class MobileItem(QObject):
         self.canvas = iface.mapCanvas()
         MobileItem.mobileItemCount += 1
         self.name = params.setdefault('Name', 'MobileItem_' + str(MobileItem.mobileItemCount))
+        self.marker = PositionMarker(self.canvas, params)
+        self.marker.setToolTip(self.name)
+        self.dataProvider = params.get('provider', dict())
+        self.messageFilter = dict()
+        self.extData = dict()
+        self.position = None
+        self.attitude = None
+        self.crsXform = QgsCoordinateTransform()
+        self.crsXform.setSourceCrs(QgsCoordinateReferenceSystem(4326))
+        self.onCrsChange()
+        self.canvas.scaleChanged.connect(self.onScaleChange)
+        self.canvas.mapRenderer().destinationSrsChanged.connect(self.onCrsChange)
+        self.timer = QTimer(self);
+        self.timer.timeout.connect(self.timeout)
+        self.timeoutTime = int( params.get('timeout', 3000) )
+        self.enabled = True
 
-
+    def removeFromCanvas(self):
+        self.canvas.scene().removeItem(self.marker)
+        self.deleteLater()
+    
     def properties(self):
         d = { 'Name' : self.name, 
               'timeout': self.timeoutTime, 
@@ -81,12 +105,12 @@ class MobileItem(QObject):
             self.marker.newCoords(pt)
             self.newPosition.emit(self.position, data.get('depth', 0.0))
             self.timer.start(self.timeoutTime)
-#             print self.name, " NewPosition: ", pt
+            print self.name, " NewPosition: ", pt
             
         if data.has_key('heading'):
             self.newAttitude.emit(data['heading'], data.get('pitch', 0.0), data.get('roll', 0.0))
             self.marker.newHeading(data['heading'])
-#             print self.name, ' New attitude ', data['heading'] 
+            print self.name, ' New attitude ', data['heading'] 
 
     @pyqtSlot(float)
     def onScaleChange(self, scale):

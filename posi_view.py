@@ -25,6 +25,7 @@ from PyQt4.QtGui import QAction, QIcon
 # Initialize Qt resources from file resources.py
 #import resources_rc
 import os.path
+from posiview_project import PosiViewProject
 
 
 class PosiView:
@@ -63,7 +64,7 @@ class PosiView:
         # TODO: We are going to let the user set this up in a future iteration
         self.toolbar = self.iface.addToolBar(u'PosiView')
         self.toolbar.setObjectName(u'PosiView')
-
+        self.project = PosiViewProject(self.iface)
     # noinspection PyMethodMayBeStatic
     def tr(self, message):
         """Get the translation for a string using Qt translation API.
@@ -165,35 +166,39 @@ class PosiView:
         iconPath = ':/plugins/PosiView/icon.png'
         self.add_action(
             os.path.join(iconPath, 'icon.png'),
-            text=self.tr(u'PosiView'),
-            callback=self.run,
-            status_tip = tr(u'Start PosiView'),
+            text = self.tr(u'PosiView'),
+            callback = self.run,
+            status_tip = self.tr(u'Start PosiView'),
+            checkable_flag = True,
             parent=self.iface.mainWindow())
         
         self.add_action(
             os.path.join(iconPath, 'icon.png'),            
-            text=self.tr(u'Start Tracking'),
-            callback=self.startTracking,
-            status_tip = tr(u'Start tracking'),
-            parent=self.iface.mainWindow())
+            text = self.tr(u'Start Tracking'),
+            callback = self.startTracking,
+            status_tip = self.tr(u'Start tracking'),
+            parent = self.iface.mainWindow())
 
         self.add_action(
             os.path.join(iconPath, 'icon.png'),
-            text=self.tr(u'Stop Tracking'),
-            callback=self.stopTracking,
-            status_tip = tr(u'Stop tracking'),
-            parent=self.iface.mainWindow())
+            text = self.tr(u'Stop Tracking'),
+            callback = self.stopTracking,
+            status_tip = self.tr(u'Stop tracking'),
+            parent = self.iface.mainWindow())
 
         self.add_action(
             os.path.join(iconPath, 'icon.png'),
-            text=self.tr(u'Configurem PosiView'),
-            callback=self.configure,
-            status_tip = tr(u'Configure PosiView'),
-            parent=self.iface.mainWindow())
+            text = self.tr(u'Configurem PosiView'),
+            callback = self.configure,
+            status_tip = self.tr(u'Configure PosiView'),
+            parent = self.iface.mainWindow())
 
 
     def unload(self):
-        """Removes the plugin menu item and icon from QGIS GUI."""
+        """Removes the plugin menu item and icon from QGIS GUI.
+           Unloads and removes also the project.
+        """
+        self.project.unload()
         for action in self.actions:
             self.iface.removePluginMenu(
                 self.tr(u'&PosiView'),
@@ -206,18 +211,20 @@ class PosiView:
     def run(self, checked = False):
         """Run method that performs all the real work"""
         if checked:
+            self.project.loadTestProject()
             pass
         else:
+            self.project.unload()
             # unload
             # disable other actions
             pass
         
     
     def startTracking(self):
-        pass
+        self.project.startTracking()
     
     def stopTracking(self):
-        pass
+        self.project.stopTracking()
     
     def configure(self):
         pass

@@ -18,13 +18,4 @@
 # 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #
 ###############################################################################
-
-
-
-def createProvider(params = {}, parent = None):
-    connector = params.get('DeviceConnector', 'udp').lower();
-    if (connector == 'udp'):
-        return UdpPositionProvider(params, parent)
-    if (connector == 'tcp':
-        return TcpPositionProvider(params, parent)
-    return None
+# from dataprovider.datadevice.udpdevice import UdpDevice

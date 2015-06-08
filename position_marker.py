@@ -3,10 +3,11 @@ Created on 05.06.2015
 
 @author: jrenken
 '''
+from PyQt4.QtCore import QPointF, QRectF, QLineF, Qt
+from PyQt4.QtGui import QPainter, QBrush, QColor, QPen, QPolygonF
 from qgis.gui import QgsMapCanvasItem, QgsVertexMarker
 from qgis.core import QgsPoint
-from PyQt4.QtGui import QPen, QBrush, QPainter
-from PyQt4.QtCore import QLineF, QRectF, QPointF
+from _collections import deque
 
 class PositionMarker(QgsMapCanvasItem):
     '''
@@ -24,8 +25,27 @@ class PositionMarker(QgsMapCanvasItem):
         :param params: A dictionary defining all the properties of the position marker
         :type params: dictionary
         '''
-        super(PositionMarker, self).__init__(canvas)
+        self.canvas = canvas
         self.type = params.get('type', 'BOX').upper()
+        self.size = int( params.get('size', 16) )
+        self.length = float( params.get('length', 98.0))
+        self.width = float( params.get('width', 17.0))
+        self.shape =  params.get('shape', (( 0.0, -0.5), (0.5, -0.3), (0.5, 0.5), (-0.5, 0.50), (-0.5, -0.3))) 
+        print self.shape
+        s = ( self.size - 1 ) / 2
+        self.paintShape = QPolygonF( [ QPointF(-s, -s), QPointF(s, -s), QPointF(s, s), QPointF(-s, s) ] )
+        self.color = QColor(params.get('color', 'black'))
+        self.fillColor = QColor( params.get('fillColor', 'lime') )
+        self.penWidth = int( params.get('penWidth', 1) )
+        self.alpha = int( params.get('alpha', 255) )
+        self.trackLen = int( params.get('tracklen', 100) )
+        self.trackColor = QColor( params.get('trackColor', self.fillColor) )
+        self.track = deque()
+        self.pos = None
+        self.heading = 0
+        super(PositionMarker, self).__init__(canvas)
+        self.setZValue(int( params.get('zValue', 100) ))
+        self.updateSize()
         
         
     def properties(self):
@@ -63,7 +83,7 @@ class PositionMarker(QgsMapCanvasItem):
             self.update()
 
     def updateSize(self):
-        if self.type != self.TYPE_SHAPE:
+        if self.type != 'SHAPE':
             return
         s = self.canvas.mapSettings()
         f =  s.outputDpi() / 0.0254 / s.scale()
