@@ -5,7 +5,7 @@ Created on 04.06.2015
 '''
 from .datadevice import DataDevice
 from PyQt4.QtNetwork import QUdpSocket, QHostAddress, QAbstractSocket
-from PyQt4.QtCore import pyqtSignal
+from PyQt4.QtCore import pyqtSignal, QTimer
 
 
 class UdpDevice(DataDevice):
@@ -39,7 +39,7 @@ class UdpDevice(DataDevice):
         print "Device connected?: ", result
         if result is False:
             if self.reconnect > 0:
-                self.timer.singleShot(self.reconnect, self, self.onReconnectTimer)
+                QTimer.singleShot(self.reconnect, self.onReconnectTimer)
         else:
             self.deviceConnected.emit() 
             

@@ -3,8 +3,7 @@ Created on 04.06.2015
 
 @author: jrenken
 '''
-from PyQt4.Qt import QObject
-from PyQt4.QtCore import QTimer, pyqtSlot, pyqtSignal
+from PyQt4.QtCore import QObject, pyqtSlot, pyqtSignal
 
 
 
@@ -22,7 +21,6 @@ class DataDevice(QObject):
         Constructor
         '''
         super(DataDevice, self).__init__(parent)
-        self.timer = QTimer()
         self.buffered = False
         
     def readData(self):

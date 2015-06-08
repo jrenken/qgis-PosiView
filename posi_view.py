@@ -173,7 +173,7 @@ class PosiView:
         """Create the menu entries and toolbar icons inside the QGIS GUI."""
 
         iconPath = ':/plugins/PosiView'
-        self.add_action(
+        loadAction = self.add_action(
             os.path.join(iconPath, 'icon.png'),
             text = self.tr(u'PosiView'),
             callback = self.run,
@@ -181,16 +181,18 @@ class PosiView:
             checkable_flag = True,
             parent=self.iface.mainWindow())
         
-        self.add_action(
+        startAction = self.add_action(
             os.path.join(iconPath, 'icon.png'),            
             text = self.tr(u'Start Tracking'),
             callback = self.startTracking,
+            enabled_flag = False,
             status_tip = self.tr(u'Start tracking'),
             parent = self.iface.mainWindow())
 
-        self.add_action(
+        stopAction = self.add_action(
             os.path.join(iconPath, 'icon.png'),
             text = self.tr(u'Stop Tracking'),
+            enabled_flag = False,
             callback = self.stopTracking,
             status_tip = self.tr(u'Stop tracking'),
             parent = self.iface.mainWindow())
@@ -202,6 +204,9 @@ class PosiView:
             status_tip = self.tr(u'Configure PosiView'),
             parent = self.iface.mainWindow())
 
+        loadAction.toggled.connect(startAction.setEnabled)
+        loadAction.toggled.connect(stopAction.setEnabled)
+        
 
     def unload(self):
         """Removes the plugin menu item and icon from QGIS GUI.
