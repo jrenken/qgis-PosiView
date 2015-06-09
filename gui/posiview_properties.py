@@ -3,20 +3,19 @@ Created on 30.01.2015
 
 @author: jrenken
 '''
-from PyQt4 import QtGui, uic
-from PyQt4.QtCore import Qt
-from PyQt4.Qt import pyqtSlot, QSize, QFileDialog, QModelIndex,\
-    QStandardItemModel, QStandardItem, QColor
-from qgis.core import QgsPoint
-# import resources_rc
-from PyQt4.QtGui import QIcon, QStringListModel
-from qgis.gui import QgsOptionsDialogBase
-from posiview_properties_base import Ui_PosiviewPropertiesBase
+
 import os
+from PyQt4 import uic
+from PyQt4.QtCore import Qt, pyqtSlot, QModelIndex
+from PyQt4.QtGui import QIcon, QStringListModel, QStandardItem, QColor,\
+    QFileDialog, QStandardItemModel
+from qgis.core import QgsPoint
+from qgis.gui import QgsOptionsDialogBase
+
+
 
 FORM_CLASS, BASE_CLASS = uic.loadUiType(os.path.join(
     os.path.dirname(__file__), '..', 'ui', 'posiview_properties_base.ui'), True)
-
 
 
 class PosiviewProperties(QgsOptionsDialogBase, FORM_CLASS):
