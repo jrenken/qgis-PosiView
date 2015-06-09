@@ -88,7 +88,7 @@
            <string>General</string>
           </property>
           <property name="icon">
-           <iconset resource="../../../tmp/QGIS/images/images.qrc">
+           <iconset>
             <normaloff>:/images/themes/default/propertyicons/general.svg</normaloff>:/images/themes/default/propertyicons/general.svg</iconset>
           </property>
          </item>
@@ -97,7 +97,7 @@
            <string>Position Provider</string>
           </property>
           <property name="icon">
-           <iconset resource="resources.qrc">
+           <iconset>
             <normaloff>:/plugins/PosiView/sensor.png</normaloff>:/plugins/PosiView/sensor.png</iconset>
           </property>
          </item>
@@ -106,7 +106,7 @@
            <string>Mobile/Vehicles</string>
           </property>
           <property name="icon">
-           <iconset resource="resources.qrc">
+           <iconset>
             <normaloff>:/plugins/PosiView/auv.png</normaloff>:/plugins/PosiView/auv.png</iconset>
           </property>
          </item>
@@ -344,8 +344,8 @@
                <rect>
                 <x>0</x>
                 <y>0</y>
-                <width>592</width>
-                <height>634</height>
+                <width>161</width>
+                <height>203</height>
                </rect>
               </property>
               <layout class="QVBoxLayout" name="verticalLayout_8">
@@ -374,7 +374,7 @@
                          <string>New Provider</string>
                         </property>
                         <property name="icon">
-                         <iconset resource="../../../tmp/QGIS/images/images.qrc">
+                         <iconset>
                           <normaloff>:/images/themes/default/mActionAdd.png</normaloff>:/images/themes/default/mActionAdd.png</iconset>
                         </property>
                        </widget>
@@ -385,7 +385,7 @@
                          <string>Remove Provider</string>
                         </property>
                         <property name="icon">
-                         <iconset resource="../../../tmp/QGIS/images/images.qrc">
+                         <iconset>
                           <normaloff>:/images/themes/default/mActionRemove.png</normaloff>:/images/themes/default/mActionRemove.png</iconset>
                         </property>
                        </widget>
@@ -497,7 +497,7 @@
                          <string>...</string>
                         </property>
                         <property name="icon">
-                         <iconset resource="../../../tmp/QGIS/images/images.qrc">
+                         <iconset>
                           <normaloff>:/images/themes/default/mActionAdd.png</normaloff>:/images/themes/default/mActionAdd.png</iconset>
                         </property>
                        </widget>
@@ -508,7 +508,7 @@
                          <string>...</string>
                         </property>
                         <property name="icon">
-                         <iconset resource="../../../tmp/QGIS/images/images.qrc">
+                         <iconset>
                           <normaloff>:/images/themes/default/mActionRemove.png</normaloff>:/images/themes/default/mActionRemove.png</iconset>
                         </property>
                        </widget>
@@ -657,7 +657,7 @@
                          <string>...</string>
                         </property>
                         <property name="icon">
-                         <iconset resource="../../../tmp/QGIS/images/images.qrc">
+                         <iconset>
                           <normaloff>:/images/themes/default/mActionAdd.png</normaloff>:/images/themes/default/mActionAdd.png</iconset>
                         </property>
                        </widget>
@@ -668,7 +668,7 @@
                          <string>...</string>
                         </property>
                         <property name="icon">
-                         <iconset resource="../../../tmp/QGIS/images/images.qrc">
+                         <iconset>
                           <normaloff>:/images/themes/default/mActionRemove.png</normaloff>:/images/themes/default/mActionRemove.png</iconset>
                         </property>
                        </widget>
@@ -845,7 +845,7 @@
   </layout>
   <action name="actionLoadConfiguration">
    <property name="icon">
-    <iconset resource="../../../tmp/QGIS/images/images.qrc">
+    <iconset>
      <normaloff>:/images/themes/default/mActionFileOpen.svg</normaloff>:/images/themes/default/mActionFileOpen.svg</iconset>
    </property>
    <property name="text">
@@ -857,7 +857,7 @@
   </action>
   <action name="actionSaveConfiguration">
    <property name="icon">
-    <iconset resource="../../../tmp/QGIS/images/images.qrc">
+    <iconset>
      <normaloff>:/images/themes/default/mActionFileSave.svg</normaloff>:/images/themes/default/mActionFileSave.svg</iconset>
    </property>
    <property name="text">
@@ -881,10 +881,7 @@
    <header>qgscolorbuttonv2.h</header>
   </customwidget>
  </customwidgets>
- <resources>
-  <include location="resources.qrc"/>
-  <include location="../../../tmp/QGIS/images/images.qrc"/>
- </resources>
+ <resources/>
  <connections>
   <connection>
    <sender>mOptionsListWidget</sender>

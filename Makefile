@@ -34,23 +34,22 @@ LOCALES =
 #LRELEASE = lrelease
 #LRELEASE = lrelease-qt4
 
-
 # translation
 SOURCES = \
 	__init__.py \
-	posi_view.py \
-	posi_view_dialog.py
+	posi_view.py 
 
 PLUGINNAME = PosiView
 
 PY_FILES = \
 	posi_view.py \
-	posi_view_dialog.py \
 	__init__.py
 
-UI_FILES = ui/posiview_properties_base.ui
+UI_FILES = ui/posiview_properties_base.ui \
+		ui/guidance_dock_base.ui
+		ui/tracking_doc_base.ui
 
-COMPILED_UI_FILES = posiview_properties_base.py
+COMPILED_UI_FILES = 
 
 EXTRAS = icon.png metadata.txt
 
@@ -73,13 +72,16 @@ QGISDIR=.qgis2
 
 default: compile
 
-compile: $(COMPILED_RESOURCE_FILES)
+compile: $(COMPILED_RESOURCE_FILES) $(COMPILED_UI_FILES)
 
 %_rc.py : %.qrc $(RESOURCES_SRC)
 	pyrcc4 -o $*_rc.py  $<
 
 %.qm : %.ts
 	$(LRELEASE) $<
+
+gui/%.py : ui/%.ui
+	pyuic4 -o $@ $<
 
 test: compile transcompile
 	@echo

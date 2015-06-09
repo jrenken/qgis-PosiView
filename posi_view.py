@@ -28,6 +28,7 @@ import os.path
 from posiview_project import PosiViewProject
 from gui.tracking_dock import TrackingDock
 from gui.guidance_dock import GuidanceDock
+from gui.posiview_properties import PosiviewProperties
 
 class PosiView:
     """QGIS Plugin Implementation."""
@@ -247,6 +248,9 @@ class PosiView:
         self.project.stopTracking()
     
     def configure(self):
+        propDlg = PosiviewProperties(self.project)
+        result = propDlg.exec_()
+
         pass
     
 

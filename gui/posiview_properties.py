@@ -12,15 +12,19 @@ from qgis.core import QgsPoint
 from PyQt4.QtGui import QIcon, QStringListModel
 from qgis.gui import QgsOptionsDialogBase
 from posiview_properties_base import Ui_PosiviewPropertiesBase
-from posiview_project import Project
-from moving_item import MovingItem
+import os
 
-class PosiviewProperties(QgsOptionsDialogBase, Ui_PosiviewPropertiesBase):
+FORM_CLASS, BASE_CLASS = uic.loadUiType(os.path.join(
+    os.path.dirname(__file__), '..', 'ui', 'posiview_properties_base.ui'), True)
+
+
+
+class PosiviewProperties(QgsOptionsDialogBase, FORM_CLASS):
     '''
     classdocs
     '''
-
-
+  
+  
     def __init__(self, project, parent = None):
         '''
         Constructor
@@ -34,7 +38,7 @@ class PosiviewProperties(QgsOptionsDialogBase, Ui_PosiviewPropertiesBase):
         self.mToolButtonLoad.setDefaultAction(self.actionLoadConfiguration)
         self.mToolButtonSave.setDefaultAction(self.actionSaveConfiguration)
         self.mobileModel = QStringListModel()
-         
+           
         self.mobileListModel = QStringListModel()
 #         mobileList = self.project.movingItems.keys()
         self.mobileListModel.setStringList(self.projectProperties['Mobiles'].keys())
@@ -45,33 +49,33 @@ class PosiviewProperties(QgsOptionsDialogBase, Ui_PosiviewPropertiesBase):
 #         setHorHorizontalHeaderItem(0, QStandardItem('Provider'))
 #         self.mobileProviderModel.setHorizontalHeaderItem(, QStandardItem('Provider'))
         self.mMobileProviderTableView.setModel(self.mobileProviderModel)
-        
-            
-        
+          
+              
+          
         self.providerListModel = QStringListModel()
         self.providerListModel.setStringList(self.projectProperties['Provider'].keys())
         self.mProviderListView.setModel(self.providerListModel)
         self.mProviderListView.clicked.connect(self.editProvider)
         self.providerPropertiesModel = QStandardItemModel()
         self.mProviderPropertiesTableView.setModel(self.providerPropertiesModel)
-
+  
         self.comboBoxProviders.setModel(self.providerListModel)
         self.actionSaveConfiguration.triggered.connect(self.onActionSaveConfigurationTriggered)
         self.actionLoadConfiguration.triggered.connect(self.onActionLoadConfigurationTriggered)
-    
+      
 #         self.toolButtonAddMobile.clicked.connect(self.addMobile)
 #         self.toolButtonRemoveMobile.clicked.connect(self.removeMobile)
-    
-    
+      
+      
     @pyqtSlot()
     def onActionSaveConfigurationTriggered(self):
         fn = QFileDialog.getSaveFileName(None, 'Save PosiView configuration', '', 'Configuration (*.ini, *.conf')
         self.project.store(fn)
-
+  
     @pyqtSlot()
     def onActionLoadConfigurationTriggered(self):
         fn = QFileDialog.getOpenFileName(None, 'Save PosiView configuration', '', 'Configuration (*.ini, *.conf')
-    
+      
     @pyqtSlot(QModelIndex)
     def editMobile(self, index):
         props = self.projectProperties['Mobiles'][self.mobileListModel.data(index, Qt.DisplayRole)]
@@ -85,7 +89,7 @@ class PosiviewProperties(QgsOptionsDialogBase, Ui_PosiviewPropertiesBase):
         self.spinBoxMobileTimeout.setValue(props.get('timeout', 3000) / 1000)
         self.spinBoxTrackLength.setValue(props.get('trackLength', 100))
         self.mColorButtonMobileTrackColor.setColor(QColor(props.get('trackColor', 'green')))
-               
+                 
         r = 0
         self.mobileProviderModel.removeRows(0, self.mobileProviderModel.rowCount())
         if props.has_key('provider'):
@@ -95,7 +99,7 @@ class PosiviewProperties(QgsOptionsDialogBase, Ui_PosiviewPropertiesBase):
                 self.mobileProviderModel.setItem(r, 0, prov)
                 self.mobileProviderModel.setItem(r, 1, val)
                 r += 1
-    
+      
     @pyqtSlot(name = 'on_toolButtonAddMobile_clicked')        
     def addMobile(self):
         props = dict()
@@ -120,14 +124,14 @@ class PosiviewProperties(QgsOptionsDialogBase, Ui_PosiviewPropertiesBase):
         print "AddMobile ", props
         self.projectProperties['Mobiles'][props['Name']] = props
         self.mobileListModel.setStringList(self.projectProperties['Mobiles'].keys())
-    
+      
     @pyqtSlot(name = 'on_toolButtonRemoveMobile_clicked')        
     def removeMobile(self):
         idx = self.mMobileListView.currentIndex()
         if idx.isValid():
             self.projectProperties['Mobiles'].pop(self.mobileListModel.data(idx, Qt.DisplayRole))
             self.mobileListModel.setStringList(self.projectProperties['Mobiles'].keys())
-
+  
     @pyqtSlot(name = 'on_toolButtonAddMobileProvider_clicked')
     def addMobileProvider(self):
         prov = self.comboBoxProviders.currentText()
@@ -141,13 +145,13 @@ class PosiviewProperties(QgsOptionsDialogBase, Ui_PosiviewPropertiesBase):
         else:
             print prov, fil
             self.mobileProviderModel.appendRow([QStandardItem(prov), QStandardItem(fil)])
-            
-
+              
+  
     @pyqtSlot(name = 'on_toolButtonRemoveMobileProvider_clicked')
     def removeMobileProvider(self):
         idx = self.mMobileProviderTableView.currentIndex()
         self.mobileProviderModel.removeRow(idx.row())
-        
+          
     @pyqtSlot(QModelIndex)
     def editProvider(self, index):        
         print "editProvider: ", self.providerListModel.data(index, Qt.DisplayRole)
@@ -160,4 +164,27 @@ class PosiviewProperties(QgsOptionsDialogBase, Ui_PosiviewPropertiesBase):
             self.providerPropertiesModel.setVerticalHeaderItem(r, par)
             self.providerPropertiesModel.setItem(r, 0, val)
             r += 1
-        
+          
+
+# import os
+#  
+# FORM_CLASS, BASE_CLASS = uic.loadUiType(os.path.join(
+#     os.path.dirname(__file__), '..', 'ui', 'posiview_properties_base.ui'), True)
+#  
+# print FORM_CLASS
+# print BASE_CLASS
+#  
+# class PosiviewProperties(QgsOptionsDialogBase, FORM_CLASS):
+#     '''
+#     classdocs
+#     '''
+#  
+#  
+#     def __init__(self, parent = None):
+#         '''
+#         Constructor
+#         '''
+#         super(PosiviewProperties, self).__init__("PosiView", parent)
+#         self.setupUi(self)
+#         self.initOptionsBase(False)
+#         self.restoreOptionsBaseUi()
