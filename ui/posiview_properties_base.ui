@@ -542,20 +542,7 @@
                   <bool>false</bool>
                  </property>
                  <layout class="QGridLayout" name="gridLayout_3">
-                  <item row="6" column="1">
-                   <widget class="QSpinBox" name="spinBoxTrackLength">
-                    <property name="maximum">
-                     <number>100000</number>
-                    </property>
-                    <property name="singleStep">
-                     <number>10</number>
-                    </property>
-                   </widget>
-                  </item>
-                  <item row="8" column="1">
-                   <widget class="QComboBox" name="comboBoxProviders"/>
-                  </item>
-                  <item row="3" column="1">
+                  <item row="4" column="1">
                    <widget class="QSpinBox" name="spinBoxZValue">
                     <property name="maximum">
                      <number>200</number>
@@ -565,31 +552,44 @@
                     </property>
                    </widget>
                   </item>
-                  <item row="2" column="1">
+                  <item row="7" column="1">
+                   <widget class="QSpinBox" name="spinBoxTrackLength">
+                    <property name="maximum">
+                     <number>100000</number>
+                    </property>
+                    <property name="singleStep">
+                     <number>10</number>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="9" column="1">
+                   <widget class="QComboBox" name="comboBoxProviders"/>
+                  </item>
+                  <item row="3" column="1">
                    <widget class="QDoubleSpinBox" name="doubleSpinBoxMobileLength"/>
                   </item>
-                  <item row="9" column="0">
+                  <item row="10" column="0">
                    <widget class="QLabel" name="label_12">
                     <property name="text">
                      <string>Position Provider:</string>
                     </property>
                    </widget>
                   </item>
-                  <item row="5" column="0">
+                  <item row="6" column="0">
                    <widget class="QLabel" name="label_9">
                     <property name="text">
                      <string>Timeout [s]</string>
                     </property>
                    </widget>
                   </item>
-                  <item row="2" column="0">
+                  <item row="3" column="0">
                    <widget class="QLabel" name="label_7">
                     <property name="text">
                      <string>Length,  Width [m]:</string>
                     </property>
                    </widget>
                   </item>
-                  <item row="8" column="2">
+                  <item row="9" column="2">
                    <widget class="QLineEdit" name="lineEditProviderFilter">
                     <property name="sizePolicy">
                      <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
@@ -599,14 +599,14 @@
                     </property>
                    </widget>
                   </item>
-                  <item row="4" column="0">
+                  <item row="5" column="0">
                    <widget class="QLabel" name="label_10">
                     <property name="text">
                      <string>Color: Outline and Fill:</string>
                     </property>
                    </widget>
                   </item>
-                  <item row="4" column="1">
+                  <item row="5" column="1">
                    <widget class="QgsColorButtonV2" name="mColorButtonMobileColor">
                     <property name="minimumSize">
                      <size>
@@ -616,16 +616,16 @@
                     </property>
                    </widget>
                   </item>
-                  <item row="5" column="1">
+                  <item row="6" column="1">
                    <widget class="QSpinBox" name="spinBoxMobileTimeout"/>
                   </item>
                   <item row="0" column="1" colspan="2">
                    <widget class="QLineEdit" name="lineEditMobileName"/>
                   </item>
-                  <item row="2" column="2">
+                  <item row="3" column="2">
                    <widget class="QDoubleSpinBox" name="doubleSpinBoxMobileWidth"/>
                   </item>
-                  <item row="9" column="1" colspan="2">
+                  <item row="10" column="1" colspan="2">
                    <layout class="QHBoxLayout" name="horizontalLayout_5">
                     <item>
                      <widget class="QTableView" name="mMobileProviderTableView">
@@ -704,14 +704,14 @@
                     </property>
                    </widget>
                   </item>
-                  <item row="6" column="0">
+                  <item row="7" column="0">
                    <widget class="QLabel" name="label_11">
                     <property name="text">
                      <string>Track Length and Color</string>
                     </property>
                    </widget>
                   </item>
-                  <item row="4" column="2">
+                  <item row="5" column="2">
                    <widget class="QgsColorButtonV2" name="mColorButtonMobileFillColor">
                     <property name="minimumSize">
                      <size>
@@ -728,12 +728,12 @@
                     </property>
                     <item>
                      <property name="text">
-                      <string>None</string>
+                      <string>BOX</string>
                      </property>
                     </item>
                     <item>
                      <property name="text">
-                      <string>Cross</string>
+                      <string>CROSS</string>
                      </property>
                     </item>
                     <item>
@@ -743,43 +743,48 @@
                     </item>
                     <item>
                      <property name="text">
-                      <string>Box</string>
-                     </property>
-                    </item>
-                    <item>
-                     <property name="text">
-                      <string>Ship</string>
-                     </property>
-                    </item>
-                    <item>
-                     <property name="text">
-                      <string>ROV</string>
-                     </property>
-                    </item>
-                    <item>
-                     <property name="text">
-                      <string>AUV</string>
+                      <string>SHAPE</string>
                      </property>
                     </item>
                    </widget>
                   </item>
-                  <item row="6" column="2">
+                  <item row="7" column="2">
                    <widget class="QgsColorButtonV2" name="mColorButtonMobileTrackColor"/>
                   </item>
-                  <item row="3" column="0">
+                  <item row="4" column="0">
                    <widget class="QLabel" name="label_8">
                     <property name="text">
                      <string>z-Value:</string>
                     </property>
                    </widget>
                   </item>
-                  <item row="7" column="0" colspan="3">
+                  <item row="8" column="0" colspan="3">
                    <widget class="QFrame" name="frame">
                     <property name="frameShape">
                      <enum>QFrame::HLine</enum>
                     </property>
                     <property name="frameShadow">
                      <enum>QFrame::Sunken</enum>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="2" column="0">
+                   <widget class="QLabel" name="label_13">
+                    <property name="text">
+                     <string>Shape:</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="2" column="1" colspan="2">
+                   <widget class="QLineEdit" name="lineEditMobileShape">
+                    <property name="enabled">
+                     <bool>false</bool>
+                    </property>
+                    <property name="toolTip">
+                     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Shape of the mobile as a collection of points.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                    </property>
+                    <property name="whatsThis">
+                     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Enter the mobiles shape as a collection of points enclosed by brackets.&lt;/p&gt;&lt;p&gt;Mobile should be upright and the vertical size should be normalized to 1.0.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                     </property>
                    </widget>
                   </item>

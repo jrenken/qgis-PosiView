@@ -6,11 +6,12 @@ Created on 30.01.2015
 
 import os
 from PyQt4 import uic
-from PyQt4.QtCore import Qt, pyqtSlot, QModelIndex
+from PyQt4.QtCore import Qt, pyqtSlot, QModelIndex, pyqtSignal
 from PyQt4.QtGui import QIcon, QStringListModel, QStandardItem, QColor,\
-    QFileDialog, QStandardItemModel
+    QFileDialog, QStandardItemModel, QAbstractButton, QDialogButtonBox
 from qgis.core import QgsPoint
 from qgis.gui import QgsOptionsDialogBase
+from hgext.histedit import applychanges
 
 
 
@@ -20,13 +21,13 @@ FORM_CLASS, BASE_CLASS = uic.loadUiType(os.path.join(
 
 class PosiviewProperties(QgsOptionsDialogBase, FORM_CLASS):
     '''
-    classdocs
+    GUI class classdocs for the Configuration dialog
     '''
-  
+    applyChanges = pyqtSignal()
   
     def __init__(self, project, parent = None):
         '''
-        Constructor
+        Setup dialog widgets with the project properties
         '''
         super(PosiviewProperties, self).__init__("PosiViewProperties", parent)
         self.setupUi(self)
@@ -64,22 +65,40 @@ class PosiviewProperties(QgsOptionsDialogBase, FORM_CLASS):
       
 #         self.toolButtonAddMobile.clicked.connect(self.addMobile)
 #         self.toolButtonRemoveMobile.clicked.connect(self.removeMobile)
-      
-      
+        
+    @pyqtSlot(QAbstractButton, name = 'on_buttonBox_clicked')
+    def onButtonBoxClicked(self, button):
+        role = self.buttonBox.buttonRole(button)
+        if role == QDialogButtonBox.ApplyRole or role == QDialogButtonBox.AcceptRole:
+            self.applyChanges.emit()
+        
+        
     @pyqtSlot()
     def onActionSaveConfigurationTriggered(self):
+        ''' Save the current configuration
+        '''
         fn = QFileDialog.getSaveFileName(None, 'Save PosiView configuration', '', 'Configuration (*.ini, *.conf')
         self.project.store(fn)
   
     @pyqtSlot()
     def onActionLoadConfigurationTriggered(self):
+        ''' Load configuration from file
+        '''
         fn = QFileDialog.getOpenFileName(None, 'Save PosiView configuration', '', 'Configuration (*.ini, *.conf')
       
     @pyqtSlot(QModelIndex)
     def editMobile(self, index):
+        ''' Populate the widgets with the selected mobiles properties
+        '''
         props = self.projectProperties['Mobiles'][self.mobileListModel.data(index, Qt.DisplayRole)]
         self.lineEditMobileName.setText(props.get('Name'))
-        self.comboBoxMobileType.setCurrentIndex(props.get('type', 0))
+        self.comboBoxMobileType.setCurrentIndex(self.comboBoxMobileType.findText( props.setdefault('type', 'BOX').upper()))
+        if props['type'] == 'SHAPE':
+            self.lineEditMobileShape.setText(str(props['shape']))
+            self.lineEditMobileShape.setEnabled(True)
+        else:
+            self.lineEditMobileShape.setEnabled(False)
+            self.lineEditMobileShape.clear()
         self.doubleSpinBoxMobileLength.setValue(props.get('length', 20.0))
         self.doubleSpinBoxMobileWidth.setValue(props.get('width', 5.0))
         self.spinBoxZValue.setValue(props.get('zValue', 100))
@@ -99,30 +118,43 @@ class PosiviewProperties(QgsOptionsDialogBase, FORM_CLASS):
                 self.mobileProviderModel.setItem(r, 1, val)
                 r += 1
       
+    @pyqtSlot(str, name = 'on_comboBoxMobileType_indexChanged')
+    def mobileTypeChanged(self, mType):
+        if mType == 'SHAPE':
+#             self.lineEditMobileShape.setText(str(props['shape']))
+            self.lineEditMobileShape.setEnabled(True)
+        else:
+            self.lineEditMobileShape.setEnabled(False)
+            self.lineEditMobileShape.clear()
+            
+        
+        
     @pyqtSlot(name = 'on_toolButtonAddMobile_clicked')        
     def addMobile(self):
-        props = dict()
-        props['Name'] = self.lineEditMobileName.text()
-        props['type'] = self.comboBoxMobileType.currentIndex()
-        props['length'] = self.doubleSpinBoxMobileLength.value()   
-        props['width'] = self.doubleSpinBoxMobileWidth.value()
-        props['zValue'] = self.spinBoxZValue.value()
-        props['color'] = self.mColorButtonMobileColor.color().name()
-        props['fillColor'] = self.mColorButtonMobileFillColor.color().name()
-        props['timeout'] = self.spinBoxMobileTimeout.value() * 1000
-        props['trackLength'] = self.spinBoxTrackLength.value()
-        props['trackColor'] = self.mColorButtonMobileTrackColor.color().name()
-        provs = dict()
-        for r in range(self.mobileProviderModel.rowCount()):
-            try:
-                fil = int(self.mobileProviderModel.item(r, 1).data(Qt.DisplayRole))
-            except:
-                fil = self.mobileProviderModel.item(r, 1).data(Qt.DisplayRole)
-            provs[self.mobileProviderModel.item(r, 0).data(Qt.DisplayRole)] = fil;
-        props['provider'] = provs    
-        print "AddMobile ", props
-        self.projectProperties['Mobiles'][props['Name']] = props
-        self.mobileListModel.setStringList(self.projectProperties['Mobiles'].keys())
+        if not self.lineEditMobileName.text() == '':
+            props = dict()
+            props['Name'] = self.lineEditMobileName.text()
+            props['type'] = self.comboBoxMobileType.currentText()
+            props['shape'] = (( 0.0, -0.5), (0.3, 0.5), (0.0, 0.2), (-0.5, 0.5))
+            props['length'] = self.doubleSpinBoxMobileLength.value()   
+            props['width'] = self.doubleSpinBoxMobileWidth.value()
+            props['zValue'] = self.spinBoxZValue.value()
+            props['color'] = self.mColorButtonMobileColor.color().name()
+            props['fillColor'] = self.mColorButtonMobileFillColor.color().name()
+            props['timeout'] = self.spinBoxMobileTimeout.value() * 1000
+            props['trackLength'] = self.spinBoxTrackLength.value()
+            props['trackColor'] = self.mColorButtonMobileTrackColor.color().name()
+            provs = dict()
+            for r in range(self.mobileProviderModel.rowCount()):
+                try:
+                    fil = int(self.mobileProviderModel.item(r, 1).data(Qt.DisplayRole))
+                except:
+                    fil = self.mobileProviderModel.item(r, 1).data(Qt.DisplayRole)
+                provs[self.mobileProviderModel.item(r, 0).data(Qt.DisplayRole)] = fil;
+            props['provider'] = provs    
+            print "AddMobile ", props
+            self.projectProperties['Mobiles'][props['Name']] = props
+            self.mobileListModel.setStringList(self.projectProperties['Mobiles'].keys())
       
     @pyqtSlot(name = 'on_toolButtonRemoveMobile_clicked')        
     def removeMobile(self):
@@ -154,7 +186,7 @@ class PosiviewProperties(QgsOptionsDialogBase, FORM_CLASS):
     @pyqtSlot(QModelIndex)
     def editProvider(self, index):        
         print "editProvider: ", self.providerListModel.data(index, Qt.DisplayRole)
-        provider = self.project.positionProviders[self.providerListModel.data(index, Qt.DisplayRole)]
+        provider = self.project.dataProviders[self.providerListModel.data(index, Qt.DisplayRole)]
         r = 0
         self.providerPropertiesModel.clear()
         for k, v in provider.properties().items():

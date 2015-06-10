@@ -20,7 +20,8 @@
  *                                                                         *
  ***************************************************************************/
 """
-from PyQt4.QtCore import QSettings, QTranslator, qVersion, QCoreApplication, Qt
+from PyQt4.QtCore import QSettings, QTranslator, qVersion, QCoreApplication, Qt,\
+    pyqtSlot
 from PyQt4.QtGui import QAction, QIcon
 # Initialize Qt resources from file resources.py
 import resources_rc
@@ -174,11 +175,11 @@ class PosiView:
         """Create the menu entries and toolbar icons inside the QGIS GUI."""
 
         iconPath = ':/plugins/PosiView'
-        loadAction = self.add_action(
+        self.loadAction = self.add_action(
             os.path.join(iconPath, 'icon.png'),
-            text = self.tr(u'PosiView'),
+            text = self.tr(u'Enable PosiView'),
             callback = self.run,
-            status_tip = self.tr(u'Start PosiView'),
+            status_tip = self.tr(u'Enable PosiView'),
             checkable_flag = True,
             parent=self.iface.mainWindow())
         
@@ -205,8 +206,8 @@ class PosiView:
             status_tip = self.tr(u'Configure PosiView'),
             parent = self.iface.mainWindow())
 
-        loadAction.toggled.connect(startAction.setEnabled)
-        loadAction.toggled.connect(stopAction.setEnabled)
+        self.loadAction.toggled.connect(startAction.setEnabled)
+        self.loadAction.toggled.connect(stopAction.setEnabled)
         
 
     def unload(self):
@@ -240,17 +241,28 @@ class PosiView:
             # disable other actions
             pass
         
-    
+
     def startTracking(self):
         self.project.startTracking()
         
     def stopTracking(self):
         self.project.stopTracking()
     
+    @pyqtSlot()
+    def onApplyConfigChanges(self):
+        print "Config apply"
+        if self.loadAction.isChecked():
+            self.tracking.removeMobiles()
+            self.project.unload()
+            self.project.loadTestProject()        
+            for item in self.project.mobileItems.values():
+                self.tracking.addMobile(item)
+        
+
+    
     def configure(self):
         propDlg = PosiviewProperties(self.project)
+        propDlg.applyChanges.connect(self.onApplyConfigChanges)
         result = propDlg.exec_()
 
-        pass
-    
 
