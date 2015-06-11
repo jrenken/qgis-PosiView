@@ -99,6 +99,7 @@ class PosiView:
         callback,
         enabled_flag=True,
         checkable_flag = False,
+        visible_flag = True,
         add_to_menu=True,
         add_to_toolbar=True,
         status_tip=None,
@@ -123,6 +124,10 @@ class PosiView:
         :param checkable_flag: A flag indicating if the action should be checkable
             by default. Defaults to False.
         :type checkable: bool
+
+        :param visible_flag: A flag indicating if the action should be displayed
+            by default. Defaults to True.
+        :type visible: bool
 
         :param add_to_menu: Flag indicating whether the action should also
             be added to the menu. Defaults to True.
@@ -152,6 +157,7 @@ class PosiView:
         action.triggered.connect(callback)
         action.setEnabled(enabled_flag)
         action.setCheckable(checkable_flag)
+        action.setVisible(visible_flag)
 
         if status_tip is not None:
             action.setStatusTip(status_tip)
@@ -187,28 +193,29 @@ class PosiView:
             os.path.join(iconPath, 'icon.png'),            
             text = self.tr(u'Start Tracking'),
             callback = self.startTracking,
-            enabled_flag = False,
+            visible_flag = False,
             status_tip = self.tr(u'Start tracking'),
             parent = self.iface.mainWindow())
 
         stopAction = self.add_action(
             os.path.join(iconPath, 'icon.png'),
             text = self.tr(u'Stop Tracking'),
-            enabled_flag = False,
             callback = self.stopTracking,
+            visible_flag = False,
             status_tip = self.tr(u'Stop tracking'),
             parent = self.iface.mainWindow())
 
-        self.add_action(
+        configAction = self.add_action(
             os.path.join(iconPath, 'icon.png'),
             text = self.tr(u'Configurem PosiView'),
             callback = self.configure,
+            visible_flag = False,
             status_tip = self.tr(u'Configure PosiView'),
             parent = self.iface.mainWindow())
 
-        self.loadAction.toggled.connect(startAction.setEnabled)
-        self.loadAction.toggled.connect(stopAction.setEnabled)
-        
+        self.loadAction.toggled.connect(startAction.setVisible)
+        self.loadAction.toggled.connect(stopAction.setVisible)
+        self.loadAction.toggled.connect(configAction.setVisible)
 
     def unload(self):
         """Removes the plugin menu item and icon from QGIS GUI.
@@ -220,7 +227,6 @@ class PosiView:
                 self.tr(u'&PosiView'),
                 action)
             self.iface.removeToolBarIcon(action)
-        # remove the toolbar
         del self.toolbar
 
 
@@ -238,10 +244,8 @@ class PosiView:
             self.project.store()
             self.tracking.removeMobiles()
             self.tracking.hide()
+            self.guidance.hide()
             self.project.unload()
-            # unload
-            # disable other actions
-            pass
         
 
     def startTracking(self):
@@ -257,11 +261,8 @@ class PosiView:
             self.tracking.removeMobiles()
             self.project.unload()
             self.project.load(properties)
-#             self.project.loadTestProject()        
             for item in self.project.mobileItems.values():
                 self.tracking.addMobile(item)
-        
-
     
     def configure(self):
         propDlg = PosiviewProperties(self.project)
