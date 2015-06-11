@@ -21,7 +21,7 @@ class PosiviewProperties(QgsOptionsDialogBase, FORM_CLASS):
     '''
     GUI class classdocs for the Configuration dialog
     '''
-    applyChanges = pyqtSignal()
+    applyChanges = pyqtSignal(dict)
   
     def __init__(self, project, parent = None):
         '''
@@ -57,7 +57,7 @@ class PosiviewProperties(QgsOptionsDialogBase, FORM_CLASS):
     def onButtonBoxClicked(self, button):
         role = self.buttonBox.buttonRole(button)
         if role == QDialogButtonBox.ApplyRole or role == QDialogButtonBox.AcceptRole:
-            self.applyChanges.emit()
+            self.applyChanges.emit(self.projectProperties)
         
         
     @pyqtSlot(name = 'on_actionSaveConfiguration_triggered')
@@ -186,6 +186,7 @@ class PosiviewProperties(QgsOptionsDialogBase, FORM_CLASS):
         if self.lineEditProviderFilter.text() != '':
             fil = self.lineEditProviderFilter.text()
         items = self.mobileProviderModel.findItems(prov, Qt.MatchExactly, 0)
+        print items
         if items:
             for item in items:
                 self.mobileProviderModel.setItem(item.row(), 1, QStandardItem(fil))

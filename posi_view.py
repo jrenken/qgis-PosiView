@@ -250,13 +250,14 @@ class PosiView:
     def stopTracking(self):
         self.project.stopTracking()
     
-    @pyqtSlot()
-    def onApplyConfigChanges(self):
+    @pyqtSlot(dict)
+    def onApplyConfigChanges(self, properties):
         print "Config apply"
         if self.loadAction.isChecked():
             self.tracking.removeMobiles()
             self.project.unload()
-            self.project.loadTestProject()        
+            self.project.load(properties)
+#             self.project.loadTestProject()        
             for item in self.project.mobileItems.values():
                 self.tracking.addMobile(item)
         
@@ -266,5 +267,7 @@ class PosiView:
         propDlg = PosiviewProperties(self.project)
         propDlg.applyChanges.connect(self.onApplyConfigChanges)
         result = propDlg.exec_()
+        if result:
+            self.onApplyConfigChanges(propDlg.projectProperties)
 
 
