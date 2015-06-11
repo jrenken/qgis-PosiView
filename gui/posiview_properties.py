@@ -40,10 +40,8 @@ class PosiviewProperties(QgsOptionsDialogBase, FORM_CLASS):
         self.mobileModel = QStringListModel()
            
         self.mobileListModel = QStringListModel()
-#         mobileList = self.project.movingItems.keys()
         self.mobileListModel.setStringList(self.projectProperties['Mobiles'].keys())
         self.mMobileListView.setModel(self.mobileListModel)
-        self.mMobileListView.clicked.connect(self.editMobile)
         self.mobileProviderModel = QStandardItemModel()
         self.mobileProviderModel.setHorizontalHeaderLabels(('Provider', 'Filter'))
 #         setHorHorizontalHeaderItem(0, QStandardItem('Provider'))
@@ -60,11 +58,7 @@ class PosiviewProperties(QgsOptionsDialogBase, FORM_CLASS):
         self.mProviderPropertiesTableView.setModel(self.providerPropertiesModel)
   
         self.comboBoxProviders.setModel(self.providerListModel)
-        self.actionSaveConfiguration.triggered.connect(self.onActionSaveConfigurationTriggered)
-        self.actionLoadConfiguration.triggered.connect(self.onActionLoadConfigurationTriggered)
       
-#         self.toolButtonAddMobile.clicked.connect(self.addMobile)
-#         self.toolButtonRemoveMobile.clicked.connect(self.removeMobile)
         
     @pyqtSlot(QAbstractButton, name = 'on_buttonBox_clicked')
     def onButtonBoxClicked(self, button):
@@ -73,23 +67,82 @@ class PosiviewProperties(QgsOptionsDialogBase, FORM_CLASS):
             self.applyChanges.emit()
         
         
-    @pyqtSlot()
+    @pyqtSlot(name = 'on_actionSaveConfiguration_triggered')
     def onActionSaveConfigurationTriggered(self):
         ''' Save the current configuration
         '''
         fn = QFileDialog.getSaveFileName(None, 'Save PosiView configuration', '', 'Configuration (*.ini, *.conf')
         self.project.store(fn)
   
-    @pyqtSlot()
+    @pyqtSlot(name = 'on_actionLoadConfiguration_triggered')
     def onActionLoadConfigurationTriggered(self):
         ''' Load configuration from file
         '''
         fn = QFileDialog.getOpenFileName(None, 'Save PosiView configuration', '', 'Configuration (*.ini, *.conf')
       
-    @pyqtSlot(QModelIndex)
+    @pyqtSlot(QModelIndex, name = 'on_mMobileListView_clicked')
     def editMobile(self, index):
         ''' Populate the widgets with the selected mobiles properties
         '''
+        if index.isValid():
+            self.populateMobileWidgets(index)
+      
+    @pyqtSlot(str, name = 'on_comboBoxMobileType_currentIndexChanged')
+    def mobileTypeChanged(self, mType):
+        if mType == 'SHAPE':
+#             self.lineEditMobileShape.setText(str(props['shape']))
+            self.lineEditMobileShape.setEnabled(True)
+        else:
+            self.lineEditMobileShape.setEnabled(False)
+            
+    @pyqtSlot(QModelIndex, name = 'on_mMobileListView_activated')
+    def activated(self, index):
+        print "activated", index.row()
+        
+    @pyqtSlot(name = 'on_toolButtonAddMobile_clicked')
+    def addMobile(self):
+        self.mobileListModel.insertRow(self.mobileListModel.rowCount())
+        index = self.mobileListModel.index(self.mobileListModel.rowCount() - 1)
+        self.lineEditMobileName.setText('NewMobile')
+        self.mobileListModel.setData(index, 'NewMobile', Qt.DisplayRole)
+        self.mMobileListView.setCurrentIndex(index)
+        self.applyMobile()
+    
+            
+    @pyqtSlot(name = 'on_toolButtonApplyMobile_clicked')        
+    def applyMobile(self):
+        index = self.mMobileListView.currentIndex()
+        if index.isValid() and not self.lineEditMobileName.text() == '':
+            props = dict()
+            props['Name'] = self.lineEditMobileName.text()
+            props['type'] = self.comboBoxMobileType.currentText()
+            props['shape'] = (( 0.0, -0.5), (0.3, 0.5), (0.0, 0.2), (-0.5, 0.5))
+            props['length'] = self.doubleSpinBoxMobileLength.value()   
+            props['width'] = self.doubleSpinBoxMobileWidth.value()
+            props['zValue'] = self.spinBoxZValue.value()
+            props['color'] = self.mColorButtonMobileColor.color().name()
+            props['fillColor'] = self.mColorButtonMobileFillColor.color().name()
+            props['timeout'] = self.spinBoxMobileTimeout.value() * 1000
+            props['trackLength'] = self.spinBoxTrackLength.value()
+            props['trackColor'] = self.mColorButtonMobileTrackColor.color().name()
+            provs = dict()
+            for r in range(self.mobileProviderModel.rowCount()):
+                try:
+                    fil = int(self.mobileProviderModel.item(r, 1).data(Qt.DisplayRole))
+                except:
+                    fil = self.mobileProviderModel.item(r, 1).data(Qt.DisplayRole)
+                provs[self.mobileProviderModel.item(r, 0).data(Qt.DisplayRole)] = fil;
+            props['provider'] = provs    
+            print "ApplyMobile ", props
+            currName = self.mobileListModel.data(index, Qt.DisplayRole)
+            if not currName == props['Name']:
+                del self.projectProperties['Mobiles'][currName]
+                self.mobileListModel.setData(index, props['Name'], Qt.DisplayRole)
+                print self.mobileListModel.stringList()
+            self.projectProperties['Mobiles'][props['Name']] = props
+    
+
+    def populateMobileWidgets(self, index):
         props = self.projectProperties['Mobiles'][self.mobileListModel.data(index, Qt.DisplayRole)]
         self.lineEditMobileName.setText(props.get('Name'))
         self.comboBoxMobileType.setCurrentIndex(self.comboBoxMobileType.findText( props.setdefault('type', 'BOX').upper()))
@@ -117,51 +170,16 @@ class PosiviewProperties(QgsOptionsDialogBase, FORM_CLASS):
                 self.mobileProviderModel.setItem(r, 0, prov)
                 self.mobileProviderModel.setItem(r, 1, val)
                 r += 1
-      
-    @pyqtSlot(str, name = 'on_comboBoxMobileType_indexChanged')
-    def mobileTypeChanged(self, mType):
-        if mType == 'SHAPE':
-#             self.lineEditMobileShape.setText(str(props['shape']))
-            self.lineEditMobileShape.setEnabled(True)
-        else:
-            self.lineEditMobileShape.setEnabled(False)
-            self.lineEditMobileShape.clear()
-            
         
-        
-    @pyqtSlot(name = 'on_toolButtonAddMobile_clicked')        
-    def addMobile(self):
-        if not self.lineEditMobileName.text() == '':
-            props = dict()
-            props['Name'] = self.lineEditMobileName.text()
-            props['type'] = self.comboBoxMobileType.currentText()
-            props['shape'] = (( 0.0, -0.5), (0.3, 0.5), (0.0, 0.2), (-0.5, 0.5))
-            props['length'] = self.doubleSpinBoxMobileLength.value()   
-            props['width'] = self.doubleSpinBoxMobileWidth.value()
-            props['zValue'] = self.spinBoxZValue.value()
-            props['color'] = self.mColorButtonMobileColor.color().name()
-            props['fillColor'] = self.mColorButtonMobileFillColor.color().name()
-            props['timeout'] = self.spinBoxMobileTimeout.value() * 1000
-            props['trackLength'] = self.spinBoxTrackLength.value()
-            props['trackColor'] = self.mColorButtonMobileTrackColor.color().name()
-            provs = dict()
-            for r in range(self.mobileProviderModel.rowCount()):
-                try:
-                    fil = int(self.mobileProviderModel.item(r, 1).data(Qt.DisplayRole))
-                except:
-                    fil = self.mobileProviderModel.item(r, 1).data(Qt.DisplayRole)
-                provs[self.mobileProviderModel.item(r, 0).data(Qt.DisplayRole)] = fil;
-            props['provider'] = provs    
-            print "AddMobile ", props
-            self.projectProperties['Mobiles'][props['Name']] = props
-            self.mobileListModel.setStringList(self.projectProperties['Mobiles'].keys())
-      
+    
     @pyqtSlot(name = 'on_toolButtonRemoveMobile_clicked')        
     def removeMobile(self):
         idx = self.mMobileListView.currentIndex()
         if idx.isValid():
             self.projectProperties['Mobiles'].pop(self.mobileListModel.data(idx, Qt.DisplayRole))
-            self.mobileListModel.setStringList(self.projectProperties['Mobiles'].keys())
+            self.mobileListModel.removeRows(idx.row(), 1)
+            self.populateMobileWidgets(self.mMobileListView.currentIndex())
+            
   
     @pyqtSlot(name = 'on_toolButtonAddMobileProvider_clicked')
     def addMobileProvider(self):
