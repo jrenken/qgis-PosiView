@@ -39,22 +39,20 @@ class PosiviewProperties(QgsOptionsDialogBase, FORM_CLASS):
 
         self.mobileModel = QStringListModel()
         self.mobileListModel = QStringListModel()
-        self.mobileListModel.setStringList(self.projectProperties['Mobiles'].keys())
         self.mMobileListView.setModel(self.mobileListModel)
         self.mobileProviderModel = QStandardItemModel()
         self.mobileProviderModel.setHorizontalHeaderLabels(('Provider', 'Filter'))
-#         setHorHorizontalHeaderItem(0, QStandardItem('Provider'))
-#         self.mobileProviderModel.setHorizontalHeaderItem(, QStandardItem('Provider'))
         self.mMobileProviderTableView.setModel(self.mobileProviderModel)
               
         self.providerListModel = QStringListModel()
-        self.providerListModel.setStringList(self.projectProperties['Provider'].keys())
         self.mDataProviderListView.setModel(self.providerListModel)
-#         self.providerPropertiesModel = QStandardItemModel()
-#         self.mProviderPropertiesTableView.setModel(self.providerPropertiesModel)
         self.comboBoxProviders.setModel(self.providerListModel)
+        self.setupModelData(self.projectProperties)
       
-        
+    def setupModelData(self, properties):
+        self.mobileListModel.setStringList(properties['Mobiles'].keys())
+        self.providerListModel.setStringList(properties['Provider'].keys())
+
     @pyqtSlot(QAbstractButton, name = 'on_buttonBox_clicked')
     def onButtonBoxClicked(self, button):
         role = self.buttonBox.buttonRole(button)
@@ -66,14 +64,15 @@ class PosiviewProperties(QgsOptionsDialogBase, FORM_CLASS):
     def onActionSaveConfigurationTriggered(self):
         ''' Save the current configuration
         '''
-        fn = QFileDialog.getSaveFileName(None, 'Save PosiView configuration', '', 'Configuration (*.ini, *.conf')
+        fn = QFileDialog.getSaveFileName(None, 'Save PosiView configuration', '', 'Configuration (*.ini *.conf)')
         self.project.store(fn)
   
     @pyqtSlot(name = 'on_actionLoadConfiguration_triggered')
     def onActionLoadConfigurationTriggered(self):
         ''' Load configuration from file
         '''
-        fn = QFileDialog.getOpenFileName(None, 'Save PosiView configuration', '', 'Configuration (*.ini, *.conf')
+        fn = QFileDialog.getOpenFileName(None, 'Save PosiView configuration', '', 'Configuration (*.ini *.conf)')
+        self.project.read(fn)
       
     @pyqtSlot(QModelIndex, name = 'on_mMobileListView_clicked')
     def editMobile(self, index):
@@ -210,7 +209,7 @@ class PosiviewProperties(QgsOptionsDialogBase, FORM_CLASS):
             provider['DataDeviceType'] = self.comboBoxProviderType.currentText()
             if provider['DataDeviceType'] in ('UDP', 'TCP'):
                 provider['Host'] = self.lineEditProviderHostName.text()
-                provider['Port'] = str(self.spinBoxProviderPort.value())
+                provider['Port'] = self.spinBoxProviderPort.value()
             provider['Parser'] = self.comboBoxParser.currentText()
             currName = self.providerListModel.data(index, Qt.DisplayRole)
             if not currName == provider['Name']:
@@ -218,6 +217,7 @@ class PosiviewProperties(QgsOptionsDialogBase, FORM_CLASS):
                 self.providerListModel.setData(index, provider['Name'], Qt.DisplayRole)
                 print self.providerListModel.stringList()
             self.projectProperties['Provider'][provider['Name']] = provider
+            print provider
                  
           
           
@@ -237,7 +237,7 @@ class PosiviewProperties(QgsOptionsDialogBase, FORM_CLASS):
         if provider['DataDeviceType'] in ('UDP', 'TCP'):
             self.stackedWidgetDataDevice.setCurrentIndex(0)
             self.lineEditProviderHostName.setText(provider.setdefault('Host', '0.0.0.0'))
-            self.spinBoxProviderPort.setValue(int(provider.setdefault('Port', '2000')))
+            self.spinBoxProviderPort.setValue(int(provider.setdefault('Port', 2000)))
 
         self.comboBoxParser.setCurrentIndex(self.comboBoxParser.findText( provider.setdefault('Parser', 'NONE').upper()))
 

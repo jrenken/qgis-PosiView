@@ -227,13 +227,15 @@ class PosiView:
     def run(self, checked = False):
         """Run method that performs all the real work"""
         if checked:
-            self.project.loadTestProject()        
+            p = self.project.read()
+            self.project.load(p)            
             for item in self.project.mobileItems.values():
                 self.tracking.addMobile(item)
  
             self.tracking.show()
             pass
         else:
+            self.project.store()
             self.tracking.removeMobiles()
             self.tracking.hide()
             self.project.unload()

@@ -96,58 +96,83 @@ class PosiViewProject(object):
         self.mobileItems.clear()
         self.dataProviders.clear()
         
+    def convertToBestType(self, val):
+        try:
+            return int(val)
+        except ValueError:
+            try:
+                return float(val)
+            except ValueError:
+                try:
+                    return eval(val)
+                except:
+                    return val
         
     
     def read(self, iniFile = None):
-        if iniFile != None:
+        if iniFile is not None:
             s = QSettings(iniFile, QSettings.IniFormat)
         else:
             s = QSettings()
+        properties = dict()
+        properties['Mobiles'] = dict()
         s.beginGroup('PosiView')
-        count = s.beginReadArray('MovingItems')
+        count = s.beginReadArray('Mobiles')
         for i in range(count):
             s.setArrayIndex(i)
-            d = s.value('properties', dict())
-            print "Create moving from ", d
-            item = MobileItem(self.iface, d)
-            self.mobileItems[item.name] = item
+            mobile = dict()
+            for k in s.childKeys():
+                mobile[k] = self.convertToBestType(s.value(k))
+            properties['Mobiles'][mobile['Name']] = mobile
         s.endArray()
-        count = s.beginReadArray('PositionProvider')
+
+        properties['Provider'] = dict()
+        count = s.beginReadArray('DataProvider')
         for i in range(count):
             s.setArrayIndex(i)
-            d = s.value('properties', dict())
-            print "Create provider from ", d
-            provider = DataProvider(d)
-            print provider.name
-            self.dataProviders[provider.name] = provider
+            provider = dict()
+            for k in s.childKeys():
+                provider[k] = self.convertToBestType(s.value(k))
+            properties['Provider'][provider['Name']] = provider
         s.endArray()
         s.endGroup()
+        print properties
+        return properties
         
-    def store(self, iniFile = None):
-        if file:
+    def store(self, iniFile = None, properties = None):
+        if iniFile is not None:
             s = QSettings(iniFile, QSettings.IniFormat)
         else:
             s = QSettings()
+            
+        if properties is None:
+            properties = self.properties()
+            
         s.beginGroup('PosiView')
+        s.remove('')
         idx = 0;
-        s.beginWriteArray('MovingItems')
-        for k in self.mobileItems.keys():
-            print "Store ", self.mobileItems[k].name
-            s.setArrayIndex(idx)
-            p = self.mobileItems[k].properties();
-            print p
-            s.setValue('properties', p)
-            idx += 1
+        s.beginWriteArray('Mobiles')
+        try:
+            for k, v in properties['Mobiles'].items():
+                print "Store ", k
+                s.setArrayIndex(idx)
+                for k1, v1 in v.items():
+                    s.setValue(k1, str(v1))
+                idx += 1
+        except KeyError:
+            pass
         s.endArray()
         idx = 0;
-        s.beginWriteArray('PositionProvider')
-        for k in self.dataProviders.keys():
-            print "Store ", self.dataProviders[k].name
-            s.setArrayIndex(idx)
-            p = self.dataProviders[k].properties();
-            print p
-            s.setValue('properties', p)
-            idx += 1
+        s.beginWriteArray('DataProvider')
+        try:
+            for k, v in properties['Provider'].items():
+                print "Store ", k
+                s.setArrayIndex(idx)
+                for k1, v1 in v.items():
+                    s.setValue(k1, str(v1))
+                idx += 1
+        except KeyError:
+            pass
         s.endArray()
         s.endGroup()
         print "Stored"
