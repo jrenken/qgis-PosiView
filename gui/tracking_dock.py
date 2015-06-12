@@ -6,17 +6,20 @@ Created on 29.01.2015
 
 import os
 
-from PyQt4 import QtGui, uic
+from PyQt4 import uic
 from PyQt4.QtCore import Qt 
 from PyQt4.Qt import pyqtSlot, QSize
 from qgis.core import QgsPoint
-from PyQt4.QtGui import QIcon
+from PyQt4.QtGui import QIcon, QAction, QLabel, QWidgetAction, QToolBar,\
+    QDockWidget
+from time import gmtime, strftime
+
 
 FORM_CLASS, _ = uic.loadUiType(os.path.join(
     os.path.dirname(__file__), '..', 'ui', 'tracking_dock_base.ui'))
 
 
-class TrackingDock(QtGui.QDockWidget, FORM_CLASS):
+class TrackingDock(QDockWidget, FORM_CLASS):
     '''
     classdocs
     '''
@@ -44,7 +47,7 @@ class TrackingDock(QtGui.QDockWidget, FORM_CLASS):
             w.deleteLater()
         
         
-class TrackingDisplay(QtGui.QToolBar):
+class TrackingDisplay(QToolBar):
     '''
         classdocs
     '''
@@ -60,13 +63,13 @@ class TrackingDisplay(QtGui.QToolBar):
         self.mobile.timeout.connect(self.onTimeout)
         
     def createActions(self):
-        self.nameLabel = QtGui.QLabel(self.mobile.name)
+        self.nameLabel = QLabel(self.mobile.name)
         self.nameLabel.setMinimumSize(80, 23)
-        self.nameLabelAction = QtGui.QWidgetAction(self)
+        self.nameLabelAction = QWidgetAction(self)
         self.nameLabelAction.setDefaultWidget(self.nameLabel)
         self.addAction(self.nameLabelAction)
 
-        self.enableAction = QtGui.QAction("Enable Display", self)
+        self.enableAction = QAction("Enable Display", self)
         self.enableAction.setCheckable(True)
         self.enableAction.setChecked(True)
         icon = QIcon(':/plugins/PosiView/ledgrey.png')
@@ -76,22 +79,23 @@ class TrackingDisplay(QtGui.QToolBar):
         self.enableAction.triggered.connect(self.onEnableClicked)
         
         self.addSeparator()
-        self.posLabel = QtGui.QLabel("--:--:-- 0.000000 0.000000\nd = 0.0")
+        self.posLabel = QLabel("--:--:-- 0.000000 0.000000\nd = 0.0")
         self.posLabel.setAlignment(Qt.AlignHCenter | Qt.AlignVCenter)
         self.posLabel.setMinimumSize(180, 23)
         self.posLabel.setStyleSheet('background: red; font-size: 8pt')
-        self.posLabelAction = QtGui.QWidgetAction(self);
+        self.posLabelAction = QWidgetAction(self);
         self.posLabelAction.setDefaultWidget(self.posLabel);
         self.addAction(self.posLabelAction)
-        self.centerAction = QtGui.QAction(QIcon(':/plugins/PosiView/center.png'), "Center &Map", self)
+        self.centerAction = QAction(QIcon(':/plugins/PosiView/center.png'), "Center &Map", self)
         self.addAction(self.centerAction)
-        self.deleteTrackAction = QtGui.QAction(QIcon(':/plugins/PosiView/deletetrack.png'), 'Delete &Track', self)
+        self.deleteTrackAction = QAction(QIcon(':/plugins/PosiView/deletetrack.png'), 'Delete &Track', self)
         self.addAction(self.deleteTrackAction)
         self.deleteTrackAction.triggered.connect(self.mobile.deleteTrack)
+        self.centerAction.triggered.connect(self.mobile.centerOnMap)
          
-    @pyqtSlot(QgsPoint, float)
-    def onNewPosition(self, pos, depth):
-        s = "{:f}  {:f}\nd = {:.1f}".format(pos.y(), pos.x(), depth)
+    @pyqtSlot(QgsPoint, float, float)
+    def onNewPosition(self, pos, depth, fix):
+        s = "{:}   {:f}  {:f}\nd = {:.1f}".format(strftime('%H:%M:%S', gmtime(fix)), pos.y(), pos.x(), depth)
         self.posLabel.setText(s)
         if not self.upToDate:
             self.posLabel.setStyleSheet('background: lime; font-size: 8pt')
@@ -111,4 +115,3 @@ class TrackingDisplay(QtGui.QToolBar):
             self.posLabel.setStyleSheet('background: red;')
         else:
             self.posLabel.setStyleSheet('background: white;')
-            

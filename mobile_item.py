@@ -17,7 +17,7 @@ class MobileItem(QObject):
 
     mobileItemCount = 0
 
-    newPosition = pyqtSignal(QgsPoint, float)
+    newPosition = pyqtSignal(QgsPoint, float, float)
     newAttitude = pyqtSignal(float, float, float)   # heading, pitch, roll
     timeout = pyqtSignal()
 
@@ -44,8 +44,10 @@ class MobileItem(QObject):
         self.dataProvider = params.get('provider', dict())
         self.messageFilter = dict()
         self.extData = dict()
+        self.coordinates = None
         self.position = None
         self.attitude = None
+        self.lastFix = None
         self.crsXform = QgsCoordinateTransform()
         self.crsXform.setSourceCrs(QgsCoordinateReferenceSystem(4326))
         self.onCrsChange()
@@ -99,12 +101,14 @@ class MobileItem(QObject):
             
         if 'lat' in data and 'lon' in data:
             self.position = QgsPoint(data['lon'], data['lat'])
-            pt = self.crsXform.transform(self.position)
-            self.marker.newCoords(pt)
-            self.newPosition.emit(self.position, data.get('depth', 0.0))
+            self.coordinates = self.crsXform.transform(self.position)
+            self.marker.newCoords(self.coordinates)
+            if 'time' in data:
+                self.lastFix = data['time']
+            self.newPosition.emit(self.position, data.get('depth', 0.0), self.lastFix)
             self.timer.start(self.timeoutTime)
-#             print self.name, " NewPosition: ", pt
-            
+                
+                
         if 'heading' in data:
             self.newAttitude.emit(data['heading'], data.get('pitch', 0.0), data.get('roll', 0.0))
             self.marker.newHeading(data['heading'])
@@ -132,3 +136,9 @@ class MobileItem(QObject):
     def deleteTrack(self):
         self.marker.deleteTrack()
 
+    @pyqtSlot()
+    def centerOnMap(self):
+        if self.coordinates is not None:
+            self.canvas.setCenter(self.coordinates)
+            self.canvas.refresh()
+        
