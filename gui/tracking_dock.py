@@ -15,12 +15,13 @@ from PyQt4.QtGui import QIcon
 FORM_CLASS, _ = uic.loadUiType(os.path.join(
     os.path.dirname(__file__), '..', 'ui', 'tracking_dock_base.ui'))
 
+
 class TrackingDock(QtGui.QDockWidget, FORM_CLASS):
     '''
     classdocs
     '''
 
-    def __init__(self, parent = None):
+    def __init__(self, parent=None):
         '''
         Constructor
         '''
@@ -43,8 +44,6 @@ class TrackingDock(QtGui.QDockWidget, FORM_CLASS):
             w.deleteLater()
         
         
-        
-        
 class TrackingDisplay(QtGui.QToolBar):
     '''
         classdocs
@@ -63,8 +62,8 @@ class TrackingDisplay(QtGui.QToolBar):
     def createActions(self):
         self.nameLabel = QtGui.QLabel(self.mobile.name)
         self.nameLabel.setMinimumSize(80, 23)
-        self.nameLabelAction = QtGui.QWidgetAction(self);
-        self.nameLabelAction.setDefaultWidget(self.nameLabel);
+        self.nameLabelAction = QtGui.QWidgetAction(self)
+        self.nameLabelAction.setDefaultWidget(self.nameLabel)
         self.addAction(self.nameLabelAction)
 
         self.enableAction = QtGui.QAction("Enable Display", self)
@@ -89,8 +88,7 @@ class TrackingDisplay(QtGui.QToolBar):
         self.deleteTrackAction = QtGui.QAction(QIcon(':/plugins/PosiView/deletetrack.png'), 'Delete &Track', self)
         self.addAction(self.deleteTrackAction)
         self.deleteTrackAction.triggered.connect(self.mobile.deleteTrack)
-
-                
+         
     @pyqtSlot(QgsPoint, float)
     def onNewPosition(self, pos, depth):
         s = "{:f}  {:f}\nd = {:.1f}".format(pos.y(), pos.x(), depth)
@@ -114,5 +112,3 @@ class TrackingDisplay(QtGui.QToolBar):
         else:
             self.posLabel.setStyleSheet('background: white;')
             
-            
-        

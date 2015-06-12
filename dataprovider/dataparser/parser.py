@@ -17,7 +17,6 @@ class Parser(object):
         self.hasAttitude = False
         self.id = None
         self.state = {}
-    
-    
+      
     def parse(self, data):
-        pass
+        return {}

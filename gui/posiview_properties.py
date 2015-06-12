@@ -12,7 +12,6 @@ from PyQt4.QtGui import QStringListModel, QStandardItem, QColor,\
 from qgis.gui import QgsOptionsDialogBase
 
 
-
 FORM_CLASS, BASE_CLASS = uic.loadUiType(os.path.join(
     os.path.dirname(__file__), '..', 'ui', 'posiview_properties_base.ui'), True)
 
@@ -23,7 +22,7 @@ class PosiviewProperties(QgsOptionsDialogBase, FORM_CLASS):
     '''
     applyChanges = pyqtSignal(dict)
   
-    def __init__(self, project, parent = None):
+    def __init__(self, project, parent=None):
         '''
         Setup dialog widgets with the project properties
         '''
@@ -53,35 +52,34 @@ class PosiviewProperties(QgsOptionsDialogBase, FORM_CLASS):
         self.mobileListModel.setStringList(properties['Mobiles'].keys())
         self.providerListModel.setStringList(properties['Provider'].keys())
 
-    @pyqtSlot(QAbstractButton, name = 'on_buttonBox_clicked')
+    @pyqtSlot(QAbstractButton, name='on_buttonBox_clicked')
     def onButtonBoxClicked(self, button):
         role = self.buttonBox.buttonRole(button)
         if role == QDialogButtonBox.ApplyRole or role == QDialogButtonBox.AcceptRole:
             self.applyChanges.emit(self.projectProperties)
-        
-        
-    @pyqtSlot(name = 'on_actionSaveConfiguration_triggered')
+
+    @pyqtSlot(name='on_actionSaveConfiguration_triggered')
     def onActionSaveConfigurationTriggered(self):
         ''' Save the current configuration
         '''
         fn = QFileDialog.getSaveFileName(None, 'Save PosiView configuration', '', 'Configuration (*.ini *.conf)')
         self.project.store(fn)
   
-    @pyqtSlot(name = 'on_actionLoadConfiguration_triggered')
+    @pyqtSlot(name='on_actionLoadConfiguration_triggered')
     def onActionLoadConfigurationTriggered(self):
         ''' Load configuration from file
         '''
         fn = QFileDialog.getOpenFileName(None, 'Save PosiView configuration', '', 'Configuration (*.ini *.conf)')
         self.project.read(fn)
       
-    @pyqtSlot(QModelIndex, name = 'on_mMobileListView_clicked')
+    @pyqtSlot(QModelIndex, name='on_mMobileListView_clicked')
     def editMobile(self, index):
         ''' Populate the widgets with the selected mobiles properties
         '''
         if index.isValid():
             self.populateMobileWidgets(index)
       
-    @pyqtSlot(str, name = 'on_comboBoxMobileType_currentIndexChanged')
+    @pyqtSlot(str, name='on_comboBoxMobileType_currentIndexChanged')
     def mobileTypeChanged(self, mType):
         if mType == 'SHAPE':
 #             self.lineEditMobileShape.setText(str(mobile['shape']))
@@ -89,11 +87,11 @@ class PosiviewProperties(QgsOptionsDialogBase, FORM_CLASS):
         else:
             self.lineEditMobileShape.setEnabled(False)
             
-    @pyqtSlot(QModelIndex, name = 'on_mMobileListView_activated')
+    @pyqtSlot(QModelIndex, name='on_mMobileListView_activated')
     def activated(self, index):
         print "activated", index.row()
         
-    @pyqtSlot(name = 'on_toolButtonAddMobile_clicked')
+    @pyqtSlot(name='on_toolButtonAddMobile_clicked')
     def addMobile(self):
         self.mobileListModel.insertRow(self.mobileListModel.rowCount())
         index = self.mobileListModel.index(self.mobileListModel.rowCount() - 1)
@@ -101,9 +99,8 @@ class PosiviewProperties(QgsOptionsDialogBase, FORM_CLASS):
         self.mobileListModel.setData(index, 'NewMobile', Qt.DisplayRole)
         self.mMobileListView.setCurrentIndex(index)
         self.applyMobile()
-    
             
-    @pyqtSlot(name = 'on_toolButtonApplyMobile_clicked')        
+    @pyqtSlot(name='on_toolButtonApplyMobile_clicked')        
     def applyMobile(self):
         index = self.mMobileListView.currentIndex()
         if index.isValid() and not self.lineEditMobileName.text() == '':
@@ -111,12 +108,12 @@ class PosiviewProperties(QgsOptionsDialogBase, FORM_CLASS):
             mobile['Name'] = self.lineEditMobileName.text()
             mobile['type'] = self.comboBoxMobileType.currentText()
             try:
-                t = eval( self.lineEditMobileShape.text() )
+                t = eval(self.lineEditMobileShape.text())
                 if t.__class__ is tuple or t.__class__ is dict:
                     mobile['shape'] = t
             except SyntaxError:
-                mobile['shape'] = (( 0.0, -0.5), (0.3, 0.5), (0.0, 0.2), (-0.5, 0.5))
-            mobile['length'] = self.doubleSpinBoxMobileLength.value()   
+                mobile['shape'] = ((0.0, -0.5), (0.3, 0.5), (0.0, 0.2), (-0.5, 0.5))
+            mobile['length'] = self.doubleSpinBoxMobileLength.value()
             mobile['width'] = self.doubleSpinBoxMobileWidth.value()
             mobile['zValue'] = self.spinBoxZValue.value()
             mobile['color'] = self.mColorButtonMobileColor.color().name()
@@ -130,7 +127,7 @@ class PosiviewProperties(QgsOptionsDialogBase, FORM_CLASS):
                     fil = int(self.mobileProviderModel.item(r, 1).data(Qt.DisplayRole))
                 except:
                     fil = self.mobileProviderModel.item(r, 1).data(Qt.DisplayRole)
-                provs[self.mobileProviderModel.item(r, 0).data(Qt.DisplayRole)] = fil;
+                provs[self.mobileProviderModel.item(r, 0).data(Qt.DisplayRole)] = fil
             mobile['provider'] = provs    
             print "ApplyMobile ", mobile
             currName = self.mobileListModel.data(index, Qt.DisplayRole)
@@ -140,11 +137,10 @@ class PosiviewProperties(QgsOptionsDialogBase, FORM_CLASS):
                 print self.mobileListModel.stringList()
             self.projectProperties['Mobiles'][mobile['Name']] = mobile
     
-
     def populateMobileWidgets(self, index):
         mobile = self.projectProperties['Mobiles'][self.mobileListModel.data(index, Qt.DisplayRole)]
         self.lineEditMobileName.setText(mobile.get('Name'))
-        self.comboBoxMobileType.setCurrentIndex(self.comboBoxMobileType.findText( mobile.setdefault('type', 'BOX').upper()))
+        self.comboBoxMobileType.setCurrentIndex(self.comboBoxMobileType.findText(mobile.setdefault('type', 'BOX').upper()))
         if mobile['type'] == 'SHAPE':
             self.lineEditMobileShape.setText(str(mobile['shape']))
             self.lineEditMobileShape.setEnabled(True)
@@ -162,7 +158,7 @@ class PosiviewProperties(QgsOptionsDialogBase, FORM_CLASS):
                  
         r = 0
         self.mobileProviderModel.removeRows(0, self.mobileProviderModel.rowCount())
-        if mobile.has_key('provider'):
+        if 'provider' in mobile:
             for k, v in mobile['provider'].items():
                 prov = QStandardItem(k)
                 val = QStandardItem(str(v))
@@ -170,8 +166,7 @@ class PosiviewProperties(QgsOptionsDialogBase, FORM_CLASS):
                 self.mobileProviderModel.setItem(r, 1, val)
                 r += 1
         
-    
-    @pyqtSlot(name = 'on_toolButtonRemoveMobile_clicked')        
+    @pyqtSlot(name='on_toolButtonRemoveMobile_clicked')        
     def removeMobile(self):
         idx = self.mMobileListView.currentIndex()
         if idx.isValid():
@@ -179,7 +174,7 @@ class PosiviewProperties(QgsOptionsDialogBase, FORM_CLASS):
             self.mobileListModel.removeRows(idx.row(), 1)
             self.populateMobileWidgets(self.mMobileListView.currentIndex())
             
-    @pyqtSlot(name = 'on_toolButtonAddMobileProvider_clicked')
+    @pyqtSlot(name='on_toolButtonAddMobileProvider_clicked')
     def addMobileProvider(self):
         prov = self.comboBoxProviders.currentText()
         fil = None
@@ -194,14 +189,12 @@ class PosiviewProperties(QgsOptionsDialogBase, FORM_CLASS):
             print prov, fil
             self.mobileProviderModel.appendRow([QStandardItem(prov), QStandardItem(fil)])
               
-  
-    @pyqtSlot(name = 'on_toolButtonRemoveMobileProvider_clicked')
+    @pyqtSlot(name='on_toolButtonRemoveMobileProvider_clicked')
     def removeMobileProvider(self):
         idx = self.mMobileProviderTableView.currentIndex()
         self.mobileProviderModel.removeRow(idx.row())
           
-          
-    @pyqtSlot(name= 'on_toolButtonApplyDataProvider_clicked')
+    @pyqtSlot(name='on_toolButtonApplyDataProvider_clicked')
     def applyDataProvider(self):
         index = self.mDataProviderListView.currentIndex()
         if index.isValid() and not self.lineEditProviderName.text() == '':
@@ -220,21 +213,18 @@ class PosiviewProperties(QgsOptionsDialogBase, FORM_CLASS):
             self.projectProperties['Provider'][provider['Name']] = provider
             print provider
                  
-          
-          
-    @pyqtSlot(QModelIndex, name = 'on_mDataProviderListView_clicked')
+    @pyqtSlot(QModelIndex, name='on_mDataProviderListView_clicked')
     def editDataProvider(self, index):
         '''
         '''
         if index.isValid():
             self.populateDataProviderWidgets(index)
             
-          
     def populateDataProviderWidgets(self, index):
         print "editProvider: ", self.providerListModel.data(index, Qt.DisplayRole)
         provider = self.projectProperties['Provider'][self.providerListModel.data(index, Qt.DisplayRole)]
         self.lineEditProviderName.setText(provider.get('Name'))
-        self.comboBoxProviderType.setCurrentIndex(self.comboBoxProviderType.findText( provider.setdefault('DataDeviceType', 'UDP').upper()))
+        self.comboBoxProviderType.setCurrentIndex(self.comboBoxProviderType.findText(provider.setdefault('DataDeviceType', 'UDP').upper()))
         if provider['DataDeviceType'] in ('UDP', 'TCP'):
             self.stackedWidgetDataDevice.setCurrentIndex(0)
             self.lineEditProviderHostName.setText(provider.setdefault('Host', '0.0.0.0'))
@@ -242,8 +232,7 @@ class PosiviewProperties(QgsOptionsDialogBase, FORM_CLASS):
 
         self.comboBoxParser.setCurrentIndex(self.comboBoxParser.findText( provider.setdefault('Parser', 'NONE').upper()))
 
-
-    @pyqtSlot(name = 'on_toolButtonAddDataProvider_clicked')
+    @pyqtSlot(name='on_toolButtonAddDataProvider_clicked')
     def addDataProvider(self):
         self.providerListModel.insertRow(self.providerListModel.rowCount())
         index = self.providerListModel.index(self.providerListModel.rowCount() - 1)
@@ -251,12 +240,11 @@ class PosiviewProperties(QgsOptionsDialogBase, FORM_CLASS):
         self.providerListModel.setData(index, 'NewDataProvider', Qt.DisplayRole)
         self.mDataProviderListView.setCurrentIndex(index)
         self.applyDataProvider()
-
-    @pyqtSlot(name = 'on_toolButtonRemoveDataProvider_clicked')        
+        
+    @pyqtSlot(name='on_toolButtonRemoveDataProvider_clicked')        
     def removeDataProvider(self):
         idx = self.mDataProviderListView.currentIndex()
         if idx.isValid():
             self.projectProperties['Provider'].pop(self.providerListModel.data(idx, Qt.DisplayRole))
             self.providerListModel.removeRows(idx.row(), 1)
             self.populateDataProviderWidgets(self.mDataProviderListView.currentIndex())
-

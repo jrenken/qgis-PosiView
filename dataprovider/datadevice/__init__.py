@@ -21,7 +21,7 @@
 
 from .udpdevice import UdpDevice
 
-def createDataDevice(params = {}, parent = None):
+def createDataDevice(params={}, parent=None):
     deviceType = params.get('DataDeviceType', 'UDP').upper()
     if deviceType == 'UDP':
         return UdpDevice(params, parent)

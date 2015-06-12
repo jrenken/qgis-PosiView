@@ -15,7 +15,7 @@ class UdpDevice(DataDevice):
 
     readyRead = pyqtSignal()
 
-    def __init__(self, params = {}, parent = None):
+    def __init__(self, params={}, parent=None):
         '''
         Constructor
         '''
@@ -25,7 +25,7 @@ class UdpDevice(DataDevice):
         self.reconnect = int(params.get('Reconnect', 1000))
         self.host = params.get('Host', None)
         self.port = int(params.get('Port', 2000))
-        self.iodevice.readyRead.connect( self.readyRead )
+        self.iodevice.readyRead.connect(self.readyRead)
 
     def connectDevice(self):
         print "Hey, try to connect ", self.host, self.port

@@ -31,6 +31,7 @@ from gui.tracking_dock import TrackingDock
 from gui.guidance_dock import GuidanceDock
 from gui.posiview_properties import PosiviewProperties
 
+
 class PosiView:
     """QGIS Plugin Implementation."""
 
@@ -72,7 +73,7 @@ class PosiView:
         self.tracking = TrackingDock()
         self.iface.addDockWidget(Qt.LeftDockWidgetArea, self.tracking)
         self.tracking.hide()
-        self.guidance = GuidanceDock();
+        self.guidance = GuidanceDock()
         self.iface.addDockWidget(Qt.LeftDockWidgetArea, self.guidance)
         self.guidance.hide()
 
@@ -91,15 +92,14 @@ class PosiView:
         # noinspection PyTypeChecker,PyArgumentList,PyCallByClass
         return QCoreApplication.translate('PosiView', message)
 
-
     def add_action(
         self,
         icon_path,
         text,
         callback,
         enabled_flag=True,
-        checkable_flag = False,
-        visible_flag = True,
+        checkable_flag=False,
+        visible_flag=True,
         add_to_menu=True,
         add_to_toolbar=True,
         status_tip=None,
@@ -183,35 +183,35 @@ class PosiView:
         iconPath = ':/plugins/PosiView'
         self.loadAction = self.add_action(
             os.path.join(iconPath, 'icon.png'),
-            text = self.tr(u'Enable PosiView'),
-            callback = self.run,
-            status_tip = self.tr(u'Enable PosiView'),
-            checkable_flag = True,
+            text=self.tr(u'Enable PosiView'),
+            callback=self.run,
+            status_tip=self.tr(u'Enable PosiView'),
+            checkable_flag=True,
             parent=self.iface.mainWindow())
         
         startAction = self.add_action(
             os.path.join(iconPath, 'icon.png'),            
-            text = self.tr(u'Start Tracking'),
-            callback = self.startTracking,
-            visible_flag = False,
-            status_tip = self.tr(u'Start tracking'),
-            parent = self.iface.mainWindow())
+            text=self.tr(u'Start Tracking'),
+            callback=self.startTracking,
+            visible_flag=False,
+            status_tip=self.tr(u'Start tracking'),
+            parent=self.iface.mainWindow())
 
         stopAction = self.add_action(
             os.path.join(iconPath, 'icon.png'),
-            text = self.tr(u'Stop Tracking'),
-            callback = self.stopTracking,
-            visible_flag = False,
-            status_tip = self.tr(u'Stop tracking'),
-            parent = self.iface.mainWindow())
+            text=self.tr(u'Stop Tracking'),
+            callback=self.stopTracking,
+            visible_flag=False,
+            status_tip=self.tr(u'Stop tracking'),
+            parent=self.iface.mainWindow())
 
         configAction = self.add_action(
             os.path.join(iconPath, 'icon.png'),
-            text = self.tr(u'Configurem PosiView'),
-            callback = self.configure,
-            visible_flag = False,
-            status_tip = self.tr(u'Configure PosiView'),
-            parent = self.iface.mainWindow())
+            text=self.tr(u'Configurem PosiView'),
+            callback=self.configure,
+            visible_flag=False,
+            status_tip=self.tr(u'Configure PosiView'),
+            parent=self.iface.mainWindow())
 
         self.loadAction.toggled.connect(startAction.setVisible)
         self.loadAction.toggled.connect(stopAction.setVisible)
@@ -229,8 +229,7 @@ class PosiView:
             self.iface.removeToolBarIcon(action)
         del self.toolbar
 
-
-    def run(self, checked = False):
+    def run(self, checked=False):
         """Run method that performs all the real work"""
         if checked:
             p = self.project.read()
@@ -247,7 +246,6 @@ class PosiView:
             self.guidance.hide()
             self.project.unload()
         
-
     def startTracking(self):
         self.project.startTracking()
         
@@ -270,5 +268,4 @@ class PosiView:
         result = propDlg.exec_()
         if result:
             self.onApplyConfigChanges(propDlg.projectProperties)
-
 

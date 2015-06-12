@@ -43,10 +43,28 @@ PLUGINNAME = PosiView
 
 PY_FILES = \
 	posi_view.py \
-	__init__.py
+	__init__.py \
+	position_marker.py \
+	posiview_project.py \
+	mobile_item.py \
+	gui/__init__.py \
+	gui/posiview_properties.py \
+	gui/tracking_dok.py \
+	gui/guidance_dock.py \
+	dataprovider/__init__.py \
+	dataprovider/data_provider.py \
+	dataprovider/datadevice/__init.py \
+	dataprovider/datadevice/datadevice.py \
+	dataprovider/datadevice/udpdevice.py \
+	dataprovider/dataparser/__init__.py \
+	dataprovider/dataparser/nmea.py \
+	dataprovider/dataparser/parser_ixusbl.py \
+	dataprovider/dataparser/parser_pise.py \
+	dataprovider/dataparser/parser.py \
+
 
 UI_FILES = ui/posiview_properties_base.ui \
-		ui/guidance_dock_base.ui
+		ui/guidance_dock_base.ui \
 		ui/tracking_doc_base.ui
 
 COMPILED_UI_FILES = 

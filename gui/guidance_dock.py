@@ -12,13 +12,13 @@ from qgis.core import QgsPoint
 FORM_CLASS, _ = uic.loadUiType(os.path.join(
     os.path.dirname(__file__), '..', 'ui', 'guidance_dock_base.ui'))
 
+
 class GuidanceDock(QtGui.QDockWidget, FORM_CLASS):
     '''
     classdocs
     '''
 
-
-    def __init__(self, parent = None):
+    def __init__(self, parent=None):
         '''
         Constructor
         '''
@@ -42,5 +42,3 @@ class GuidanceDock(QtGui.QDockWidget, FORM_CLASS):
         else:
             self.fontSize = 11
         self.dockWidgetContents.setStyleSheet("font-weight: bold; font-size: {}pt".format(self.fontSize))
-        
-        

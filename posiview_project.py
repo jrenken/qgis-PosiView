@@ -13,8 +13,7 @@ class PosiViewProject(object):
     classdocs
     '''
 
-
-    def __init__(self, iface, params = {}):
+    def __init__(self, iface, params={}):
         '''
         Constructor
         :param iface: An interface instance that will be passed to this class
@@ -24,11 +23,11 @@ class PosiViewProject(object):
         :param params: A dictionary defining all the properties of the project
         :type params: dictionary
         '''
+
         self.iface = iface
         self.dataProviders = dict()
         self.mobileItems = dict()
         self.trackingStarted = False
-
 
     def startTracking(self):
         if not self.trackingStarted:
@@ -36,8 +35,7 @@ class PosiViewProject(object):
                 print "Start ", k
                 v.start() 
             self.trackingStarted = True
-            
-                
+                          
     def stopTracking(self):
         if self.trackingStarted:
             for k, v in self.dataProviders.items():
@@ -45,7 +43,7 @@ class PosiViewProject(object):
                 v.stop() 
             self.trackingStarted = False
 
-    def loadSettings(self, iniFile = None):
+    def loadSettings(self, iniFile=None):
         self.read(iniFile)
         for k in self.mobileItems.keys():
             item = self.mobileItems[k]
@@ -61,7 +59,7 @@ class PosiViewProject(object):
         props['Mobiles'] = m
         pr = dict()
         for k in self.dataProviders.keys(): 
-            p = self.dataProviders[k].properties();
+            p = self.dataProviders[k].properties()
             pr[p['Name']] = p
         props['Provider'] = pr
         return props
@@ -87,7 +85,6 @@ class PosiViewProject(object):
             for k1 in m.dataProvider.keys():
                 m.subscribePositionProvider(self.dataProviders[k1], m.dataProvider[k1])
 
-    
     def unload(self):
         print "Unload Project"
         self.stopTracking()
@@ -108,8 +105,7 @@ class PosiViewProject(object):
                 except:
                     return val
         
-    
-    def read(self, iniFile = None):
+    def read(self, iniFile=None):
         if iniFile is not None:
             s = QSettings(iniFile, QSettings.IniFormat)
         else:
@@ -139,7 +135,7 @@ class PosiViewProject(object):
         print properties
         return properties
         
-    def store(self, iniFile = None, properties = None):
+    def store(self, iniFile=None, properties=None):
         if iniFile is not None:
             s = QSettings(iniFile, QSettings.IniFormat)
         else:
@@ -150,7 +146,7 @@ class PosiViewProject(object):
             
         s.beginGroup('PosiView')
         s.remove('')
-        idx = 0;
+        idx = 0
         s.beginWriteArray('Mobiles')
         try:
             for k, v in properties['Mobiles'].items():
@@ -162,7 +158,7 @@ class PosiViewProject(object):
         except KeyError:
             pass
         s.endArray()
-        idx = 0;
+        idx = 0
         s.beginWriteArray('DataProvider')
         try:
             for k, v in properties['Provider'].items():
@@ -177,27 +173,25 @@ class PosiViewProject(object):
         s.endGroup()
         print "Stored"
 
-
     def loadTestProject(self):
-        provider = DataProvider({ 'Name': 'Gaps', 'DataDeviceType': 'UDP', 'Port': 2000, 'Parser': 'IX_USBL' })
+        provider = DataProvider({'Name': 'Gaps', 'DataDeviceType': 'UDP', 'Port': 2000, 'Parser': 'IX_USBL'})
         self.dataProviders[provider.name] = provider
-        provider = DataProvider({ 'Name': 'SCC', 'DataDeviceType': 'UDP', 'Port': 10511, 'Parser': 'PISE' })
+        provider = DataProvider({'Name': 'SCC', 'DataDeviceType': 'UDP', 'Port': 10511, 'Parser': 'PISE'})
         self.dataProviders[provider.name] = provider
 
         item = MobileItem(self.iface, {'Name': 'Seal', 'tracklen': 100, 'type' : 'shape', 'fillColor': 'yellow', 
                                        'length': 6.0, 'width': 1.5,
-                                       'provider' : { 'SCC': None }})
+                                       'provider' : {'SCC': None}})
         self.mobileItems[item.name] = item
         for k in item.dataProvider.keys():
             item.subscribePositionProvider(self.dataProviders[k], item.dataProvider[k])
         
-        item = MobileItem(self.iface, {'Name': 'Beacon_7', 'timeout': 11000, 'provider' : { 'Gaps': 1 } })
+        item = MobileItem(self.iface, {'Name': 'Beacon_7', 'timeout': 11000, 'provider' : {'Gaps': 1}})
         self.mobileItems[item.name] = item
         for k in item.dataProvider.keys():
             item.subscribePositionProvider(self.dataProviders[k],  item.dataProvider[k])
         item = MobileItem(self.iface, {'Name': 'Ship', 'type' : 'shape', 'timeout': 5000,
-                                       'fillColor': 'orange', 'provider' : { 'Gaps': 0 } })
+                                       'fillColor': 'orange', 'provider' : {'Gaps': 0}})
         self.mobileItems[item.name] = item
         for k in item.dataProvider.keys():
             item.subscribePositionProvider(self.dataProviders[k], item.dataProvider[k])
-

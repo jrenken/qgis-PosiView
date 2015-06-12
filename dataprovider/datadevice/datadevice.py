@@ -6,7 +6,6 @@ Created on 04.06.2015
 from PyQt4.QtCore import QObject, pyqtSlot, pyqtSignal
 
 
-
 class DataDevice(QObject):
     '''
     Baseclass for all data devices
@@ -16,7 +15,7 @@ class DataDevice(QObject):
     deviceConnected = pyqtSignal()
     deviceDisconnected = pyqtSignal()
 
-    def __init__(self, params = {}, parent = None):
+    def __init__(self, params={}, parent=None):
         '''
         Constructor
         '''
@@ -35,5 +34,3 @@ class DataDevice(QObject):
     @pyqtSlot()
     def onReconnectTimer(self):
         self.connectDevice()
-        
-        

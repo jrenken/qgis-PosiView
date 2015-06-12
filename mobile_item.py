@@ -21,8 +21,7 @@ class MobileItem(QObject):
     newAttitude = pyqtSignal(float, float, float)   # heading, pitch, roll
     timeout = pyqtSignal()
 
-
-    def __init__(self, iface, params = {}, parent = None):
+    def __init__(self, iface, params={}, parent=None):
         '''
         Constructor
         :param iface: An interface instance that will be passed to this class
@@ -54,24 +53,22 @@ class MobileItem(QObject):
         self.canvas.mapRenderer().destinationSrsChanged.connect(self.onCrsChange)
         self.timer = QTimer(self);
         self.timer.timeout.connect(self.timeout)
-        self.timeoutTime = int( params.get('timeout', 3000) )
+        self.timeoutTime = int(params.get('timeout', 3000))
         self.enabled = True
-#         print "Hello Mobile", self.name
 
     def removeFromCanvas(self):
         self.canvas.scene().removeItem(self.marker)
         self.deleteLater()
     
     def properties(self):
-        d = { 'Name' : self.name, 
-              'timeout': self.timeoutTime, 
-              'enabled': self.enabled,
-              'provider' : self.dataProvider }
+        d = {'Name' : self.name, 
+             'timeout': self.timeoutTime,
+             'enabled': self.enabled,
+             'provider' : self.dataProvider}
         d.update(self.marker.properties())
         return d
 
-
-    def subscribePositionProvider(self, provider, filterId = None):
+    def subscribePositionProvider(self, provider, filterId=None):
         provider.newDataReceived.connect(self.processNewData)
         if filterId != None:
             self.messageFilter[provider.name] = filterId
@@ -82,7 +79,7 @@ class MobileItem(QObject):
     
     def unsubscribePositionProvider(self, provider):
         try:
-            provider.newDataReceived.disconnect( self.processData )
+            provider.newDataReceived.disconnect(self.processData)
             del self.messageFilter[provider.name]
         except:
             pass
@@ -100,7 +97,7 @@ class MobileItem(QObject):
             pass
         self.extData.update(data)
             
-        if data.has_key('lat') and data.has_key('lon'):
+        if 'lat' in data and 'lon' in data:
             self.position = QgsPoint(data['lon'], data['lat'])
             pt = self.crsXform.transform(self.position)
             self.marker.newCoords(pt)
@@ -108,10 +105,9 @@ class MobileItem(QObject):
             self.timer.start(self.timeoutTime)
 #             print self.name, " NewPosition: ", pt
             
-        if data.has_key('heading'):
+        if 'heading' in data:
             self.newAttitude.emit(data['heading'], data.get('pitch', 0.0), data.get('roll', 0.0))
             self.marker.newHeading(data['heading'])
-#             print self.name, ' New attitude ', data['heading'] 
 
     @pyqtSlot(float)
     def onScaleChange(self, scale):

@@ -9,6 +9,7 @@ import dataparser
 import datadevice
 from collections import deque
 
+
 class DataProvider(QObject):
     '''
     Base class for all data provider
@@ -20,7 +21,7 @@ class DataProvider(QObject):
 
     dataProviderCount = 0
 
-    def __init__(self, params = {}, parent = None):
+    def __init__(self, params={}, parent=None):
         '''
         Constructor
         '''
@@ -31,10 +32,9 @@ class DataProvider(QObject):
         self.connected = False
         self.dataDevice = None
         self.keepConnection = True
-        self.parser = dataparser.createParser( self.params.setdefault('Parser', 'IX_USBL') )
+        self.parser = dataparser.createParser(self.params.setdefault('Parser', 'IX_USBL'))
         self.dataDevice = None
         self.lineBuffer = deque()
-        print "Hello dataprovider", self.name
      
     def properties(self):
         return self.params
@@ -68,5 +68,5 @@ class DataProvider(QObject):
             if d:
                 d['name'] = self.name
                 print d
-                self.newDataReceived.emit( d )
+                self.newDataReceived.emit(d)
             
