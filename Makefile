@@ -60,6 +60,7 @@ PY_FILES = \
 	dataprovider/dataparser/nmea.py \
 	dataprovider/dataparser/parser_ixusbl.py \
 	dataprovider/dataparser/parser_pise.py \
+	dataprovider/dataparser/parser_minipos.py \
 	dataprovider/dataparser/parser.py \
 
 

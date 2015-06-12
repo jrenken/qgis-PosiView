@@ -93,9 +93,16 @@ class TrackingDisplay(QToolBar):
         self.deleteTrackAction.triggered.connect(self.mobile.deleteTrack)
         self.centerAction.triggered.connect(self.mobile.centerOnMap)
          
-    @pyqtSlot(QgsPoint, float, float)
-    def onNewPosition(self, pos, depth, fix):
-        s = "{:}   {:f}  {:f}\nd = {:.1f}".format(strftime('%H:%M:%S', gmtime(fix)), pos.y(), pos.x(), depth)
+    @pyqtSlot(float, QgsPoint, float, float)
+    def onNewPosition(self, fix, pos, depth, altitude):
+        s = str()
+        if fix > 0:
+            s = strftime('%H:%M:%S', gmtime(fix))
+        else:
+            s = '--:--:--'
+        s += "   {:f}  {:f}\nd = {:.1f}".format(pos.y(), pos.x(), depth)
+        if altitude > 0:
+            s += "   alt = {:.1f}".format(altitude) 
         self.posLabel.setText(s)
         if not self.upToDate:
             self.posLabel.setStyleSheet('background: lime; font-size: 8pt')

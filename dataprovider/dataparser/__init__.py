@@ -27,5 +27,8 @@ def createParser(parserType=''):
     if parserType.upper() == 'PISE':
         from .parser_pise import PiseParser
         return PiseParser()
+    if parserType.upper() == 'MINIPOS':
+        from .parser_minipos import MiniPosParser
+        return MiniPosParser()
     from .parser import Parser
     return Parser()

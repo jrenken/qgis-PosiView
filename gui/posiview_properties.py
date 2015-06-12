@@ -70,7 +70,8 @@ class PosiviewProperties(QgsOptionsDialogBase, FORM_CLASS):
         ''' Load configuration from file
         '''
         fn = QFileDialog.getOpenFileName(None, 'Save PosiView configuration', '', 'Configuration (*.ini *.conf)')
-        self.project.read(fn)
+        self.projectProperties = self.project.read(fn)
+        self.setupModelData(self.projectProperties)
       
     @pyqtSlot(QModelIndex, name='on_mMobileListView_clicked')
     def editMobile(self, index):
@@ -127,6 +128,8 @@ class PosiviewProperties(QgsOptionsDialogBase, FORM_CLASS):
                     fil = int(self.mobileProviderModel.item(r, 1).data(Qt.DisplayRole))
                 except:
                     fil = self.mobileProviderModel.item(r, 1).data(Qt.DisplayRole)
+                    if not fil:
+                        fil = None
                 provs[self.mobileProviderModel.item(r, 0).data(Qt.DisplayRole)] = fil
             mobile['provider'] = provs    
             print "ApplyMobile ", mobile

@@ -15,15 +15,14 @@ class IxUsblParser(Parser):
     '''
 
     def __init__(self):
-        super(IxUsblParser, self).__init__()
-        self.headingSource = None        
+        super(IxUsblParser, self).__init__()        
 
     def parse(self, data):
-        if data.startswith('$PTSAG'):
+        if (data.startswith('$PTSAG')):
             return self.decodePtsag(data)
-        elif data.startswith('$PTSAH'):
+        elif (data.startswith('$PTSAH')):
             return self.decodePtsah(data)
-        elif data.startswith('$HEHDT'):
+        elif (data.startswith('$HEHDT')):
             return self.decodeHehdt(data)
 #         return {}
 

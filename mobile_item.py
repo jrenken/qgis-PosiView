@@ -17,7 +17,7 @@ class MobileItem(QObject):
 
     mobileItemCount = 0
 
-    newPosition = pyqtSignal(QgsPoint, float, float)
+    newPosition = pyqtSignal(float, QgsPoint, float, float)
     newAttitude = pyqtSignal(float, float, float)   # heading, pitch, roll
     timeout = pyqtSignal()
 
@@ -46,8 +46,7 @@ class MobileItem(QObject):
         self.extData = dict()
         self.coordinates = None
         self.position = None
-        self.attitude = None
-        self.lastFix = None
+        self.lastFix = 0.0
         self.crsXform = QgsCoordinateTransform()
         self.crsXform.setSourceCrs(QgsCoordinateReferenceSystem(4326))
         self.onCrsChange()
@@ -105,7 +104,7 @@ class MobileItem(QObject):
             self.marker.newCoords(self.coordinates)
             if 'time' in data:
                 self.lastFix = data['time']
-            self.newPosition.emit(self.position, data.get('depth', 0.0), self.lastFix)
+            self.newPosition.emit(self.lastFix, self.position, data.get('depth', 0.0), data.get('altitude', -9999.9))
             self.timer.start(self.timeoutTime)
                 
                 
