@@ -58,7 +58,9 @@ class MobileItem(QObject):
         self.enabled = True
 
     def removeFromCanvas(self):
-        self.canvas.scene().removeItem(self.marker)
+        self.marker.removeFromCanvas()
+#         self.marker.deleteTrack()
+#         self.canvas.scene().removeItem(self.marker)
         self.deleteLater()
     
     def properties(self):
@@ -76,8 +78,6 @@ class MobileItem(QObject):
         elif provider.name in self.messageFilter.keys():
             del self.messageFilter[provider.name]
 
-    
-    
     def unsubscribePositionProvider(self, provider):
         try:
             provider.newDataReceived.disconnect(self.processData)

@@ -259,6 +259,7 @@ class PosiView:
             self.tracking.removeMobiles()
             self.project.unload()
             self.project.load(properties)
+            self.project.store()
             for item in self.project.mobileItems.values():
                 self.tracking.addMobile(item)
     

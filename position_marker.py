@@ -145,4 +145,9 @@ class PositionMarker(QgsMapCanvasItem):
     def boundingRect(self):
         s = ( self.size - 1 ) / 2
         return QRectF(QPointF(-s,-s), QPointF(s, s))
+    
+    def removeFromCanvas(self):
+        self.deleteTrack()
+        self.canvas.scene().removeItem(self)
+
    
