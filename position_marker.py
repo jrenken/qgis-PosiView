@@ -100,12 +100,17 @@ class PositionMarker(QgsMapCanvasItem):
                 del(tpr)
             tp = QgsVertexMarker(self.canvas)
             tp.setCenter(self.pos)
-            tp.setIconType(QgsVertexMarker.ICON_BOX)
+            tp.setIconType(QgsVertexMarker.ICON_CROSS)
             tp.setColor(self.fillColor)
-            tp.setIconSize(5)
-            tp.setPenWidth(2)
+            tp.setIconSize(3)
+            tp.setPenWidth(5)
             self.track.append(tp)
             
+    def setVisible(self, visible):
+        for tp in self.track:
+            tp.setVisible(visible)
+        QgsMapCanvasItem.setVisible(self, visible)
+    
     def deleteTrack(self):
         for tp in self.track:
             self.canvas.scene().removeItem(tp)
