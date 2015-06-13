@@ -237,6 +237,7 @@ class PosiView:
             self.project.load(p)            
             for item in self.project.mobileItems.values():
                 self.tracking.addMobile(item)
+            self.guidance.setMobiles(self.project.mobileItems)
             self.loadGuiSettings()
             self.tracking.show()
         else:
@@ -263,6 +264,8 @@ class PosiView:
             self.project.store()
             for item in self.project.mobileItems.values():
                 self.tracking.addMobile(item)
+            self.guidance.setMobiles(self.project.mobileItems)
+
     
     def configure(self):
         propDlg = PosiviewProperties(self.project)

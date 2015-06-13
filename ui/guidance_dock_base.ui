@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>419</width>
-    <height>292</height>
+    <height>320</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -96,7 +96,7 @@ size</string>
         </property>
         <layout class="QVBoxLayout" name="verticalLayout_2">
          <item>
-          <widget class="QComboBox" name="comboBox"/>
+          <widget class="QComboBox" name="comboBoxSource"/>
          </item>
          <item>
           <widget class="QLabel" name="labelSourceLat">

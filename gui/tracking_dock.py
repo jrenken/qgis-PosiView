@@ -29,11 +29,6 @@ class TrackingDock(QDockWidget, FORM_CLASS):
         Constructor
         '''
         super(TrackingDock, self).__init__(parent)
-        # Set up the user interface from Designer.
-        # After setupUI you can access any designer object by doing
-        # self.<objectname>, and you can use autoconnect slots - see
-        # http://qt-project.org/doc/qt-4.8/designer-using-a-ui-file.html
-        # #widgets-and-dialogs-with-auto-connect
         self.setupUi(self)
         
     def addMobile(self, mobile):
@@ -119,6 +114,6 @@ class TrackingDisplay(QToolBar):
         self.mobile.setEnabled(enable)
         self.upToDate = False
         if enable:
-            self.posLabel.setStyleSheet('background: red;')
+            self.posLabel.setStyleSheet('background: red; font-size: 8pt')
         else:
-            self.posLabel.setStyleSheet('background: white;')
+            self.posLabel.setStyleSheet('background: white; font-size: 8pt')
