@@ -222,6 +222,7 @@ class PosiView:
            Unloads and removes also the project.
         """
         self.project.unload()
+        self.saveGuiSettings()
         for action in self.actions:
             self.iface.removePluginMenu(
                 self.tr(u'&PosiView'),
@@ -236,16 +237,16 @@ class PosiView:
             self.project.load(p)            
             for item in self.project.mobileItems.values():
                 self.tracking.addMobile(item)
- 
+            self.loadGuiSettings()
             self.tracking.show()
-            pass
         else:
             self.project.store()
+            self.saveGuiSettings()
             self.tracking.removeMobiles()
             self.tracking.hide()
             self.guidance.hide()
             self.project.unload()
-        
+
     def startTracking(self):
         self.project.startTracking()
         
@@ -270,3 +271,16 @@ class PosiView:
         if result:
             self.onApplyConfigChanges(propDlg.projectProperties)
 
+    def saveGuiSettings(self):
+        settings = QSettings()
+        settings.beginGroup('PosiView')
+        settings.setValue('Gui/TrackingVisible', self.tracking.isVisible())
+        settings.setValue('Gui/GuidanceVisible', self.guidance.isVisible())
+        settings.endGroup()
+
+    def loadGuiSettings(self):
+        settings = QSettings()
+        settings.beginGroup('PosiView')
+#         self.tracking.setVisible(settings.value('Gui/TrackingVisible', True) in ['True', 'true'])
+        self.guidance.setVisible(settings.value('Gui/GuidanceVisible', False)  in ['True', 'true'])
+        settings.endGroup()
