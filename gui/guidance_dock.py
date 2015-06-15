@@ -46,12 +46,17 @@ class GuidanceDock(QtGui.QDockWidget, FORM_CLASS):
 
     def setMobiles(self, mobiles):
         self.mobiles = mobiles
+        self.comboBoxSource.blockSignals(True)
+        self.comboBoxTarget.blockSignals(True)
         self.comboBoxSource.clear()
         self.comboBoxSource.addItems(mobiles.keys())
         self.comboBoxSource.setCurrentIndex(-1)
         self.comboBoxTarget.clear()
         self.comboBoxTarget.addItems(mobiles.keys())
         self.comboBoxTarget.setCurrentIndex(-1)
+        self.comboBoxSource.blockSignals(False )
+        self.comboBoxTarget.blockSignals(False)
+        self.resetDisplay()
         
     @pyqtSlot(str, name='on_comboBoxSource_currentIndexChanged')
     def sourceChanged(self, mob):
@@ -78,11 +83,21 @@ class GuidanceDock(QtGui.QDockWidget, FORM_CLASS):
         self.labelSourceLat.setText(str(pos.y()))
         self.labelSourceLon.setText(str(pos.x()))
         self.labelSourceDepth.setText(str(depth))
-        print "Source:", pos
 
     @pyqtSlot(float, QgsPoint, float, float)
     def onNewTargetPosition(self, fix, pos, depth, altitude):
         self.labelTargetLat.setText(str(pos.y()))
         self.labelTargetLon.setText(str(pos.x()))
         self.labelTargetDepth.setText(str(depth))
-        print "Target:", pos
+
+    def resetDisplay(self):
+        self.labelSourceLat.setText('---')
+        self.labelSourceLon.setText('---')
+        self.labelTargetLat.setText('---')
+        self.labelTargetLon.setText('---')
+        self.labelSourceHeading.setText('---')
+        self.labelTargetHeading.setText('---')
+        self.labelSourceDepth.setText('---')
+        self.labelTargetDepth.setText('---')
+        self.labelDirection.setText('---')
+        self.labelDistance.setText('---')

@@ -13,7 +13,7 @@ from qgis.gui import QgsOptionsDialogBase
 
 
 FORM_CLASS, BASE_CLASS = uic.loadUiType(os.path.join(
-    os.path.dirname(__file__), '..', 'ui', 'posiview_properties_base.ui'), True)
+    os.path.dirname(__file__), '..', 'ui', 'posiview_properties_base.ui'), False)
 
 
 class PosiviewProperties(QgsOptionsDialogBase, FORM_CLASS):

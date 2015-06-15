@@ -120,6 +120,7 @@ class MobileItem(QObject):
     def onCrsChange(self):
         crsDst = self.canvas.mapRenderer().destinationCrs()
         self.crsXform.setDestCRS(crsDst)
+        self.marker.updateSize()
 
     @pyqtSlot(bool)
     def setEnabled(self, enabled):

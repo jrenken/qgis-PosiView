@@ -29,7 +29,7 @@ import os.path
 from posiview_project import PosiViewProject
 from gui.tracking_dock import TrackingDock
 from gui.guidance_dock import GuidanceDock
-from gui.posiview_properties import PosiviewProperties
+
 
 
 class PosiView:
@@ -268,6 +268,7 @@ class PosiView:
 
     
     def configure(self):
+        from gui.posiview_properties import PosiviewProperties
         propDlg = PosiviewProperties(self.project)
         propDlg.applyChanges.connect(self.onApplyConfigChanges)
         result = propDlg.exec_()
