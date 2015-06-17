@@ -97,7 +97,7 @@
            <string>Position Provider</string>
           </property>
           <property name="icon">
-           <iconset resource="../resources.qrc">
+           <iconset>
             <normaloff>:/plugins/PosiView/sensor.png</normaloff>:/plugins/PosiView/sensor.png</iconset>
           </property>
          </item>
@@ -106,7 +106,7 @@
            <string>Mobile/Vehicles</string>
           </property>
           <property name="icon">
-           <iconset resource="../resources.qrc">
+           <iconset>
             <normaloff>:/plugins/PosiView/auv.png</normaloff>:/plugins/PosiView/auv.png</iconset>
           </property>
          </item>
@@ -1089,9 +1089,7 @@
    <container>1</container>
   </customwidget>
  </customwidgets>
- <resources>
-  <include location="../resources.qrc"/>
- </resources>
+ <resources/>
  <connections>
   <connection>
    <sender>mOptionsListWidget</sender>

@@ -88,10 +88,10 @@ class PosiViewProject(object):
     def unload(self):
         print "Unload Project"
         self.stopTracking()
+        self.dataProviders.clear()
         for m in self.mobileItems.values():
             m.removeFromCanvas()
         self.mobileItems.clear()
-        self.dataProviders.clear()
         
     def convertToBestType(self, val):
         try:
