@@ -31,15 +31,13 @@ class PositionMarker(QgsMapCanvasItem):
         self.length = float( params.get('length', 98.0))
         self.width = float( params.get('width', 17.0))
         self.shape = params.get('shape', (( 0.0, -0.5), (0.5, -0.3), (0.5, 0.5), (-0.5, 0.50), (-0.5, -0.3))) 
-        print self.shape
         s = (self.size - 1) / 2
         self.paintShape = QPolygonF([QPointF(-s, -s), QPointF(s, -s), QPointF(s, s), QPointF(-s, s)])
-        self.color = QColor(params.get('color', 'black'))
-        self.fillColor = QColor(params.get('fillColor', 'lime'))
+        self.color = self.getColor(params.get('color', 'black'))
+        self.fillColor = self.getColor(params.get('fillColor', 'lime'))
         self.penWidth = int(params.get('penWidth', 1))
-        self.alpha = int(params.get('alpha', 255))
         self.trackLen = int(params.get('tracklen', 100))
-        self.trackColor = QColor(params.get('trackColor', self.fillColor))
+        self.trackColor = self.getColor(params.get('trackColor', self.fillColor))
         self.track = deque()
         self.pos = None
         self.heading = 0
@@ -53,12 +51,11 @@ class PositionMarker(QgsMapCanvasItem):
                 'length': self.length,
                 'width': self.width,
                 'shape': self.shape,
-                'color': self.color.name(),
-                'fillColor': self.fillColor.name(),
+                'color': self.color.rgba(),
+                'fillColor': self.fillColor.rgba(),
                 'penWidth': self.penWidth,
-                'alpha': self.alpha,
                 'trackLength': self.trackLen,
-                'trackColor' : self.trackColor.name(),
+                'trackColor' : self.trackColor.rgba(),
                 'zValue': self.zValue()}
    
     def newCoords(self, pos):
@@ -145,6 +142,12 @@ class PositionMarker(QgsMapCanvasItem):
     def boundingRect(self):
         s = ( self.size - 1 ) / 2
         return QRectF(QPointF(-s,-s), QPointF(s, s))
+    
+    def getColor(self, value):
+        try:
+            return QColor.fromRgba(int(value))
+        except ValueError:
+            return QColor(value)
     
     def removeFromCanvas(self):
         self.deleteTrack()

@@ -52,6 +52,12 @@ class PosiviewProperties(QgsOptionsDialogBase, FORM_CLASS):
         self.mobileListModel.setStringList(properties['Mobiles'].keys())
         self.providerListModel.setStringList(properties['Provider'].keys())
 
+    def getColor(self, value):
+        try:
+            return QColor.fromRgba(int(value))
+        except ValueError:
+            return QColor(value)
+
     @pyqtSlot(QAbstractButton, name='on_buttonBox_clicked')
     def onButtonBoxClicked(self, button):
         role = self.buttonBox.buttonRole(button)
@@ -117,11 +123,12 @@ class PosiviewProperties(QgsOptionsDialogBase, FORM_CLASS):
             mobile['length'] = self.doubleSpinBoxMobileLength.value()
             mobile['width'] = self.doubleSpinBoxMobileWidth.value()
             mobile['zValue'] = self.spinBoxZValue.value()
-            mobile['color'] = self.mColorButtonMobileColor.color().name()
-            mobile['fillColor'] = self.mColorButtonMobileFillColor.color().name()
+            mobile['color'] = self.mColorButtonMobileColor.color().rgba()
+            mobile['fillColor'] = self.mColorButtonMobileFillColor.color().rgba()
+            print mobile['fillColor'], mobile['color']
             mobile['timeout'] = self.spinBoxMobileTimeout.value() * 1000
             mobile['trackLength'] = self.spinBoxTrackLength.value()
-            mobile['trackColor'] = self.mColorButtonMobileTrackColor.color().name()
+            mobile['trackColor'] = self.mColorButtonMobileTrackColor.color().rgba()
             provs = dict()
             for r in range(self.mobileProviderModel.rowCount()):
                 try:
@@ -153,11 +160,11 @@ class PosiviewProperties(QgsOptionsDialogBase, FORM_CLASS):
         self.doubleSpinBoxMobileLength.setValue(mobile.get('length', 20.0))
         self.doubleSpinBoxMobileWidth.setValue(mobile.get('width', 5.0))
         self.spinBoxZValue.setValue(mobile.get('zValue', 100))
-        self.mColorButtonMobileColor.setColor(QColor(mobile.get('color', 'black')))
-        self.mColorButtonMobileFillColor.setColor(QColor(mobile.get('fillColor', 'green')))
+        self.mColorButtonMobileColor.setColor(self.getColor(mobile.get('color', 'black')))
+        self.mColorButtonMobileFillColor.setColor(self.getColor(mobile.get('fillColor', 'green')))
         self.spinBoxMobileTimeout.setValue(mobile.get('timeout', 3000) / 1000)
         self.spinBoxTrackLength.setValue(mobile.get('trackLength', 100))
-        self.mColorButtonMobileTrackColor.setColor(QColor(mobile.get('trackColor', 'green')))
+        self.mColorButtonMobileTrackColor.setColor(self.getColor(mobile.get('trackColor', 'green')))
                  
         r = 0
         self.mobileProviderModel.removeRows(0, self.mobileProviderModel.rowCount())
