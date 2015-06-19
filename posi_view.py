@@ -242,7 +242,7 @@ class PosiView:
             self.loadGuiSettings()
             self.tracking.show()
         else:
-            self.project.store()
+#             self.project.store()
             self.saveGuiSettings()
             self.tracking.removeMobiles()
             self.tracking.hide()

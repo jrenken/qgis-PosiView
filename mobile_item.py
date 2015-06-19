@@ -57,11 +57,14 @@ class MobileItem(QObject):
         self.timeoutTime = int(params.get('timeout', 3000))
         self.enabled = True
 
+    def __del__(self):
+        print "Bye", self.name
+        
     def removeFromCanvas(self):
         self.marker.removeFromCanvas()
 #         self.marker.deleteTrack()
 #         self.canvas.scene().removeItem(self.marker)
-        self.deleteLater()
+#         self.deleteLater()
     
     def properties(self):
         d = {'Name' : self.name, 

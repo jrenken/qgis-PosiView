@@ -119,6 +119,7 @@ class PosiViewProject(object):
             mobile = dict()
             for k in s.childKeys():
                 mobile[k] = self.convertToBestType(s.value(k))
+                print k, mobile[k]
             properties['Mobiles'][mobile['Name']] = mobile
         s.endArray()
 
@@ -153,6 +154,7 @@ class PosiViewProject(object):
                 print "Store ", k
                 s.setArrayIndex(idx)
                 for k1, v1 in v.items():
+                    print k1, v1
                     s.setValue(k1, str(v1))
                 idx += 1
         except KeyError:

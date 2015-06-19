@@ -21,7 +21,7 @@ class PiseParser(Parser):
         if data.startswith('$PISE'):
             nmea = NmeaRecord(data)
             if nmea.valid:
-                result = {'id': nmea[6], 
+                result = {'id': nmea[1], 
                           'lat': float( nmea[2]), 
                           'lon': float( nmea[3]),
                           'heading': float( nmea[8]),

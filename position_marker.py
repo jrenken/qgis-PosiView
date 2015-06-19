@@ -36,7 +36,7 @@ class PositionMarker(QgsMapCanvasItem):
         self.color = self.getColor(params.get('color', 'black'))
         self.fillColor = self.getColor(params.get('fillColor', 'lime'))
         self.penWidth = int(params.get('penWidth', 1))
-        self.trackLen = int(params.get('tracklen', 100))
+        self.trackLen = int(params.get('trackLength', 100))
         self.trackColor = self.getColor(params.get('trackColor', self.fillColor))
         self.track = deque()
         self.pos = None
@@ -44,6 +44,9 @@ class PositionMarker(QgsMapCanvasItem):
         super(PositionMarker, self).__init__(canvas)
         self.setZValue(int(params.get('zValue', 100)))
         self.updateSize()     
+        
+    def __del__(self):
+        print 'Bye ', self.type
         
     def properties(self):
         return {'type': self.type,

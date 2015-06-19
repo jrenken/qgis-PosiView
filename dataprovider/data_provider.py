@@ -36,6 +36,9 @@ class DataProvider(QObject):
         self.dataDevice = None
         self.lineBuffer = deque()
      
+    def __del__(self):
+        print "Bye", self.name
+        
     def properties(self):
         return self.params
 
@@ -56,7 +59,8 @@ class DataProvider(QObject):
         if self.dataDevice is not None:
             self.dataDevice.disconnectDevice()
             self.dataDevice.readyRead.disconnect()
-            self.dataDevice.deleteLater()
+#             self.dataDevice.deleteLater()
+#             del self.dataDevice
             self.dataDevice = None
     
     @pyqtSlot()
