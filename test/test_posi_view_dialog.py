@@ -16,7 +16,8 @@ import unittest
 
 from PyQt4.QtGui import QDialogButtonBox, QDialog
 
-from posi_view_dialog import PosiViewDialog
+from gui.posiview_properties import PosiviewProperties
+from posiview_project import PosiViewProject
 
 from utilities import get_qgis_app
 QGIS_APP = get_qgis_app()
@@ -27,7 +28,8 @@ class PosiViewDialogTest(unittest.TestCase):
 
     def setUp(self):
         """Runs before each test."""
-        self.dialog = PosiViewDialog(None)
+        proj = PosiViewProject({})
+        self.dialog = PosiviewProperties(proj, None)
 
     def tearDown(self):
         """Runs after each test."""
@@ -36,17 +38,25 @@ class PosiViewDialogTest(unittest.TestCase):
     def test_dialog_ok(self):
         """Test we can click OK."""
 
-        button = self.dialog.button_box.button(QDialogButtonBox.Ok)
+        button = self.dialog.buttonBox.button(QDialogButtonBox.Ok)
         button.click()
         result = self.dialog.result()
         self.assertEqual(result, QDialog.Accepted)
 
     def test_dialog_cancel(self):
         """Test we can click cancel."""
-        button = self.dialog.button_box.button(QDialogButtonBox.Cancel)
+        button = self.dialog.buttonBox.button(QDialogButtonBox.Cancel)
         button.click()
         result = self.dialog.result()
         self.assertEqual(result, QDialog.Rejected)
+        
+    def test_dialog_apply(self):
+        """Test we can click apply."""
+        button = self.dialog.buttonBox.button(QDialogButtonBox.Apply)
+        button.click()
+        result = self.dialog.result()
+        self.assertEqual(result, QDialog.Rejected)
+        
 
 if __name__ == "__main__":
     suite = unittest.makeSuite(PosiViewDialogTest)

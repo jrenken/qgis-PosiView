@@ -11,7 +11,6 @@ from PyQt4.QtGui import QStringListModel, QStandardItem, QColor,\
     QFileDialog, QStandardItemModel, QAbstractButton, QDialogButtonBox
 from qgis.gui import QgsOptionsDialogBase
 
-
 FORM_CLASS, BASE_CLASS = uic.loadUiType(os.path.join(
     os.path.dirname(__file__), '..', 'ui', 'posiview_properties_base.ui'), False)
 
