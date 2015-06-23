@@ -56,10 +56,7 @@ class MobileItem(QObject):
         self.timer.timeout.connect(self.timeout)
         self.timeoutTime = int(params.get('timeout', 3000))
         self.enabled = True
-
-    def __del__(self):
-        print "Bye", self.name
-        
+       
     def removeFromCanvas(self):
         self.marker.removeFromCanvas()
 #         self.marker.deleteTrack()
@@ -122,7 +119,7 @@ class MobileItem(QObject):
     @pyqtSlot()
     def onCrsChange(self):
         crsDst = self.canvas.mapRenderer().destinationCrs()
-        print 'CRS changed', crsDst.ellipsoidAcronym (), crsDst.srsid()
+#         print 'CRS changed', crsDst.ellipsoidAcronym (), crsDst.srsid()
         self.crsXform.setDestCRS(crsDst)
         self.marker.updateSize()
 

@@ -110,7 +110,6 @@ class TrackingDisplay(QToolBar):
         
     @pyqtSlot(bool)
     def onEnableClicked(self, enable):
-        print "enable clicked"
         self.mobile.setEnabled(enable)
         self.upToDate = False
         if enable:

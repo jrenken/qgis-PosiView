@@ -31,7 +31,6 @@ class PosiviewProperties(QgsOptionsDialogBase, FORM_CLASS):
         self.restoreOptionsBaseUi()
         self.project = project
         self.projectProperties = project.properties()
-        print self.projectProperties
         self.mToolButtonLoad.setDefaultAction(self.actionLoadConfiguration)
         self.mToolButtonSave.setDefaultAction(self.actionSaveConfiguration)
 
@@ -95,8 +94,8 @@ class PosiviewProperties(QgsOptionsDialogBase, FORM_CLASS):
             
     @pyqtSlot(QModelIndex, name='on_mMobileListView_activated')
     def activated(self, index):
-        print "activated", index.row()
-        
+        pass
+    
     @pyqtSlot(name='on_toolButtonAddMobile_clicked')
     def addMobile(self):
         self.mobileListModel.insertRow(self.mobileListModel.rowCount())
@@ -124,7 +123,6 @@ class PosiviewProperties(QgsOptionsDialogBase, FORM_CLASS):
             mobile['zValue'] = self.spinBoxZValue.value()
             mobile['color'] = self.mColorButtonMobileColor.color().rgba()
             mobile['fillColor'] = self.mColorButtonMobileFillColor.color().rgba()
-            print mobile['fillColor'], mobile['color']
             mobile['timeout'] = self.spinBoxMobileTimeout.value() * 1000
             mobile['trackLength'] = self.spinBoxTrackLength.value()
             mobile['trackColor'] = self.mColorButtonMobileTrackColor.color().rgba()
@@ -138,12 +136,10 @@ class PosiviewProperties(QgsOptionsDialogBase, FORM_CLASS):
                         fil = None
                 provs[self.mobileProviderModel.item(r, 0).data(Qt.DisplayRole)] = fil
             mobile['provider'] = provs    
-            print "ApplyMobile ", mobile
             currName = self.mobileListModel.data(index, Qt.DisplayRole)
             if not currName == mobile['Name']:
                 del self.projectProperties['Mobiles'][currName]
                 self.mobileListModel.setData(index, mobile['Name'], Qt.DisplayRole)
-                print self.mobileListModel.stringList()
             self.projectProperties['Mobiles'][mobile['Name']] = mobile
     
     def populateMobileWidgets(self, index):
@@ -190,12 +186,10 @@ class PosiviewProperties(QgsOptionsDialogBase, FORM_CLASS):
         if self.lineEditProviderFilter.text() != '':
             fil = self.lineEditProviderFilter.text()
         items = self.mobileProviderModel.findItems(prov, Qt.MatchExactly, 0)
-        print items
         if items:
             for item in items:
                 self.mobileProviderModel.setItem(item.row(), 1, QStandardItem(fil))
         else:
-            print prov, fil
             self.mobileProviderModel.appendRow([QStandardItem(prov), QStandardItem(fil)])
               
     @pyqtSlot(name='on_toolButtonRemoveMobileProvider_clicked')
@@ -218,9 +212,7 @@ class PosiviewProperties(QgsOptionsDialogBase, FORM_CLASS):
             if not currName == provider['Name']:
                 del self.projectProperties['Provider'][currName]
                 self.providerListModel.setData(index, provider['Name'], Qt.DisplayRole)
-                print self.providerListModel.stringList()
             self.projectProperties['Provider'][provider['Name']] = provider
-            print provider
                  
     @pyqtSlot(QModelIndex, name='on_mDataProviderListView_clicked')
     def editDataProvider(self, index):
@@ -230,7 +222,6 @@ class PosiviewProperties(QgsOptionsDialogBase, FORM_CLASS):
             self.populateDataProviderWidgets(index)
             
     def populateDataProviderWidgets(self, index):
-        print "editProvider: ", self.providerListModel.data(index, Qt.DisplayRole)
         provider = self.projectProperties['Provider'][self.providerListModel.data(index, Qt.DisplayRole)]
         self.lineEditProviderName.setText(provider.get('Name'))
         self.comboBoxProviderType.setCurrentIndex(self.comboBoxProviderType.findText(provider.setdefault('DataDeviceType', 'UDP').upper()))

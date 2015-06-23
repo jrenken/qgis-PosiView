@@ -21,7 +21,7 @@
  ***************************************************************************/
 """
 from PyQt4.QtCore import QSettings, QTranslator, qVersion, QCoreApplication, Qt,\
-    pyqtSlot
+    pyqtSlot, QSize
 from PyQt4.QtGui import QAction, QIcon
 # Initialize Qt resources from file resources.py
 import resources_rc
@@ -64,7 +64,7 @@ class PosiView:
 
 
         # Declare instance attributes
-        self.actions = []
+        self.actions = {}
         self.menu = self.tr(u'&PosiView')
         # TODO: We are going to let the user set this up in a future iteration
         self.toolbar = self.iface.addToolBar(u'PosiView')
@@ -95,6 +95,7 @@ class PosiView:
 
     def add_action(
         self,
+        name, 
         icon_path,
         text,
         callback,
@@ -107,6 +108,8 @@ class PosiView:
         whats_this=None,
         parent=None):
         """Add a toolbar icon to the toolbar.
+        :param name: Objectname of the action. Serves also as key for the stored actions.
+        :type name: str
 
         :param icon_path: Path to the icon for this action. Can be a resource
             path (e.g. ':/plugins/foo/bar.png') or a normal file system path.
@@ -155,6 +158,7 @@ class PosiView:
 
         icon = QIcon(icon_path)
         action = QAction(icon, text, parent)
+        action.setObjectName(name)
         action.triggered.connect(callback)
         action.setEnabled(enabled_flag)
         action.setCheckable(checkable_flag)
@@ -174,7 +178,7 @@ class PosiView:
                 self.menu,
                 action)
 
-        self.actions.append(action)
+        self.actions[name] = action
 
         return action
 
@@ -182,7 +186,8 @@ class PosiView:
         """Create the menu entries and toolbar icons inside the QGIS GUI."""
 
         iconPath = ':/plugins/PosiView'
-        self.loadAction = self.add_action(
+        loadAction = self.add_action(
+            u'loadAction',
             os.path.join(iconPath, 'icon.png'),
             text=self.tr(u'Enable PosiView'),
             callback=self.run,
@@ -190,33 +195,31 @@ class PosiView:
             checkable_flag=True,
             parent=self.iface.mainWindow())
         
-        startAction = self.add_action(
-            os.path.join(iconPath, 'icon.png'),            
-            text=self.tr(u'Start Tracking'),
-            callback=self.startTracking,
+        trackingAction = self.add_action(
+            u'trackingAction',
+            os.path.join(iconPath, 'track_start.png'),            
+            text=self.tr(u'Start/stop Tracking'),
+            callback=self.startStopTracking,
             visible_flag=False,
-            status_tip=self.tr(u'Start tracking'),
+            checkable_flag=True,
+            status_tip=self.tr(u'Start/stop tracking'),
             parent=self.iface.mainWindow())
-
-        stopAction = self.add_action(
-            os.path.join(iconPath, 'icon.png'),
-            text=self.tr(u'Stop Tracking'),
-            callback=self.stopTracking,
-            visible_flag=False,
-            status_tip=self.tr(u'Stop tracking'),
-            parent=self.iface.mainWindow())
+        
+        icon = trackingAction.icon()
+        icon.addFile(os.path.join(iconPath, 'track_stop'),  QSize(), QIcon.Normal, QIcon.On)
+        trackingAction.setIcon(icon)
 
         configAction = self.add_action(
-            os.path.join(iconPath, 'icon.png'),
+            u'configAction',
+            os.path.join(iconPath, 'preferences.png'),
             text=self.tr(u'Configurem PosiView'),
             callback=self.configure,
             visible_flag=False,
             status_tip=self.tr(u'Configure PosiView'),
             parent=self.iface.mainWindow())
 
-        self.loadAction.toggled.connect(startAction.setVisible)
-        self.loadAction.toggled.connect(stopAction.setVisible)
-        self.loadAction.toggled.connect(configAction.setVisible)
+        loadAction.toggled.connect(trackingAction.setVisible)
+        loadAction.toggled.connect(configAction.setVisible)
 
     def unload(self):
         """Removes the plugin menu item and icon from QGIS GUI.
@@ -224,7 +227,7 @@ class PosiView:
         """
         self.project.unload()
         self.saveGuiSettings()
-        for action in self.actions:
+        for action in self.actions.values():
             self.iface.removePluginMenu(
                 self.tr(u'&PosiView'),
                 action)
@@ -242,23 +245,26 @@ class PosiView:
             self.loadGuiSettings()
             self.tracking.show()
         else:
-#             self.project.store()
+            self.project.stopTracking()
+            self.actions['trackingAction'].setChecked(False)
             self.saveGuiSettings()
             self.tracking.removeMobiles()
             self.tracking.hide()
             self.guidance.hide()
             self.project.unload()
 
-    def startTracking(self):
-        self.project.startTracking()
-        
-    def stopTracking(self):
-        self.project.stopTracking()
+    def startStopTracking(self, checked=False):
+        if checked:
+            self.project.startTracking()
+        else:
+            self.project.stopTracking()
     
     @pyqtSlot(dict)
     def onApplyConfigChanges(self, properties):
-        print "Config apply"
-        if self.loadAction.isChecked():
+#         print "Config apply"
+        if self.actions['loadAction'].isChecked():            
+            self.actions['trackingAction'].setChecked(False)
+            self.project.stopTracking()
             self.tracking.removeMobiles()
             self.project.unload()
             self.project.load(properties)

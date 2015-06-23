@@ -21,10 +21,7 @@ class DataDevice(QObject):
         '''
         super(DataDevice, self).__init__(parent)
         self.buffered = False
-        
-    def __del__(self):
-        print "Bye device"
-        
+              
     def readData(self):
         pass
     

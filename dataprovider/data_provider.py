@@ -35,10 +35,7 @@ class DataProvider(QObject):
         self.parser = dataparser.createParser(self.params.setdefault('Parser', 'IX_USBL'))
         self.dataDevice = None
         self.lineBuffer = deque()
-     
-    def __del__(self):
-        print "Bye", self.name
-        
+             
     def properties(self):
         return self.params
 
@@ -50,7 +47,6 @@ class DataProvider(QObject):
     
     def connectDevice(self):
         self.dataDevice = datadevice.createDataDevice(self.params)
-        print self.dataDevice, self.params
         if self.dataDevice is not None:
             self.dataDevice.readyRead.connect(self.onDataAvailable)
             self.dataDevice.connectDevice()
@@ -71,6 +67,5 @@ class DataProvider(QObject):
             d = self.parser.parse(self.lineBuffer.popleft())
             if d:
                 d['name'] = self.name
-                print d
                 self.newDataReceived.emit(d)
             

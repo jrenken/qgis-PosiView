@@ -32,14 +32,12 @@ class PosiViewProject(object):
     def startTracking(self):
         if not self.trackingStarted:
             for k, v in self.dataProviders.items():
-                print "Start ", k
                 v.start() 
             self.trackingStarted = True
                           
     def stopTracking(self):
         if self.trackingStarted:
             for k, v in self.dataProviders.items():
-                print "Stop ", k
                 v.stop() 
             self.trackingStarted = False
 
@@ -86,7 +84,6 @@ class PosiViewProject(object):
                 m.subscribePositionProvider(self.dataProviders[k1], m.dataProvider[k1])
 
     def unload(self):
-        print "Unload Project"
         self.stopTracking()
         self.dataProviders.clear()
         for m in self.mobileItems.values():
@@ -119,7 +116,6 @@ class PosiViewProject(object):
             mobile = dict()
             for k in s.childKeys():
                 mobile[k] = self.convertToBestType(s.value(k))
-                print k, mobile[k]
             properties['Mobiles'][mobile['Name']] = mobile
         s.endArray()
 
@@ -133,7 +129,6 @@ class PosiViewProject(object):
             properties['Provider'][provider['Name']] = provider
         s.endArray()
         s.endGroup()
-        print properties
         return properties
         
     def store(self, iniFile=None, properties=None):
@@ -151,10 +146,8 @@ class PosiViewProject(object):
         s.beginWriteArray('Mobiles')
         try:
             for k, v in properties['Mobiles'].items():
-                print "Store ", k
                 s.setArrayIndex(idx)
                 for k1, v1 in v.items():
-                    print k1, v1
                     s.setValue(k1, str(v1))
                 idx += 1
         except KeyError:
@@ -164,7 +157,6 @@ class PosiViewProject(object):
         s.beginWriteArray('DataProvider')
         try:
             for k, v in properties['Provider'].items():
-                print "Store ", k
                 s.setArrayIndex(idx)
                 for k1, v1 in v.items():
                     s.setValue(k1, str(v1))
@@ -173,7 +165,6 @@ class PosiViewProject(object):
             pass
         s.endArray()
         s.endGroup()
-        print "Stored"
 
     def loadTestProject(self):
         provider = DataProvider({'Name': 'Gaps', 'DataDeviceType': 'UDP', 'Port': 2000, 'Parser': 'IX_USBL'})

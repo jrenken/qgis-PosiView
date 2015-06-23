@@ -44,10 +44,7 @@ class PositionMarker(QgsMapCanvasItem):
         super(PositionMarker, self).__init__(canvas)
         self.setZValue(int(params.get('zValue', 100)))
         self.updateSize()     
-        
-    def __del__(self):
-        print 'Bye ', self.type
-        
+                
     def properties(self):
         return {'type': self.type,
                 'size': self.size,

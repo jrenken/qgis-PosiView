@@ -28,15 +28,12 @@ class UdpDevice(DataDevice):
         self.iodevice.readyRead.connect(self.readyRead)
 
     def connectDevice(self):
-        print "Hey, try to connect ", self.host, self.port
         result = False
         if self.host is None:
-            print "Connect"
             result = self.iodevice.bind(self.port)
         else:        
             ha = QHostAddress(self.host)
             result = self.iodevice.bind(ha, self.port)  
-        print "Device connected?: ", result
         if result is False:
             if self.reconnect > 0:
                 QTimer.singleShot(self.reconnect, self.onReconnectTimer)

@@ -66,7 +66,6 @@ class GuidanceDock(QtGui.QDockWidget, FORM_CLASS):
             self.mobiles[mob].newPosition.connect(self.onNewSourcePosition)
         except KeyError:
             self.source = None
-        print mob
     
     @pyqtSlot(str, name='on_comboBoxTarget_currentIndexChanged')
     def targetChanged(self, mob):
@@ -76,7 +75,6 @@ class GuidanceDock(QtGui.QDockWidget, FORM_CLASS):
             self.mobiles[str(mob)].newPosition.connect(self.onNewTargetPosition)
         except KeyError:
             self.target = None
-        print mob
 
     @pyqtSlot(float, QgsPoint, float, float)
     def onNewSourcePosition(self, fix, pos, depth, altitude):
