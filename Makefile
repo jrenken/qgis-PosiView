@@ -49,11 +49,11 @@ PY_FILES = \
 	mobile_item.py \
 	gui/__init__.py \
 	gui/posiview_properties.py \
-	gui/tracking_dok.py \
+	gui/tracking_dock.py \
 	gui/guidance_dock.py \
 	dataprovider/__init__.py \
 	dataprovider/data_provider.py \
-	dataprovider/datadevice/__init.py \
+	dataprovider/datadevice/__init__.py \
 	dataprovider/datadevice/datadevice.py \
 	dataprovider/datadevice/udpdevice.py \
 	dataprovider/dataparser/__init__.py \
@@ -66,11 +66,11 @@ PY_FILES = \
 
 UI_FILES = ui/posiview_properties_base.ui \
 		ui/guidance_dock_base.ui \
-		ui/tracking_doc_base.ui
+		ui/tracking_dock_base.ui
 
 COMPILED_UI_FILES = 
 
-EXTRAS = icon.png metadata.txt
+EXTRAS = resources/icon.png metadata.txt
 
 COMPILED_RESOURCE_FILES = resources_rc.py
 
@@ -129,12 +129,12 @@ deploy: compile doc transcompile
 	# the Python plugin directory is located at:
 	# $HOME/$(QGISDIR)/python/plugins
 	mkdir -p $(HOME)/$(QGISDIR)/python/plugins/$(PLUGINNAME)
-	cp -vf $(PY_FILES) $(HOME)/$(QGISDIR)/python/plugins/$(PLUGINNAME)
-	cp -vf $(UI_FILES) $(HOME)/$(QGISDIR)/python/plugins/$(PLUGINNAME)
+	cp -vf --parents $(PY_FILES) $(HOME)/$(QGISDIR)/python/plugins/$(PLUGINNAME)
+	cp -vf --parents $(UI_FILES) $(HOME)/$(QGISDIR)/python/plugins/$(PLUGINNAME)
 	cp -vf $(COMPILED_RESOURCE_FILES) $(HOME)/$(QGISDIR)/python/plugins/$(PLUGINNAME)
-	cp -vf $(EXTRAS) $(HOME)/$(QGISDIR)/python/plugins/$(PLUGINNAME)
-	cp -vfr i18n $(HOME)/$(QGISDIR)/python/plugins/$(PLUGINNAME)
-	cp -vfr $(HELP) $(HOME)/$(QGISDIR)/python/plugins/$(PLUGINNAME)/help
+	cp -vf --parents $(EXTRAS) $(HOME)/$(QGISDIR)/python/plugins/$(PLUGINNAME)
+	cp -vfr --parents i18n $(HOME)/$(QGISDIR)/python/plugins/$(PLUGINNAME)
+	cp -vfr --parents $(HELP) $(HOME)/$(QGISDIR)/python/plugins/$(PLUGINNAME)
 
 # The dclean target removes compiled python files from plugin directory
 # also deletes any .git entry
@@ -164,6 +164,7 @@ zip: deploy dclean
 	rm -f $(PLUGINNAME).zip
 	cd $(HOME)/$(QGISDIR)/python/plugins; zip -9r $(CURDIR)/$(PLUGINNAME).zip $(PLUGINNAME)
 
+COMMITHASH=$(shell git rev-parse HEAD)
 package: compile
 	# Create a zip package of the plugin named $(PLUGINNAME).zip.
 	# This requires use of git (your plugin development directory must be a
@@ -175,7 +176,7 @@ package: compile
 	@echo "Exporting plugin to zip package.	"
 	@echo "------------------------------------"
 	rm -f $(PLUGINNAME).zip
-	git archive --prefix=$(PLUGINNAME)/ -o $(PLUGINNAME).zip $(VERSION)
+	git archive --prefix=$(PLUGINNAME)/ -o $(PLUGINNAME).zip $(COMMITHASH)
 	echo "Created package: $(PLUGINNAME).zip"
 
 upload: zip
