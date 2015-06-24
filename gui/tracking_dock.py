@@ -32,7 +32,7 @@ class TrackingDock(QDockWidget, FORM_CLASS):
         self.setupUi(self)
         
     def addMobile(self, mobile):
-        display = TrackingDisplay(mobile, self)
+        display = TrackingDisplay(mobile)
         self.verticalLayout.addWidget(display)
         
     def removeMobiles(self):
@@ -40,11 +40,17 @@ class TrackingDock(QDockWidget, FORM_CLASS):
         for w in allTracking:
             self.verticalLayout.removeWidget(w)
             w.deleteLater()
-        
-        
+            
+    def setMobiles(self, mobiles):
+        self.removeMobiles()
+        for mobile in mobiles.values():
+            self.addMobile(mobile)
+            
+
 class TrackingDisplay(QToolBar):
     '''
-        classdocs
+        Display the position of a mobile and add action for centering
+        the map on the vehicle and erasing the track
     '''
     
     def __init__(self, mobile, parent = None):

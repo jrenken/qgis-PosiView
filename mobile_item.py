@@ -51,7 +51,7 @@ class MobileItem(QObject):
         self.crsXform.setSourceCrs(QgsCoordinateReferenceSystem(4326))
         self.onCrsChange()
         self.canvas.scaleChanged.connect(self.onScaleChange)
-        self.canvas.mapRenderer().destinationSrsChanged.connect(self.onCrsChange)
+        self.canvas.destinationCrsChanged.connect(self.onCrsChange)
         self.timer = QTimer(self);
         self.timer.timeout.connect(self.timeout)
         self.timeoutTime = int(params.get('timeout', 3000))
@@ -118,7 +118,7 @@ class MobileItem(QObject):
 
     @pyqtSlot()
     def onCrsChange(self):
-        crsDst = self.canvas.mapRenderer().destinationCrs()
+        crsDst = self.canvas.mapSettings().destinationCrs()
 #         print 'CRS changed', crsDst.ellipsoidAcronym (), crsDst.srsid()
         self.crsXform.setDestCRS(crsDst)
         self.marker.updateSize()

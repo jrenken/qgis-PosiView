@@ -238,9 +238,8 @@ class PosiView:
         """Run method that performs all the real work"""
         if checked:
             p = self.project.read()
-            self.project.load(p)            
-            for item in self.project.mobileItems.values():
-                self.tracking.addMobile(item)
+            self.project.load(p)   
+            self.tracking.setMobiles(self.project.mobileItems)         
             self.guidance.setMobiles(self.project.mobileItems)
             self.loadGuiSettings()
             self.tracking.show()
@@ -269,10 +268,8 @@ class PosiView:
             self.project.unload()
             self.project.load(properties)
             self.project.store()
-            for item in self.project.mobileItems.values():
-                self.tracking.addMobile(item)
+            self.tracking.setMobiles(self.project.mobileItems)         
             self.guidance.setMobiles(self.project.mobileItems)
-
     
     def configure(self):
         propDlg = PosiviewProperties(self.project)
@@ -291,6 +288,5 @@ class PosiView:
     def loadGuiSettings(self):
         settings = QSettings()
         settings.beginGroup('PosiView')
-#         self.tracking.setVisible(settings.value('Gui/TrackingVisible', True) in ['True', 'true'])
         self.guidance.setVisible(settings.value('Gui/GuidanceVisible', False)  in ['True', 'true'])
         settings.endGroup()
