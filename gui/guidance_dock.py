@@ -29,7 +29,7 @@ class GuidanceDock(QtGui.QDockWidget, FORM_CLASS):
         self.distArea = QgsDistanceArea()
         self.distArea.setEllipsoid(u'WGS84')
         self.distArea.setEllipsoidalMode(True)
-        print self.distArea, self.distArea.sourceCrs(), self.distArea.geographic(), self.distArea.ellipsoid()
+#         print self.distArea, self.distArea.sourceCrs(), self.distArea.geographic(), self.distArea.ellipsoid()
         self.fontSize = 11
         self.source = None
         self.target = None
