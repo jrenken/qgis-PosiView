@@ -7,7 +7,7 @@ import os
 
 from PyQt4 import QtGui, uic
 from PyQt4.QtCore import pyqtSlot
-from qgis.core import QgsPoint, QgsDistanceArea
+from qgis.core import QgsPoint, QgsDistanceArea, QgsCoordinateReferenceSystem
 from math import pi
 
 FORM_CLASS, _ = uic.loadUiType(os.path.join(
@@ -24,15 +24,12 @@ class GuidanceDock(QtGui.QDockWidget, FORM_CLASS):
         Constructor
         '''
         super(GuidanceDock, self).__init__(parent)
-        # Set up the user interface from Designer.
-        # After setupUI you can access any designer object by doing
-        # self.<objectname>, and you can use autoconnect slots - see
-        # http://qt-project.org/doc/qt-4.8/designer-using-a-ui-file.html
-        # #widgets-and-dialogs-with-auto-connect
+
         self.setupUi(self)
-#         self.pushButtonFontSize.clicked.connect(self.switchFontSize)
-        self.distance = QgsDistanceArea()
-        self.distance.setSourceCrs(4326)
+        self.distArea = QgsDistanceArea()
+        self.distArea.setEllipsoid(u'WGS84')
+        self.distArea.setEllipsoidalMode(True)
+        print self.distArea, self.distArea.sourceCrs(), self.distArea.geographic(), self.distArea.ellipsoid()
         self.fontSize = 11
         self.source = None
         self.target = None
@@ -104,12 +101,12 @@ class GuidanceDock(QtGui.QDockWidget, FORM_CLASS):
             self.labelSourceLon.setText(lon)
             self.labelSourceDepth.setText(str(depth))
             self.labelVertDistance.setText(str( self.trgPos[1] - depth))
-            dist = self.distance.measureLine(self.trgPos[0], pos)
-            self.labelDistance.setText(str(dist))
-            bearing = self.distance.bearing(pos, self.trgPos[0]) * 180 / pi
+            dist = self.distArea.measureLine(self.trgPos[0], pos)
+            self.labelDistance.setText('{:.1f}'.format(dist))
+            bearing = self.distArea.bearing(pos, self.trgPos[0]) * 180 / pi
             if bearing < 0:
                 bearing += 360
-            self.labelDirection.setText(str(bearing))
+            self.labelDirection.setText('{:.1f}'.format(bearing))
             self.srcPos = [pos, depth]
 
     @pyqtSlot(float, QgsPoint, float, float)
@@ -120,12 +117,12 @@ class GuidanceDock(QtGui.QDockWidget, FORM_CLASS):
             self.labelTargetLon.setText(lon)
             self.labelTargetDepth.setText(str(depth))
             self.labelVertDistance.setText(str( depth - self.srcPos[1]))
-            dist = self.distance.measureLine(pos, self.srcPos[0])
-            self.labelDistance.setText(str(dist))
-            bearing = self.distance.bearing(self.srcPos[0], pos) * 180 / pi
+            dist = self.distArea.measureLine(pos, self.srcPos[0])
+            self.labelDistance.setText('{:.1f}'.format(dist))
+            bearing = self.distArea.bearing(self.srcPos[0], pos) * 180 / pi
             if bearing < 0:
                 bearing += 360
-            self.labelDirection.setText(str(bearing))
+            self.labelDirection.setText('{:.1f}'.format(bearing))
             self.trgPos = [pos, depth]
 
     @pyqtSlot(float, float, float)
