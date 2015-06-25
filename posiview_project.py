@@ -6,6 +6,7 @@ Created on 05.06.2015
 from PyQt4.QtCore import QSettings
 from mobile_item import MobileItem
 from dataprovider.data_provider import DataProvider
+from qgis.gui import QgsMessageBar
 
  
 class PosiViewProject(object):
@@ -81,7 +82,15 @@ class PosiViewProject(object):
             m = MobileItem(self.iface, mob[k])
             self.mobileItems[m.name] = m
             for k1 in m.dataProvider.keys():
-                m.subscribePositionProvider(self.dataProviders[k1], m.dataProvider[k1])
+                try:
+                    m.subscribePositionProvider(self.dataProviders[k1], m.dataProvider[k1])
+                except KeyError:
+                    self.iface.messageBar().pushMessage("Error", 
+                                                        "Can't subscribe dataprovider " + k1 + " for " + m.name, 
+                                                        level=QgsMessageBar.CRITICAL,
+                                                        duration=5)
+
+                        
 
     def unload(self):
         self.stopTracking()

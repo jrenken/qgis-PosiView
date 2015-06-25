@@ -47,8 +47,8 @@ class PosiviewProperties(QgsOptionsDialogBase, FORM_CLASS):
         self.setupModelData(self.projectProperties)
       
     def setupModelData(self, properties):
-        self.mobileListModel.setStringList(properties['Mobiles'].keys())
-        self.providerListModel.setStringList(properties['Provider'].keys())
+        self.mobileListModel.setStringList(sorted(properties['Mobiles'].keys()))
+        self.providerListModel.setStringList(sorted(properties['Provider'].keys()))
 
     def getColor(self, value):
         try:
@@ -197,7 +197,7 @@ class PosiviewProperties(QgsOptionsDialogBase, FORM_CLASS):
         idx = self.mMobileProviderTableView.currentIndex()
         self.mobileProviderModel.removeRow(idx.row())
           
-    @pyqtSlot(name='on_toolButtonApplyDataProvider_clicked')
+    @pyqtSlot(name='on_pushButtonApplyDataProvider_clicked')
     def applyDataProvider(self):
         index = self.mDataProviderListView.currentIndex()
         if index.isValid() and not self.lineEditProviderName.text() == '':

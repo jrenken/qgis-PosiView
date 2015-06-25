@@ -25,15 +25,18 @@ class MiniPosParser(Parser):
         if data.startswith('$PSAAS'):
             nmea = NmeaRecord(data)
             if nmea.valid:
-                result = {'lat': nmea.fromDDM(2, 3),
-                          'lon': nmea.fromDDM(4, 5), 'depth':  float(nmea[6]),
-                          'altitude': float(nmea[7]), 'heading': float(nmea[8]),
-                          'velforw': float(nmea[9]), 'velport': float(nmea[10]),
-                          'velup': float(nmea[11])}
-                t = datetime.date.today()
-                dt = datetime.datetime(t.year, t.month, t.day, 
-                                       int(nmea[1][0:2]), int(nmea[1][2:4]), 
-                                       int(nmea[1][4:6]), int(nmea[1][7:]) * 100)
-                td = dt - datetime.datetime(1970, 1, 1)
-                result['time'] = td.total_seconds()
-                return result
+                try:
+                    result = {'lat': nmea.fromDDM(2, 3),
+                              'lon': nmea.fromDDM(4, 5), 'depth':  float(nmea[6]),
+                              'altitude': float(nmea[7]), 'heading': float(nmea[8]),
+                              'velforw': float(nmea[9]), 'velport': float(nmea[10]),
+                              'velup': float(nmea[11])}
+                    t = datetime.date.today()
+                    dt = datetime.datetime(t.year, t.month, t.day, 
+                                           int(nmea[1][0:2]), int(nmea[1][2:4]), 
+                                           int(nmea[1][4:6]), int(nmea[1][7:]) * 100)
+                    td = dt - datetime.datetime(1970, 1, 1)
+                    result['time'] = td.total_seconds()
+                    return result
+                except ValueError:
+                    return {}

@@ -4,7 +4,8 @@ Created on 05.06.2015
 @author: jrenken
 '''
 from PyQt4.QtCore import QObject, pyqtSlot, QTimer, pyqtSignal
-from qgis.core import QgsPoint, QgsCoordinateTransform, QgsCoordinateReferenceSystem
+from qgis.core import QgsPoint, QgsCoordinateTransform, QgsCoordinateReferenceSystem, \
+        QgsCsException
 from position_marker import PositionMarker
 # from qgis.core import 
 
@@ -100,12 +101,15 @@ class MobileItem(QObject):
             
         if 'lat' in data and 'lon' in data:
             self.position = QgsPoint(data['lon'], data['lat'])
-            self.coordinates = self.crsXform.transform(self.position)
-            self.marker.newCoords(self.coordinates)
-            if 'time' in data:
-                self.lastFix = data['time']
-            self.newPosition.emit(self.lastFix, self.position, data.get('depth', 0.0), data.get('altitude', -9999.9))
-            self.timer.start(self.timeoutTime)
+            try:
+                self.coordinates = self.crsXform.transform(self.position)
+                self.marker.newCoords(self.coordinates)
+                if 'time' in data:
+                    self.lastFix = data['time']
+                    self.newPosition.emit(self.lastFix, self.position, data.get('depth', 0.0), data.get('altitude', -9999.9))
+                    self.timer.start(self.timeoutTime)
+            except QgsCsException:
+                pass
                 
                 
         if 'heading' in data:

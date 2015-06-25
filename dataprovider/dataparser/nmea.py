@@ -57,5 +57,5 @@ class NmeaRecord:
                 if self.fields[hem] == 'S' or self.fields[hem] == 'W':
                     deg *= -1
             return deg
-        except:
+        except ValueError:
             return 0.0

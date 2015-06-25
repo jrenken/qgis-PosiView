@@ -135,7 +135,7 @@ class PositionMarker(QgsMapCanvasItem):
             painter.setRenderHint(QPainter.Antialiasing, True)
             brush = QBrush(self.fillColor)
             painter.setBrush(brush)
-            painter.rotate(self.heading)
+            painter.rotate(self.heading + self.canvas.rotation())
             painter.drawConvexPolygon(self.paintShape)
                 
         

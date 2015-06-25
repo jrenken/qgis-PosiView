@@ -29,21 +29,31 @@ class IxUsblParser(Parser):
     def decodePtsag(self, data):
         nmea = NmeaRecord(data)
         if (nmea.valid):
-            result = {'id': int(nmea[6]), 'lat': nmea.fromDDM(7, 8),
-                      'lon': nmea.fromDDM(9, 10), 'depth':  float(nmea[12])}
-            dt = datetime.datetime(int(nmea[5]), int(nmea[4]), int(nmea[3]), 
+            try: 
+                result = {'id': int(nmea[6]), 'lat': nmea.fromDDM(7, 8),
+                          'lon': nmea.fromDDM(9, 10), 'depth':  float(nmea[12])}
+                dt = datetime.datetime(int(nmea[5]), int(nmea[4]), int(nmea[3]), 
                                    int(nmea[2][0:2]), int(nmea[2][2:4]), 
                                    int(nmea[2][4:6]), int(nmea[2][7:]) * 1000)
-            td = dt - datetime.datetime(1970, 1, 1)
-            result['time'] = td.total_seconds()
-            return result
+                td = dt - datetime.datetime(1970, 1, 1)
+                result['time'] = td.total_seconds()
+                return result
+            except ValueError: 
+                return {}
 
     def decodePtsah(self, data):
         nmea = NmeaRecord(data)
         if nmea.valid:
-            return {'id': 0, 'heading': float(nmea[2])}
+            try:
+                return {'id': 0, 'heading': float(nmea[2])}
+            except ValueError:
+                return {}
         
     def decodeHehdt(self, data):
         nmea = NmeaRecord(data)
         if nmea.valid:
-            return {'id': 0, 'heading': float(nmea[1])}
+            try:
+                return {'id': 0, 'heading': float(nmea[1])}
+            except ValueError:
+                return {}
+            
