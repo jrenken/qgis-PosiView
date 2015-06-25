@@ -29,7 +29,6 @@ class GuidanceDock(QtGui.QDockWidget, FORM_CLASS):
         self.distArea = QgsDistanceArea()
         self.distArea.setEllipsoid(u'WGS84')
         self.distArea.setEllipsoidalMode(True)
-#         print self.distArea, self.distArea.sourceCrs(), self.distArea.geographic(), self.distArea.ellipsoid()
         self.fontSize = 11
         self.source = None
         self.target = None
@@ -49,18 +48,18 @@ class GuidanceDock(QtGui.QDockWidget, FORM_CLASS):
         self.dockWidgetContents.setStyleSheet("font-weight: bold; font-size: {}pt".format(self.fontSize))
 
     def setMobiles(self, mobiles):
+        self.reset()
         self.mobiles = mobiles
         self.comboBoxSource.blockSignals(True)
         self.comboBoxTarget.blockSignals(True)
         self.comboBoxSource.clear()
-        self.comboBoxSource.addItems(mobiles.keys())
+        self.comboBoxSource.addItems(sorted(mobiles.keys()))
         self.comboBoxSource.setCurrentIndex(-1)
         self.comboBoxTarget.clear()
-        self.comboBoxTarget.addItems(mobiles.keys())
+        self.comboBoxTarget.addItems(sorted(mobiles.keys()))
         self.comboBoxTarget.setCurrentIndex(-1)
         self.comboBoxSource.blockSignals(False )
         self.comboBoxTarget.blockSignals(False)
-        self.resetDisplay()
         
     @pyqtSlot(str, name='on_comboBoxSource_currentIndexChanged')
     def sourceChanged(self, mob):
@@ -137,7 +136,24 @@ class GuidanceDock(QtGui.QDockWidget, FORM_CLASS):
             self.srcHeading = heading
             self.labelSourceHeading.setText(str(heading))
         
-    def resetDisplay(self):
+    def reset(self):
+        try:
+            if self.source is not None:
+                self.source.newPosition.disconnect(self.onNewSourcePosition)
+                self.source.newAttitude.disconnect(self.onNewSourceAttitude)
+            if self.target is not None:
+                self.target.newPosition.disconnect(self.onNewTargetPosition)
+                self.target.newAttitude.disconnect(self.onNewTargetAttitude)
+        except TypeError:
+            pass
+
+        self.source = None
+        self.target = None
+        self.srcPos = [QgsPoint(), 0.0]
+        self.trgPos = [QgsPoint(), 0.0]
+        self.srcHeading = 0.0
+        self.trgHeading = 0.0
+
         self.labelSourceLat.setText('---')
         self.labelSourceLon.setText('---')
         self.labelTargetLat.setText('---')

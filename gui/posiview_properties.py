@@ -105,7 +105,7 @@ class PosiviewProperties(QgsOptionsDialogBase, FORM_CLASS):
         self.mMobileListView.setCurrentIndex(index)
         self.applyMobile()
             
-    @pyqtSlot(name='on_toolButtonApplyMobile_clicked')        
+    @pyqtSlot(name='on_pushButtonApplyMobile_clicked')        
     def applyMobile(self):
         index = self.mMobileListView.currentIndex()
         if index.isValid() and not self.lineEditMobileName.text() == '':

@@ -43,8 +43,8 @@ class TrackingDock(QDockWidget, FORM_CLASS):
             
     def setMobiles(self, mobiles):
         self.removeMobiles()
-        for mobile in mobiles.values():
-            self.addMobile(mobile)
+        for key in sorted(mobiles):
+            self.addMobile(mobiles[key])
             
 
 class TrackingDisplay(QToolBar):
