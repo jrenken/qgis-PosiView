@@ -8,9 +8,9 @@
 
 [general]
 name=PosiView
-qgisMinimumVersion=2.0
+qgisMinimumVersion=2.8
 description=PosiView tracks multiple mobile object and vehicles and displays its position on the canvas
-version=0.1
+version=0.1.1
 author=Jens Renken/Marum/University of Bremen
 email=renken@marum.de
 
@@ -24,9 +24,9 @@ email=renken@marum.de
 # Tags are comma separated with spaces allowed
 tags=Tracking
 
-homepage=
-tracker=github.com
-repository=
+homepage=http://www.marum.de/Meerestechnik.html
+tracker=https://github.com/jrenken/qgis-PosiView/issues
+repository=https://github.com/jrenken/qgis-PosiView
 category=Plugins
 icon=icon.png
 # experimental flag

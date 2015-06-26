@@ -50,19 +50,16 @@ class PosiView:
         self.plugin_dir = os.path.dirname(__file__)
         # initialize locale
         locale = QSettings().value('locale/userLocale')[0:2]
-        print 'PosiView_{}.qm'.format(locale), qVersion()
         locale_path = os.path.join(
             self.plugin_dir,
             'i18n',
             'PosiView_{}.qm'.format(locale))
-        print locale_path
 
         if os.path.exists(locale_path):
             self.translator = QTranslator()
             self.translator.load(locale_path)
 
             if qVersion() > '4.3.3':
-                print "ok"
                 QCoreApplication.installTranslator(self.translator)
 
 
@@ -228,6 +225,8 @@ class PosiView:
         """Removes the plugin menu item and icon from QGIS GUI.
            Unloads and removes also the project.
         """
+        self.project.stopTracking()
+        self.tracking.removeMobiles()
         self.project.unload()
         self.saveGuiSettings()
         for action in self.actions.values():

@@ -20,7 +20,7 @@
         <location filename="guidance_dock_base.ui" line="41"/>
         <source>Switch font
 size</source>
-        <translation>Font Größe umschalten</translation>
+        <translation>Schriftgröße</translation>
     </message>
     <message>
         <location filename="guidance_dock_base.ui" line="49"/>
