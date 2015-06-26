@@ -17,7 +17,7 @@
    </size>
   </property>
   <property name="windowTitle">
-   <string>Options Dialog Template</string>
+   <string>PosiView Properties</string>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout_9">
    <item>
@@ -140,7 +140,7 @@
           </sizepolicy>
          </property>
          <property name="currentIndex">
-          <number>1</number>
+          <number>0</number>
          </property>
          <widget class="QWidget" name="mOptsPage_01">
           <layout class="QVBoxLayout" name="verticalLayout_14">
@@ -160,8 +160,8 @@
                <rect>
                 <x>0</x>
                 <y>0</y>
-                <width>443</width>
-                <height>343</height>
+                <width>589</width>
+                <height>777</height>
                </rect>
               </property>
               <layout class="QVBoxLayout" name="verticalLayout_13">
@@ -225,7 +225,7 @@
                <item>
                 <widget class="QgsCollapsibleGroupBox" name="groupBox_4">
                  <property name="title">
-                  <string>Project Template</string>
+                  <string>Project Configuration</string>
                  </property>
                  <layout class="QHBoxLayout" name="horizontalLayout_4">
                   <item>

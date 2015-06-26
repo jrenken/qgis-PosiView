@@ -50,16 +50,19 @@ class PosiView:
         self.plugin_dir = os.path.dirname(__file__)
         # initialize locale
         locale = QSettings().value('locale/userLocale')[0:2]
+        print 'PosiView_{}.qm'.format(locale), qVersion()
         locale_path = os.path.join(
             self.plugin_dir,
             'i18n',
             'PosiView_{}.qm'.format(locale))
+        print locale_path
 
         if os.path.exists(locale_path):
             self.translator = QTranslator()
             self.translator.load(locale_path)
 
             if qVersion() > '4.3.3':
+                print "ok"
                 QCoreApplication.installTranslator(self.translator)
 
 
@@ -189,7 +192,7 @@ class PosiView:
         loadAction = self.add_action(
             u'loadAction',
             os.path.join(iconPath, 'icon.png'),
-            text=self.tr(u'Enable PosiView'),
+            text=self.tr(u'&Enable PosiView'),
             callback=self.run,
             status_tip=self.tr(u'Enable PosiView'),
             checkable_flag=True,
@@ -198,7 +201,7 @@ class PosiView:
         trackingAction = self.add_action(
             u'trackingAction',
             os.path.join(iconPath, 'track_start.png'),            
-            text=self.tr(u'Start/stop Tracking'),
+            text=self.tr(u'&Start/stop tracking'),
             callback=self.startStopTracking,
             visible_flag=False,
             checkable_flag=True,
@@ -212,7 +215,7 @@ class PosiView:
         configAction = self.add_action(
             u'configAction',
             os.path.join(iconPath, 'preferences.png'),
-            text=self.tr(u'Configurem PosiView'),
+            text=self.tr(u'&Configure PosiView'),
             callback=self.configure,
             visible_flag=False,
             status_tip=self.tr(u'Configure PosiView'),

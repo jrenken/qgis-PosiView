@@ -22,6 +22,9 @@
  This script initializes the plugin, making it known to QGIS.
 """
 
+__author__ = 'Jens Renken'
+__date__ = 'June 2015'
+__copyright__ = '(C) 2012, Marum, Jens Renke'
 
 # noinspection PyPep8Naming
 def classFactory(iface):  # pylint: disable=invalid-name
@@ -31,5 +34,5 @@ def classFactory(iface):  # pylint: disable=invalid-name
     :type iface: QgsInterface
     """
     #
-    from .posi_view import PosiView
+    from PosiView.posi_view import PosiView
     return PosiView(iface)

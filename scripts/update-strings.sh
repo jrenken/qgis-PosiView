@@ -40,7 +40,7 @@ done
 if [ ${UPDATE} == true ]
 # retrieve all python files
 then
-  print ${PYTHON_FILES}
+  echo ${PYTHON_FILES} | sed 's/\ /\n/g'
   # update .ts
   echo "Please provide translations by editing the translation files below:"
   for LOCALE in ${LOCALES}
