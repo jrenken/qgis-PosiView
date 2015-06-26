@@ -16,7 +16,7 @@ from time import gmtime, strftime
 
 
 FORM_CLASS, _ = uic.loadUiType(os.path.join(
-    os.path.dirname(__file__), '..', 'ui', 'tracking_dock_base.ui'))
+    os.path.split(os.path.dirname(__file__))[0], 'ui', 'tracking_dock_base.ui'))
 
 
 class TrackingDock(QDockWidget, FORM_CLASS):

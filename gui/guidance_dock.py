@@ -11,7 +11,7 @@ from qgis.core import QgsPoint, QgsDistanceArea, QgsCoordinateReferenceSystem
 from math import pi
 
 FORM_CLASS, _ = uic.loadUiType(os.path.join(
-    os.path.dirname(__file__), '..', 'ui', 'guidance_dock_base.ui'))
+    os.path.split(os.path.dirname(__file__))[0], 'ui', 'guidance_dock_base.ui'))
 
 
 class GuidanceDock(QtGui.QDockWidget, FORM_CLASS):
