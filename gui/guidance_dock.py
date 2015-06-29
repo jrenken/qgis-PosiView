@@ -9,6 +9,7 @@ from PyQt4 import QtGui, uic
 from PyQt4.QtCore import pyqtSlot
 from qgis.core import QgsPoint, QgsDistanceArea, QgsCoordinateReferenceSystem
 from math import pi
+from .compass import CompassWidget
 
 FORM_CLASS, _ = uic.loadUiType(os.path.join(
     os.path.split(os.path.dirname(__file__))[0], 'ui', 'guidance_dock_base.ui'))
@@ -26,6 +27,9 @@ class GuidanceDock(QtGui.QDockWidget, FORM_CLASS):
         super(GuidanceDock, self).__init__(parent)
 
         self.setupUi(self)
+        self.compass = CompassWidget() 
+        self.verticalLayout.addWidget(self.compass)
+        self.verticalLayout.setStretch(4, 5)
         self.distArea = QgsDistanceArea()
         self.distArea.setEllipsoid(u'WGS84')
         self.distArea.setEllipsoidalMode(True)
@@ -129,12 +133,14 @@ class GuidanceDock(QtGui.QDockWidget, FORM_CLASS):
         if self.trgHeading != heading:
             self.trgHeading = heading
             self.labelTargetHeading.setText(str(heading))
+            self.compass.setAngle2(heading)
 
     @pyqtSlot(float, float, float)
     def onNewSourceAttitude(self, heading, pitch, roll):
         if self.srcHeading != heading:
             self.srcHeading = heading
             self.labelSourceHeading.setText(str(heading))
+            self.compass.setAngle(heading)
         
     def reset(self):
         try:
