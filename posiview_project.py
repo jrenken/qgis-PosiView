@@ -3,6 +3,7 @@ Created on 05.06.2015
 
 @author: jrenken
 '''
+from os import environ
 from PyQt4.QtCore import QSettings
 from mobile_item import MobileItem
 from dataprovider.data_provider import DataProvider
@@ -28,6 +29,8 @@ class PosiViewProject(object):
         self.iface = iface
         self.dataProviders = dict()
         self.mobileItems = dict()
+        self.missionInfo = { 'cruise': 'CruiseXX', 'dive': 'DiveX', 'station' : '#xxx'}
+        self.loggingPath = environ['HOME']
         self.trackingStarted = False
 
     def startTracking(self):
@@ -51,6 +54,8 @@ class PosiViewProject(object):
                 
     def properties(self):
         props = dict()
+        props['Mission'] = self.missionInfo
+        props['LoggingPath'] = self.loggingPath
         m = dict()
         for k in self.mobileItems.keys():
             p = self.mobileItems[k].properties();
@@ -89,8 +94,8 @@ class PosiViewProject(object):
                                                         "Can't subscribe dataprovider " + k1 + " for " + m.name, 
                                                         level=QgsMessageBar.CRITICAL,
                                                         duration=5)
-
-                        
+        self.missionInfo = properties.get('Mission', { 'cruise': 'CruiseXX', 'dive': 'DiveX', 'station' : '#xxx'})
+        self.loggingPath = properties.get('LoggingPath', environ['HOME'])
 
     def unload(self):
         self.stopTracking()
@@ -137,6 +142,11 @@ class PosiViewProject(object):
                 provider[k] = self.convertToBestType(s.value(k))
             properties['Provider'][provider['Name']] = provider
         s.endArray()
+        properties['Mission'] = dict()
+        properties['Mission']['cruise'] = s.value('Mission/Cruise', 'CruiseXX')
+        properties['Mission']['dive'] = s.value('Mission/Dive', 'DiveX')
+        properties['Mission']['station'] = s.value('Mission/Station', '#xxx')
+        properties['LoggingPath'] = s.value('Logging/Path', environ['HOME'])
         s.endGroup()
         return properties
         
@@ -173,6 +183,10 @@ class PosiViewProject(object):
         except KeyError:
             pass
         s.endArray()
+        s.setValue('Mission/Cruise', properties['Mission']['cruise'])
+        s.setValue('Mission/Dive', properties['Mission']['dive'])
+        s.setValue('Mission/Station', properties['Mission']['station'])
+        s.setValue('Logging/Path', properties['LoggingPath'])
         s.endGroup()
 
     def loadTestProject(self):

@@ -45,11 +45,24 @@ class PosiviewProperties(QgsOptionsDialogBase, FORM_CLASS):
         self.mDataProviderListView.setModel(self.providerListModel)
         self.comboBoxProviders.setModel(self.providerListModel)
         self.setupModelData(self.projectProperties)
+        self.setupGeneralData(self.projectProperties)
       
     def setupModelData(self, properties):
         self.mobileListModel.setStringList(sorted(properties['Mobiles'].keys()))
         self.providerListModel.setStringList(sorted(properties['Provider'].keys()))
 
+    def setupGeneralData(self, properties):
+        self.lineEditCruise.setText(properties['Mission']['cruise'])
+        self.lineEditDive.setText(properties['Mission']['dive'])
+        self.lineEditStation.setText(properties['Mission']['station'])
+        self.lineEditLoggingPath.setText(properties['LoggingPath'])
+        
+    def updateGeneralData(self):
+        self.projectProperties['Mission']['cruise'] = self.lineEditCruise.text()
+        self.projectProperties['Mission']['dive'] = self.lineEditDive.text()
+        self.projectProperties['Mission']['station'] = self.lineEditStation.text()
+        self.projectProperties['LoggingPath'] = self.lineEditLoggingPath.text()
+    
     def getColor(self, value):
         try:
             return QColor.fromRgba(int(value))
@@ -60,6 +73,7 @@ class PosiviewProperties(QgsOptionsDialogBase, FORM_CLASS):
     def onButtonBoxClicked(self, button):
         role = self.buttonBox.buttonRole(button)
         if role == QDialogButtonBox.ApplyRole or role == QDialogButtonBox.AcceptRole:
+            self.updateGeneralData()
             self.applyChanges.emit(self.projectProperties)
 
     @pyqtSlot(name='on_actionSaveConfiguration_triggered')
@@ -76,6 +90,7 @@ class PosiviewProperties(QgsOptionsDialogBase, FORM_CLASS):
         fn = QFileDialog.getOpenFileName(None, 'Save PosiView configuration', '', 'Configuration (*.ini *.conf)')
         self.projectProperties = self.project.read(fn)
         self.setupModelData(self.projectProperties)
+        self.setupGeneralData(self.projectProperties)
       
     @pyqtSlot(QModelIndex, name='on_mMobileListView_clicked')
     def editMobile(self, index):
@@ -248,3 +263,10 @@ class PosiviewProperties(QgsOptionsDialogBase, FORM_CLASS):
             self.projectProperties['Provider'].pop(self.providerListModel.data(idx, Qt.DisplayRole))
             self.providerListModel.removeRows(idx.row(), 1)
             self.populateDataProviderWidgets(self.mDataProviderListView.currentIndex())
+
+    @pyqtSlot(name='on_toolButtonSelectLogPath_clicked')
+    def selectLoggingPath(self):
+        path = QFileDialog.getExistingDirectory(self, self.tr('Select Logging Path'), self.lineEditLoggingPath.text(),
+                                                QFileDialog.ShowDirsOnly | QFileDialog.DontResolveSymlinks)
+        if path != '':
+            self.lineEditLoggingPath.setText(path)

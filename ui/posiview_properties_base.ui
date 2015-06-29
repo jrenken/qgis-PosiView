@@ -185,7 +185,7 @@
                    </widget>
                   </item>
                   <item row="0" column="1">
-                   <widget class="QLineEdit" name="lineEdit">
+                   <widget class="QLineEdit" name="lineEditCruise">
                     <property name="text">
                      <string>ShipXXX</string>
                     </property>
@@ -206,14 +206,14 @@
                    </widget>
                   </item>
                   <item row="1" column="1">
-                   <widget class="QLineEdit" name="lineEdit_2">
+                   <widget class="QLineEdit" name="lineEditDive">
                     <property name="text">
                      <string>DiveX</string>
                     </property>
                    </widget>
                   </item>
                   <item row="2" column="1">
-                   <widget class="QLineEdit" name="lineEdit_3">
+                   <widget class="QLineEdit" name="lineEditStation">
                     <property name="text">
                      <string>123456</string>
                     </property>
@@ -230,6 +230,9 @@
                  <layout class="QHBoxLayout" name="horizontalLayout_4">
                   <item>
                    <widget class="QToolButton" name="mToolButtonLoad">
+                    <property name="whatsThis">
+                     <string>Load a PosiView project configuration </string>
+                    </property>
                     <property name="text">
                      <string>...</string>
                     </property>
@@ -237,6 +240,9 @@
                   </item>
                   <item>
                    <widget class="QToolButton" name="mToolButtonSave">
+                    <property name="whatsThis">
+                     <string>Save PosiView porject to file</string>
+                    </property>
                     <property name="text">
                      <string>...</string>
                     </property>
@@ -263,6 +269,31 @@
                  <property name="title">
                   <string>Logging</string>
                  </property>
+                 <layout class="QGridLayout" name="gridLayout_6">
+                  <item row="1" column="0">
+                   <widget class="QLabel" name="label_20">
+                    <property name="text">
+                     <string>Logging path:</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="1" column="2">
+                   <widget class="QToolButton" name="toolButtonSelectLogPath">
+                    <property name="statusTip">
+                     <string>Select Logging Path</string>
+                    </property>
+                    <property name="whatsThis">
+                     <string>Select Logging Path</string>
+                    </property>
+                    <property name="text">
+                     <string>...</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="1" column="1">
+                   <widget class="QLineEdit" name="lineEditLoggingPath"/>
+                  </item>
+                 </layout>
                 </widget>
                </item>
                <item>
@@ -612,8 +643,8 @@
                <rect>
                 <x>0</x>
                 <y>0</y>
-                <width>470</width>
-                <height>619</height>
+                <width>589</width>
+                <height>777</height>
                </rect>
               </property>
               <layout class="QVBoxLayout" name="verticalLayout_4">
