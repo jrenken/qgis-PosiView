@@ -183,3 +183,11 @@ class GuidanceDock(QtGui.QDockWidget, FORM_CLASS):
         self.labelTargetHeading.setText('---')
         self.labelTargetDepth.setText('---')
         self.compass.reset(2)
+
+    def resizeEvent(self, event):
+        fsize = event.size().width() / 40;
+        if fsize != self.fontSize:
+            self.fontSize = fsize
+            self.dockWidgetContents.setStyleSheet("font-weight: bold; font-size: {}pt".format(self.fontSize))
+            
+        return QtGui.QDockWidget.resizeEvent(self, event)

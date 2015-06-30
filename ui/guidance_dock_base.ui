@@ -35,6 +35,9 @@
         <layout class="QVBoxLayout" name="verticalLayout_4">
          <item>
           <widget class="QPushButton" name="pushButtonFontSize">
+           <property name="enabled">
+            <bool>false</bool>
+           </property>
            <property name="minimumSize">
             <size>
              <width>0</width>
@@ -42,8 +45,10 @@
             </size>
            </property>
            <property name="text">
-            <string>Switch font
-size</string>
+            <string/>
+           </property>
+           <property name="flat">
+            <bool>true</bool>
            </property>
           </widget>
          </item>
