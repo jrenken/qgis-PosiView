@@ -30,15 +30,14 @@ Not available for the moment.
 * Enable plugin
 * Open configuration dialog
 * Create one or more dataprovider and select a suitable parser
-* Create one or more mobile/vehicles and assign the corresponding dataprovider
+* Create one or more mobiles/vehicles and assign the corresponding dataprovider
 * Start tracking
 * In the guidance dock select the vehicles to see distance and heading
 
 ## Future extensions
 
 * Datalogging
-* Dashboard with compass
-* Logging events/targets on a seperate layer
+* Logging events/targets on a seperate (gpx-)layer
 
 
 ## License

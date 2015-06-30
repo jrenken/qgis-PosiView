@@ -51,6 +51,7 @@ PY_FILES = \
 	gui/posiview_properties.py \
 	gui/tracking_dock.py \
 	gui/guidance_dock.py \
+	gui/compass.py \
 	dataprovider/__init__.py \
 	dataprovider/data_provider.py \
 	dataprovider/datadevice/__init__.py \

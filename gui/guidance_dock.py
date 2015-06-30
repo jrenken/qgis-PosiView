@@ -7,7 +7,7 @@ import os
 
 from PyQt4 import QtGui, uic
 from PyQt4.QtCore import pyqtSlot
-from qgis.core import QgsPoint, QgsDistanceArea, QgsCoordinateReferenceSystem
+from qgis.core import QgsPoint, QgsDistanceArea
 from math import pi
 from .compass import CompassWidget
 
