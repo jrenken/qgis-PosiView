@@ -275,10 +275,10 @@ class PosiviewProperties(QgsOptionsDialogBase, FORM_CLASS):
     @pyqtSlot(QPoint, name='on_lineEditMobileShape_customContextMenuRequested')
     def mobileShapeContextMenu(self, pos):
         menu = QMenu(self.lineEditMobileShape)
-        vesselAction = menu.addAction('Vessel')
-        rovAction = menu.addAction('ROV')
-        auvAction = menu.addAction('AUV')
-        arrowAction = menu.addAction('Arrow')
+        vesselAction = menu.addAction(self.tr('Vessel'))
+        rovAction = menu.addAction(self.tr('ROV'))
+        auvAction = menu.addAction(self.tr('AUV'))
+        arrowAction = menu.addAction(self.tr('Arrow'))
         selectedAction = menu.exec_(self.lineEditMobileShape.mapToGlobal(pos))
         if selectedAction == vesselAction:
             self.lineEditMobileShape.setText(u'((0, -0.5), (0.5, -0.3), (0.5, 0.5), (-0.5, 0.5), (-0.5, -0.3))')

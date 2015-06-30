@@ -144,7 +144,7 @@
           </sizepolicy>
          </property>
          <property name="currentIndex">
-          <number>2</number>
+          <number>0</number>
          </property>
          <widget class="QWidget" name="mOptsPage_01">
           <layout class="QVBoxLayout" name="verticalLayout_14">
@@ -245,7 +245,7 @@
                   <item>
                    <widget class="QToolButton" name="mToolButtonSave">
                     <property name="whatsThis">
-                     <string>Save PosiView porject to file</string>
+                     <string>Save PosiView project to file</string>
                     </property>
                     <property name="text">
                      <string>...</string>

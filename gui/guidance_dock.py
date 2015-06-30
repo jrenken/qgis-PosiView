@@ -41,16 +41,6 @@ class GuidanceDock(QtGui.QDockWidget, FORM_CLASS):
         self.srcHeading = 0.0
         self.trgHeading = 0.0
         
-    @pyqtSlot(name='on_pushButtonFontSize_clicked')
-    def switchFontSize(self):
-        if self.fontSize == 11:
-            self.fontSize = 16
-        elif self.fontSize == 16:
-            self.fontSize = 24
-        else:
-            self.fontSize = 11
-        self.dockWidgetContents.setStyleSheet("font-weight: bold; font-size: {}pt".format(self.fontSize))
-
     def setMobiles(self, mobiles):
         self.reset()
         self.mobiles = mobiles
