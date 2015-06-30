@@ -18,8 +18,8 @@ class CompassWidget(QWidget):
     
     def __init__(self, parent = None):
         QWidget.__init__(self, parent)
-        self._angle = 0.0
-        self._angle2 = 0.0
+        self._angle = -9999.9
+        self._angle2 = -9999.9
         self._margins = 10
         self._pointText = {0: "N", 45: "45", 90: "90", 135: "135", 180: "S",
                            225: "225", 270: "270", 315: "315"}
@@ -62,6 +62,8 @@ class CompassWidget(QWidget):
         painter.restore()
     
     def drawNeedle(self, painter):
+        if self._angle < -9999:
+            return
         painter.save()
         painter.translate(self.width()/2, self.height()/2)
         painter.rotate(self._angle)
@@ -87,6 +89,8 @@ class CompassWidget(QWidget):
         painter.restore()
 
     def drawNeedle2(self, painter):
+        if self._angle2 < -9999:
+            return
         painter.save()
         painter.translate(self.width()/2, self.height()/2)
         painter.rotate(self._angle2)
@@ -105,8 +109,8 @@ class CompassWidget(QWidget):
         painter.setBrush(self.palette().brush(QPalette.Foreground))
         
         painter.drawPolygon(
-            QPolygon([QPoint(-3, -15), QPoint(0, -25), QPoint(3, -15),
-                      QPoint(0, -18), QPoint(-3, -15)])
+            QPolygon([QPoint(-5, -10), QPoint(0, -25), QPoint(5, -10),
+                      QPoint(0, -13), QPoint(-5, -10)])
             )
         
         painter.restore()
@@ -136,6 +140,17 @@ class CompassWidget(QWidget):
             self.update()
     angle2 = pyqtProperty(float, angle2, setAngle2)
 
+    def reset(self, no=None):
+        if no == 1:
+            self._angle = -9999.9
+        elif no == 2:
+            self._angle2 = -9999.9
+        else:
+            self._angle = -9999.9
+            self._angle2 = -9999.9
+        self.update()
+            
+        
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)

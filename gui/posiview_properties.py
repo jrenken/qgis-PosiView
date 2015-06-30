@@ -8,8 +8,9 @@ import os
 from PyQt4 import uic
 from PyQt4.QtCore import Qt, pyqtSlot, QModelIndex, pyqtSignal
 from PyQt4.QtGui import QStringListModel, QStandardItem, QColor,\
-    QFileDialog, QStandardItemModel, QAbstractButton, QDialogButtonBox
+    QFileDialog, QStandardItemModel, QAbstractButton, QDialogButtonBox, QMenu
 from qgis.gui import QgsOptionsDialogBase
+from PyQt4.Qt import QPoint
 
 FORM_CLASS, BASE_CLASS = uic.loadUiType(os.path.join(
     os.path.split(os.path.dirname(__file__))[0], 'ui', 'posiview_properties_base.ui'), False)
@@ -270,3 +271,21 @@ class PosiviewProperties(QgsOptionsDialogBase, FORM_CLASS):
                                                 QFileDialog.ShowDirsOnly | QFileDialog.DontResolveSymlinks)
         if path != '':
             self.lineEditLoggingPath.setText(path)
+
+    @pyqtSlot(QPoint, name='on_lineEditMobileShape_customContextMenuRequested')
+    def mobileShapeContextMenu(self, pos):
+        menu = QMenu(self.lineEditMobileShape)
+        vesselAction = menu.addAction('Vessel')
+        rovAction = menu.addAction('ROV')
+        auvAction = menu.addAction('AUV')
+        arrowAction = menu.addAction('Arrow')
+        selectedAction = menu.exec_(self.lineEditMobileShape.mapToGlobal(pos))
+        if selectedAction == vesselAction:
+            self.lineEditMobileShape.setText(u'((0, -0.5), (0.5, -0.3), (0.5, 0.5), (-0.5, 0.5), (-0.5, -0.3))')
+        elif selectedAction == rovAction:
+            self.lineEditMobileShape.setText(u'((0.3, -0.5), (0.5, -0.3), (0.5, 0.5), (-0.5, 0.5), (-0.5, -0.3), (-0.3, -0.5))')
+        elif selectedAction == auvAction:
+            self.lineEditMobileShape.setText(u'((0, -0.5), (0.5, -0.3), (0.5, 0.5), (-0.5, 0.5), (-0.5, -0.3))')
+        elif selectedAction == arrowAction:
+            self.lineEditMobileShape.setText(u'((0, -0.5), (0.5, 0.5), (0, 0), (-0.5, 0.5))')
+            

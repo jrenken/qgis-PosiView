@@ -59,9 +59,9 @@ class MobileItem(QObject):
         self.enabled = True
        
     def removeFromCanvas(self):
-        self.marker.removeFromCanvas()
-#         self.marker.deleteTrack()
-#         self.canvas.scene().removeItem(self.marker)
+#         self.marker.removeFromCanvas()
+        self.marker.deleteTrack()
+        self.canvas.scene().removeItem(self.marker)
 #         self.deleteLater()
     
     def properties(self):

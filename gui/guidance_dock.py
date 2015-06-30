@@ -29,7 +29,7 @@ class GuidanceDock(QtGui.QDockWidget, FORM_CLASS):
         self.setupUi(self)
         self.compass = CompassWidget() 
         self.verticalLayout.addWidget(self.compass)
-        self.verticalLayout.setStretch(4, 5)
+        self.verticalLayout.setStretch(4, 8)
         self.distArea = QgsDistanceArea()
         self.distArea.setEllipsoid(u'WGS84')
         self.distArea.setEllipsoidalMode(True)
@@ -80,6 +80,7 @@ class GuidanceDock(QtGui.QDockWidget, FORM_CLASS):
             self.source.newAttitude.connect(self.onNewSourceAttitude)
         except KeyError:
             self.source = None
+        self.resetSource()
     
     @pyqtSlot(str, name='on_comboBoxTarget_currentIndexChanged')
     def targetChanged(self, mob):
@@ -95,6 +96,7 @@ class GuidanceDock(QtGui.QDockWidget, FORM_CLASS):
             self.target.newAttitude.connect(self.onNewTargetAttitude)
         except KeyError:
             self.target = None
+        self.resetTarget()
 
     @pyqtSlot(float, QgsPoint, float, float)
     def onNewSourcePosition(self, fix, pos, depth, altitude):
@@ -155,19 +157,29 @@ class GuidanceDock(QtGui.QDockWidget, FORM_CLASS):
 
         self.source = None
         self.target = None
-        self.srcPos = [QgsPoint(), 0.0]
-        self.trgPos = [QgsPoint(), 0.0]
-        self.srcHeading = 0.0
-        self.trgHeading = 0.0
-
-        self.labelSourceLat.setText('---')
-        self.labelSourceLon.setText('---')
-        self.labelTargetLat.setText('---')
-        self.labelTargetLon.setText('---')
-        self.labelSourceHeading.setText('---')
-        self.labelTargetHeading.setText('---')
-        self.labelSourceDepth.setText('---')
-        self.labelTargetDepth.setText('---')
+        self.resetSource()
+        self.resetTarget()
         self.labelDirection.setText('---')
         self.labelDistance.setText('---')
         self.labelVertDistance.setText('---')
+        
+        
+    def resetSource(self):
+        self.srcPos = [QgsPoint(), 0.0]
+        self.srcHeading = 0.0
+
+        self.labelSourceLat.setText('---')
+        self.labelSourceLon.setText('---')
+        self.labelSourceHeading.setText('---')
+        self.labelSourceDepth.setText('---')
+        self.compass.reset(1)
+
+    def resetTarget(self):
+        self.trgPos = [QgsPoint(), 0.0]
+        self.trgHeading = 0.0
+
+        self.labelTargetLat.setText('---')
+        self.labelTargetLon.setText('---')
+        self.labelTargetHeading.setText('---')
+        self.labelTargetDepth.setText('---')
+        self.compass.reset(2)

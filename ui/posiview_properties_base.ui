@@ -19,6 +19,10 @@
   <property name="windowTitle">
    <string>PosiView Properties</string>
   </property>
+  <property name="windowIcon">
+   <iconset>
+    <normaloff>:/plugins/PosiView/icon.png</normaloff>:/plugins/PosiView/icon.png</iconset>
+  </property>
   <layout class="QVBoxLayout" name="verticalLayout_9">
    <item>
     <widget class="QSplitter" name="mOptionsSplitter">
@@ -140,7 +144,7 @@
           </sizepolicy>
          </property>
          <property name="currentIndex">
-          <number>0</number>
+          <number>2</number>
          </property>
          <widget class="QWidget" name="mOptsPage_01">
           <layout class="QVBoxLayout" name="verticalLayout_14">
@@ -764,7 +768,11 @@
                    <widget class="QComboBox" name="comboBoxProviders"/>
                   </item>
                   <item row="3" column="1">
-                   <widget class="QDoubleSpinBox" name="doubleSpinBoxMobileLength"/>
+                   <widget class="QDoubleSpinBox" name="doubleSpinBoxMobileLength">
+                    <property name="maximum">
+                     <double>999.990000000000009</double>
+                    </property>
+                   </widget>
                   </item>
                   <item row="10" column="0">
                    <widget class="QLabel" name="label_12">
@@ -1001,6 +1009,9 @@
                    <widget class="QLineEdit" name="lineEditMobileShape">
                     <property name="enabled">
                      <bool>false</bool>
+                    </property>
+                    <property name="contextMenuPolicy">
+                     <enum>Qt::CustomContextMenu</enum>
                     </property>
                     <property name="toolTip">
                      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Shape of the mobile as a collection of points.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>

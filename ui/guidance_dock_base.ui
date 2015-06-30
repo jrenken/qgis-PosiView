@@ -7,8 +7,12 @@
     <x>0</x>
     <y>0</y>
     <width>418</width>
-    <height>366</height>
+    <height>375</height>
    </rect>
+  </property>
+  <property name="windowIcon">
+   <iconset>
+    <normaloff>:/plugins/PosiView/icon.png</normaloff>:/plugins/PosiView/icon.png</iconset>
   </property>
   <property name="windowTitle">
    <string>Guidance</string>
@@ -19,7 +23,7 @@
    </property>
    <layout class="QVBoxLayout" name="verticalLayout" stretch="5,1,1,1">
     <item>
-     <layout class="QHBoxLayout" name="horizontalLayout">
+     <layout class="QHBoxLayout" name="horizontalLayout" stretch="0,2,2">
       <item>
        <widget class="QFrame" name="frame">
         <property name="frameShape">
@@ -112,6 +116,9 @@ size</string>
            <property name="alignment">
             <set>Qt::AlignCenter</set>
            </property>
+           <property name="margin">
+            <number>5</number>
+           </property>
           </widget>
          </item>
          <item>
@@ -127,6 +134,9 @@ size</string>
            </property>
            <property name="alignment">
             <set>Qt::AlignCenter</set>
+           </property>
+           <property name="margin">
+            <number>5</number>
            </property>
           </widget>
          </item>
@@ -144,6 +154,9 @@ size</string>
            <property name="alignment">
             <set>Qt::AlignCenter</set>
            </property>
+           <property name="margin">
+            <number>5</number>
+           </property>
           </widget>
          </item>
          <item>
@@ -159,6 +172,9 @@ size</string>
            </property>
            <property name="alignment">
             <set>Qt::AlignCenter</set>
+           </property>
+           <property name="margin">
+            <number>5</number>
            </property>
           </widget>
          </item>
@@ -194,6 +210,9 @@ size</string>
            <property name="alignment">
             <set>Qt::AlignCenter</set>
            </property>
+           <property name="margin">
+            <number>5</number>
+           </property>
           </widget>
          </item>
          <item>
@@ -209,6 +228,9 @@ size</string>
            </property>
            <property name="alignment">
             <set>Qt::AlignCenter</set>
+           </property>
+           <property name="margin">
+            <number>5</number>
            </property>
           </widget>
          </item>
@@ -226,6 +248,9 @@ size</string>
            <property name="alignment">
             <set>Qt::AlignCenter</set>
            </property>
+           <property name="margin">
+            <number>5</number>
+           </property>
           </widget>
          </item>
          <item>
@@ -241,6 +266,9 @@ size</string>
            </property>
            <property name="alignment">
             <set>Qt::AlignCenter</set>
+           </property>
+           <property name="margin">
+            <number>5</number>
            </property>
           </widget>
          </item>
