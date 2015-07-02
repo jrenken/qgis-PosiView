@@ -227,6 +227,7 @@ class PosiView:
         """
         self.project.stopTracking()
         self.tracking.removeMobiles()
+        self.tracking.removeProviders()
         self.project.unload()
         self.saveGuiSettings()
         for action in self.actions.values():
@@ -243,6 +244,7 @@ class PosiView:
             self.project.load(p)   
             self.tracking.setMobiles(self.project.mobileItems)         
             self.guidance.setMobiles(self.project.mobileItems)
+            self.tracking.setProviders(self.project.dataProviders)
             self.loadGuiSettings()
             self.tracking.show()
         else:
@@ -250,6 +252,7 @@ class PosiView:
             self.actions['trackingAction'].setChecked(False)
             self.saveGuiSettings()
             self.tracking.removeMobiles()
+            self.tracking.removeProviders()
             self.tracking.hide()
             self.guidance.hide()
             self.project.unload()
@@ -267,11 +270,14 @@ class PosiView:
             self.actions['trackingAction'].setChecked(False)
             self.project.stopTracking()
             self.tracking.removeMobiles()
+            self.tracking.removeProviders()
             self.project.unload()
             self.project.load(properties)
             self.project.store()
             self.tracking.setMobiles(self.project.mobileItems)         
             self.guidance.setMobiles(self.project.mobileItems)
+            self.tracking.setProviders(self.project.dataProviders)
+
     
     def configure(self):
         propDlg = PosiviewProperties(self.project)

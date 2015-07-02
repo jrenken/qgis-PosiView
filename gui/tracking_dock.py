@@ -11,7 +11,7 @@ from PyQt4.QtCore import Qt
 from PyQt4.Qt import pyqtSlot, QSize
 from qgis.core import QgsPoint
 from PyQt4.QtGui import QIcon, QAction, QLabel, QWidgetAction, QToolBar,\
-    QDockWidget
+    QDockWidget, QToolButton
 from time import gmtime, strftime
 
 
@@ -30,6 +30,8 @@ class TrackingDock(QDockWidget, FORM_CLASS):
         '''
         super(TrackingDock, self).__init__(parent)
         self.setupUi(self)
+        self.providerToolbar = ProviderToolBar()
+        self.verticalLayout.addWidget(self.providerToolbar)
         
     def addMobile(self, mobile):
         display = TrackingDisplay(mobile)
@@ -46,6 +48,19 @@ class TrackingDock(QDockWidget, FORM_CLASS):
         for key in sorted(mobiles):
             self.addMobile(mobiles[key])
             
+    def addProvider(self, provider):
+        self.providerToolbar.createAction(provider)
+        
+        
+    def setProviders(self, providers):
+        self.providerToolbar.clear()
+        for key in sorted(providers):
+            self.addProvider(providers[key])
+        
+    def removeProviders(self):
+        self.providerToolbar.clear()
+        self.providerToolbar.actions = []
+
 
 class TrackingDisplay(QToolBar):
     '''
@@ -122,3 +137,30 @@ class TrackingDisplay(QToolBar):
             self.posLabel.setStyleSheet('background: red; font-size: 8pt')
         else:
             self.posLabel.setStyleSheet('background: white; font-size: 8pt')
+            
+            
+class ProviderToolBar(QToolBar):
+        
+    def __init__(self, parent = None):
+        super(ProviderToolBar, self).__init__(parent)
+        self.setMovable(True)
+        self.setFloatable(True)
+        self.upToDate = False
+        self.actions = []
+        self.setToolButtonStyle(Qt.ToolButtonTextUnderIcon)
+
+    def createAction(self, provider):
+        icon = QIcon(':/plugins/PosiView/ledgreen.png')
+        icon.addFile(':/plugins/PosiView/ledgrey.png', QSize(), QIcon.Disabled, QIcon.Off)
+        action = QAction(icon, provider.name, None)
+        button = QToolButton()
+        button.setDefaultAction(action)
+        action.setEnabled(False)
+        provider.deviceConnected.connect(action.setEnabled)
+        provider.deviceDisconnected.connect(action.setDisabled)
+        self.addAction(action)
+        self.actions.append(action)
+        
+        
+
+        

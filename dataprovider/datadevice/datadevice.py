@@ -12,8 +12,8 @@ class DataDevice(QObject):
     '''
 
     readyRead = pyqtSignal()
-    deviceConnected = pyqtSignal()
-    deviceDisconnected = pyqtSignal()
+    deviceConnected = pyqtSignal(bool)
+    deviceDisconnected = pyqtSignal(bool)
 
     def __init__(self, params={}, parent=None):
         '''

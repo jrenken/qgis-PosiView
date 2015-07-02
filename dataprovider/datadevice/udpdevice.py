@@ -38,12 +38,12 @@ class UdpDevice(DataDevice):
             if self.reconnect > 0:
                 QTimer.singleShot(self.reconnect, self.onReconnectTimer)
         else:
-            self.deviceConnected.emit() 
+            self.deviceConnected.emit(True) 
             
     def disconnectDevice(self):
         if self.iodevice.state() is QAbstractSocket.BoundState:
             self.iodevice.disconnectFromHost()
-            self.deviceDisconnected.emit()
+            self.deviceDisconnected.emit(True)
 
     def readData(self):
         (data, ha, port) = self.iodevice.readDatagram(self.iodevice.pendingDatagramSize())

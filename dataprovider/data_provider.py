@@ -16,8 +16,8 @@ class DataProvider(QObject):
     '''
     
     newDataReceived = pyqtSignal([dict])
-    deviceConnected = pyqtSignal()
-    deviceDisconnected = pyqtSignal()
+    deviceConnected = pyqtSignal(bool)
+    deviceDisconnected = pyqtSignal(bool)
 
     dataProviderCount = 0
 
@@ -47,6 +47,7 @@ class DataProvider(QObject):
     
     def connectDevice(self):
         self.dataDevice = datadevice.createDataDevice(self.params)
+        self.dataDevice.deviceConnected.connect(self.deviceConnected)
         if self.dataDevice is not None:
             self.dataDevice.readyRead.connect(self.onDataAvailable)
             self.dataDevice.connectDevice()
@@ -58,6 +59,7 @@ class DataProvider(QObject):
 #             self.dataDevice.deleteLater()
 #             del self.dataDevice
             self.dataDevice = None
+            self.deviceDisconnected.emit(True)
     
     @pyqtSlot()
     def onDataAvailable(self):
