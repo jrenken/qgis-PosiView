@@ -30,5 +30,9 @@ def createParser(parserType=''):
     if parserType.upper() == 'MINIPOS':
         from .parser_minipos import MiniPosParser
         return MiniPosParser()
+    if parserType.upper() == 'GPS':
+        from .parser_gps import GpsParser
+        return GpsParser()
+    
     from .parser import Parser
     return Parser()

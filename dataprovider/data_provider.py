@@ -48,6 +48,7 @@ class DataProvider(QObject):
     def connectDevice(self):
         self.dataDevice = datadevice.createDataDevice(self.params)
         self.dataDevice.deviceConnected.connect(self.deviceConnected)
+        self.dataDevice.deviceDisconnected.connect(self.deviceDisconnected)
         if self.dataDevice is not None:
             self.dataDevice.readyRead.connect(self.onDataAvailable)
             self.dataDevice.connectDevice()

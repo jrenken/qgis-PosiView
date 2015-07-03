@@ -20,9 +20,12 @@
 ###############################################################################
 
 from .udpdevice import UdpDevice
+from .tcpdevice import TcpDevice
 
 def createDataDevice(params={}, parent=None):
     deviceType = params.get('DataDeviceType', 'UDP').upper()
     if deviceType == 'UDP':
         return UdpDevice(params, parent)
+    elif deviceType == 'TCP':
+        return TcpDevice(params, parent)
     return None
