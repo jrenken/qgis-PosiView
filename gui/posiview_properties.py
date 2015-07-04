@@ -6,9 +6,10 @@ Created on 30.01.2015
 
 import os
 from PyQt4 import uic
-from PyQt4.QtCore import Qt, pyqtSlot, QModelIndex, pyqtSignal
+from PyQt4.QtCore import Qt, pyqtSlot, QModelIndex, pyqtSignal, QUrl
 from PyQt4.QtGui import QStringListModel, QStandardItem, QColor,\
-    QFileDialog, QStandardItemModel, QAbstractButton, QDialogButtonBox, QMenu
+    QFileDialog, QStandardItemModel, QAbstractButton, QDialogButtonBox, QMenu,\
+    QDesktopServices, QMessageBox
 from qgis.gui import QgsOptionsDialogBase
 from PyQt4.Qt import QPoint
 
@@ -289,3 +290,9 @@ class PosiviewProperties(QgsOptionsDialogBase, FORM_CLASS):
         elif selectedAction == arrowAction:
             self.lineEditMobileShape.setText(u'((0, -0.5), (0.5, 0.5), (0, 0), (-0.5, 0.5))')
             
+    @pyqtSlot(name='on_buttonBox_helpRequested')
+    def showHelp(self):
+        """Display application help to the user."""
+        help_file = 'file://' + os.path.join(os.path.split(os.path.dirname(__file__))[0], 'help', 'index.html')
+        # noinspection PyCallByClass,PyTypeChecker
+        QDesktopServices.openUrl(QUrl(help_file))

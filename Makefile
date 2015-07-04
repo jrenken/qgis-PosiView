@@ -57,11 +57,13 @@ PY_FILES = \
 	dataprovider/datadevice/__init__.py \
 	dataprovider/datadevice/datadevice.py \
 	dataprovider/datadevice/udpdevice.py \
+	dataprovider/datadevice/tcpdevice.py \
 	dataprovider/dataparser/__init__.py \
 	dataprovider/dataparser/nmea.py \
 	dataprovider/dataparser/parser_ixusbl.py \
 	dataprovider/dataparser/parser_pise.py \
 	dataprovider/dataparser/parser_minipos.py \
+	dataprovider/dataparser/parser_gps.py \
 	dataprovider/dataparser/parser.py \
 
 
@@ -135,7 +137,7 @@ deploy: compile doc transcompile
 	cp -vf $(COMPILED_RESOURCE_FILES) $(HOME)/$(QGISDIR)/python/plugins/$(PLUGINNAME)
 	cp -vf $(EXTRAS) $(HOME)/$(QGISDIR)/python/plugins/$(PLUGINNAME)
 	cp -vfr --parents i18n $(HOME)/$(QGISDIR)/python/plugins/$(PLUGINNAME)
-	cp -vfr --parents $(HELP) $(HOME)/$(QGISDIR)/python/plugins/$(PLUGINNAME)
+	cp -vfr $(HELP) $(HOME)/$(QGISDIR)/python/plugins/$(PLUGINNAME)/help
 
 # The dclean target removes compiled python files from plugin directory
 # also deletes any .git entry
