@@ -55,8 +55,6 @@ class DataProvider(QObject):
         if self.dataDevice is not None:
             self.dataDevice.disconnectDevice()
             self.dataDevice.readyRead.disconnect()
-#             self.dataDevice.deleteLater()
-#             del self.dataDevice
             self.dataDevice = None
             self.deviceDisconnected.emit(True)
     

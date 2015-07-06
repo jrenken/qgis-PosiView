@@ -22,10 +22,16 @@
 from .udpdevice import UdpDevice
 from .tcpdevice import TcpDevice
 
+DEVICE_TYPES = ('UDP', 'TCP', 'GPSD')
+NETWORK_TYPES = ('UDP', 'TCP', 'GPSD')
+
 def createDataDevice(params={}, parent=None):
     deviceType = params.get('DataDeviceType', 'UDP').upper()
     if deviceType == 'UDP':
         return UdpDevice(params, parent)
     elif deviceType == 'TCP':
+        return TcpDevice(params, parent)
+    elif deviceType == 'GPSD':
+        params['GpsdInit'] = True
         return TcpDevice(params, parent)
     return None

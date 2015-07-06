@@ -9,10 +9,11 @@ from PyQt4 import uic
 from PyQt4.QtCore import Qt, pyqtSlot, QModelIndex, pyqtSignal, QUrl
 from PyQt4.QtGui import QStringListModel, QStandardItem, QColor,\
     QFileDialog, QStandardItemModel, QAbstractButton, QDialogButtonBox, QMenu,\
-    QDesktopServices, QMessageBox
+    QDesktopServices
 from qgis.gui import QgsOptionsDialogBase
 from PyQt4.Qt import QPoint
 from PosiView.dataprovider.dataparser import PARSERS
+from PosiView.dataprovider.datadevice import DEVICE_TYPES, NETWORK_TYPES
 
 FORM_CLASS, BASE_CLASS = uic.loadUiType(os.path.join(
     os.path.split(os.path.dirname(__file__))[0], 'ui', 'posiview_properties_base.ui'), False)
@@ -33,6 +34,7 @@ class PosiviewProperties(QgsOptionsDialogBase, FORM_CLASS):
         self.initOptionsBase(False)
         self.restoreOptionsBaseUi()
         self.comboBoxParser.addItems(PARSERS)
+        self.comboBoxProviderType.addItems(DEVICE_TYPES)
         self.project = project
         self.projectProperties = project.properties()
         self.mToolButtonLoad.setDefaultAction(self.actionLoadConfiguration)
@@ -223,7 +225,7 @@ class PosiviewProperties(QgsOptionsDialogBase, FORM_CLASS):
             provider = dict()
             provider['Name'] = self.lineEditProviderName.text()
             provider['DataDeviceType'] = self.comboBoxProviderType.currentText()
-            if provider['DataDeviceType'] in ('UDP', 'TCP'):
+            if provider['DataDeviceType'] in NETWORK_TYPES:
                 provider['Host'] = self.lineEditProviderHostName.text()
                 provider['Port'] = self.spinBoxProviderPort.value()
             provider['Parser'] = self.comboBoxParser.currentText()
@@ -244,7 +246,7 @@ class PosiviewProperties(QgsOptionsDialogBase, FORM_CLASS):
         provider = self.projectProperties['Provider'][self.providerListModel.data(index, Qt.DisplayRole)]
         self.lineEditProviderName.setText(provider.get('Name'))
         self.comboBoxProviderType.setCurrentIndex(self.comboBoxProviderType.findText(provider.setdefault('DataDeviceType', 'UDP').upper()))
-        if provider['DataDeviceType'] in ('UDP', 'TCP'):
+        if provider['DataDeviceType'] in NETWORK_TYPES:
             self.stackedWidgetDataDevice.setCurrentIndex(0)
             self.lineEditProviderHostName.setText(provider.setdefault('Host', '0.0.0.0'))
             self.spinBoxProviderPort.setValue(int(provider.setdefault('Port', 2000)))

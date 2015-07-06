@@ -23,6 +23,7 @@ class TcpDevice(DataDevice):
         self.reconnect = int(params.get('Reconnect', 1000))
         self.host = params.get('Host', None)
         self.port = int(params.get('Port', 2000))
+        self.gpsdInit = bool(params.get('GpsdInit', False))
         self.iodevice.readyRead.connect(self.readyRead)
         self.iodevice.error.connect(self.socketError)
         self.iodevice.connected.connect(self.socketConnected)
@@ -51,7 +52,7 @@ class TcpDevice(DataDevice):
     @pyqtSlot()
     def socketConnected(self):
         self.deviceConnected.emit(True)
-        if self.port == 2947:                   # ToDo: find a better solution for gpsd connection 
+        if self.gpsdInit:
             self.iodevice.writeData('?WATCH={"class":"WATCH","nmea":true}')
         
     @pyqtSlot()
