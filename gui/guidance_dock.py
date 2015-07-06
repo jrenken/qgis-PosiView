@@ -27,7 +27,8 @@ class GuidanceDock(QtGui.QDockWidget, FORM_CLASS):
         super(GuidanceDock, self).__init__(parent)
 
         self.setupUi(self)
-        self.compass = CompassWidget() 
+        self.compass = CompassWidget()
+        self.compass.setMinimumHeight(80) 
         self.verticalLayout.addWidget(self.compass)
         self.verticalLayout.setStretch(4, 8)
         self.distArea = QgsDistanceArea()

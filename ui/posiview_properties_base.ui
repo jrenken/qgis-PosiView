@@ -164,8 +164,8 @@
                <rect>
                 <x>0</x>
                 <y>0</y>
-                <width>589</width>
-                <height>777</height>
+                <width>443</width>
+                <height>380</height>
                </rect>
               </property>
               <layout class="QVBoxLayout" name="verticalLayout_13">
@@ -478,26 +478,6 @@
                     <item>
                      <property name="text">
                       <string>NONE</string>
-                     </property>
-                    </item>
-                    <item>
-                     <property name="text">
-                      <string>IX_USBL</string>
-                     </property>
-                    </item>
-                    <item>
-                     <property name="text">
-                      <string>PISE</string>
-                     </property>
-                    </item>
-                    <item>
-                     <property name="text">
-                      <string>MINIPOS</string>
-                     </property>
-                    </item>
-                    <item>
-                     <property name="text">
-                      <string>GPS</string>
                      </property>
                     </item>
                    </widget>

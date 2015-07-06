@@ -19,6 +19,7 @@
 #
 ###############################################################################
 
+PARSERS = ('IX_USBL', 'PISE', 'MINIPOS', 'GPS')
 
 def createParser(parserType=''):
     if parserType.upper() == 'IX_USBL':

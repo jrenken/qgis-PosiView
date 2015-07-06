@@ -12,6 +12,7 @@ from PyQt4.QtGui import QStringListModel, QStandardItem, QColor,\
     QDesktopServices, QMessageBox
 from qgis.gui import QgsOptionsDialogBase
 from PyQt4.Qt import QPoint
+from PosiView.dataprovider.dataparser import PARSERS
 
 FORM_CLASS, BASE_CLASS = uic.loadUiType(os.path.join(
     os.path.split(os.path.dirname(__file__))[0], 'ui', 'posiview_properties_base.ui'), False)
@@ -31,6 +32,7 @@ class PosiviewProperties(QgsOptionsDialogBase, FORM_CLASS):
         self.setupUi(self)
         self.initOptionsBase(False)
         self.restoreOptionsBaseUi()
+        self.comboBoxParser.addItems(PARSERS)
         self.project = project
         self.projectProperties = project.properties()
         self.mToolButtonLoad.setDefaultAction(self.actionLoadConfiguration)

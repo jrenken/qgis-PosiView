@@ -7,7 +7,6 @@ from PyQt4.Qt import QObject
 from PyQt4.QtCore import pyqtSignal, pyqtSlot
 import dataparser
 import datadevice
-from collections import deque
 
 
 class DataProvider(QObject):
@@ -34,7 +33,6 @@ class DataProvider(QObject):
         self.keepConnection = True
         self.parser = dataparser.createParser(self.params.setdefault('Parser', 'IX_USBL'))
         self.dataDevice = None
-        self.lineBuffer = deque()
              
     def properties(self):
         return self.params
@@ -65,9 +63,9 @@ class DataProvider(QObject):
     @pyqtSlot()
     def onDataAvailable(self):
         data = self.dataDevice.readData()
-        self.lineBuffer.extend(data.splitlines())
-        while len(self.lineBuffer):
-            d = self.parser.parse(self.lineBuffer.popleft())
+        lines = data.splitlines()
+        for line in lines:
+            d = self.parser.parse(line)
             if d:
                 d['name'] = self.name
                 self.newDataReceived.emit(d)
