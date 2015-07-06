@@ -4,7 +4,7 @@ Created on 03.07.2015
 @author: jrenken
 '''
 from .datadevice import DataDevice
-from PyQt4.QtNetwork import QTcpSocket, QAbstractSocket, QHostAddress
+from PyQt4.QtNetwork import QTcpSocket, QAbstractSocket
 from PyQt4.QtCore import pyqtSlot, QTimer
 
 class TcpDevice(DataDevice):
