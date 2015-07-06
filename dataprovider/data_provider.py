@@ -33,7 +33,7 @@ class DataProvider(QObject):
         self.keepConnection = True
         self.parser = dataparser.createParser(self.params.setdefault('Parser', 'IX_USBL'))
         self.dataDevice = None
-             
+
     def properties(self):
         return self.params
 

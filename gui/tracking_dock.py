@@ -40,6 +40,7 @@ class TrackingDock(QDockWidget, FORM_CLASS):
     def removeMobiles(self):
         allTracking = self.findChildren(TrackingDisplay)
         for w in allTracking:
+            w.releaseMobile()
             self.verticalLayout.removeWidget(w)
             w.deleteLater()
             
@@ -77,7 +78,7 @@ class TrackingDisplay(QToolBar):
         self.createActions()
         self.mobile.newPosition.connect(self.onNewPosition)
         self.mobile.timeout.connect(self.onTimeout)
-        
+
     def createActions(self):
         self.nameLabel = QLabel(self.mobile.name)
         self.nameLabel.setMinimumSize(80, 23)
@@ -138,7 +139,10 @@ class TrackingDisplay(QToolBar):
         else:
             self.posLabel.setStyleSheet('background: white; font-size: 8pt')
             
+    def releaseMobile(self):
+        self.mobile = None
             
+
 class ProviderToolBar(QToolBar):
         
     def __init__(self, parent = None):

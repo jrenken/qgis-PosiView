@@ -4,7 +4,7 @@ Created on 05.06.2015
 @author: jrenken
 '''
 from PyQt4.QtCore import QPointF, QRectF, QLineF, Qt
-from PyQt4.QtGui import QPainter, QBrush, QColor, QPen, QPolygonF
+from PyQt4.QtGui import QPainter, QBrush, QColor, QPen, QPolygonF, QPainterPath
 from qgis.gui import QgsMapCanvasItem, QgsVertexMarker
 from qgis.core import QgsPoint
 from _collections import deque
@@ -36,6 +36,8 @@ class PositionMarker(QgsMapCanvasItem):
         self.color = self.getColor(params.get('color', 'black'))
         self.fillColor = self.getColor(params.get('fillColor', 'lime'))
         self.penWidth = int(params.get('penWidth', 1))
+        if self.type in ('CROSS', 'X'):
+            self.penWidth = 5;
         self.trackLen = int(params.get('trackLength', 100))
         self.trackColor = self.getColor(params.get('trackColor', self.fillColor))
         self.track = deque()
@@ -44,7 +46,7 @@ class PositionMarker(QgsMapCanvasItem):
         super(PositionMarker, self).__init__(canvas)
         self.setZValue(int(params.get('zValue', 100)))
         self.updateSize()     
-                
+
     def properties(self):
         return {'type': self.type,
                 'size': self.size,
@@ -138,7 +140,6 @@ class PositionMarker(QgsMapCanvasItem):
             painter.rotate(self.heading + self.canvas.rotation())
             painter.drawConvexPolygon(self.paintShape)
                 
-        
     def boundingRect(self):
         s = ( self.size - 1 ) / 2
         return QRectF(QPointF(-s,-s), QPointF(s, s))

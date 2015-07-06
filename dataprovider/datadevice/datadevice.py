@@ -21,7 +21,7 @@ class DataDevice(QObject):
         '''
         super(DataDevice, self).__init__(parent)
         self.buffered = False
-              
+
     def readData(self):
         pass
     
