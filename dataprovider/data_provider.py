@@ -14,7 +14,8 @@ class DataProvider(QObject):
     Base class for all data provider
     '''
     
-    newDataReceived = pyqtSignal([dict])
+    newDataReceived = pyqtSignal(dict)
+    newRawDataReceived = pyqtSignal(str)
     deviceConnected = pyqtSignal(bool)
     deviceDisconnected = pyqtSignal(bool)
 
@@ -63,6 +64,7 @@ class DataProvider(QObject):
         data = self.dataDevice.readData()
         lines = data.splitlines()
         for line in lines:
+            self.newRawDataReceived.emit(line)
             d = self.parser.parse(line)
             if d:
                 d['name'] = self.name

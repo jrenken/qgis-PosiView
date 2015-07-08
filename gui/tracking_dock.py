@@ -7,7 +7,7 @@ Created on 29.01.2015
 import os
 
 from PyQt4 import uic
-from PyQt4.QtCore import Qt 
+from PyQt4.QtCore import Qt , QSignalMapper, pyqtSignal
 from PyQt4.Qt import pyqtSlot, QSize
 from qgis.core import QgsPoint
 from PyQt4.QtGui import QIcon, QAction, QLabel, QWidgetAction, QToolBar,\
@@ -61,7 +61,7 @@ class TrackingDock(QDockWidget, FORM_CLASS):
     def removeProviders(self):
         self.providerToolbar.clear()
         self.providerToolbar.actions = []
-
+        
 
 class TrackingDisplay(QToolBar):
     '''
@@ -94,6 +94,7 @@ class TrackingDisplay(QToolBar):
         self.enableAction.setIcon(icon)
         self.addAction(self.enableAction)
         self.enableAction.triggered.connect(self.onEnableClicked)
+        self.enableAction.triggered.connect(self.mobile.setEnabled)
         
         self.addSeparator()
         self.posLabel = QLabel("--:--:-- 0.000000 0.000000\nd = 0.0")
@@ -132,7 +133,6 @@ class TrackingDisplay(QToolBar):
         
     @pyqtSlot(bool)
     def onEnableClicked(self, enable):
-        self.mobile.setEnabled(enable)
         self.upToDate = False
         if enable:
             self.posLabel.setStyleSheet('background: red; font-size: 8pt')
@@ -145,13 +145,17 @@ class TrackingDisplay(QToolBar):
 
 class ProviderToolBar(QToolBar):
         
+    triggered = pyqtSignal(str)
+    
     def __init__(self, parent = None):
         super(ProviderToolBar, self).__init__(parent)
+        self.signalMapper = QSignalMapper(self)
         self.setMovable(True)
         self.setFloatable(True)
         self.upToDate = False
         self.actions = []
         self.setToolButtonStyle(Qt.ToolButtonTextUnderIcon)
+        self.signalMapper.mapped[str].connect(self.triggered)
 
     def createAction(self, provider):
         icon = QIcon(':/plugins/PosiView/ledgreen.png')
@@ -162,9 +166,9 @@ class ProviderToolBar(QToolBar):
         action.setEnabled(False)
         provider.deviceConnected.connect(action.setEnabled)
         provider.deviceDisconnected.connect(action.setDisabled)
+        self.signalMapper.setMapping(action, provider.name)
+        action.triggered.connect(self.signalMapper.map)
         self.addAction(action)
         self.actions.append(action)
-        
-        
-
+       
         

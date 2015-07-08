@@ -51,6 +51,7 @@ PY_FILES = \
 	gui/posiview_properties.py \
 	gui/tracking_dock.py \
 	gui/guidance_dock.py \
+	gui/dataprovider_dump.py \
 	gui/compass.py \
 	dataprovider/__init__.py \
 	dataprovider/data_provider.py \
@@ -69,7 +70,8 @@ PY_FILES = \
 
 UI_FILES = ui/posiview_properties_base.ui \
 		ui/guidance_dock_base.ui \
-		ui/tracking_dock_base.ui
+		ui/tracking_dock_base.ui \
+		ui/dataprovider_dump_base.ui
 
 COMPILED_UI_FILES = 
 

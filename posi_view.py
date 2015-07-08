@@ -30,6 +30,7 @@ from posiview_project import PosiViewProject
 from gui.tracking_dock import TrackingDock
 from gui.guidance_dock import GuidanceDock
 from gui.posiview_properties import PosiviewProperties
+from gui.dataprovider_dump import DataProviderDump
 
 
 
@@ -74,9 +75,11 @@ class PosiView:
         self.tracking = TrackingDock()
         self.iface.addDockWidget(Qt.LeftDockWidgetArea, self.tracking)
         self.tracking.hide()
+        self.tracking.providerToolbar.triggered.connect(self.dumpProvider)
         self.guidance = GuidanceDock()
         self.iface.addDockWidget(Qt.LeftDockWidgetArea, self.guidance)
         self.guidance.hide()
+        self.providerDump = None
 
     # noinspection PyMethodMayBeStatic
     def tr(self, message):
@@ -298,3 +301,15 @@ class PosiView:
         settings.beginGroup('PosiView')
         self.guidance.setVisible(settings.value('Gui/GuidanceVisible', False)  in ['True', 'true'])
         settings.endGroup()
+
+
+    @pyqtSlot(str)
+    def dumpProvider(self, name):
+        try:
+            provider = self.project.dataProviders[name]
+            self.providerDump = DataProviderDump()
+            self.providerDump.subscribeProvider(provider)
+            self.providerDump.show()
+        except KeyError:
+            pass
+            
