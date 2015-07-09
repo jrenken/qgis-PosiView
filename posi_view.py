@@ -31,6 +31,7 @@ from gui.tracking_dock import TrackingDock
 from gui.guidance_dock import GuidanceDock
 from gui.posiview_properties import PosiviewProperties
 from gui.dataprovider_dump import DataProviderDump
+from gui.position_display import PositionDisplay
 
 
 
@@ -80,6 +81,7 @@ class PosiView:
         self.iface.addDockWidget(Qt.LeftDockWidgetArea, self.guidance)
         self.guidance.hide()
         self.providerDump = None
+        self.positionDisplay = PositionDisplay(self.iface)
 
     # noinspection PyMethodMayBeStatic
     def tr(self, message):
@@ -233,12 +235,14 @@ class PosiView:
         self.tracking.removeProviders()
         self.project.unload()
         self.saveGuiSettings()
+        self.iface.mainWindow().statusBar().removeWidget(self.positionDisplay)
         for action in self.actions.values():
             self.iface.removePluginMenu(
                 self.tr(u'&PosiView'),
                 action)
             self.iface.removeToolBarIcon(action)
         del self.toolbar
+
 
     def run(self, checked=False):
         """Run method that performs all the real work"""
@@ -250,6 +254,7 @@ class PosiView:
             self.tracking.setProviders(self.project.dataProviders)
             self.loadGuiSettings()
             self.tracking.show()
+            self.iface.mainWindow().statusBar().addPermanentWidget(self.positionDisplay)
         else:
             self.project.stopTracking()
             self.actions['trackingAction'].setChecked(False)
@@ -259,6 +264,7 @@ class PosiView:
             self.tracking.hide()
             self.guidance.hide()
             self.project.unload()
+            self.iface.mainWindow().statusBar().removeWidget(self.positionDisplay)
 
     def startStopTracking(self, checked=False):
         if checked:

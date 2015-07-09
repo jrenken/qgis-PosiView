@@ -41,6 +41,7 @@ class GuidanceDock(QtGui.QDockWidget, FORM_CLASS):
         self.trgPos = [QgsPoint(), 0.0]
         self.srcHeading = 0.0
         self.trgHeading = 0.0
+        self.format = 1
         
     def setMobiles(self, mobiles):
         self.reset()
@@ -55,6 +56,21 @@ class GuidanceDock(QtGui.QDockWidget, FORM_CLASS):
         self.comboBoxTarget.setCurrentIndex(-1)
         self.comboBoxSource.blockSignals(False )
         self.comboBoxTarget.blockSignals(False)
+        
+    @pyqtSlot(name='on_pushButtonFormat_clicked')
+    def switchCoordinateFormat(self):
+        self.format = (self.format + 1) % 3
+        print self.format
+    
+    
+    def posToStr(self, pos):
+        if self.format == 0:
+            return "{:.6f}".format(pos.y()), "{:.6f}".format(pos.x())
+        if self.format == 1:
+            return pos.toDegreesMinutes(4).split(',')
+        if self.format == 2:
+            return pos.toDegreesMinutesSeconds(2).split(',')
+        
         
     @pyqtSlot(str, name='on_comboBoxSource_currentIndexChanged')
     def sourceChanged(self, mob):
@@ -92,7 +108,7 @@ class GuidanceDock(QtGui.QDockWidget, FORM_CLASS):
     @pyqtSlot(float, QgsPoint, float, float)
     def onNewSourcePosition(self, fix, pos, depth, altitude):
         if [pos, depth] != self.srcPos:
-            lon, lat = pos.toDegreesMinutes(4).split(',')
+            lon, lat = self.posToStr(pos) #.toDegreesMinutes(4).split(',')
             self.labelSourceLat.setText(lat)
             self.labelSourceLon.setText(lon)
             self.labelSourceDepth.setText(str(depth))
@@ -108,7 +124,7 @@ class GuidanceDock(QtGui.QDockWidget, FORM_CLASS):
     @pyqtSlot(float, QgsPoint, float, float)
     def onNewTargetPosition(self, fix, pos, depth, altitude):
         if [pos, depth] != self.trgPos:
-            lon, lat = pos.toDegreesMinutes(4).split(',')
+            lon, lat = self.posToStr(pos) #.toDegreesMinutes(4).split(',')
             self.labelTargetLat.setText(lat)
             self.labelTargetLon.setText(lon)
             self.labelTargetDepth.setText(str(depth))
