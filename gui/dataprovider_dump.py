@@ -31,12 +31,11 @@ class DataProviderDump(QDialog, FORM_CLASS):
         self.labelProviderName.setText(provider.name)
         provider.newDataReceived.connect(self.appendParsed)
         provider.newRawDataReceived.connect(self.appendRawData)
-    
+
     @pyqtSlot(str)
     def appendRawData(self, data):
         self.textBrowserRaw.append(data)
-        
+
     @pyqtSlot(dict)
     def appendParsed(self, data):
         self.textBrowserParsed.append(str(data))
-        

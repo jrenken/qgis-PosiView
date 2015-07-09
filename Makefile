@@ -65,6 +65,7 @@ PY_FILES = \
 	dataprovider/dataparser/parser_pise.py \
 	dataprovider/dataparser/parser_minipos.py \
 	dataprovider/dataparser/parser_gps.py \
+	dataprovider/dataparser/parser_psonlld.py \
 	dataprovider/dataparser/parser.py \
 
 
