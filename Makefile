@@ -52,6 +52,7 @@ PY_FILES = \
 	gui/tracking_dock.py \
 	gui/guidance_dock.py \
 	gui/dataprovider_dump.py \
+	gui/position_display.py \
 	gui/compass.py \
 	dataprovider/__init__.py \
 	dataprovider/data_provider.py \

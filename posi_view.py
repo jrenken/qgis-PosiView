@@ -254,7 +254,8 @@ class PosiView:
             self.tracking.setProviders(self.project.dataProviders)
             self.loadGuiSettings()
             self.tracking.show()
-            self.iface.mainWindow().statusBar().addPermanentWidget(self.positionDisplay)
+            self.iface.mainWindow().statusBar().insertPermanentWidget(1, self.positionDisplay)
+            self.positionDisplay.show()
         else:
             self.project.stopTracking()
             self.actions['trackingAction'].setChecked(False)

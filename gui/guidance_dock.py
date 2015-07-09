@@ -67,9 +67,9 @@ class GuidanceDock(QtGui.QDockWidget, FORM_CLASS):
         if self.format == 0:
             return "{:.6f}".format(pos.y()), "{:.6f}".format(pos.x())
         if self.format == 1:
-            return pos.toDegreesMinutes(4).split(',')
+            return pos.toDegreesMinutes(4, True, True).split(',')
         if self.format == 2:
-            return pos.toDegreesMinutesSeconds(2).split(',')
+            return pos.toDegreesMinutesSeconds(2, True, True).split(',')
         
         
     @pyqtSlot(str, name='on_comboBoxSource_currentIndexChanged')

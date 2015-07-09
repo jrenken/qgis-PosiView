@@ -3,7 +3,7 @@ Created on 09.07.2015
 
 @author: jrenken
 '''
-from PyQt4.QtGui import QWidget, QHBoxLayout, QPushButton, QLabel
+from PyQt4.QtGui import QWidget, QHBoxLayout, QToolButton, QLineEdit
 from qgis.core import QgsCoordinateReferenceSystem, QgsCoordinateTransform, QgsPoint
 from PyQt4.Qt import pyqtSlot
 from PyQt4.QtCore import Qt
@@ -19,14 +19,19 @@ class PositionDisplay(QWidget):
         Constructor
         '''
         super(PositionDisplay, self).__init__(parent)
+        self.setObjectName('positionDisplay')
+        self.setMaximumWidth(270)
         layout = QHBoxLayout()
-        button = QPushButton('..')
-        button.setObjectName('pushButtonFormat')
+        layout.setContentsMargins(0, 0, 3, 0)
+        button = QToolButton(self)
+        button.setObjectName('toolButtonFormat')
         button.clicked.connect(self.switchCoordinateFormat)
-        button.setMaximumWidth(23)
+        button.setMaximumSize(23, 23)
+        button.setAutoRaise(True)
         layout.addWidget(button)
-        self.label = QLabel('---, ---')
-        self.label.setMinimumWidth(200)
+        self.label = QLineEdit('---  ---')
+        self.label.setReadOnly(True)
+        self.label.setMinimumSize(220, 33)
         self.label.setAlignment(Qt.AlignHCenter)
         layout.addWidget(self.label)
         self.setLayout(layout)
@@ -41,10 +46,9 @@ class PositionDisplay(QWidget):
         canvas.destinationCrsChanged.connect(self.mapCrsHasChanged)
         self.canvas = canvas
         
-    @pyqtSlot(name='on_pushButtonFormat_clicked')
+    @pyqtSlot(name='on_toolButtonFormat_clicked')
     def switchCoordinateFormat(self):
         self.format = (self.format + 1) % 3
-        print self.format
     
     @pyqtSlot()
     def mapCrsHasChanged(self):
@@ -58,8 +62,8 @@ class PositionDisplay(QWidget):
        
     def posToStr(self, pos):
         if self.format == 0:
-            return "{:.6f},{:.6f}".format(pos.y(), pos.x())
+            return '{:.6f},{:.6f}'.format(pos.y(), pos.x())
         if self.format == 1:
-            return pos.toDegreesMinutes(4)
+            return '  '.join(pos.toDegreesMinutes(4, True, True).rsplit(',')[::-1])
         if self.format == 2:
-            return pos.toDegreesMinutesSeconds(2)
+            return '  '.join(pos.toDegreesMinutesSeconds(2, True, True).split(',')[::-1])
