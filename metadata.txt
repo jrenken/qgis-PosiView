@@ -10,7 +10,7 @@
 name=PosiView
 qgisMinimumVersion=2.8
 description=PosiView tracks multiple mobile object and vehicles and displays its position on the canvas
-version=0.1.2
+version=0.1.3
 author=Jens Renken/Marum/University of Bremen
 email=renken@marum.de
 
