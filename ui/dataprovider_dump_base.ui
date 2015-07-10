@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>Dialog</class>
- <widget class="QDialog" name="Dialog">
+ <class>DataproviderDumpBase</class>
+ <widget class="QDialog" name="DataproviderDumpBase">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -97,7 +97,7 @@
   <connection>
    <sender>buttonBox</sender>
    <signal>accepted()</signal>
-   <receiver>Dialog</receiver>
+   <receiver>DataproviderDumpBase</receiver>
    <slot>accept()</slot>
    <hints>
     <hint type="sourcelabel">
@@ -113,7 +113,7 @@
   <connection>
    <sender>buttonBox</sender>
    <signal>rejected()</signal>
-   <receiver>Dialog</receiver>
+   <receiver>DataproviderDumpBase</receiver>
    <slot>reject()</slot>
    <hints>
     <hint type="sourcelabel">

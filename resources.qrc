@@ -11,5 +11,6 @@
         <file alias="track_start.png">resources/track_start.png</file>
         <file alias="track_stop.png">resources/track_stop.png</file>
         <file alias="preferences.png">resources/preferences.png</file>
+        <file alias="coord_format.png">resources/coord_format.png</file>
     </qresource>
 </RCC>
