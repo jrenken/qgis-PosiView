@@ -31,7 +31,7 @@ class MiniPosParser(Parser):
                               'altitude': float(nmea[7]), 'heading': float(nmea[8]),
                               'velforw': float(nmea[9]), 'velport': float(nmea[10]),
                               'velup': float(nmea[11])}
-                    t = datetime.date.today()
+                    t = datetime.datetime.utcnow()
                     dt = datetime.datetime(t.year, t.month, t.day, 
                                            int(nmea[1][0:2]), int(nmea[1][2:4]), 
                                            int(nmea[1][4:6]), int(nmea[1][7:]) * 100)

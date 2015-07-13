@@ -290,6 +290,8 @@ class PosiView:
         else:
             self.project.stopTracking()
             self.recorder.stopRecording()
+            self.actions['trackingAction'].setChecked(False)
+            self.actions['recordAction'].setChecked(False)
             self.recorder = None
             self.saveGuiSettings()
             self.tracking.removeMobiles()
@@ -314,6 +316,7 @@ class PosiView:
 #         print "Config apply"
         if self.actions['loadAction'].isChecked():            
             self.actions['trackingAction'].setChecked(False)
+            self.actions['recordAction'].setChecked(False)
             self.project.stopTracking()
             self.tracking.removeMobiles()
             self.tracking.removeProviders()
@@ -323,6 +326,7 @@ class PosiView:
             self.tracking.setMobiles(self.project.mobileItems)         
             self.guidance.setMobiles(self.project.mobileItems)
             self.tracking.setProviders(self.project.dataProviders)
+            self.recorder.setMobiles(self.project.mobileItems)
 
     
     def configure(self):

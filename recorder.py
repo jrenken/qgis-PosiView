@@ -35,10 +35,9 @@ class Recorder(QObject):
         self.mobiles = mobiles
         
     def openFile(self):
-        dt = datetime.now()
+        dt = datetime.utcnow()
         s = self.filePrefix + dt.strftime('%Y%m%d-%H%M%S') + '.csv'
         self.fileName = os.path.join(self.path, self.filePrefix, s)
-        print self.fileName
         try:
             self.file = open(self.fileName, 'w')
             self.file.write(self.fileHeader())
@@ -63,7 +62,7 @@ class Recorder(QObject):
     
     @pyqtSlot()
     def takeSnapshot(self):
-        dt = datetime.now()
+        dt = datetime.utcnow()
         line = dt.strftime('%d.%m.%Y\t%H:%M:%S')
         for v in self.mobiles.values():
             lat, lon, depth, heading = v.reportPosition()
