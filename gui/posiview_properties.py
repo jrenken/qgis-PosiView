@@ -61,14 +61,16 @@ class PosiviewProperties(QgsOptionsDialogBase, FORM_CLASS):
         self.lineEditCruise.setText(properties['Mission']['cruise'])
         self.lineEditDive.setText(properties['Mission']['dive'])
         self.lineEditStation.setText(properties['Mission']['station'])
-        self.lineEditLoggingPath.setText(properties['LoggingPath'])
+        self.lineEditRecorderPath.setText(properties['RecorderPath'])
+        self.checkBoxAutoRecording.setChecked(properties['AutoRecord'])
         
     def updateGeneralData(self):
         self.projectProperties['Mission']['cruise'] = self.lineEditCruise.text()
         self.projectProperties['Mission']['dive'] = self.lineEditDive.text()
         self.projectProperties['Mission']['station'] = self.lineEditStation.text()
-        self.projectProperties['LoggingPath'] = self.lineEditLoggingPath.text()
-    
+        self.projectProperties['RecorderPath'] = self.lineEditRecorderPath.text()
+        self.projectProperties['AutoRecord'] = self.checkBoxAutoRecording.isChecked()
+        
     def getColor(self, value):
         try:
             return QColor.fromRgba(int(value))
@@ -271,11 +273,11 @@ class PosiviewProperties(QgsOptionsDialogBase, FORM_CLASS):
             self.populateDataProviderWidgets(self.mDataProviderListView.currentIndex())
 
     @pyqtSlot(name='on_toolButtonSelectLogPath_clicked')
-    def selectLoggingPath(self):
-        path = QFileDialog.getExistingDirectory(self, self.tr('Select Logging Path'), self.lineEditLoggingPath.text(),
+    def selectRecorderPath(self):
+        path = QFileDialog.getExistingDirectory(self, self.tr('Select Recorder Path'), self.lineEditRecorderPath.text(),
                                                 QFileDialog.ShowDirsOnly | QFileDialog.DontResolveSymlinks)
         if path != '':
-            self.lineEditLoggingPath.setText(path)
+            self.lineEditRecorderPath.setText(path)
 
     @pyqtSlot(QPoint, name='on_lineEditMobileShape_customContextMenuRequested')
     def mobileShapeContextMenu(self, pos):

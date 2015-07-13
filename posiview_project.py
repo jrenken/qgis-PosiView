@@ -30,7 +30,8 @@ class PosiViewProject(object):
         self.dataProviders = dict()
         self.mobileItems = dict()
         self.missionInfo = { 'cruise': 'CruiseXX', 'dive': 'DiveX', 'station' : '#xxx'}
-        self.loggingPath = environ['HOME']
+        self.recorderPath = environ['HOME']
+        self.autoRecord = False
         self.trackingStarted = False
 
     def startTracking(self):
@@ -55,7 +56,8 @@ class PosiViewProject(object):
     def properties(self):
         props = dict()
         props['Mission'] = self.missionInfo
-        props['LoggingPath'] = self.loggingPath
+        props['RecorderPath'] = self.recorderPath
+        props['AutoRecord'] = self.autoRecord
         m = dict()
         for k in self.mobileItems.keys():
             p = self.mobileItems[k].properties();
@@ -95,7 +97,8 @@ class PosiViewProject(object):
                                                         level=QgsMessageBar.CRITICAL,
                                                         duration=5)
         self.missionInfo = properties.get('Mission', { 'cruise': 'CruiseXX', 'dive': 'DiveX', 'station' : '#xxx'})
-        self.loggingPath = properties.get('LoggingPath', environ['HOME'])
+        self.recorderPath = properties.get('RecorderPath', environ['HOME'])
+        self.autoRecord = bool(properties.get('AutoRecord', False))
 
     def unload(self):
         self.stopTracking()
@@ -146,7 +149,8 @@ class PosiViewProject(object):
         properties['Mission']['cruise'] = s.value('Mission/Cruise', 'CruiseXX')
         properties['Mission']['dive'] = s.value('Mission/Dive', 'DiveX')
         properties['Mission']['station'] = s.value('Mission/Station', '#xxx')
-        properties['LoggingPath'] = s.value('Logging/Path', environ['HOME'])
+        properties['RecorderPath'] = s.value('Logging/Path', environ['HOME'])
+        properties['AutoRecord'] = s.value('Recorder/AutoRecord', False)
         s.endGroup()
         return properties
         
@@ -186,7 +190,8 @@ class PosiViewProject(object):
         s.setValue('Mission/Cruise', properties['Mission']['cruise'])
         s.setValue('Mission/Dive', properties['Mission']['dive'])
         s.setValue('Mission/Station', properties['Mission']['station'])
-        s.setValue('Logging/Path', properties['LoggingPath'])
+        s.setValue('Recorder/Path', properties['RecorderPath'])
+        s.setValue('Recorder/AutoRecord', properties['AutoRecord'])
         s.endGroup()
 
     def loadTestProject(self):

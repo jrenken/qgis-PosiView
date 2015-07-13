@@ -47,6 +47,8 @@ class MobileItem(QObject):
         self.extData = dict()
         self.coordinates = None
         self.position = None
+        self.heading = 0.0
+        self.depth = 0.0
         self.lastFix = 0.0
         self.crsXform = QgsCoordinateTransform()
         self.crsXform.setSourceCrs(QgsCoordinateReferenceSystem(4326))
@@ -101,6 +103,8 @@ class MobileItem(QObject):
             
         if 'lat' in data and 'lon' in data:
             self.position = QgsPoint(data['lon'], data['lat'])
+            self.heading = data.get('heading', 0.0)
+            self.depth = data.get('depth', 0.0)
             try:
                 self.coordinates = self.crsXform.transform(self.position)
                 self.marker.newCoords(self.coordinates)
@@ -147,3 +151,8 @@ class MobileItem(QObject):
             self.canvas.setCenter(self.coordinates)
             self.canvas.refresh()
         
+    def reportPosition(self):
+        if self.position is None:
+            return -9999.99, -9999.99, 0.0, 0.0
+        return self.position.y(), self.position.x(), self.depth, self.heading
+    

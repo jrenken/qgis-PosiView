@@ -32,6 +32,8 @@ from gui.guidance_dock import GuidanceDock
 from gui.posiview_properties import PosiviewProperties
 from gui.dataprovider_dump import DataProviderDump
 from gui.position_display import PositionDisplay
+from recorder import Recorder
+from qgis.gui import QgsMessageBar
 
 
 
@@ -82,7 +84,8 @@ class PosiView:
         self.guidance.hide()
         self.providerDump = None
         self.positionDisplay = PositionDisplay(self.iface)
-
+        self.recorder = None
+        
     # noinspection PyMethodMayBeStatic
     def tr(self, message):
         """Get the translation for a string using Qt translation API.
@@ -252,12 +255,17 @@ class PosiView:
             self.tracking.setMobiles(self.project.mobileItems)         
             self.guidance.setMobiles(self.project.mobileItems)
             self.tracking.setProviders(self.project.dataProviders)
+            self.recorder = Recorder(self.project.recorderPath)
+            self.recorder.setMobiles(self.project.mobileItems)
+            self.recorder.recordingStarted.connect(self.recordingStarted)
             self.loadGuiSettings()
             self.tracking.show()
             self.iface.mainWindow().statusBar().insertPermanentWidget(1, self.positionDisplay)
             self.positionDisplay.show()
         else:
             self.project.stopTracking()
+            self.recorder.stopRecording()
+            self.recorder = None
             self.actions['trackingAction'].setChecked(False)
             self.saveGuiSettings()
             self.tracking.removeMobiles()
@@ -270,8 +278,11 @@ class PosiView:
     def startStopTracking(self, checked=False):
         if checked:
             self.project.startTracking()
+            if self.project.autoRecord:
+                self.recorder.startRecording()
         else:
             self.project.stopTracking()
+            self.recorder.stopRecording()
     
     @pyqtSlot(dict)
     def onApplyConfigChanges(self, properties):
@@ -319,4 +330,10 @@ class PosiView:
             self.providerDump.show()
         except KeyError:
             pass
+        
+    @pyqtSlot(str)
+    def recordingStarted(self, fileName):
+        self.iface.messageBar().pushMessage("PosiView Recorder", 
+                "Recording started: " + fileName, 
+                level=QgsMessageBar.INFO, duration=3)
             

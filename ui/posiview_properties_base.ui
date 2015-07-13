@@ -144,7 +144,7 @@
           </sizepolicy>
          </property>
          <property name="currentIndex">
-          <number>1</number>
+          <number>0</number>
          </property>
          <widget class="QWidget" name="mOptsPage_01">
           <layout class="QVBoxLayout" name="verticalLayout_14">
@@ -164,8 +164,8 @@
                <rect>
                 <x>0</x>
                 <y>0</y>
-                <width>443</width>
-                <height>380</height>
+                <width>589</width>
+                <height>777</height>
                </rect>
               </property>
               <layout class="QVBoxLayout" name="verticalLayout_13">
@@ -271,13 +271,13 @@
                <item>
                 <widget class="QgsCollapsibleGroupBox" name="groupBox_5">
                  <property name="title">
-                  <string>Logging</string>
+                  <string>Recorder</string>
                  </property>
                  <layout class="QGridLayout" name="gridLayout_6">
                   <item row="1" column="0">
                    <widget class="QLabel" name="label_20">
                     <property name="text">
-                     <string>Logging path:</string>
+                     <string>Recorder path:</string>
                     </property>
                    </widget>
                   </item>
@@ -295,7 +295,14 @@
                    </widget>
                   </item>
                   <item row="1" column="1">
-                   <widget class="QLineEdit" name="lineEditLoggingPath"/>
+                   <widget class="QLineEdit" name="lineEditRecorderPath"/>
+                  </item>
+                  <item row="2" column="0">
+                   <widget class="QCheckBox" name="checkBoxAutoRecording">
+                    <property name="text">
+                     <string>Always start recording</string>
+                    </property>
+                   </widget>
                   </item>
                  </layout>
                 </widget>
@@ -309,6 +316,9 @@
                </item>
                <item>
                 <widget class="QgsCollapsibleGroupBox" name="groupBox_7">
+                 <property name="enabled">
+                  <bool>false</bool>
+                 </property>
                  <property name="title">
                   <string>Display</string>
                  </property>
@@ -621,8 +631,8 @@
                <rect>
                 <x>0</x>
                 <y>0</y>
-                <width>589</width>
-                <height>777</height>
+                <width>470</width>
+                <height>619</height>
                </rect>
               </property>
               <layout class="QVBoxLayout" name="verticalLayout_4">
