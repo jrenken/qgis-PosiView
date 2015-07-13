@@ -107,6 +107,7 @@ class PosiView:
         icon_path,
         text,
         callback,
+        toggle_flag=False,
         enabled_flag=True,
         checkable_flag=False,
         visible_flag=True,
@@ -132,6 +133,11 @@ class PosiView:
         :param enabled_flag: A flag indicating if the action should be enabled
             by default. Defaults to True.
         :type enabled_flag: bool
+
+        :param toggle_flag: A flag indicating if the action should connect 
+            the toggled or triggered signal by default. 
+            Defaults to triggered (False)
+        :type toggle_flag: bool
 
         :param checkable_flag: A flag indicating if the action should be checkable
             by default. Defaults to False.
@@ -167,7 +173,10 @@ class PosiView:
         icon = QIcon(icon_path)
         action = QAction(icon, text, parent)
         action.setObjectName(name)
-        action.triggered.connect(callback)
+        if toggle_flag:
+            action.toggled.connect(callback)
+        else:
+            action.triggered.connect(callback)
         action.setEnabled(enabled_flag)
         action.setCheckable(checkable_flag)
         action.setVisible(visible_flag)
@@ -214,9 +223,24 @@ class PosiView:
             parent=self.iface.mainWindow())
         
         icon = trackingAction.icon()
-        icon.addFile(os.path.join(iconPath, 'track_stop'),  QSize(), QIcon.Normal, QIcon.On)
+        icon.addFile(os.path.join(iconPath, 'track_stop.png'),  QSize(), QIcon.Normal, QIcon.On)
         trackingAction.setIcon(icon)
 
+        recordAction = self.add_action(
+            u'recordAction',
+            os.path.join(iconPath, 'record.png'),
+            text=self.tr(u'Start/stop &recording'),
+            callback=self.startStopRecording,
+            toggle_flag=True,
+            visible_flag=False,
+            checkable_flag=True,
+            status_tip=self.tr(u'Start/stop recording'),
+            parent=self.iface.mainWindow())
+        
+        icon = recordAction.icon()
+        icon.addFile(os.path.join(iconPath, 'record_stop.png'),  QSize(), QIcon.Normal, QIcon.On)
+        recordAction.setIcon(icon)
+        
         configAction = self.add_action(
             u'configAction',
             os.path.join(iconPath, 'preferences.png'),
@@ -228,6 +252,7 @@ class PosiView:
 
         loadAction.toggled.connect(trackingAction.setVisible)
         loadAction.toggled.connect(configAction.setVisible)
+        loadAction.toggled.connect(recordAction.setVisible)
 
     def unload(self):
         """Removes the plugin menu item and icon from QGIS GUI.
@@ -266,7 +291,6 @@ class PosiView:
             self.project.stopTracking()
             self.recorder.stopRecording()
             self.recorder = None
-            self.actions['trackingAction'].setChecked(False)
             self.saveGuiSettings()
             self.tracking.removeMobiles()
             self.tracking.removeProviders()
@@ -275,14 +299,15 @@ class PosiView:
             self.project.unload()
             self.iface.mainWindow().statusBar().removeWidget(self.positionDisplay)
 
+    @pyqtSlot(bool)
     def startStopTracking(self, checked=False):
         if checked:
             self.project.startTracking()
             if self.project.autoRecord:
-                self.recorder.startRecording()
+                self.actions['recordAction'].setChecked(checked)
         else:
             self.project.stopTracking()
-            self.recorder.stopRecording()
+            self.actions['recordAction'].setChecked(checked)
     
     @pyqtSlot(dict)
     def onApplyConfigChanges(self, properties):
@@ -331,9 +356,17 @@ class PosiView:
         except KeyError:
             pass
         
+    @pyqtSlot(bool)
+    def startStopRecording(self, checked=False):
+        if self.recorder is not None:
+            if checked:
+                self.recorder.startRecording()
+            else:
+                self.recorder.stopRecording()
+        
     @pyqtSlot(str)
     def recordingStarted(self, fileName):
-        self.iface.messageBar().pushMessage("PosiView Recorder", 
-                "Recording started: " + fileName, 
+        self.iface.messageBar().pushMessage(self.tr(u'PosiView Recorder'), 
+                self.tr(u'Recording started: ') + fileName, 
                 level=QgsMessageBar.INFO, duration=3)
             

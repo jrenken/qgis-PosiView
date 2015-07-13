@@ -47,6 +47,7 @@ PY_FILES = \
 	position_marker.py \
 	posiview_project.py \
 	mobile_item.py \
+	recorder.py \
 	gui/__init__.py \
 	gui/posiview_properties.py \
 	gui/tracking_dock.py \

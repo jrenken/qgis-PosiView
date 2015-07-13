@@ -4,7 +4,7 @@ Created on 05.06.2015
 @author: jrenken
 '''
 from os import environ
-from PyQt4.QtCore import QSettings
+from PyQt4.QtCore import QSettings, QCoreApplication
 from mobile_item import MobileItem
 from dataprovider.data_provider import DataProvider
 from qgis.gui import QgsMessageBar
@@ -92,10 +92,9 @@ class PosiViewProject(object):
                 try:
                     m.subscribePositionProvider(self.dataProviders[k1], m.dataProvider[k1])
                 except KeyError:
-                    self.iface.messageBar().pushMessage("Error", 
-                                                        "Can't subscribe dataprovider " + k1 + " for " + m.name, 
-                                                        level=QgsMessageBar.CRITICAL,
-                                                        duration=5)
+                    self.iface.messageBar().pushMessage(self.tr(u'Error'), self.tr(u"Can't subscribe dataprovider: ") 
+                                   + k1 + self.tr(u' for ') + m.name, 
+                                   level=QgsMessageBar.CRITICAL, duration=5)
         self.missionInfo = properties.get('Mission', { 'cruise': 'CruiseXX', 'dive': 'DiveX', 'station' : '#xxx'})
         self.recorderPath = properties.get('RecorderPath', environ['HOME'])
         self.autoRecord = bool(properties.get('AutoRecord', False))
@@ -194,6 +193,23 @@ class PosiViewProject(object):
         s.setValue('Recorder/AutoRecord', properties['AutoRecord'])
         s.endGroup()
 
+
+    # noinspection PyMethodMayBeStatic
+    def tr(self, message):
+        """Get the translation for a string using Qt translation API.
+
+        We implement this ourselves since we do not inherit QObject.
+
+        :param message: String for translation.
+        :type message: str, QString
+
+        :returns: Translated version of message.
+        :rtype: QString
+        """
+        # noinspection PyTypeChecker,PyArgumentList,PyCallByClass
+        return QCoreApplication.translate('PosiViewProject', message)
+
+
     def loadTestProject(self):
         provider = DataProvider({'Name': 'Gaps', 'DataDeviceType': 'UDP', 'Port': 2000, 'Parser': 'IX_USBL'})
         self.dataProviders[provider.name] = provider
@@ -216,3 +232,5 @@ class PosiViewProject(object):
         self.mobileItems[item.name] = item
         for k in item.dataProvider.keys():
             item.subscribePositionProvider(self.dataProviders[k], item.dataProvider[k])
+            
+            
