@@ -238,7 +238,7 @@ class PosiView:
             parent=self.iface.mainWindow())
         
         icon = recordAction.icon()
-        icon.addFile(os.path.join(iconPath, 'record_stop.png'),  QSize(), QIcon.Normal, QIcon.On)
+        icon.addFile(os.path.join(iconPath, 'record-stop.png'),  QSize(), QIcon.Normal, QIcon.On)
         recordAction.setIcon(icon)
         
         configAction = self.add_action(
@@ -323,6 +323,7 @@ class PosiView:
             self.project.unload()
             self.project.load(properties)
             self.project.store()
+            self.recorder.path = self.project.recorderPath
             self.tracking.setMobiles(self.project.mobileItems)         
             self.guidance.setMobiles(self.project.mobileItems)
             self.tracking.setProviders(self.project.dataProviders)
