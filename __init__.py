@@ -24,7 +24,7 @@
 
 __author__ = 'Jens Renken'
 __date__ = 'June 2015'
-__copyright__ = '(C) 2012, Marum, Jens Renke'
+__copyright__ = '(C) 2015, Marum, Jens Renke'
 
 # noinspection PyPep8Naming
 def classFactory(iface):  # pylint: disable=invalid-name

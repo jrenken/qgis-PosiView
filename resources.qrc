@@ -1,7 +1,6 @@
 <RCC>
     <qresource prefix="/plugins/PosiView">
         <file alias="auv.png">resources/auv.png</file>
-        <file alias="sensor.png">resources/posidonia.png</file>
         <file alias="ledgrey.png">resources/ledgrey.png</file>
         <file alias="ledgreen.png">resources/ledgreen.png</file>
         <file alias="ledred.png">resources/ledred.png</file>
@@ -14,5 +13,6 @@
         <file alias="coord_format.png">resources/coord_format.png</file>
         <file alias="record.png">resources/record.png</file>
         <file alias="record-stop.png">resources/record-stop.png</file>
+        <file alias="sensor.png">resources/sextant.png</file>
     </qresource>
 </RCC>
