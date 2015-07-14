@@ -26,6 +26,7 @@ class UdpDevice(DataDevice):
         self.host = params.get('Host', None)
         self.port = int(params.get('Port', 2000))
         self.iodevice.readyRead.connect(self.readyRead)
+        self.buffer = list()
 
     def connectDevice(self):
         result = False
@@ -51,6 +52,15 @@ class UdpDevice(DataDevice):
         self.remotePort = port 
         return data
     
-    
+    def readLine(self):
+        if self.iodevice.hasPendingDatagrams():
+            self.buffer.extend(self.readData()) 
+        try:
+            i = self.buffer.index('\n')
+            data = self.buffer[0:i]
+            del self.buffer[0:i+1]
+            return ''.join(data)
+        except ValueError:
+            return ''
         
         

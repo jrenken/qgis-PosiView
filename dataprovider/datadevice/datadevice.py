@@ -23,7 +23,10 @@ class DataDevice(QObject):
         self.buffered = False
 
     def readData(self):
-        pass
+        return ''
+    
+    def readLine(self):
+        return ''
     
     def connectDevice(self):
         pass

@@ -49,6 +49,11 @@ class TcpDevice(DataDevice):
         data = self.iodevice.read(size)
         return data
     
+    def readLine(self):
+        if self.iodevice.canReadLine():
+            return str(self.iodevice.readLine())
+        return ''
+    
     @pyqtSlot()
     def socketConnected(self):
         self.deviceConnected.emit(True)

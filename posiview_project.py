@@ -36,13 +36,13 @@ class PosiViewProject(object):
 
     def startTracking(self):
         if not self.trackingStarted:
-            for k, v in self.dataProviders.items():
+            for v in self.dataProviders.values():
                 v.start() 
             self.trackingStarted = True
                           
     def stopTracking(self):
         if self.trackingStarted:
-            for k, v in self.dataProviders.items():
+            for v in self.dataProviders.values():
                 v.stop() 
             self.trackingStarted = False
 
@@ -149,7 +149,7 @@ class PosiViewProject(object):
         properties['Mission']['dive'] = s.value('Mission/Dive', 'DiveX')
         properties['Mission']['station'] = s.value('Mission/Station', '#xxx')
         properties['RecorderPath'] = s.value('Recorder/Path', environ['HOME'])
-        properties['AutoRecord'] = s.value('Recorder/AutoRecord', False)
+        properties['AutoRecord'] = s.value('Recorder/AutoRecord', False) in ['True', 'true']
         s.endGroup()
         return properties
         
@@ -167,7 +167,7 @@ class PosiViewProject(object):
         idx = 0
         s.beginWriteArray('Mobiles')
         try:
-            for k, v in properties['Mobiles'].items():
+            for v in properties['Mobiles'].values():
                 s.setArrayIndex(idx)
                 for k1, v1 in v.items():
                     s.setValue(k1, str(v1))
@@ -178,7 +178,7 @@ class PosiViewProject(object):
         idx = 0
         s.beginWriteArray('DataProvider')
         try:
-            for k, v in properties['Provider'].items():
+            for v in properties['Provider'].values():
                 s.setArrayIndex(idx)
                 for k1, v1 in v.items():
                     s.setValue(k1, str(v1))

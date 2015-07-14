@@ -61,12 +61,13 @@ class DataProvider(QObject):
     
     @pyqtSlot()
     def onDataAvailable(self):
-        data = self.dataDevice.readData()
-        lines = data.splitlines()
-        for line in lines:
-            self.newRawDataReceived.emit(line)
-            d = self.parser.parse(line)
-            if d:
-                d['name'] = self.name
-                self.newDataReceived.emit(d)
-            
+        while True:
+            line = self.dataDevice.readLine()
+            if line:
+                self.newRawDataReceived.emit(line)
+                d = self.parser.parse(line)
+                if d:
+                    d['name'] = self.name
+                    self.newDataReceived.emit(d)
+            else:
+                break
