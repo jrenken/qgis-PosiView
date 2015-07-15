@@ -217,6 +217,7 @@ class PosiView:
             os.path.join(iconPath, 'track_start.png'),            
             text=self.tr(u'&Start/stop tracking'),
             callback=self.startStopTracking,
+            toggle_flag=True,
             visible_flag=False,
             checkable_flag=True,
             status_tip=self.tr(u'Start/stop tracking'),
@@ -288,8 +289,6 @@ class PosiView:
             self.iface.mainWindow().statusBar().insertPermanentWidget(1, self.positionDisplay)
             self.positionDisplay.show()
         else:
-            self.project.stopTracking()
-            self.recorder.stopRecording()
             self.actions['trackingAction'].setChecked(False)
             self.actions['recordAction'].setChecked(False)
             self.recorder = None
@@ -313,11 +312,10 @@ class PosiView:
     
     @pyqtSlot(dict)
     def onApplyConfigChanges(self, properties):
-#         print "Config apply"
-        if self.actions['loadAction'].isChecked():            
+        if self.actions['loadAction'].isChecked():
+            track = self.actions['trackingAction'].isChecked()     
             self.actions['trackingAction'].setChecked(False)
             self.actions['recordAction'].setChecked(False)
-            self.project.stopTracking()
             self.tracking.removeMobiles()
             self.tracking.removeProviders()
             self.project.unload()
@@ -328,7 +326,7 @@ class PosiView:
             self.guidance.setMobiles(self.project.mobileItems)
             self.tracking.setProviders(self.project.dataProviders)
             self.recorder.setMobiles(self.project.mobileItems)
-
+            self.actions['trackingAction'].setChecked(track)
     
     def configure(self):
         propDlg = PosiviewProperties(self.project)

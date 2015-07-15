@@ -6,7 +6,7 @@ Created on 30.01.2015
 import os
 
 from PyQt4 import QtGui, uic
-from PyQt4.QtCore import pyqtSlot
+from PyQt4.QtCore import pyqtSlot, QSettings
 from qgis.core import QgsPoint, QgsDistanceArea
 from math import pi
 from .compass import CompassWidget
@@ -56,6 +56,13 @@ class GuidanceDock(QtGui.QDockWidget, FORM_CLASS):
         self.comboBoxTarget.setCurrentIndex(-1)
         self.comboBoxSource.blockSignals(False )
         self.comboBoxTarget.blockSignals(False)
+        s = QSettings()
+        m = s.value('PosiView/Guidance/Source')
+        if m in self.mobiles:
+            self.comboBoxSource.setCurrentIndex(self.comboBoxSource.findText(m))
+        m = s.value('PosiView/Guidance/Target') 
+        if m in self.mobiles:
+            self.comboBoxTarget.setCurrentIndex(self.comboBoxTarget.findText(m))
         
     @pyqtSlot(name='on_pushButtonFormat_clicked')
     def switchCoordinateFormat(self):
@@ -85,6 +92,8 @@ class GuidanceDock(QtGui.QDockWidget, FORM_CLASS):
             self.source = self.mobiles[mob]
             self.source.newPosition.connect(self.onNewSourcePosition)
             self.source.newAttitude.connect(self.onNewSourceAttitude)
+            s = QSettings()
+            s.setValue('PosiView/Guidance/Source', mob)
         except KeyError:
             self.source = None
         self.resetSource()
@@ -101,6 +110,8 @@ class GuidanceDock(QtGui.QDockWidget, FORM_CLASS):
             self.target = self.mobiles[mob]
             self.target.newPosition.connect(self.onNewTargetPosition)
             self.target.newAttitude.connect(self.onNewTargetAttitude)
+            s = QSettings()
+            s.setValue('PosiView/Guidance/Target', mob)
         except KeyError:
             self.target = None
         self.resetTarget()
@@ -108,32 +119,38 @@ class GuidanceDock(QtGui.QDockWidget, FORM_CLASS):
     @pyqtSlot(float, QgsPoint, float, float)
     def onNewSourcePosition(self, fix, pos, depth, altitude):
         if [pos, depth] != self.srcPos:
-            lon, lat = self.posToStr(pos) #.toDegreesMinutes(4).split(',')
+            lon, lat = self.posToStr(pos)
             self.labelSourceLat.setText(lat)
             self.labelSourceLon.setText(lon)
             self.labelSourceDepth.setText(str(depth))
             self.labelVertDistance.setText(str( self.trgPos[1] - depth))
             dist = self.distArea.measureLine(self.trgPos[0], pos)
             self.labelDistance.setText('{:.1f}'.format(dist))
-            bearing = self.distArea.bearing(pos, self.trgPos[0]) * 180 / pi
-            if bearing < 0:
-                bearing += 360
+            if dist != 0:
+                bearing = self.distArea.bearing(pos, self.trgPos[0]) * 180 / pi
+                if bearing < 0:
+                    bearing += 360
+            else:
+                bearing = 0.0
             self.labelDirection.setText('{:.1f}'.format(bearing))
             self.srcPos = [pos, depth]
 
     @pyqtSlot(float, QgsPoint, float, float)
     def onNewTargetPosition(self, fix, pos, depth, altitude):
         if [pos, depth] != self.trgPos:
-            lon, lat = self.posToStr(pos) #.toDegreesMinutes(4).split(',')
+            lon, lat = self.posToStr(pos)
             self.labelTargetLat.setText(lat)
             self.labelTargetLon.setText(lon)
             self.labelTargetDepth.setText(str(depth))
             self.labelVertDistance.setText(str( depth - self.srcPos[1]))
             dist = self.distArea.measureLine(pos, self.srcPos[0])
             self.labelDistance.setText('{:.1f}'.format(dist))
-            bearing = self.distArea.bearing(self.srcPos[0], pos) * 180 / pi
-            if bearing < 0:
-                bearing += 360
+            if dist != 0:
+                bearing = self.distArea.bearing(self.srcPos[0], pos) * 180 / pi
+                if bearing < 0:
+                    bearing += 360
+            else:
+                bearing = 0.0
             self.labelDirection.setText('{:.1f}'.format(bearing))
             self.trgPos = [pos, depth]
 
