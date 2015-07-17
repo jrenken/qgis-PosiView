@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 '''
 Created on 05.06.2015
 
@@ -11,8 +12,8 @@ from qgis.gui import QgsMessageBar
 
  
 class PosiViewProject(object):
-    '''
-    classdocs
+    '''PosiView project holds all the provider and mobile items
+       and manages the configuration
     '''
 
     def __init__(self, iface, params={}):
@@ -22,14 +23,14 @@ class PosiViewProject(object):
             which provides the hook by which you can manipulate the QGIS
             application at run time.
         :type iface: QgsInterface
-        :param params: A dictionary defining all the properties of the project
+        :param params: A dictionary defining the properties of the project
         :type params: dictionary
         '''
 
         self.iface = iface
         self.dataProviders = dict()
         self.mobileItems = dict()
-        self.missionInfo = { 'cruise': 'CruiseXX', 'dive': 'DiveX', 'station' : '#xxx'}
+        self.missionInfo = {'cruise': 'CruiseXX', 'dive': 'DiveX', 'station' : '#xxx'}
         self.recorderPath = environ['HOME']
         self.autoRecord = False
         self.trackingStarted = False
@@ -37,13 +38,13 @@ class PosiViewProject(object):
     def startTracking(self):
         if not self.trackingStarted:
             for v in self.dataProviders.values():
-                v.start() 
+                v.start()
             self.trackingStarted = True
-                          
+
     def stopTracking(self):
         if self.trackingStarted:
             for v in self.dataProviders.values():
-                v.stop() 
+                v.stop()
             self.trackingStarted = False
 
     def loadSettings(self, iniFile=None):
@@ -52,7 +53,7 @@ class PosiViewProject(object):
             item = self.mobileItems[k]
             for key in item.dataProvider.keys():
                 item.subscribePositionProvider(self.dataProviders[key], item.dataProvider[key])
-                
+
     def properties(self):
         props = dict()
         props['Mission'] = self.missionInfo
@@ -60,16 +61,16 @@ class PosiViewProject(object):
         props['AutoRecord'] = self.autoRecord
         m = dict()
         for k in self.mobileItems.keys():
-            p = self.mobileItems[k].properties();
+            p = self.mobileItems[k].properties()
             m[p['Name']] = p
         props['Mobiles'] = m
         pr = dict()
-        for k in self.dataProviders.keys(): 
+        for k in self.dataProviders.keys():
             p = self.dataProviders[k].properties()
             pr[p['Name']] = p
         props['Provider'] = pr
         return props
-    
+
     def setProperties(self, properties):
         tracking = self.trackingStarted
         self.unload()
@@ -77,7 +78,7 @@ class PosiViewProject(object):
         if tracking:
             self.startTracking()
         pass
-        
+
     def load(self, properties):
         pr = properties['Provider']
         for k in pr.keys():
@@ -92,10 +93,10 @@ class PosiViewProject(object):
                 try:
                     m.subscribePositionProvider(self.dataProviders[k1], m.dataProvider[k1])
                 except KeyError:
-                    self.iface.messageBar().pushMessage(self.tr(u'Error'), self.tr(u"Can't subscribe dataprovider: ") 
-                                   + k1 + self.tr(u' for ') + m.name, 
+                    self.iface.messageBar().pushMessage(self.tr(u'Error'), self.tr(u"Can't subscribe dataprovider: ")
+                                   + k1 + self.tr(u' for ') + m.name,
                                    level=QgsMessageBar.CRITICAL, duration=5)
-        self.missionInfo = properties.get('Mission', { 'cruise': 'CruiseXX', 'dive': 'DiveX', 'station' : '#xxx'})
+        self.missionInfo = properties.get('Mission', {'cruise': 'CruiseXX', 'dive': 'DiveX', 'station' : '#xxx'})
         self.recorderPath = properties.get('RecorderPath', environ['HOME'])
         self.autoRecord = bool(properties.get('AutoRecord', False))
 
@@ -105,7 +106,7 @@ class PosiViewProject(object):
         for m in self.mobileItems.values():
             m.removeFromCanvas()
         self.mobileItems.clear()
-        
+
     def convertToBestType(self, val):
         try:
             return int(val)
@@ -117,7 +118,7 @@ class PosiViewProject(object):
                     return eval(val)
                 except:
                     return val
-        
+
     def read(self, iniFile=None):
         if iniFile is not None:
             s = QSettings(iniFile, QSettings.IniFormat)
@@ -152,16 +153,16 @@ class PosiViewProject(object):
         properties['AutoRecord'] = s.value('Recorder/AutoRecord', False) in ['True', 'true']
         s.endGroup()
         return properties
-        
+
     def store(self, iniFile=None, properties=None):
         if iniFile is not None:
             s = QSettings(iniFile, QSettings.IniFormat)
         else:
             s = QSettings()
-            
+
         if properties is None:
             properties = self.properties()
-            
+
         s.beginGroup('PosiView')
         s.remove('')
         idx = 0
@@ -193,7 +194,6 @@ class PosiViewProject(object):
         s.setValue('Recorder/AutoRecord', properties['AutoRecord'])
         s.endGroup()
 
-
     # noinspection PyMethodMayBeStatic
     def tr(self, message):
         """Get the translation for a string using Qt translation API.
@@ -208,29 +208,3 @@ class PosiViewProject(object):
         """
         # noinspection PyTypeChecker,PyArgumentList,PyCallByClass
         return QCoreApplication.translate('PosiViewProject', message)
-
-
-    def loadTestProject(self):
-        provider = DataProvider({'Name': 'Gaps', 'DataDeviceType': 'UDP', 'Port': 2000, 'Parser': 'IX_USBL'})
-        self.dataProviders[provider.name] = provider
-        provider = DataProvider({'Name': 'SCC', 'DataDeviceType': 'UDP', 'Port': 10511, 'Parser': 'PISE'})
-        self.dataProviders[provider.name] = provider
-
-        item = MobileItem(self.iface, {'Name': 'Seal', 'tracklen': 100, 'type' : 'shape', 'fillColor': 'yellow', 
-                                       'length': 6.0, 'width': 1.5,
-                                       'provider' : {'SCC': None}})
-        self.mobileItems[item.name] = item
-        for k in item.dataProvider.keys():
-            item.subscribePositionProvider(self.dataProviders[k], item.dataProvider[k])
-        
-        item = MobileItem(self.iface, {'Name': 'Beacon_7', 'timeout': 11000, 'provider' : {'Gaps': 1}})
-        self.mobileItems[item.name] = item
-        for k in item.dataProvider.keys():
-            item.subscribePositionProvider(self.dataProviders[k],  item.dataProvider[k])
-        item = MobileItem(self.iface, {'Name': 'Ship', 'type' : 'shape', 'timeout': 5000,
-                                       'fillColor': 'orange', 'provider' : {'Gaps': 0}})
-        self.mobileItems[item.name] = item
-        for k in item.dataProvider.keys():
-            item.subscribePositionProvider(self.dataProviders[k], item.dataProvider[k])
-            
-            
