@@ -75,6 +75,7 @@ class TrackingDisplay(QToolBar):
         self.setFloatable(True)
         self.mobile = mobile
         self.upToDate = False
+        self.lastFix = 0.0
         self.createActions()
         self.mobile.newPosition.connect(self.onNewPosition)
         self.mobile.timeout.connect(self.onTimeout)
@@ -123,8 +124,10 @@ class TrackingDisplay(QToolBar):
             s += "   alt = {:.1f}".format(altitude) 
         self.posLabel.setText(s)
         if not self.upToDate:
-            self.posLabel.setStyleSheet('background: lime; font-size: 8pt')
-            self.upToDate = True
+            if fix > self.lastFix:
+                self.posLabel.setStyleSheet('background: lime; font-size: 8pt')
+                self.upToDate = True
+        self.lastFix = fix
         
     @pyqtSlot()
     def onTimeout(self):

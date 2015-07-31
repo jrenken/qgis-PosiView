@@ -19,7 +19,7 @@
 #
 ###############################################################################
 
-PARSERS = ('IX_USBL', 'PISE', 'MINIPOS', 'GPS', 'PSONLLD')
+PARSERS = ('IX_USBL', 'PISE', 'MINIPOS', 'GPS', 'PSONLLD', 'CP16')
 
 def createParser(parserType=''):
     if parserType.upper() == 'IX_USBL':
@@ -37,6 +37,9 @@ def createParser(parserType=''):
     if parserType.upper() == 'PSONLLD':
         from .parser_psonlld import PsonlldParser
         return PsonlldParser()
+    if parserType.upper() == 'CP16':
+        from .parser_cp16 import CP16Parser
+        return CP16Parser()
     
     from .parser import Parser
     return Parser()

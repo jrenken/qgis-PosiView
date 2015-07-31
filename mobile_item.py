@@ -110,11 +110,16 @@ class MobileItem(QObject):
                 self.marker.newCoords(self.coordinates)
                 if 'time' in data:
                     self.lastFix = data['time']
-                    self.newPosition.emit(self.lastFix, self.position, data.get('depth', 0.0), data.get('altitude', -9999.9))
+                    self.newPosition.emit(self.lastFix, self.position, self.extData.get('depth', 0.0), 
+                                          self.extData.get('altitude', -9999.9))
                     self.timer.start(self.timeoutTime)
             except QgsCsException:
                 pass
-                
+            
+        elif self.position is not None:
+            if 'depth' in data or 'altitude'  in data:
+                self.newPosition.emit(self.lastFix, self.position, self.extData.get('depth', 0.0), 
+                                      self.extData.get('altitude', -9999.9))
                 
         if 'heading' in data:
             self.newAttitude.emit(data['heading'], data.get('pitch', 0.0), data.get('roll', 0.0))
@@ -127,7 +132,7 @@ class MobileItem(QObject):
     @pyqtSlot()
     def onCrsChange(self):
         crsDst = self.canvas.mapSettings().destinationCrs()
-#         print 'CRS changed', crsDst.ellipsoidAcronym (), crsDst.srsid()
+#         print 'CRS changed', crsDst.ellipsoidAcronym (), crsDst.authid()
         self.crsXform.setDestCRS(crsDst)
         self.marker.updateSize()
 
