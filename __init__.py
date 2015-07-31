@@ -3,7 +3,8 @@
 /***************************************************************************
  PosiView
                                  A QGIS plugin
- PosiView tracks multiple mobile object and vehicles and displays its position on the canvas
+ PosiView tracks multiple mobile object and vehicles and displays its
+ position on the canvas
                              -------------------
         begin                : 2015-06-01
         copyright            : (C) 2015 by Jens Renken/Marum/University of Bremen
@@ -24,7 +25,8 @@
 
 __author__ = 'Jens Renken'
 __date__ = 'June 2015'
-__copyright__ = '(C) 2015, Marum, Jens Renke'
+__copyright__ = '(C) 2015, Marum, Jens Renken'
+
 
 # noinspection PyPep8Naming
 def classFactory(iface):  # pylint: disable=invalid-name

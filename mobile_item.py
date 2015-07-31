@@ -4,15 +4,15 @@ Created on 05.06.2015
 @author: jrenken
 '''
 from PyQt4.QtCore import QObject, pyqtSlot, QTimer, pyqtSignal
-from qgis.core import QgsPoint, QgsCoordinateTransform, QgsCoordinateReferenceSystem, \
-        QgsCsException
+from qgis.core import QgsPoint, QgsCoordinateTransform, \
+        QgsCoordinateReferenceSystem, QgsCsException
 from position_marker import PositionMarker
-# from qgis.core import 
 
 
 class MobileItem(QObject):
     '''
-    A Mobile Item that reveives its position from a dataprovider and is displayed on the canvas
+    A Mobile Item that reveives its position from a dataprovider
+    and is displayed on the canvas
     Could be everything liek vehicles or simple beacons
     '''
 
@@ -29,7 +29,7 @@ class MobileItem(QObject):
             which provides the hook by which you can manipulate the QGIS
             application at run time.
         :type iface: QgsInterface
-        :param params: A dictionary defining all the properties of the mobile item
+        :param params: A dictionary defining all the properties of the item
         :type params: dictionary
         :param parent: Parent object for the new item. Defaults None.
         :type parent: QObject
@@ -39,7 +39,8 @@ class MobileItem(QObject):
         self.iface = iface
         self.canvas = iface.mapCanvas()
         MobileItem.mobileItemCount += 1
-        self.name = params.setdefault('Name', 'MobileItem_' + str(MobileItem.mobileItemCount))
+        self.name = params.setdefault('Name', 'MobileItem_' +
+                                      str(MobileItem.mobileItemCount))
         self.marker = PositionMarker(self.canvas, params)
         self.marker.setToolTip(self.name)
         self.dataProvider = params.get('provider', dict())
@@ -55,19 +56,25 @@ class MobileItem(QObject):
         self.onCrsChange()
         self.canvas.scaleChanged.connect(self.onScaleChange)
         self.canvas.destinationCrsChanged.connect(self.onCrsChange)
-        self.timer = QTimer(self);
+        self.timer = QTimer(self)
         self.timer.timeout.connect(self.timeout)
         self.timeoutTime = int(params.get('timeout', 3000))
         self.enabled = True
-       
+
     def removeFromCanvas(self):
-#         self.marker.removeFromCanvas()
+        '''
+        Remove the item and its track from the canvas
+        '''
         self.marker.deleteTrack()
         self.canvas.scene().removeItem(self.marker)
-#         self.deleteLater()
-    
+
     def properties(self):
-        d = {'Name' : self.name, 
+        '''
+        Return the items properties as dictionary
+        :returns: Items properties
+        :rtype: dict
+        '''
+        d = {'Name' : self.name,
              'timeout': self.timeoutTime,
              'enabled': self.enabled,
              'provider' : self.dataProvider}
@@ -75,13 +82,26 @@ class MobileItem(QObject):
         return d
 
     def subscribePositionProvider(self, provider, filterId=None):
+        '''
+        Subscribe the provider for this item
+        by connecting to the providers signals
+        :param provider: Provider to connect to
+        :type provider: DataProvider
+        :param filterId: Filter Id for this item
+        :type filterId:
+        '''
         provider.newDataReceived.connect(self.processNewData)
-        if filterId != None:
+        if filterId is not None:
             self.messageFilter[provider.name] = filterId
         elif provider.name in self.messageFilter.keys():
             del self.messageFilter[provider.name]
 
     def unsubscribePositionProvider(self, provider):
+        '''
+        Unsubscribe provider by disconnecting the providers signals
+        :param provider: Provider to diconnect from
+        :type provider: DataProvider
+        '''
         try:
             provider.newDataReceived.disconnect(self.processData)
             del self.messageFilter[provider.name]
@@ -90,6 +110,11 @@ class MobileItem(QObject):
 
     @pyqtSlot(dict)
     def processNewData(self, data):
+        '''
+        Process incoming data from the data provider
+        :param data: Positon or attitude data
+        :type data: dict
+        '''
         if not self.enabled:
             return
         try:
@@ -100,7 +125,7 @@ class MobileItem(QObject):
         except:
             pass
         self.extData.update(data)
-            
+
         if 'lat' in data and 'lon' in data:
             self.position = QgsPoint(data['lon'], data['lat'])
             self.heading = data.get('heading', 0.0)
@@ -110,27 +135,38 @@ class MobileItem(QObject):
                 self.marker.newCoords(self.coordinates)
                 if 'time' in data:
                     self.lastFix = data['time']
-                    self.newPosition.emit(self.lastFix, self.position, self.extData.get('depth', 0.0), 
+                    self.newPosition.emit(self.lastFix, self.position,
+                                          self.extData.get('depth', 0.0),
                                           self.extData.get('altitude', -9999.9))
                     self.timer.start(self.timeoutTime)
             except QgsCsException:
                 pass
-            
+
         elif self.position is not None:
-            if 'depth' in data or 'altitude'  in data:
-                self.newPosition.emit(self.lastFix, self.position, self.extData.get('depth', 0.0), 
+            if 'depth' in data or 'altitude' in data:
+                self.newPosition.emit(self.lastFix, self.position,
+                                      self.extData.get('depth', 0.0),
                                       self.extData.get('altitude', -9999.9))
-                
+
         if 'heading' in data:
-            self.newAttitude.emit(data['heading'], data.get('pitch', 0.0), data.get('roll', 0.0))
+            self.newAttitude.emit(data['heading'], data.get('pitch', 0.0),
+                                  data.get('roll', 0.0))
             self.marker.newHeading(data['heading'])
 
     @pyqtSlot(float)
     def onScaleChange(self, scale):
+        '''
+        Slot called when the map is zoomed
+        :param scale: New scale
+        :type scale: float
+        '''
         self.marker.updateSize()
 
     @pyqtSlot()
     def onCrsChange(self):
+        '''
+        SLot called when the mapcanvas CRS is changed
+        '''
         crsDst = self.canvas.mapSettings().destinationCrs()
 #         print 'CRS changed', crsDst.ellipsoidAcronym (), crsDst.authid()
         self.crsXform.setDestCRS(crsDst)
@@ -138,6 +174,11 @@ class MobileItem(QObject):
 
     @pyqtSlot(bool)
     def setEnabled(self, enabled):
+        '''
+        Hide or display the item and its track on the map
+        :param enabled: what to do
+        :type enabled: bool
+        '''
         self.enabled = enabled
         self.marker.setVisible(self.enabled)
         self.marker.resetPosition()
@@ -145,19 +186,29 @@ class MobileItem(QObject):
             self.timer.start(self.timeoutTime)
         else:
             self.timer.stop()
-            
+
     @pyqtSlot()
     def deleteTrack(self):
+        '''
+        Delete the track all points
+        '''
         self.marker.deleteTrack()
 
     @pyqtSlot()
     def centerOnMap(self):
+        '''
+        Center the item on the map
+        '''
         if self.coordinates is not None:
             self.canvas.setCenter(self.coordinates)
             self.canvas.refresh()
-        
+
     def reportPosition(self):
+        '''
+        Report the position of the item. Used for logging
+        :returns: geographic postion, depth and altitude
+        :rtype: float, float, float, float
+        '''
         if self.position is None:
             return -9999.99, -9999.99, 0.0, 0.0
         return self.position.y(), self.position.x(), self.depth, self.heading
-    
