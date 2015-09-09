@@ -75,14 +75,13 @@ class PosiView:
 
         self.tracking = TrackingDock()
         self.iface.addDockWidget(Qt.LeftDockWidgetArea, self.tracking)
-        self.tracking.hide()
         self.tracking.providerToolbar.triggered.connect(self.dumpProvider)
         self.guidance = GuidanceDock()
         self.iface.addDockWidget(Qt.LeftDockWidgetArea, self.guidance)
-        self.guidance.hide()
         self.providerDump = None
         self.positionDisplay = PositionDisplay(self.iface)
         self.recorder = None
+        iface.initializationCompleted.connect(self.postInitialize)
 
     # noinspection PyMethodMayBeStatic
     def tr(self, message):
@@ -261,7 +260,6 @@ class PosiView:
         self.tracking.removeMobiles()
         self.tracking.removeProviders()
         self.project.unload()
-        self.saveGuiSettings()
         self.iface.mainWindow().statusBar().removeWidget(self.positionDisplay)
         for action in self.actions.values():
             self.iface.removePluginMenu(
@@ -284,7 +282,6 @@ class PosiView:
             self.recorder = Recorder(self.project.recorderPath)
             self.recorder.setMobiles(self.project.mobileItems)
             self.recorder.recordingStarted.connect(self.recordingStarted)
-            self.loadGuiSettings()
             self.tracking.show()
             self.iface.mainWindow().statusBar().insertPermanentWidget(1, self.positionDisplay)
             self.positionDisplay.show()
@@ -292,7 +289,6 @@ class PosiView:
             self.actions['trackingAction'].setChecked(False)
             self.actions['recordAction'].setChecked(False)
             self.recorder = None
-            self.saveGuiSettings()
             self.tracking.removeMobiles()
             self.tracking.removeProviders()
             self.tracking.hide()
@@ -346,23 +342,6 @@ class PosiView:
         if result:
             self.onApplyConfigChanges(propDlg.projectProperties)
 
-    def saveGuiSettings(self):
-        '''Save the visibility state of the dock windows
-        '''
-        settings = QSettings()
-        settings.beginGroup('PosiView')
-        settings.setValue('Gui/TrackingVisible', self.tracking.isVisible())
-        settings.setValue('Gui/GuidanceVisible', self.guidance.isVisible())
-        settings.endGroup()
-
-    def loadGuiSettings(self):
-        '''Restore the visibility state of the dock windows
-        '''
-        settings = QSettings()
-        settings.beginGroup('PosiView')
-        self.guidance.setVisible(settings.value('Gui/GuidanceVisible', False) in ['True', 'true'])
-        settings.endGroup()
-
     @pyqtSlot(str)
     def dumpProvider(self, name):
         '''Opens the dataprovider dump window which shows the raw input and the parsed output
@@ -399,3 +378,11 @@ class PosiView:
         self.iface.messageBar().pushMessage(self.tr(u'PosiView Recorder'),
                 self.tr(u'Recording started: ') + fileName,
                 level=QgsMessageBar.INFO, duration=3)
+        
+    @pyqtSlot()
+    def postInitialize(self):
+        '''Do some GUI stuff after qgis is initialized
+        '''
+        self.tracking.hide()
+        self.guidance.hide()
+
