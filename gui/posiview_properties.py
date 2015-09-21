@@ -202,9 +202,11 @@ class PosiviewProperties(QgsOptionsDialogBase, FORM_CLASS):
             self.mobileListModel.removeRows(idx.row(), 1)
             self.populateMobileWidgets(self.mMobileListView.currentIndex())
             
-    @pyqtSlot(name='on_toolButtonAddMobileProvider_clicked')
-    def addMobileProvider(self):
+    @pyqtSlot(name='on_toolButtonRefreshMobileProvider_clicked')
+    def refreshMobileProvider(self):
         prov = self.comboBoxProviders.currentText()
+        if prov == '':
+            return
         fil = None
         if self.lineEditProviderFilter.text() != '':
             fil = self.lineEditProviderFilter.text()

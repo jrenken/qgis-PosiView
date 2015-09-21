@@ -336,7 +336,7 @@ class PosiView:
     def configure(self):
         '''Execute the configuration dialogue and apply properties if accepted
         '''
-        propDlg = PosiviewProperties(self.project)
+        propDlg = PosiviewProperties(self.project, self.iface.mainWindow())
         propDlg.applyChanges.connect(self.onApplyConfigChanges)
         result = propDlg.exec_()
         if result:
@@ -381,7 +381,8 @@ class PosiView:
         
     @pyqtSlot()
     def postInitialize(self):
-        '''Do some GUI stuff after qgis is initialized
+        '''Do some GUI stuff after qgis is initialized.
+        Hides the docking windows.
         '''
         self.tracking.hide()
         self.guidance.hide()

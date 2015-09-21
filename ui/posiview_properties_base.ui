@@ -631,8 +631,8 @@
                <rect>
                 <x>0</x>
                 <y>0</y>
-                <width>470</width>
-                <height>619</height>
+                <width>589</width>
+                <height>777</height>
                </rect>
               </property>
               <layout class="QVBoxLayout" name="verticalLayout_4">
@@ -845,7 +845,7 @@
                     <item>
                      <layout class="QVBoxLayout" name="verticalLayout_12">
                       <item>
-                       <widget class="QToolButton" name="toolButtonAddMobileProvider">
+                       <widget class="QToolButton" name="toolButtonRefreshMobileProvider">
                         <property name="minimumSize">
                          <size>
                           <width>32</width>
@@ -860,6 +860,10 @@
                         </property>
                         <property name="text">
                          <string>...</string>
+                        </property>
+                        <property name="icon">
+                         <iconset>
+                          <normaloff>:/images/themes/default/mActionRefresh.png</normaloff>:/images/themes/default/mActionRefresh.png</iconset>
                         </property>
                        </widget>
                       </item>
