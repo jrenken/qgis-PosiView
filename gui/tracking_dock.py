@@ -32,44 +32,43 @@ class TrackingDock(QDockWidget, FORM_CLASS):
         self.setupUi(self)
         self.providerToolbar = ProviderToolBar()
         self.verticalLayout.addWidget(self.providerToolbar)
-        
+
     def addMobile(self, mobile):
         display = TrackingDisplay(mobile)
         self.verticalLayout.addWidget(display)
-        
+
     def removeMobiles(self):
         allTracking = self.findChildren(TrackingDisplay)
         for w in allTracking:
             w.releaseMobile()
             self.verticalLayout.removeWidget(w)
             w.deleteLater()
-            
+
     def setMobiles(self, mobiles):
         self.removeMobiles()
         for key in sorted(mobiles):
             self.addMobile(mobiles[key])
-            
+
     def addProvider(self, provider):
         self.providerToolbar.createAction(provider)
-        
-        
+
     def setProviders(self, providers):
         self.providerToolbar.clear()
         for key in sorted(providers):
             self.addProvider(providers[key])
-        
+
     def removeProviders(self):
         self.providerToolbar.clear()
         self.providerToolbar.actions = []
-        
+
 
 class TrackingDisplay(QToolBar):
     '''
         Display the position of a mobile and add action for centering
         the map on the vehicle and erasing the track
     '''
-    
-    def __init__(self, mobile, parent = None):
+
+    def __init__(self, mobile, parent=None):
         super(TrackingDisplay, self).__init__(parent)
         self.setMovable(True)
         self.setFloatable(True)
@@ -96,14 +95,14 @@ class TrackingDisplay(QToolBar):
         self.addAction(self.enableAction)
         self.enableAction.triggered.connect(self.onEnableClicked)
         self.enableAction.triggered.connect(self.mobile.setEnabled)
-        
+
         self.addSeparator()
         self.posLabel = QLabel("--:--:-- 0.000000 0.000000\nd = 0.0")
         self.posLabel.setAlignment(Qt.AlignHCenter | Qt.AlignVCenter)
         self.posLabel.setMinimumSize(180, 23)
         self.posLabel.setStyleSheet('background: red; font-size: 8pt')
-        self.posLabelAction = QWidgetAction(self);
-        self.posLabelAction.setDefaultWidget(self.posLabel);
+        self.posLabelAction = QWidgetAction(self)
+        self.posLabelAction.setDefaultWidget(self.posLabel)
         self.addAction(self.posLabelAction)
         self.centerAction = QAction(QIcon(':/plugins/PosiView/center.png'), "Center &Map", self)
         self.addAction(self.centerAction)
@@ -111,7 +110,7 @@ class TrackingDisplay(QToolBar):
         self.addAction(self.deleteTrackAction)
         self.deleteTrackAction.triggered.connect(self.mobile.deleteTrack)
         self.centerAction.triggered.connect(self.mobile.centerOnMap)
-         
+
     @pyqtSlot(float, QgsPoint, float, float)
     def onNewPosition(self, fix, pos, depth, altitude):
         s = str()
@@ -121,19 +120,19 @@ class TrackingDisplay(QToolBar):
             s = '--:--:--'
         s += "   {:f}  {:f}\nd = {:.1f}".format(pos.y(), pos.x(), depth)
         if altitude > 0:
-            s += "   alt = {:.1f}".format(altitude) 
+            s += "   alt = {:.1f}".format(altitude)
         self.posLabel.setText(s)
         if not self.upToDate:
             if fix > self.lastFix:
                 self.posLabel.setStyleSheet('background: lime; font-size: 8pt')
                 self.upToDate = True
         self.lastFix = fix
-        
+
     @pyqtSlot()
     def onTimeout(self):
         self.upToDate = False
         self.posLabel.setStyleSheet('background: red; font-size: 8pt')
-        
+
     @pyqtSlot(bool)
     def onEnableClicked(self, enable):
         self.upToDate = False
@@ -141,16 +140,16 @@ class TrackingDisplay(QToolBar):
             self.posLabel.setStyleSheet('background: red; font-size: 8pt')
         else:
             self.posLabel.setStyleSheet('background: white; font-size: 8pt')
-            
+
     def releaseMobile(self):
         self.mobile = None
-            
+
 
 class ProviderToolBar(QToolBar):
-        
+
     triggered = pyqtSignal(str)
-    
-    def __init__(self, parent = None):
+
+    def __init__(self, parent=None):
         super(ProviderToolBar, self).__init__(parent)
         self.signalMapper = QSignalMapper(self)
         self.setMovable(True)
@@ -173,5 +172,3 @@ class ProviderToolBar(QToolBar):
         action.triggered.connect(self.signalMapper.map)
         self.addAction(action)
         self.actions.append(action)
-       
-        

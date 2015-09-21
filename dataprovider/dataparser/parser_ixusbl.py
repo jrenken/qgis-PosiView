@@ -15,7 +15,7 @@ class IxUsblParser(Parser):
     '''
 
     def __init__(self):
-        super(IxUsblParser, self).__init__()        
+        super(IxUsblParser, self).__init__()
 
     def parse(self, data):
         if data.startswith('$PTSAG'):
@@ -29,16 +29,16 @@ class IxUsblParser(Parser):
     def decodePtsag(self, data):
         nmea = NmeaRecord(data)
         if (nmea.valid):
-            try: 
+            try:
                 result = {'id': int(nmea[6]), 'lat': nmea.fromDDM(7, 8),
-                          'lon': nmea.fromDDM(9, 10), 'depth':  float(nmea[12])}
-                dt = datetime.datetime(int(nmea[5]), int(nmea[4]), int(nmea[3]), 
-                                   int(nmea[2][0:2]), int(nmea[2][2:4]), 
+                          'lon': nmea.fromDDM(9, 10), 'depth': float(nmea[12])}
+                dt = datetime.datetime(int(nmea[5]), int(nmea[4]), int(nmea[3]),
+                                   int(nmea[2][0:2]), int(nmea[2][2:4]),
                                    int(nmea[2][4:6]), int(nmea[2][7:]) * 1000)
                 td = dt - datetime.datetime(1970, 1, 1)
                 result['time'] = td.total_seconds()
                 return result
-            except ValueError: 
+            except ValueError:
                 return {}
 
     def decodePtsah(self, data):
@@ -48,7 +48,7 @@ class IxUsblParser(Parser):
                 return {'id': 0, 'heading': float(nmea[2])}
             except ValueError:
                 return {}
-        
+
     def decodeHehdt(self, data):
         nmea = NmeaRecord(data)
         if nmea.valid:
@@ -56,4 +56,3 @@ class IxUsblParser(Parser):
                 return {'id': 0, 'heading': float(nmea[1])}
             except ValueError:
                 return {}
-            

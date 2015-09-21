@@ -4,11 +4,11 @@ Created on 03.06.2015
 @author: jrenken
 '''
 
-        
+
 class NmeaRecord:
     '''Handle NMEA Records'''
-    
-    def __init__(self, data = None):
+
+    def __init__(self, data=None):
         self.valid = True
         if (data is None):
             self.fields = []
@@ -25,11 +25,11 @@ class NmeaRecord:
 
     def __str__(self):
         return self.sentence(True)
-        
+
     def sentence(self, cs=False):
         s = ",".join(self.fields)
         if cs:
-            chs = 0;
+            chs = 0
             for i in range(1, len(s)):
                 chs ^= ord(s[i])
             s += "*%02x" % chs
@@ -39,7 +39,7 @@ class NmeaRecord:
         if key < len(self.fields):
             return self.fields[key]
         return ""
-    
+
     def __setitem__(self, key, value):
         if key < len(self.fields):
             self.fields[key] = format(value)

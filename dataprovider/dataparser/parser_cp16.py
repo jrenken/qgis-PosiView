@@ -13,7 +13,6 @@ class CP16Parser(Parser):
     $PCI,<depth meter>,<depth feet>,<heading>,<CP data>,<pitch>,<roll><CR><LF>
     '''
 
-
     def __init__(self):
         '''
         Constructor does nothing

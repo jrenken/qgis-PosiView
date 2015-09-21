@@ -8,13 +8,14 @@ from qgis.core import QgsCoordinateReferenceSystem, QgsCoordinateTransform, QgsP
 from PyQt4.Qt import pyqtSlot
 from PyQt4.QtCore import Qt
 
+
 class PositionDisplay(QWidget):
     '''
     classdocs
     '''
 
     __FORMATS = ('DD', 'DDM', 'DMDS')
-    
+
     def __init__(self, iface, parent=None):
         '''
         Constructor
@@ -35,9 +36,9 @@ class PositionDisplay(QWidget):
         self.label.setStyleSheet('font-weight: bold;')
         layout.addWidget(self.label)
         self.setLayout(layout)
-        
+
         self.format = 1
-        
+
         canvas = iface.mapCanvas()
         crsDest = QgsCoordinateReferenceSystem(4326)
         crsSrc = canvas.mapSettings().destinationCrs()
@@ -45,25 +46,22 @@ class PositionDisplay(QWidget):
         canvas.xyCoordinates.connect(self.mouseMoved)
         canvas.destinationCrsChanged.connect(self.mapCrsHasChanged)
         self.canvas = canvas
-        
+
     @pyqtSlot(name='on_toolButtonFormat_clicked')
     def switchCoordinateFormat(self):
         self.format = (self.format + 1) % 3
         self.button.setText(self.tr(self.__FORMATS[self.format]))
 
-            
-            
-    
     @pyqtSlot()
     def mapCrsHasChanged(self):
         crsSrc = self.canvas.mapSettings().destinationCrs()
         self.xform.setSourceCrs(crsSrc)
-    
-    @pyqtSlot(QgsPoint)        
+
+    @pyqtSlot(QgsPoint)
     def mouseMoved(self, point):
         pt = self.xform.transform(point)
         self.label.setText(self.posToStr(pt))
-       
+
     def posToStr(self, pos):
         if self.format == 0:
             return '{:.6f}, {:.6f}'.format(pos.y(), pos.x())

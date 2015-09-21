@@ -28,7 +28,7 @@ class GuidanceDock(QtGui.QDockWidget, FORM_CLASS):
 
         self.setupUi(self)
         self.compass = CompassWidget()
-        self.compass.setMinimumHeight(80) 
+        self.compass.setMinimumHeight(80)
         self.verticalLayout.addWidget(self.compass)
         self.verticalLayout.setStretch(4, 8)
         self.distArea = QgsDistanceArea()
@@ -42,7 +42,7 @@ class GuidanceDock(QtGui.QDockWidget, FORM_CLASS):
         self.srcHeading = 0.0
         self.trgHeading = 0.0
         self.format = 1
-        
+
     def setMobiles(self, mobiles):
         self.reset()
         self.mobiles = mobiles
@@ -54,22 +54,21 @@ class GuidanceDock(QtGui.QDockWidget, FORM_CLASS):
         self.comboBoxTarget.clear()
         self.comboBoxTarget.addItems(sorted(mobiles.keys()))
         self.comboBoxTarget.setCurrentIndex(-1)
-        self.comboBoxSource.blockSignals(False )
+        self.comboBoxSource.blockSignals(False)
         self.comboBoxTarget.blockSignals(False)
         s = QSettings()
         m = s.value('PosiView/Guidance/Source')
         if m in self.mobiles:
             self.comboBoxSource.setCurrentIndex(self.comboBoxSource.findText(m))
-        m = s.value('PosiView/Guidance/Target') 
+        m = s.value('PosiView/Guidance/Target')
         if m in self.mobiles:
             self.comboBoxTarget.setCurrentIndex(self.comboBoxTarget.findText(m))
-        
+
     @pyqtSlot(name='on_pushButtonFormat_clicked')
     def switchCoordinateFormat(self):
         self.format = (self.format + 1) % 3
         print self.format
-    
-    
+
     def posToStr(self, pos):
         if self.format == 0:
             return "{:.6f}".format(pos.y()), "{:.6f}".format(pos.x())
@@ -77,8 +76,7 @@ class GuidanceDock(QtGui.QDockWidget, FORM_CLASS):
             return pos.toDegreesMinutes(4, True, True).split(',')
         if self.format == 2:
             return pos.toDegreesMinutesSeconds(2, True, True).split(',')
-        
-        
+
     @pyqtSlot(str, name='on_comboBoxSource_currentIndexChanged')
     def sourceChanged(self, mob):
         if self.source is not None:
@@ -87,7 +85,7 @@ class GuidanceDock(QtGui.QDockWidget, FORM_CLASS):
                 self.source.newAttitude.disconnect(self.onNewSourceAttitude)
             except TypeError:
                 pass
-                    
+
         try:
             self.source = self.mobiles[mob]
             self.source.newPosition.connect(self.onNewSourcePosition)
@@ -97,7 +95,7 @@ class GuidanceDock(QtGui.QDockWidget, FORM_CLASS):
         except KeyError:
             self.source = None
         self.resetSource()
-    
+
     @pyqtSlot(str, name='on_comboBoxTarget_currentIndexChanged')
     def targetChanged(self, mob):
         if self.target is not None:
@@ -123,7 +121,7 @@ class GuidanceDock(QtGui.QDockWidget, FORM_CLASS):
             self.labelSourceLat.setText(lat)
             self.labelSourceLon.setText(lon)
             self.labelSourceDepth.setText(str(depth))
-            self.labelVertDistance.setText(str( self.trgPos[1] - depth))
+            self.labelVertDistance.setText(str(self.trgPos[1] - depth))
             dist = self.distArea.measureLine(self.trgPos[0], pos)
             self.labelDistance.setText('{:.1f}'.format(dist))
             if dist != 0:
@@ -142,7 +140,7 @@ class GuidanceDock(QtGui.QDockWidget, FORM_CLASS):
             self.labelTargetLat.setText(lat)
             self.labelTargetLon.setText(lon)
             self.labelTargetDepth.setText(str(depth))
-            self.labelVertDistance.setText(str( depth - self.srcPos[1]))
+            self.labelVertDistance.setText(str(depth - self.srcPos[1]))
             dist = self.distArea.measureLine(pos, self.srcPos[0])
             self.labelDistance.setText('{:.1f}'.format(dist))
             if dist != 0:
@@ -167,7 +165,7 @@ class GuidanceDock(QtGui.QDockWidget, FORM_CLASS):
             self.srcHeading = heading
             self.labelSourceHeading.setText(str(heading))
             self.compass.setAngle(heading)
-        
+
     def reset(self):
         try:
             if self.source is not None:
@@ -186,8 +184,7 @@ class GuidanceDock(QtGui.QDockWidget, FORM_CLASS):
         self.labelDirection.setText('---')
         self.labelDistance.setText('---')
         self.labelVertDistance.setText('---')
-        
-        
+
     def resetSource(self):
         self.srcPos = [QgsPoint(), 0.0]
         self.srcHeading = 0.0
@@ -209,9 +206,8 @@ class GuidanceDock(QtGui.QDockWidget, FORM_CLASS):
         self.compass.reset(2)
 
     def resizeEvent(self, event):
-        fsize = event.size().width() / 40;
+        fsize = event.size().width() / 40
         if fsize != self.fontSize:
             self.fontSize = fsize
             self.dockWidgetContents.setStyleSheet("font-weight: bold; font-size: {}pt".format(self.fontSize))
-            
         return QtGui.QDockWidget.resizeEvent(self, event)

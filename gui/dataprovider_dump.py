@@ -11,13 +11,12 @@ from PyQt4.QtCore import pyqtSlot, Qt
 
 FORM_CLASS, BASE_CLASS = uic.loadUiType(os.path.join(
     os.path.split(os.path.dirname(__file__))[0], 'ui', 'dataprovider_dump_base.ui'), False)
-    
-    
+
+
 class DataProviderDump(QDialog, FORM_CLASS):
     '''
     classdocs
     '''
-
 
     def __init__(self, parent=None):
         '''

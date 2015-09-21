@@ -378,7 +378,7 @@ class PosiView:
         self.iface.messageBar().pushMessage(self.tr(u'PosiView Recorder'),
                 self.tr(u'Recording started: ') + fileName,
                 level=QgsMessageBar.INFO, duration=3)
-        
+
     @pyqtSlot()
     def postInitialize(self):
         '''Do some GUI stuff after qgis is initialized.
@@ -386,4 +386,3 @@ class PosiView:
         '''
         self.tracking.hide()
         self.guidance.hide()
-

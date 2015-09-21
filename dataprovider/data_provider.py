@@ -13,7 +13,7 @@ class DataProvider(QObject):
     '''
     Base class for all data provider
     '''
-    
+
     newDataReceived = pyqtSignal(dict)
     newRawDataReceived = pyqtSignal(str)
     deviceConnected = pyqtSignal(bool)
@@ -40,10 +40,10 @@ class DataProvider(QObject):
 
     def start(self):
         self.connectDevice()
-        
+
     def stop(self):
         self.disconnectDevice()
-    
+
     def connectDevice(self):
         self.dataDevice = datadevice.createDataDevice(self.params)
         self.dataDevice.deviceConnected.connect(self.deviceConnected)
@@ -51,14 +51,14 @@ class DataProvider(QObject):
         if self.dataDevice is not None:
             self.dataDevice.readyRead.connect(self.onDataAvailable)
             self.dataDevice.connectDevice()
-    
+
     def disconnectDevice(self):
         if self.dataDevice is not None:
             self.dataDevice.disconnectDevice()
             self.dataDevice.readyRead.disconnect()
             self.dataDevice = None
             self.deviceDisconnected.emit(True)
-    
+
     @pyqtSlot()
     def onDataAvailable(self):
         while True:

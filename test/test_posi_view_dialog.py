@@ -49,17 +49,16 @@ class PosiViewDialogTest(unittest.TestCase):
         button.click()
         result = self.dialog.result()
         self.assertEqual(result, QDialog.Rejected)
-        
+
     def test_dialog_apply(self):
         """Test we can click apply."""
         button = self.dialog.buttonBox.button(QDialogButtonBox.Apply)
         button.click()
         result = self.dialog.result()
         self.assertEqual(result, QDialog.Rejected)
-        
+
 
 if __name__ == "__main__":
     suite = unittest.makeSuite(PosiViewDialogTest)
     runner = unittest.TextTestRunner(verbosity=2)
     runner.run(suite)
-

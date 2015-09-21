@@ -24,16 +24,16 @@ class DataDevice(QObject):
 
     def readData(self):
         return ''
-    
+
     def readLine(self):
         return ''
-    
+
     def connectDevice(self):
         pass
-    
+
     def disconnectDevice(self):
         pass
-    
+
     @pyqtSlot()
     def onReconnectTimer(self):
         self.connectDevice()

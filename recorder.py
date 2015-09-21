@@ -7,6 +7,7 @@ from PyQt4.QtCore import QObject, QTimer, pyqtSlot, pyqtSignal
 import os
 from datetime import datetime
 
+
 class Recorder(QObject):
     '''
     classdocs
@@ -29,11 +30,11 @@ class Recorder(QObject):
         self.file = None
         self.lineCount = 0
         self.maxLines = 10000
-        
+
     def setMobiles(self, mobiles):
         self.stopRecording()
         self.mobiles = mobiles
-        
+
     def openFile(self):
         dt = datetime.utcnow()
         s = self.filePrefix + dt.strftime('%Y%m%d-%H%M%S') + '.csv'
@@ -46,20 +47,19 @@ class Recorder(QObject):
         except IOError:
             self.file = None
             pass
-    
-    
+
     @pyqtSlot()
     def startRecording(self):
         self.openFile()
         self.timer.start(self.interval)
-    
+
     @pyqtSlot()
     def stopRecording(self):
         self.timer.stop()
         if self.file is not None:
             self.file.close()
             self.file = None
-    
+
     @pyqtSlot()
     def takeSnapshot(self):
         dt = datetime.utcnow()
@@ -68,7 +68,7 @@ class Recorder(QObject):
             lat, lon, depth, heading = v.reportPosition()
             line += '\t{:.6f}\t{:.6f}\t{:.1f}\t{:.1f}'.format(lat, lon, depth, heading)
         line += '\n'
-        try: 
+        try:
             self.file.write(line)
             self.lineCount += 1
             if self.lineCount > self.maxLines:
@@ -76,7 +76,7 @@ class Recorder(QObject):
                 self.openFile()
         except [IOError, ValueError]:
             pass
-            
+
     def fileHeader(self):
         header = 'Date\tTime'
         for k in self.mobiles:

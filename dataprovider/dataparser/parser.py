@@ -4,6 +4,7 @@ Created on 03.06.2015
 @author: jrenken
 '''
 
+
 class Parser(object):
     '''
     Base class for sentence parser
@@ -17,6 +18,6 @@ class Parser(object):
         self.hasAttitude = False
         self.id = None
         self.state = {}
-      
+
     def parse(self, data):
         return {}

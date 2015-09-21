@@ -10,7 +10,7 @@ from mobile_item import MobileItem
 from dataprovider.data_provider import DataProvider
 from qgis.gui import QgsMessageBar
 
- 
+
 class PosiViewProject(object):
     '''PosiView project holds all the provider and mobile items
        and manages the configuration

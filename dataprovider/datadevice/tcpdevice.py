@@ -7,18 +7,18 @@ from .datadevice import DataDevice
 from PyQt4.QtNetwork import QTcpSocket, QAbstractSocket
 from PyQt4.QtCore import pyqtSlot, QTimer
 
+
 class TcpDevice(DataDevice):
     '''
     classdocs
     '''
-
 
     def __init__(self, params={}, parent=None):
         '''
         Constructor
         '''
         super(TcpDevice, self).__init__(params, parent)
-        
+
         self.iodevice = QTcpSocket()
         self.reconnect = int(params.get('Reconnect', 1000))
         self.host = params.get('Host', None)
@@ -29,17 +29,15 @@ class TcpDevice(DataDevice):
         self.iodevice.connected.connect(self.socketConnected)
         self.iodevice.disconnected.connect(self.socketDisconnected)
 
-
     @pyqtSlot(QAbstractSocket.SocketError)
     def socketError(self, error):
         if self.iodevice.state() != QAbstractSocket.BoundState:
             if self.reconnect > 0:
                 QTimer.singleShot(self.reconnect, self.onReconnectTimer)
- 
 
     def connectDevice(self):
         self.iodevice.connectToHost(self.host, self.port)
-            
+
     def disconnectDevice(self):
         if self.iodevice.state() is QAbstractSocket.ConnectedState:
             self.iodevice.disconnectFromHost()
@@ -48,20 +46,18 @@ class TcpDevice(DataDevice):
         size = self.iodevice.bytesAvailable()
         data = self.iodevice.read(size)
         return data
-    
+
     def readLine(self):
         if self.iodevice.canReadLine():
             return str(self.iodevice.readLine())
         return ''
-    
+
     @pyqtSlot()
     def socketConnected(self):
         self.deviceConnected.emit(True)
         if self.gpsdInit:
             self.iodevice.writeData('?WATCH={"class":"WATCH","nmea":true}')
-        
+
     @pyqtSlot()
     def socketDisconnected(self):
         self.deviceDisconnected.emit(True)
-
-    

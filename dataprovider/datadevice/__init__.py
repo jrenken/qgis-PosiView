@@ -25,6 +25,7 @@ from .tcpdevice import TcpDevice
 DEVICE_TYPES = ('UDP', 'TCP', 'GPSD')
 NETWORK_TYPES = ('UDP', 'TCP', 'GPSD')
 
+
 def createDataDevice(params={}, parent=None):
     deviceType = params.get('DataDeviceType', 'UDP').upper()
     if deviceType == 'UDP':

@@ -20,7 +20,7 @@ class UdpDevice(DataDevice):
         Constructor
         '''
         super(UdpDevice, self).__init__(params, parent)
-        
+
         self.iodevice = QUdpSocket()
         self.reconnect = int(params.get('Reconnect', 1000))
         self.host = params.get('Host', None)
@@ -32,15 +32,15 @@ class UdpDevice(DataDevice):
         result = False
         if self.host is None:
             result = self.iodevice.bind(self.port)
-        else:        
+        else:
             ha = QHostAddress(self.host)
-            result = self.iodevice.bind(ha, self.port)  
+            result = self.iodevice.bind(ha, self.port)
         if result is False:
             if self.reconnect > 0:
                 QTimer.singleShot(self.reconnect, self.onReconnectTimer)
         else:
-            self.deviceConnected.emit(True) 
-            
+            self.deviceConnected.emit(True)
+
     def disconnectDevice(self):
         if self.iodevice.state() is QAbstractSocket.BoundState:
             self.iodevice.disconnectFromHost()
@@ -49,18 +49,16 @@ class UdpDevice(DataDevice):
     def readData(self):
         (data, ha, port) = self.iodevice.readDatagram(self.iodevice.pendingDatagramSize())
         self.remoteHost = ha.toString()
-        self.remotePort = port 
+        self.remotePort = port
         return data
-    
+
     def readLine(self):
         if self.iodevice.hasPendingDatagrams():
-            self.buffer.extend(self.readData()) 
+            self.buffer.extend(self.readData())
         try:
             i = self.buffer.index('\n')
             data = self.buffer[0:i]
-            del self.buffer[0:i+1]
+            del self.buffer[0:i + 1]
             return ''.join(data)
         except ValueError:
             return ''
-        
-        
