@@ -1,6 +1,6 @@
 # PosiView Plugin
 
-PosiView tracks multiple vehicles and movable objects reporting
+PosiView tracks multiple vehicles and moving objects reporting
 their position via USBL, GPS or other navigation devices.
 
 
