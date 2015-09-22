@@ -12,7 +12,7 @@ about=Track multiple objects and vehicles and display them as shapes and points 
 description=PosiView tracks multiple mobile objects and vehicles and displays its position on the canvas
 qgisMinimumVersion=2.8
 version=0.1.8
-author=Jens Renken/Marum/University of Bremen
+author=Jens Renken
 email=renken@marum.de
 
 # End of mandatory metadata
