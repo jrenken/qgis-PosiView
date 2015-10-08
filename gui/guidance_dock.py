@@ -37,8 +37,8 @@ class GuidanceDock(QtGui.QDockWidget, FORM_CLASS):
         self.fontSize = 11
         self.source = None
         self.target = None
-        self.srcPos = [QgsPoint(), 0.0]
-        self.trgPos = [QgsPoint(), 0.0]
+        self.srcPos = [None, 0.0]
+        self.trgPos = [None, 0.0]
         self.srcHeading = 0.0
         self.trgHeading = 0.0
         self.format = 1
@@ -121,16 +121,17 @@ class GuidanceDock(QtGui.QDockWidget, FORM_CLASS):
             self.labelSourceLat.setText(lat)
             self.labelSourceLon.setText(lon)
             self.labelSourceDepth.setText(str(depth))
-            self.labelVertDistance.setText(str(self.trgPos[1] - depth))
-            dist = self.distArea.measureLine(self.trgPos[0], pos)
-            self.labelDistance.setText('{:.1f}'.format(dist))
-            if dist != 0:
-                bearing = self.distArea.bearing(pos, self.trgPos[0]) * 180 / pi
-                if bearing < 0:
-                    bearing += 360
-            else:
-                bearing = 0.0
-            self.labelDirection.setText('{:.1f}'.format(bearing))
+            if self.trgPos[0] is not None:
+                self.labelVertDistance.setText(str(self.trgPos[1] - depth))
+                dist = self.distArea.measureLine(self.trgPos[0], pos)
+                self.labelDistance.setText('{:.1f}'.format(dist))
+                if dist != 0:
+                    bearing = self.distArea.bearing(pos, self.trgPos[0]) * 180 / pi
+                    if bearing < 0:
+                        bearing += 360
+                else:
+                    bearing = 0.0
+                self.labelDirection.setText('{:.1f}'.format(bearing))
             self.srcPos = [pos, depth]
 
     @pyqtSlot(float, QgsPoint, float, float)
@@ -140,16 +141,17 @@ class GuidanceDock(QtGui.QDockWidget, FORM_CLASS):
             self.labelTargetLat.setText(lat)
             self.labelTargetLon.setText(lon)
             self.labelTargetDepth.setText(str(depth))
-            self.labelVertDistance.setText(str(depth - self.srcPos[1]))
-            dist = self.distArea.measureLine(pos, self.srcPos[0])
-            self.labelDistance.setText('{:.1f}'.format(dist))
-            if dist != 0:
-                bearing = self.distArea.bearing(self.srcPos[0], pos) * 180 / pi
-                if bearing < 0:
-                    bearing += 360
-            else:
-                bearing = 0.0
-            self.labelDirection.setText('{:.1f}'.format(bearing))
+            if self.srcPos[0] is not None:
+                self.labelVertDistance.setText(str(depth - self.srcPos[1]))
+                dist = self.distArea.measureLine(pos, self.srcPos[0])
+                self.labelDistance.setText('{:.1f}'.format(dist))
+                if dist != 0:
+                    bearing = self.distArea.bearing(self.srcPos[0], pos) * 180 / pi
+                    if bearing < 0:
+                        bearing += 360
+                else:
+                    bearing = 0.0
+                self.labelDirection.setText('{:.1f}'.format(bearing))
             self.trgPos = [pos, depth]
 
     @pyqtSlot(float, float, float)
@@ -181,29 +183,34 @@ class GuidanceDock(QtGui.QDockWidget, FORM_CLASS):
         self.target = None
         self.resetSource()
         self.resetTarget()
-        self.labelDirection.setText('---')
-        self.labelDistance.setText('---')
-        self.labelVertDistance.setText('---')
+        self.resetDistBearing()
 
     def resetSource(self):
-        self.srcPos = [QgsPoint(), 0.0]
-        self.srcHeading = 0.0
+        self.srcPos = [None, 0.0]
+        self.srcHeading = -720.0
 
         self.labelSourceLat.setText('---')
         self.labelSourceLon.setText('---')
         self.labelSourceHeading.setText('---')
         self.labelSourceDepth.setText('---')
         self.compass.reset(1)
+        self.resetDistBearing()
 
     def resetTarget(self):
-        self.trgPos = [QgsPoint(), 0.0]
-        self.trgHeading = 0.0
+        self.trgPos = [None, 0.0]
+        self.trgHeading = -720.0
 
         self.labelTargetLat.setText('---')
         self.labelTargetLon.setText('---')
         self.labelTargetHeading.setText('---')
         self.labelTargetDepth.setText('---')
         self.compass.reset(2)
+        self.resetDistBearing()
+
+    def resetDistBearing(self):
+        self.labelDirection.setText('---')
+        self.labelDistance.setText('---')
+        self.labelVertDistance.setText('---')
 
     def resizeEvent(self, event):
         fsize = event.size().width() / 40
