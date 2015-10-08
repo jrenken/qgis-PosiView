@@ -7,7 +7,7 @@ their position via USBL, GPS or other navigation devices.
 ## Features
 
 The Plugin reads usually NMEA formatted data from USBL or other navigation devices
-and displays the object as scaled symbols on the canvas.
+and displays the object as scaled symbol on the canvas.
 
 Additionally the positions are displayed in several docked windows.
 
@@ -23,7 +23,7 @@ for underwater devices.
 
 ### via repo server
 
-Not available for the moment.
+* Go to plugin manager and install PosiView
 
 ## Quickstart
 

@@ -78,6 +78,7 @@ class PosiView:
         self.tracking.providerToolbar.triggered.connect(self.dumpProvider)
         self.guidance = GuidanceDock()
         self.iface.addDockWidget(Qt.LeftDockWidgetArea, self.guidance)
+        self.guidanceVisible = False
         self.providerDump = None
         self.positionDisplay = PositionDisplay(self.iface)
         self.recorder = None
@@ -283,6 +284,8 @@ class PosiView:
             self.recorder.setMobiles(self.project.mobileItems)
             self.recorder.recordingStarted.connect(self.recordingStarted)
             self.tracking.show()
+            if self.guidanceVisible:
+                self.guidance.show()
             self.iface.mainWindow().statusBar().insertPermanentWidget(1, self.positionDisplay)
             self.positionDisplay.show()
         else:
@@ -291,7 +294,8 @@ class PosiView:
             self.recorder = None
             self.tracking.removeMobiles()
             self.tracking.removeProviders()
-            self.tracking.hide()
+            self.tracking.hide()        
+            self.guidanceVisible = self.guidance.isVisible()
             self.guidance.hide()
             self.project.unload()
             self.iface.mainWindow().statusBar().removeWidget(self.positionDisplay)
@@ -384,5 +388,6 @@ class PosiView:
         '''Do some GUI stuff after qgis is initialized.
         Hides the docking windows.
         '''
+        self.guidanceVisible = self.guidance.isVisible()
         self.tracking.hide()
         self.guidance.hide()

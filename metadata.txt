@@ -9,10 +9,10 @@
 [general]
 name=PosiView
 about=Track multiple objects and vehicles and display them as shapes and points on the canvas
-description=PosiView tracks multiple mobile objects and vehicles and displays its position on the canvas
+description=PosiView tracks multiple mobile objects and vehicles and displays their position on the canvas
 qgisMinimumVersion=2.8
 version=0.1.8
-author=Jens Renken
+author=Jens Renken (Marum, University of Bremen)
 email=renken@marum.de
 
 # End of mandatory metadata
@@ -23,7 +23,7 @@ email=renken@marum.de
 # changelog=
 
 # Tags are comma separated with spaces allowed
-tags=Tracking
+tags=tracking
 
 homepage=http://www.marum.de/Meerestechnik.html
 tracker=https://github.com/jrenken/qgis-PosiView/issues
