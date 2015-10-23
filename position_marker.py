@@ -141,7 +141,7 @@ class PositionMarker(QgsMapCanvasItem):
             painter.drawConvexPolygon(self.paintShape)
 
     def boundingRect(self):
-        s = (self.size - 1) / 2
+        s = self.size / 2
         return QRectF(QPointF(-s, -s), QPointF(s, s))
 
     def getColor(self, value):

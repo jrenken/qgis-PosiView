@@ -309,6 +309,9 @@
                </item>
                <item>
                 <widget class="QgsCollapsibleGroupBox" name="groupBox_6">
+                 <property name="enabled">
+                  <bool>false</bool>
+                 </property>
                  <property name="title">
                   <string>Layer</string>
                  </property>
@@ -389,8 +392,8 @@
                <rect>
                 <x>0</x>
                 <y>0</y>
-                <width>589</width>
-                <height>777</height>
+                <width>184</width>
+                <height>369</height>
                </rect>
               </property>
               <layout class="QVBoxLayout" name="verticalLayout_8">
@@ -631,8 +634,8 @@
                <rect>
                 <x>0</x>
                 <y>0</y>
-                <width>589</width>
-                <height>777</height>
+                <width>470</width>
+                <height>619</height>
                </rect>
               </property>
               <layout class="QVBoxLayout" name="verticalLayout_4">

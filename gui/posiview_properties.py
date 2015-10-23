@@ -31,6 +31,8 @@ class PosiviewProperties(QgsOptionsDialogBase, FORM_CLASS):
         '''
         super(PosiviewProperties, self).__init__("PosiViewProperties", parent)
         self.setupUi(self)
+        self.groupBox_6.hide()
+        self.groupBox_7.hide()
         self.initOptionsBase(False)
         self.restoreOptionsBaseUi()
         self.comboBoxParser.addItems(PARSERS)

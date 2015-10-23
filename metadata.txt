@@ -11,7 +11,7 @@ name=PosiView
 about=Track multiple objects and vehicles and display them as shapes and points on the canvas
 description=PosiView tracks multiple mobile objects and vehicles and displays their position on the canvas
 qgisMinimumVersion=2.8
-version=0.1.8
+version=0.1.9
 author=Jens Renken (Marum, University of Bremen)
 email=renken@marum.de
 
@@ -20,10 +20,14 @@ email=renken@marum.de
 # Recommended items:
 
 # Uncomment the following line and add your changelog:
-# changelog=
-
+# changelog=Version 0.1.9 (2015-10-23)
+    - calculate distance and bearing only if both positions are valid
+    - clear heading and distance display in guidance dock if source or target is changed
+    - hide so far unused items in configuration dialog
+    - dock window visibility on startup
+    
 # Tags are comma separated with spaces allowed
-tags=tracking
+tags=tracking, network, real time, mapcanvas
 
 homepage=http://www.marum.de/Meerestechnik.html
 tracker=https://github.com/jrenken/qgis-PosiView/issues
