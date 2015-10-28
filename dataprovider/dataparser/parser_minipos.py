@@ -27,10 +27,13 @@ class MiniPosParser(Parser):
             if nmea.valid:
                 try:
                     result = {'lat': nmea.fromDDM(2, 3),
-                              'lon': nmea.fromDDM(4, 5), 'depth': float(nmea[6]),
-                              'altitude': float(nmea[7]), 'heading': float(nmea[8]),
-                              'velforw': float(nmea[9]), 'velport': float(nmea[10]),
-                              'velup': float(nmea[11])}
+                              'lon': nmea.fromDDM(4, 5), 
+                              'depth': nmea.value(6),
+                              'altitude': nmea.value(7), 
+                              'heading': nmea.value(8),
+                              'velforw': nmea.value(9), 
+                              'velport': nmea.value(10),
+                              'velup': nmea.value(11)}
                     t = datetime.datetime.utcnow()
                     dt = datetime.datetime(t.year, t.month, t.day,
                                            int(nmea[1][0:2]), int(nmea[1][2:4]),

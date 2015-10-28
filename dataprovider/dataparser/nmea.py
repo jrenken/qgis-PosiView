@@ -3,6 +3,7 @@ Created on 03.06.2015
 
 @author: jrenken
 '''
+from operator import __getitem__
 
 
 class NmeaRecord:
@@ -47,7 +48,23 @@ class NmeaRecord:
             self.fields.extend([''] * (key - len(self.fields)))
             self.fields.append(format(value))
 
-    def fromDDM(self, val, hem=0):
+    def value(self, key, defaultValue=0.0):
+        """ Return numeric (float) value of the field. 
+            If it fails, return default value
+        :param key: Fieldnumber.
+        :type key: int
+        :param defaultValue: default value if the field can not be converted
+        :type defaultValue: float
+
+        :returns: Converted value or default value.
+        :rtype: float
+        """ 
+        try:
+            return float(self.__getitem__(key))
+        except ValueError:
+            return defaultValue
+
+    def fromDDM(self, val, hem=0, defaultValue=0.0):
         try:
             dot = self.fields[val].index('.')
             deg = float(self.fields[val][0:(dot - 2)])
@@ -58,4 +75,4 @@ class NmeaRecord:
                     deg *= -1
             return deg
         except ValueError:
-            return 0.0
+            return defaultValue
