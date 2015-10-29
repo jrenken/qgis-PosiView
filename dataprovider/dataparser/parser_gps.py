@@ -50,5 +50,5 @@ class GpsParser(Parser):
         if (nmea.valid):
             h = nmea.value(1)
             if h is not None:
-                return {'heading': h} 
+                return {'heading': h}
         return {}

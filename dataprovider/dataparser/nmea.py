@@ -49,7 +49,7 @@ class NmeaRecord:
             self.fields.append(format(value))
 
     def value(self, key, defaultValue=None):
-        """ Return numeric (float or int) value of the field. 
+        """ Return numeric (float or int) value of the field.
             If it fails, return default value
         :param key: Fieldnumber.
         :type key: int
@@ -58,7 +58,7 @@ class NmeaRecord:
 
         :returns: Converted value or default value.
         :rtype: float
-        """ 
+        """
         try:
             return float(self.__getitem__(key))
         except ValueError:

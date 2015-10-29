@@ -149,7 +149,7 @@ class ProviderToolBar(QToolBar):
     '''
     Widget to display the vehicles/objects status and position
     '''
-    
+
     triggered = pyqtSignal(str)
 
     def __init__(self, parent=None):

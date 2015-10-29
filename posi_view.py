@@ -294,7 +294,7 @@ class PosiView:
             self.recorder = None
             self.tracking.removeMobiles()
             self.tracking.removeProviders()
-            self.tracking.hide()        
+            self.tracking.hide()
             self.guidanceVisible = self.guidance.isVisible()
             self.guidance.hide()
             self.project.unload()

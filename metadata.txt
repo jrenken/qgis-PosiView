@@ -4,14 +4,16 @@
 # embedding metadata in __init__.py will 
 # is no longer supported since version 2.0.
 
-# This file should be included when you package your plugin.# Mandatory items:
+# This file should be included when you package your plugin.
+
+# Mandatory items:
 
 [general]
 name=PosiView
 about=Track multiple objects and vehicles and display them as shapes and points on the canvas
 description=PosiView tracks multiple mobile objects and vehicles and displays their position on the canvas
 qgisMinimumVersion=2.8
-version=0.1.9
+version=0.2.0
 author=Jens Renken (Marum, University of Bremen)
 email=renken@marum.de
 
@@ -20,7 +22,11 @@ email=renken@marum.de
 # Recommended items:
 
 # Uncomment the following line and add your changelog:
-# changelog=Version 0.1.9 (2015-10-23)
+changelog=0.2.0 (2015-10-29)
+    - extend the bounding rectangle to cover also rotated shapes
+    - more robust handling of incoming data
+    - set default value for invalid data to -9999.9 instead of 0.0
+  0.1.9 (2015-10-23)
     - calculate distance and bearing only if both positions are valid
     - clear heading and distance display in guidance dock if source or target is changed
     - hide so far unused items in configuration dialog

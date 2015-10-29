@@ -27,11 +27,11 @@ class MiniPosParser(Parser):
             if nmea.valid:
                 try:
                     result = {'lat': nmea.fromDDM(2, 3),
-                              'lon': nmea.fromDDM(4, 5), 
+                              'lon': nmea.fromDDM(4, 5),
                               'depth': nmea.value(6),
-                              'altitude': nmea.value(7), 
+                              'altitude': nmea.value(7),
                               'heading': nmea.value(8),
-                              'velforw': nmea.value(9), 
+                              'velforw': nmea.value(9),
                               'velport': nmea.value(10),
                               'velup': nmea.value(11)}
 
