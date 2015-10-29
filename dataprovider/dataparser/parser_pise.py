@@ -23,17 +23,20 @@ class PiseParser(Parser):
             if nmea.valid:
                 try:
                     result = {'id': nmea[1],
-                              'lat': float(nmea[2]),
-                              'lon': float(nmea[3]),
-                              'heading': float(nmea[8]),
-                              'depth': float(nmea[9]),
-                              'speed': float(nmea[10])}
-                    dt = datetime.datetime(int(nmea[4][0:4]), int(nmea[4][4:6]),
+                              'lat': nmea.value(2),
+                              'lon': nmea.value(3),
+                              'heading': nmea.value(8),
+                              'depth': nmea.value(9),
+                              'speed': nmea.value(10)}
+                    try:
+                        dt = datetime.datetime(int(nmea[4][0:4]), int(nmea[4][4:6]),
                                            int(nmea[4][6:]),
                                            int(nmea[5][0:2]), int(nmea[5][2:4]),
                                            int(nmea[5][4:6]))
+                    except ValueError:
+                        dt = datetime.datetime.utcnow()
                     td = dt - datetime.datetime(1970, 1, 1)
                     result['time'] = td.total_seconds()
-                    return result
+                    return dict((k, v) for k, v in result.iteritems() if v is not None)
                 except ValueError:
                     return {}

@@ -11,14 +11,19 @@ from PyQt4.QtCore import Qt
 
 class PositionDisplay(QWidget):
     '''
-    classdocs
+    Widget to display the mouse position on the canvas in geographic coordinates (lat/lon)
+    The display format can be altered.
     '''
 
     __FORMATS = ('DD', 'DDM', 'DMDS')
 
     def __init__(self, iface, parent=None):
-        '''
-        Constructor
+        '''Constructor
+
+        :param iface: An interface instance that will be passed to this class
+            which provides the hook by which you can manipulate the QGIS
+            application at run time.
+        :type iface: QgsInterface
         '''
         super(PositionDisplay, self).__init__(parent)
         self.setObjectName('positionDisplay')

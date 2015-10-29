@@ -128,15 +128,15 @@ class MobileItem(QObject):
 
         if 'lat' in data and 'lon' in data:
             self.position = QgsPoint(data['lon'], data['lat'])
-            self.heading = data.get('heading', 0.0)
-            self.depth = data.get('depth', 0.0)
+            self.heading = data.get('heading', -9999.9)
+            self.depth = data.get('depth', -9999.9)
             try:
                 self.coordinates = self.crsXform.transform(self.position)
                 self.marker.newCoords(self.coordinates)
                 if 'time' in data:
                     self.lastFix = data['time']
                     self.newPosition.emit(self.lastFix, self.position,
-                                          self.extData.get('depth', 0.0),
+                                          self.extData.get('depth', -9999.9),
                                           self.extData.get('altitude', -9999.9))
                     self.timer.start(self.timeoutTime)
             except QgsCsException:
@@ -145,7 +145,7 @@ class MobileItem(QObject):
         elif self.position is not None:
             if 'depth' in data or 'altitude' in data:
                 self.newPosition.emit(self.lastFix, self.position,
-                                      self.extData.get('depth', 0.0),
+                                      self.extData.get('depth', -9999.9),
                                       self.extData.get('altitude', -9999.9))
 
         if 'heading' in data:
@@ -210,5 +210,5 @@ class MobileItem(QObject):
         :rtype: float, float, float, float
         '''
         if self.position is None:
-            return -9999.99, -9999.99, 0.0, 0.0
+            return -9999.9, -9999.9, -9999.9, 0.0
         return self.position.y(), self.position.x(), self.depth, self.heading

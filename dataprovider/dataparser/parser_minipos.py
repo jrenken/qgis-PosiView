@@ -34,12 +34,16 @@ class MiniPosParser(Parser):
                               'velforw': nmea.value(9), 
                               'velport': nmea.value(10),
                               'velup': nmea.value(11)}
+
                     t = datetime.datetime.utcnow()
-                    dt = datetime.datetime(t.year, t.month, t.day,
+                    try:
+                        dt = datetime.datetime(t.year, t.month, t.day,
                                            int(nmea[1][0:2]), int(nmea[1][2:4]),
                                            int(nmea[1][4:6]), int(nmea[1][7:]) * 100)
+                    except ValueError:
+                        dt = t
                     td = dt - datetime.datetime(1970, 1, 1)
                     result['time'] = td.total_seconds()
-                    return result
+                    return dict((k, v) for k, v in result.iteritems() if v is not None)
                 except ValueError:
                     return {}

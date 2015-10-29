@@ -48,13 +48,13 @@ class NmeaRecord:
             self.fields.extend([''] * (key - len(self.fields)))
             self.fields.append(format(value))
 
-    def value(self, key, defaultValue=0.0):
-        """ Return numeric (float) value of the field. 
+    def value(self, key, defaultValue=None):
+        """ Return numeric (float or int) value of the field. 
             If it fails, return default value
         :param key: Fieldnumber.
         :type key: int
         :param defaultValue: default value if the field can not be converted
-        :type defaultValue: float
+        :type defaultValue: float or int or None
 
         :returns: Converted value or default value.
         :rtype: float
@@ -64,7 +64,19 @@ class NmeaRecord:
         except ValueError:
             return defaultValue
 
-    def fromDDM(self, val, hem=0, defaultValue=0.0):
+    def fromDDM(self, val, hem=0, defaultValue=None):
+        """ Read latitude or longitude in the typical NMEA format and return it as float
+
+        :param val: Fieldnumber.
+        :type val: int
+        :param hem: Fieldnumber of the hemisphere designator (N or S), ignore if 0
+        :type hem: int
+        :param defaultValue: default value if the field can not be converted
+        :type defaultValue: float or int or None
+
+        :returns: Converted value or default value.
+        :rtype: float
+        """
         try:
             dot = self.fields[val].index('.')
             deg = float(self.fields[val][0:(dot - 2)])

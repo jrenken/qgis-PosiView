@@ -28,14 +28,17 @@ class PsonlldParser(Parser):
                 try:
                     if nmea[3] == 'V':
                         return {}
-                    result = {'id': int(nmea[2]), 'lat': float(nmea[4]),
-                              'lon': float(nmea[5]), 'depth': float(nmea[6])}
-                    t = datetime.date.today()
-                    dt = datetime.datetime(t.year, t.month, t.day,
+                    result = {'id': nmea.value(2), 'lat': nmea.value(4),
+                              'lon': nmea.value(5), 'depth': nmea.value(6)}
+                    t = datetime.datetime.utcnow()
+                    try:
+                        dt = datetime.datetime(t.year, t.month, t.day,
                                         int(nmea[1][0:2]), int(nmea[1][2:4]),
                                         int(nmea[1][4:6]), int(nmea[1][7:]) * 100)
+                    except ValueError:
+                        dt = t
                     td = dt - datetime.datetime(1970, 1, 1)
                     result['time'] = td.total_seconds()
-                    return result
+                    return dict((k, v) for k, v in result.iteritems() if v is not None)
                 except ValueError:
                     return {}

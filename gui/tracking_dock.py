@@ -21,7 +21,7 @@ FORM_CLASS, _ = uic.loadUiType(os.path.join(
 
 class TrackingDock(QDockWidget, FORM_CLASS):
     '''
-    classdocs
+    Dock widget that displays position and status of the object and vehicles
     '''
 
     def __init__(self, parent=None):
@@ -119,7 +119,7 @@ class TrackingDisplay(QToolBar):
         else:
             s = '--:--:--'
         s += "   {:f}  {:f}\nd = {:.1f}".format(pos.y(), pos.x(), depth)
-        if altitude > 0:
+        if altitude > -9999:
             s += "   alt = {:.1f}".format(altitude)
         self.posLabel.setText(s)
         if not self.upToDate:
@@ -146,7 +146,10 @@ class TrackingDisplay(QToolBar):
 
 
 class ProviderToolBar(QToolBar):
-
+    '''
+    Widget to display the vehicles/objects status and position
+    '''
+    
     triggered = pyqtSignal(str)
 
     def __init__(self, parent=None):
