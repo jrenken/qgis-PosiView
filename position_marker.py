@@ -8,6 +8,7 @@ from PyQt4.QtGui import QPainter, QBrush, QColor, QPen, QPolygonF, QPainterPath
 from qgis.gui import QgsMapCanvasItem, QgsVertexMarker
 from qgis.core import QgsPoint
 from _collections import deque
+from math import sqrt
 
 
 class PositionMarker(QgsMapCanvasItem):
@@ -28,6 +29,7 @@ class PositionMarker(QgsMapCanvasItem):
         self.canvas = canvas
         self.type = params.get('type', 'BOX').upper()
         self.size = int(params.get('size', 16))
+        self.bounding = 1.414213562 * self.size
         self.length = float(params.get('length', 98.0))
         self.width = float(params.get('width', 17.0))
         self.shape = params.get('shape', ((0.0, -0.5), (0.5, -0.3), (0.5, 0.5), (-0.5, 0.50), (-0.5, -0.3)))
@@ -90,6 +92,7 @@ class PositionMarker(QgsMapCanvasItem):
         for v in self.shape:
             self.paintShape << QPointF(v[0] * paintWidth, v[1] * paintLength)
         self.size = max(paintLength, paintWidth)
+        self.bounding = sqrt(pow(paintLength, 2) + pow(paintLength, 2))
 
     def updateTrack(self):
         if self.pos:
@@ -141,7 +144,7 @@ class PositionMarker(QgsMapCanvasItem):
             painter.drawConvexPolygon(self.paintShape)
 
     def boundingRect(self):
-        s = self.size / 2
+        s = self.bounding / 2
         return QRectF(QPointF(-s, -s), QPointF(s, s))
 
     def getColor(self, value):
