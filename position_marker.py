@@ -95,7 +95,7 @@ class PositionMarker(QgsMapCanvasItem):
         self.bounding = sqrt(pow(paintLength, 2) + pow(paintLength, 2))
 
     def updateTrack(self):
-        if self.pos:
+        if self.pos and self.trackLen:
             if len(self.track) >= self.trackLen:
                 tpr = self.track.popleft()
                 self.canvas.scene().removeItem(tpr)
