@@ -202,7 +202,9 @@ class PosiviewProperties(QgsOptionsDialogBase, FORM_CLASS):
         if idx.isValid():
             self.projectProperties['Mobiles'].pop(self.mobileListModel.data(idx, Qt.DisplayRole))
             self.mobileListModel.removeRows(idx.row(), 1)
-            self.populateMobileWidgets(self.mMobileListView.currentIndex())
+            idx = self.mMobileListView.currentIndex()
+            if idx.isValid():
+                self.populateMobileWidgets(idx)
 
     @pyqtSlot(name='on_toolButtonRefreshMobileProvider_clicked')
     def refreshMobileProvider(self):
@@ -222,7 +224,8 @@ class PosiviewProperties(QgsOptionsDialogBase, FORM_CLASS):
     @pyqtSlot(name='on_toolButtonRemoveMobileProvider_clicked')
     def removeMobileProvider(self):
         idx = self.mMobileProviderTableView.currentIndex()
-        self.mobileProviderModel.removeRow(idx.row())
+        if idx.isValid():
+            self.mobileProviderModel.removeRow(idx.row())
 
     @pyqtSlot(name='on_pushButtonApplyDataProvider_clicked')
     def applyDataProvider(self):
@@ -274,7 +277,9 @@ class PosiviewProperties(QgsOptionsDialogBase, FORM_CLASS):
         if idx.isValid():
             self.projectProperties['Provider'].pop(self.providerListModel.data(idx, Qt.DisplayRole))
             self.providerListModel.removeRows(idx.row(), 1)
-            self.populateDataProviderWidgets(self.mDataProviderListView.currentIndex())
+            idx = self.mDataProviderListView.currentIndex()
+            if idx.isValid():
+                self.populateDataProviderWidgets(idx)
 
     @pyqtSlot(name='on_toolButtonSelectLogPath_clicked')
     def selectRecorderPath(self):
