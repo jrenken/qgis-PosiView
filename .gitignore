@@ -1,6 +1,5 @@
 *.pyc
 *_rc.py
 *~
-*.rst
 *.zip
 help/build
