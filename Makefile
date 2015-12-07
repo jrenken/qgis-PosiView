@@ -72,12 +72,11 @@ PY_FILES = \
 	dataprovider/dataparser/parser.py \
 
 
-UI_FILES = ui/posiview_properties_base.ui \
-		ui/guidance_dock_base.ui \
+UI_FILES = ui/guidance_dock_base.ui \
 		ui/tracking_dock_base.ui \
 		ui/dataprovider_dump_base.ui
 
-COMPILED_UI_FILES = 
+COMPILED_UI_FILES = gui/ui_posiview_properties_base.py
 
 EXTRAS = resources/icon.png metadata.txt
 
@@ -108,7 +107,7 @@ compile: $(COMPILED_RESOURCE_FILES) $(COMPILED_UI_FILES)
 %.qm : %.ts
 	$(LRELEASE) $<
 
-gui/%.py : ui/%.ui
+gui/ui_%.py : ui/%.ui
 	pyuic4 -o $@ $<
 
 test: compile transcompile
@@ -141,6 +140,7 @@ deploy: compile doc transcompile
 	cp -vf --parents $(PY_FILES) $(HOME)/$(QGISDIR)/python/plugins/$(PLUGINNAME)
 	cp -vf --parents $(UI_FILES) $(HOME)/$(QGISDIR)/python/plugins/$(PLUGINNAME)
 	cp -vf $(COMPILED_RESOURCE_FILES) $(HOME)/$(QGISDIR)/python/plugins/$(PLUGINNAME)
+	cp -vf --parents $(COMPILED_UI_FILES) $(HOME)/$(QGISDIR)/python/plugins/$(PLUGINNAME)
 	cp -vf $(EXTRAS) $(HOME)/$(QGISDIR)/python/plugins/$(PLUGINNAME)
 	cp -vfr --parents i18n $(HOME)/$(QGISDIR)/python/plugins/$(PLUGINNAME)
 	cp -vfr $(HELP) $(HOME)/$(QGISDIR)/python/plugins/$(PLUGINNAME)/help
