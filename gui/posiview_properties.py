@@ -4,7 +4,6 @@ Created on 30.01.2015
 @author: jrenken
 '''
 
-import os
 from PyQt4 import uic
 from PyQt4.QtCore import Qt, pyqtSlot, QModelIndex, pyqtSignal, QUrl
 from PyQt4.QtGui import QStringListModel, QStandardItem, QColor,\
@@ -14,12 +13,10 @@ from qgis.gui import QgsOptionsDialogBase
 from PyQt4.Qt import QPoint
 from PosiView.dataprovider.dataparser import PARSERS
 from PosiView.dataprovider.datadevice import DEVICE_TYPES, NETWORK_TYPES
-
-FORM_CLASS, BASE_CLASS = uic.loadUiType(os.path.join(
-    os.path.split(os.path.dirname(__file__))[0], 'ui', 'posiview_properties_base.ui'), False)
+from PosiView.gui.ui_posiview_properties_base import Ui_PosiviewPropertiesBase
 
 
-class PosiviewProperties(QgsOptionsDialogBase, FORM_CLASS):
+class PosiviewProperties(QgsOptionsDialogBase, Ui_PosiviewPropertiesBase):
     '''
     GUI class classdocs for the Configuration dialog
     '''
