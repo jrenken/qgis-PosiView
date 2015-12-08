@@ -13,7 +13,7 @@ name=PosiView
 about=Track multiple objects and vehicles and display them as shapes and points on the canvas
 description=PosiView tracks multiple mobile objects and vehicles and displays their position on the canvas
 qgisMinimumVersion=2.8
-version=0.2.0
+version=0.2.1
 author=Jens Renken (Marum, University of Bremen)
 email=renken@marum.de
 
@@ -22,7 +22,11 @@ email=renken@marum.de
 # Recommended items:
 
 # Uncomment the following line and add your changelog:
-changelog=0.2.0 (2015-10-29)
+changelog=0.2.1 (2015-12-08)
+    - get rid of the qgis_customwidgets dependency at runtime
+    - check if model index is valid before populating provider and mobile views
+    - do not update track if track length is set to 0
+  0.2.0 (2015-10-29)
     - extend the bounding rectangle to cover also rotated shapes
     - more robust handling of incoming data
     - set default value for invalid data to -9999.9 instead of 0.0

@@ -25,16 +25,16 @@ Connection to those devices is established by data provider
 connecting to network sockets (UDP/TCP). 
 Future alternatives like file based inputs are planned.
 
-.. index:: Configuaration
+.. index:: Configuration
  
 Configuration
 ==================
 
-#. Enable PosiView and open configuration dialog
-#. On Provider page create and configure providers as needed.
+1. Enable PosiView and open configuration dialog
+2. On Provider page create and configure providers as needed.
   * First add a new provider, give it a unique name and select the properties.
   * Don't forget to apply the changes.
-#. On Vehicle/Object page create and configure vehicle as needed.
+3. On Vehicle/Object page create and configure vehicle as needed.
   * First add a new vehicle, give it a unique name and select the properties.
   * Select a type. For shape types a template shape can be selected by right clicking on the shape line edit. If needed modify the shape by hand.
   * For shape types set the real world size.
@@ -42,7 +42,7 @@ Configuration
   * The Z-value defines the vertical painting order.
   * Assign one ore more data providers. If a provider provides more then one position a filter is needed. This could be a beacon id or a string.
   * Don't forget to apply the changes.
-#. Apply changes. Providers and vehicles will be shown in the tracking window.
+4. Apply changes. Providers and vehicles will be shown in the tracking window.
 
 .. index:: Tracking
 
