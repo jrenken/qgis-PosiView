@@ -34,6 +34,7 @@ class GuidanceDock(QtGui.QDockWidget, FORM_CLASS):
         self.distArea = QgsDistanceArea()
         self.distArea.setEllipsoid(u'WGS84')
         self.distArea.setEllipsoidalMode(True)
+        self.distArea.setSourceCrs(3452L)
         self.fontSize = 11
         self.source = None
         self.target = None
@@ -67,11 +68,20 @@ class GuidanceDock(QtGui.QDockWidget, FORM_CLASS):
     @pyqtSlot(name='on_pushButtonFormat_clicked')
     def switchCoordinateFormat(self):
         self.format = (self.format + 1) % 3
-        print self.format
+        if self.trgPos[0]:
+            lon, lat = self.posToStr(self.trgPos[0])
+            self.labelTargetLat.setText(lat)
+            self.labelTargetLon.setText(lon)
+        if self.srcPos[0]:
+            lon, lat = self.posToStr(self.srcPos[0])
+            self.labelSourceLat.setText(lat)
+            self.labelSourceLon.setText(lon)
+            
+
 
     def posToStr(self, pos):
         if self.format == 0:
-            return "{:.6f}".format(pos.y()), "{:.6f}".format(pos.x())
+            return "{:.6f}".format(pos.x()), "{:.6f}".format(pos.y())
         if self.format == 1:
             return pos.toDegreesMinutes(4, True, True).split(',')
         if self.format == 2:

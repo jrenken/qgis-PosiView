@@ -3,10 +3,10 @@ Created on 05.06.2015
 
 @author: jrenken
 '''
-from PyQt4.QtCore import QPointF, QRectF, QLineF, Qt
-from PyQt4.QtGui import QPainter, QBrush, QColor, QPen, QPolygonF, QPainterPath
+from PyQt4.QtCore import QPointF, QRectF, QLineF, Qt, QPoint
+from PyQt4.QtGui import QPainter, QBrush, QColor, QPen, QPolygonF
 from qgis.gui import QgsMapCanvasItem, QgsVertexMarker
-from qgis.core import QgsPoint
+from qgis.core import QgsPoint, QgsDistanceArea
 from _collections import deque
 from math import sqrt
 
@@ -47,6 +47,9 @@ class PositionMarker(QgsMapCanvasItem):
         self.heading = 0
         super(PositionMarker, self).__init__(canvas)
         self.setZValue(int(params.get('zValue', 100)))
+        self.distArea = QgsDistanceArea()
+        self.distArea.setEllipsoid(u'WGS84')
+        self.distArea.setEllipsoidalMode(True)
         self.updateSize()
 
     def properties(self):
@@ -85,7 +88,14 @@ class PositionMarker(QgsMapCanvasItem):
         if self.type != 'SHAPE':
             return
         s = self.canvas.mapSettings()
-        f = s.outputDpi() / 0.0254 / s.scale()
+        self.distArea.setSourceCrs(s.destinationCrs())
+        try:
+            p1 = self.toMapCoordinates(QPoint(0, 0))
+            p2 = self.toMapCoordinates(QPoint(0, 100))
+            l = self.distArea.measureLine(p1, p2)
+            f = 100 / l
+        except:        
+            f = s.outputDpi() / 0.0254 / s.scale()
         paintLength = max(self.length * f, 50)
         paintWidth = paintLength * self.width / self.length
         self.paintShape.clear()
