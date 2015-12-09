@@ -78,7 +78,6 @@ class GuidanceDock(QtGui.QDockWidget, FORM_CLASS):
             self.labelSourceLon.setText(lon)
             
 
-
     def posToStr(self, pos):
         if self.format == 0:
             return "{:.6f}".format(pos.x()), "{:.6f}".format(pos.y())

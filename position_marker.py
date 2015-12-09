@@ -94,7 +94,7 @@ class PositionMarker(QgsMapCanvasItem):
             p2 = self.toMapCoordinates(QPoint(0, 100))
             l = self.distArea.measureLine(p1, p2)
             f = 100 / l
-        except:        
+        except:
             f = s.outputDpi() / 0.0254 / s.scale()
         paintLength = max(self.length * f, 50)
         paintWidth = paintLength * self.width / self.length

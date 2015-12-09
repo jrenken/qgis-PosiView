@@ -26,7 +26,7 @@ changelog=0.2.1 (2015-12-09)
     - get rid of the qgis_customwidgets dependency at runtime
     - check if model index is valid before populating provider and mobile views
     - do not update track if track length is set to 0
-    - instantly disply changed format in guidance window and fix lat/lon interchanger in decimal degree format 
+    - instantly update position display on format change in guidance window and fix lat/lon interchange in decimal degree format 
     - calculate shape size more precisely
   0.2.0 (2015-10-29)
     - extend the bounding rectangle to cover also rotated shapes
