@@ -15,7 +15,7 @@
     <normaloff>:/plugins/PosiView/icon.png</normaloff>:/plugins/PosiView/icon.png</iconset>
   </property>
   <property name="windowTitle">
-   <string>Guidance</string>
+   <string>PosiView Guidance</string>
   </property>
   <widget class="QWidget" name="dockWidgetContents">
    <property name="styleSheet">
