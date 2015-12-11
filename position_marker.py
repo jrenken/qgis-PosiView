@@ -1,8 +1,25 @@
-'''
-Created on 05.06.2015
+# -*- coding: utf-8 -*-
+"""
+/***************************************************************************
+ PositionMarker
+                                 A QGIS plugin
+ PosiView tracks multiple mobile object and vehicles and displays its position on the canvas
+                              -------------------
+        begin                : 2015-06-01
+        git sha              : $Format:%H$
+        copyright            : (C) 2015 by Jens Renken/Marum/University of Bremen
+        email                : renken@marum.de
+ ***************************************************************************/
 
-@author: jrenken
-'''
+/***************************************************************************
+ *                                                                         *
+ *   This program is free software; you can redistribute it and/or modify  *
+ *   it under the terms of the GNU General Public License as published by  *
+ *   the Free Software Foundation; either version 2 of the License, or     *
+ *   (at your option) any later version.                                   *
+ *                                                                         *
+ ***************************************************************************/
+"""
 from PyQt4.QtCore import QPointF, QRectF, QLineF, Qt, QPoint
 from PyQt4.QtGui import QPainter, QBrush, QColor, QPen, QPolygonF
 from qgis.gui import QgsMapCanvasItem, QgsVertexMarker
@@ -65,15 +82,17 @@ class PositionMarker(QgsMapCanvasItem):
                 'trackColor' : self.trackColor.rgba(),
                 'zValue': self.zValue()}
 
-    def newCoords(self, pos):
+    def setMapPosition(self, pos):
         if self.pos != pos:
             self.updateTrack()
-            self.pos = QgsPoint(pos)
-            self.updatePosition()
+            self.pos = pos
+            self.setPos(self.toCanvasCoordinates(self.pos))
+            self.update()
 
     def newHeading(self, heading):
         if self.heading != heading:
             self.heading = heading
+            self.setRotation(self.canvas.rotation() + self.heading)
             self.update()
 
     def resetPosition(self):
@@ -81,7 +100,10 @@ class PositionMarker(QgsMapCanvasItem):
 
     def updatePosition(self):
         if self.pos:
+            self.prepareGeometryChange()
+            self.updateSize()
             self.setPos(self.toCanvasCoordinates(self.pos))
+            self.setRotation(self.canvas.rotation() + self.heading)
             self.update()
 
     def updateSize(self):
@@ -150,7 +172,7 @@ class PositionMarker(QgsMapCanvasItem):
             painter.setRenderHint(QPainter.Antialiasing, True)
             brush = QBrush(self.fillColor)
             painter.setBrush(brush)
-            painter.rotate(self.heading + self.canvas.rotation())
+#             painter.rotate(self.heading + self.canvas.rotation())
             painter.drawConvexPolygon(self.paintShape)
 
     def boundingRect(self):

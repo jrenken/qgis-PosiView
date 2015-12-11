@@ -54,7 +54,6 @@ class MobileItem(QObject):
         self.crsXform = QgsCoordinateTransform()
         self.crsXform.setSourceCrs(QgsCoordinateReferenceSystem(4326))
         self.onCrsChange()
-        self.canvas.scaleChanged.connect(self.onScaleChange)
         self.canvas.destinationCrsChanged.connect(self.onCrsChange)
         self.timer = QTimer(self)
         self.timer.timeout.connect(self.timeout)
@@ -65,8 +64,7 @@ class MobileItem(QObject):
         '''
         Remove the item and its track from the canvas
         '''
-        self.marker.deleteTrack()
-        self.canvas.scene().removeItem(self.marker)
+        self.marker.removeFromCanvas()
 
     def properties(self):
         '''
@@ -94,7 +92,7 @@ class MobileItem(QObject):
         if filterId is not None:
             self.messageFilter[provider.name] = filterId
         elif provider.name in self.messageFilter.keys():
-            del self.messageFilter[provider.name]
+            self.messageFilter.pop(provider.name, None)
 
     def unsubscribePositionProvider(self, provider):
         '''
@@ -104,8 +102,8 @@ class MobileItem(QObject):
         '''
         try:
             provider.newDataReceived.disconnect(self.processData)
-            del self.messageFilter[provider.name]
-        except:
+            self.messageFilter.pop(provider.name, None)
+        except KeyError:
             pass
 
     @pyqtSlot(dict)
@@ -132,7 +130,7 @@ class MobileItem(QObject):
             self.depth = data.get('depth', -9999.9)
             try:
                 self.coordinates = self.crsXform.transform(self.position)
-                self.marker.newCoords(self.coordinates)
+                self.marker.setMapPosition(self.coordinates)
                 if 'time' in data:
                     self.lastFix = data['time']
                     self.newPosition.emit(self.lastFix, self.position,
@@ -168,7 +166,6 @@ class MobileItem(QObject):
         SLot called when the mapcanvas CRS is changed
         '''
         crsDst = self.canvas.mapSettings().destinationCrs()
-#         print 'CRS changed', crsDst.ellipsoidAcronym (), crsDst.authid()
         self.crsXform.setDestCRS(crsDst)
         self.marker.updateSize()
 
