@@ -20,10 +20,10 @@
  *                                                                         *
  ***************************************************************************/
 """
-from PyQt4.QtCore import QPointF, QRectF, QLineF, Qt, QPoint
+from PyQt4.QtCore import QPointF, QRectF, QLineF, QPoint
 from PyQt4.QtGui import QPainter, QBrush, QColor, QPen, QPolygonF
 from qgis.gui import QgsMapCanvasItem, QgsVertexMarker
-from qgis.core import QgsPoint, QgsDistanceArea
+from qgis.core import QgsDistanceArea
 from _collections import deque
 from math import sqrt
 
@@ -136,6 +136,7 @@ class PositionMarker(QgsMapCanvasItem):
             tp.setCenter(self.pos)
             tp.setIconType(QgsVertexMarker.ICON_CROSS)
             tp.setColor(self.fillColor)
+            tp.setZValue(self.zValue())
             tp.setIconSize(3)
             tp.setPenWidth(5)
             self.track.append(tp)
@@ -172,7 +173,6 @@ class PositionMarker(QgsMapCanvasItem):
             painter.setRenderHint(QPainter.Antialiasing, True)
             brush = QBrush(self.fillColor)
             painter.setBrush(brush)
-#             painter.rotate(self.heading + self.canvas.rotation())
             painter.drawConvexPolygon(self.paintShape)
 
     def boundingRect(self):
