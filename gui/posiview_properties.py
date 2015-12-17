@@ -4,6 +4,7 @@ Created on 30.01.2015
 @author: jrenken
 '''
 
+import os
 from PyQt4 import uic
 from PyQt4.QtCore import Qt, pyqtSlot, QModelIndex, pyqtSignal, QUrl
 from PyQt4.QtGui import QStringListModel, QStandardItem, QColor,\
