@@ -150,7 +150,7 @@ class PosiViewProject(object):
         properties['Mission']['dive'] = s.value('Mission/Dive', 'DiveX')
         properties['Mission']['station'] = s.value('Mission/Station', '#xxx')
         properties['RecorderPath'] = s.value('Recorder/Path', environ['HOME'])
-        properties['AutoRecord'] = s.value('Recorder/AutoRecord', False) in ['True', 'true']
+        properties['AutoRecord'] = s.value('Recorder/AutoRecord', False, type=bool)
         s.endGroup()
         return properties
 
