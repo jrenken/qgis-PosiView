@@ -16,6 +16,6 @@ but WITHOUT ANY WARRANTY; without even implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.	
 See the GNU General Public License for more details.	
 
-More info http://wiki.github.com/jrenken/PosiView/
+More info http://wiki.github.com/jrenken/qgis-PosiView/
 
 Git revision : $Format:%H$

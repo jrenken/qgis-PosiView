@@ -6,7 +6,7 @@ Created on 30.01.2015
 import os
 
 from PyQt4 import QtGui, uic
-from PyQt4.QtCore import pyqtSlot, QSettings
+from PyQt4.QtCore import pyqtSlot, QSettings, QDateTime
 from qgis.core import QgsPoint, QgsDistanceArea
 from math import pi
 from .compass import CompassWidget
@@ -30,7 +30,7 @@ class GuidanceDock(QtGui.QDockWidget, FORM_CLASS):
         self.compass = CompassWidget()
         self.compass.setMinimumHeight(80)
         self.verticalLayout.addWidget(self.compass)
-        self.verticalLayout.setStretch(4, 8)
+        self.verticalLayout.setStretch(5, 8)
         self.distArea = QgsDistanceArea()
         self.distArea.setEllipsoid(u'WGS84')
         self.distArea.setEllipsoidalMode(True)
@@ -43,6 +43,7 @@ class GuidanceDock(QtGui.QDockWidget, FORM_CLASS):
         self.srcHeading = 0.0
         self.trgHeading = 0.0
         self.format = 1
+        self.startTimer(1000)
 
     def setMobiles(self, mobiles):
         self.reset()
@@ -227,3 +228,7 @@ class GuidanceDock(QtGui.QDockWidget, FORM_CLASS):
             self.fontSize = fsize
             self.dockWidgetContents.setStyleSheet("font-weight: bold; font-size: {}pt".format(self.fontSize))
         return QtGui.QDockWidget.resizeEvent(self, event)
+
+    def timerEvent(self, event):
+        dt = QDateTime.currentDateTimeUtc();
+        self.labelTimeUtc.setText(dt.time().toString(u'hh:mm:ss'))
