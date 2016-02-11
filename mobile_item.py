@@ -6,7 +6,9 @@ Created on 05.06.2015
 from PyQt4.QtCore import QObject, pyqtSlot, QTimer, pyqtSignal
 from qgis.core import QgsPoint, QgsCoordinateTransform, \
         QgsCoordinateReferenceSystem, QgsCsException
+from qgis.gui import QgsMessageBar
 from position_marker import PositionMarker
+from PyQt4.QtGui import QLabel, QMovie
 
 
 class MobileItem(QObject):
@@ -57,6 +59,8 @@ class MobileItem(QObject):
         self.canvas.destinationCrsChanged.connect(self.onCrsChange)
         self.timer = QTimer(self)
         self.timer.timeout.connect(self.timeout)
+        self.timer.timeout.connect(self.notifyTimeout)
+        self.timeoutCount = 0
         self.timeoutTime = int(params.get('timeout', 3000))
         self.enabled = True
 
@@ -137,6 +141,7 @@ class MobileItem(QObject):
                                           self.extData.get('depth', -9999.9),
                                           self.extData.get('altitude', -9999.9))
                     self.timer.start(self.timeoutTime)
+                    self.timeoutCount = 0
             except QgsCsException:
                 pass
 
@@ -181,6 +186,7 @@ class MobileItem(QObject):
         self.marker.resetPosition()
         if self.enabled:
             self.timer.start(self.timeoutTime)
+            self.timeoutCount = 0
         else:
             self.timer.stop()
 
@@ -209,3 +215,19 @@ class MobileItem(QObject):
         if self.position is None:
             return -9999.9, -9999.9, -9999.9, 0.0
         return self.position.y(), self.position.x(), self.depth, self.heading
+
+    @pyqtSlot()
+    def notifyTimeout(self):
+        self.timeoutCount += 1
+        if self.timeoutCount == 3:
+            msg = self.tr(u'No fix of %s since more than %d seconds') % (self.name, self.timeoutTime * 3 / 1000)
+            w = self.iface.messageBar().createMessage(self.tr(u'PosiView Attention'), msg)
+            l = QLabel(w)
+            m = QMovie(':/plugins/PosiView/hand.gif')
+            m.setSpeed(75)
+            l.setMovie(m)
+            m.setParent(l)
+            m.start()
+            w.layout().addWidget(l)
+            self.iface.messageBar().pushWidget(w, QgsMessageBar.CRITICAL, duration=60)
+        
