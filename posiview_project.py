@@ -33,6 +33,7 @@ class PosiViewProject(object):
         self.missionInfo = {'cruise': 'CruiseXX', 'dive': 'DiveX', 'station' : '#xxx'}
         self.recorderPath = environ['HOME']
         self.autoRecord = False
+        self.notifyDuration = 0
         self.trackingStarted = False
 
     def startTracking(self):
@@ -59,6 +60,7 @@ class PosiViewProject(object):
         props['Mission'] = self.missionInfo
         props['RecorderPath'] = self.recorderPath
         props['AutoRecord'] = self.autoRecord
+        props['NotifyDuration'] = self.notifyDuration
         m = dict()
         for k in self.mobileItems.keys():
             p = self.mobileItems[k].properties()
@@ -80,6 +82,11 @@ class PosiViewProject(object):
         pass
 
     def load(self, properties):
+        self.missionInfo = properties.get('Mission', {'cruise': 'CruiseXX', 'dive': 'DiveX', 'station' : '#xxx'})
+        self.recorderPath = properties.get('RecorderPath', environ['HOME'])
+        self.autoRecord = bool(properties.get('AutoRecord', False))
+        self.notifyDuration = int(properties.get('NotifyDuration', 0))
+
         pr = properties['Provider']
         for k in pr.keys():
             p = DataProvider(pr[k])
@@ -87,6 +94,7 @@ class PosiViewProject(object):
 
         mob = properties['Mobiles']
         for k in mob.keys():
+            mob[k]['NotifyDuration'] = self.notifyDuration
             m = MobileItem(self.iface, mob[k])
             self.mobileItems[m.name] = m
             for k1 in m.dataProvider.keys():
@@ -96,9 +104,6 @@ class PosiViewProject(object):
                     self.iface.messageBar().pushMessage(self.tr(u'Error'), self.tr(u"Can't subscribe dataprovider: ")
                                    + k1 + self.tr(u' for ') + m.name,
                                    level=QgsMessageBar.CRITICAL, duration=5)
-        self.missionInfo = properties.get('Mission', {'cruise': 'CruiseXX', 'dive': 'DiveX', 'station' : '#xxx'})
-        self.recorderPath = properties.get('RecorderPath', environ['HOME'])
-        self.autoRecord = bool(properties.get('AutoRecord', False))
 
     def unload(self):
         self.stopTracking()
@@ -151,6 +156,7 @@ class PosiViewProject(object):
         properties['Mission']['station'] = s.value('Mission/Station', '#xxx')
         properties['RecorderPath'] = s.value('Recorder/Path', environ['HOME'])
         properties['AutoRecord'] = s.value('Recorder/AutoRecord', False, type=bool)
+        properties['NotifyDuration'] = s.value('Misc/NotifyDuration', 0, type=int)
         s.endGroup()
         return properties
 
@@ -192,6 +198,7 @@ class PosiViewProject(object):
         s.setValue('Mission/Station', properties['Mission']['station'])
         s.setValue('Recorder/Path', properties['RecorderPath'])
         s.setValue('Recorder/AutoRecord', properties['AutoRecord'])
+        s.setValue('Misc/NotifyDuration', properties['NotifyDuration'])
         s.endGroup()
 
     # noinspection PyMethodMayBeStatic

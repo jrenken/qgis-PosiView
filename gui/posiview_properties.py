@@ -63,6 +63,7 @@ class PosiviewProperties(QgsOptionsDialogBase, Ui_PosiviewPropertiesBase):
         self.lineEditStation.setText(properties['Mission']['station'])
         self.lineEditRecorderPath.setText(properties['RecorderPath'])
         self.checkBoxAutoRecording.setChecked(properties['AutoRecord'])
+        self.spinBoxNotifyDuration.setValue(properties['NotifyDuration'])
 
     def updateGeneralData(self):
         self.projectProperties['Mission']['cruise'] = self.lineEditCruise.text()
@@ -70,6 +71,7 @@ class PosiviewProperties(QgsOptionsDialogBase, Ui_PosiviewPropertiesBase):
         self.projectProperties['Mission']['station'] = self.lineEditStation.text()
         self.projectProperties['RecorderPath'] = self.lineEditRecorderPath.text()
         self.projectProperties['AutoRecord'] = self.checkBoxAutoRecording.isChecked()
+        self.projectProperties['NotifyDuration'] = self.spinBoxNotifyDuration.value()
 
     def getColor(self, value):
         try:
@@ -147,6 +149,7 @@ class PosiviewProperties(QgsOptionsDialogBase, Ui_PosiviewPropertiesBase):
             mobile['color'] = self.mColorButtonMobileColor.color().rgba()
             mobile['fillColor'] = self.mColorButtonMobileFillColor.color().rgba()
             mobile['timeout'] = self.spinBoxMobileTimeout.value() * 1000
+            mobile['nofixNotify'] = self.spinBoxMobileNotification.value()
             mobile['trackLength'] = self.spinBoxTrackLength.value()
             mobile['trackColor'] = self.mColorButtonMobileTrackColor.color().rgba()
             provs = dict()
@@ -181,6 +184,7 @@ class PosiviewProperties(QgsOptionsDialogBase, Ui_PosiviewPropertiesBase):
         self.mColorButtonMobileColor.setColor(self.getColor(mobile.get('color', 'black')))
         self.mColorButtonMobileFillColor.setColor(self.getColor(mobile.get('fillColor', 'green')))
         self.spinBoxMobileTimeout.setValue(mobile.get('timeout', 3000) / 1000)
+        self.spinBoxMobileNotification.setValue(mobile.get('nofixNotify', 0))
         self.spinBoxTrackLength.setValue(mobile.get('trackLength', 100))
         self.mColorButtonMobileTrackColor.setColor(self.getColor(mobile.get('trackColor', 'green')))
 

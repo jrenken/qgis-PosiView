@@ -59,9 +59,12 @@ class MobileItem(QObject):
         self.canvas.destinationCrsChanged.connect(self.onCrsChange)
         self.timer = QTimer(self)
         self.timer.timeout.connect(self.timeout)
-        self.timer.timeout.connect(self.notifyTimeout)
+        self.notifyCount = int(params.get('nofixNotify', 0))
+        if self.notifyCount: 
+            self.timer.timeout.connect(self.notifyTimeout)
         self.timeoutCount = 0
         self.timeoutTime = int(params.get('timeout', 3000))
+        self.notifyDuration = int(params.get('NotifyDuration', 0))
         self.enabled = True
 
     def removeFromCanvas(self):
@@ -78,6 +81,7 @@ class MobileItem(QObject):
         '''
         d = {'Name' : self.name,
              'timeout': self.timeoutTime,
+             'nofixNotify': self.notifyCount,
              'enabled': self.enabled,
              'provider' : self.dataProvider}
         d.update(self.marker.properties())
@@ -219,8 +223,8 @@ class MobileItem(QObject):
     @pyqtSlot()
     def notifyTimeout(self):
         self.timeoutCount += 1
-        if self.timeoutCount == 3:
-            msg = self.tr(u'No fix of %s since more than %d seconds') % (self.name, self.timeoutTime * 3 / 1000)
+        if self.timeoutCount == self.notifyCount:
+            msg = self.tr(u'No fix of %s since more than %d seconds') % (self.name, self.timeoutTime * self.timeoutCount / 1000)
             w = self.iface.messageBar().createMessage(self.tr(u'PosiView Attention'), msg)
             l = QLabel(w)
             m = QMovie(':/plugins/PosiView/hand.gif')
@@ -229,5 +233,5 @@ class MobileItem(QObject):
             m.setParent(l)
             m.start()
             w.layout().addWidget(l)
-            self.iface.messageBar().pushWidget(w, QgsMessageBar.CRITICAL, duration=60)
+            self.iface.messageBar().pushWidget(w, QgsMessageBar.CRITICAL, duration=self.notifyDuration)
         
