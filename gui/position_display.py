@@ -3,10 +3,10 @@ Created on 09.07.2015
 
 @author: jrenken
 '''
-from PyQt4.QtGui import QWidget, QHBoxLayout, QToolButton, QLineEdit, QIcon
+from PyQt4.QtGui import QWidget, QHBoxLayout, QToolButton, QLineEdit
 from qgis.core import QgsCoordinateReferenceSystem, QgsCoordinateTransform, QgsPoint
 from PyQt4.Qt import pyqtSlot
-from PyQt4.QtCore import Qt
+from PyQt4.QtCore import Qt, QSettings
 
 
 class PositionDisplay(QWidget):
@@ -30,7 +30,6 @@ class PositionDisplay(QWidget):
         layout = QHBoxLayout()
         layout.setContentsMargins(0, 0, 3, 0)
         self.button = QToolButton(self)
-        self.button.setText(self.__FORMATS[1])
         self.button.setObjectName('toolButtonFormat')
         self.button.clicked.connect(self.switchCoordinateFormat)
         self.button.setAutoRaise(True)
@@ -42,7 +41,9 @@ class PositionDisplay(QWidget):
         layout.addWidget(self.label)
         self.setLayout(layout)
 
-        self.format = 1
+        s = QSettings()
+        self.format = s.value('PosiView/PositionDisplay/Format', defaultValue=1, type=int)
+        self.button.setText(self.__FORMATS[self.format])
 
         canvas = iface.mapCanvas()
         crsDest = QgsCoordinateReferenceSystem(4326)
@@ -56,6 +57,8 @@ class PositionDisplay(QWidget):
     def switchCoordinateFormat(self):
         self.format = (self.format + 1) % 3
         self.button.setText(self.tr(self.__FORMATS[self.format]))
+        s = QSettings()
+        s.setValue('PosiView/PositionDisplay/Format', self.format)
 
     @pyqtSlot()
     def mapCrsHasChanged(self):

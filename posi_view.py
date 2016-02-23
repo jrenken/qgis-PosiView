@@ -323,6 +323,7 @@ class PosiView:
         '''
         if self.actions['loadAction'].isChecked():
             track = self.actions['trackingAction'].isChecked()
+            record = self.actions['recordAction'].isChecked()
             self.actions['trackingAction'].setChecked(False)
             self.actions['recordAction'].setChecked(False)
             self.tracking.removeMobiles()
@@ -336,6 +337,7 @@ class PosiView:
             self.tracking.setProviders(self.project.dataProviders)
             self.recorder.setMobiles(self.project.mobileItems)
             self.actions['trackingAction'].setChecked(track)
+            self.actions['recordAction'].setChecked(record)
 
     def configure(self):
         '''Execute the configuration dialogue and apply properties if accepted
@@ -379,7 +381,7 @@ class PosiView:
         '''
         self.iface.messageBar().pushMessage(self.tr(u'PosiView Recorder'),
                 self.tr(u'Recording started: ') + fileName,
-                level=QgsMessageBar.INFO, duration=3)
+                level=QgsMessageBar.INFO, duration=20)
 
     @pyqtSlot()
     def postInitialize(self):

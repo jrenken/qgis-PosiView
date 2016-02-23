@@ -517,12 +517,12 @@
     <message>
         <location filename="ui_posiview_properties_base.py" line="564"/>
         <source>Duration of messagebar notifications: </source>
-        <translation>Dauer der Benachrichtigungen:</translation>
+        <translation>Anzeigedauer der Benachrichtigungen:</translation>
     </message>
     <message>
         <location filename="ui_posiview_properties_base.py" line="595"/>
         <source> sec</source>
-        <translation type="unfinished"> Sek</translation>
+        <translation> Sek</translation>
     </message>
     <message>
         <location filename="ui_posiview_properties_base.py" line="566"/>
@@ -547,7 +547,7 @@
     <message>
         <location filename="ui_posiview_properties_base.py" line="617"/>
         <source> * Timeout</source>
-        <translation type="unfinished"> * Timeout</translation>
+        <translation> * Timeout</translation>
     </message>
 </context>
 <context>

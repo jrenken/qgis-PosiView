@@ -56,7 +56,7 @@ class GuidanceDock(QtGui.QDockWidget, FORM_CLASS):
             self.frameUtcClock.hide()
             self.killTimer(self.timer)
             self.timer = 0
-        
+
     def setMobiles(self, mobiles):
         self.reset()
         self.mobiles = mobiles
@@ -79,7 +79,6 @@ class GuidanceDock(QtGui.QDockWidget, FORM_CLASS):
             self.comboBoxTarget.setCurrentIndex(self.comboBoxTarget.findText(m))
         self.showUtc = s.value('PosiView/Misc/ShowUtcClock', defaultValue=False, type=bool)
         self.setUtcClock()
-        
 
     @pyqtSlot(name='on_pushButtonFormat_clicked')
     def switchCoordinateFormat(self):
@@ -94,7 +93,6 @@ class GuidanceDock(QtGui.QDockWidget, FORM_CLASS):
             lon, lat = self.posToStr(self.srcPos[0])
             self.labelSourceLat.setText(lat)
             self.labelSourceLon.setText(lon)
-            
 
     def posToStr(self, pos):
         if self.format == 0:
@@ -247,5 +245,5 @@ class GuidanceDock(QtGui.QDockWidget, FORM_CLASS):
         return QtGui.QDockWidget.resizeEvent(self, event)
 
     def timerEvent(self, event):
-        dt = QDateTime.currentDateTimeUtc();
+        dt = QDateTime.currentDateTimeUtc()
         self.labelTimeUtc.setText(dt.time().toString(u'hh:mm:ss'))

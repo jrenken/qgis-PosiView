@@ -18,7 +18,7 @@ Concepts
 ==================
 
 PosiView is a plugin that allows to track multiple vehicles and objects.
-It accepts position and other data usually provided in NMEA format from devices 
+It accepts position and other data usually provided in NMEA-0183 format from devices 
 like GPS, USBL systems or other systems.
 
 Connection to those devices is established by data provider
@@ -36,10 +36,12 @@ Configuration
   * Don't forget to apply the changes.
 3. On Vehicle/Object page create and configure vehicle as needed.
   * First add a new vehicle, give it a unique name and select the properties.
-  * Select a type. For shape types a template shape can be selected by right clicking on the shape line edit. If needed modify the shape by hand.
+  * Select a type. For shape types a template shape can be choosen by right clicking on the shape lineedit. If needed modify the shape by hand.
   * For shape types set the real world size.
   * Select colors for outline, fill and track color.
   * The Z-value defines the vertical painting order.
+  * Select a timeout. When no fix is received within that time the display in the tracking window turns red. 
+    An additional notification is displayed in the messagebar when no fix is received within n times the timout.
   * Assign one ore more data providers. If a provider provides more then one position a filter is needed. This could be a beacon id or a string.
   * Don't forget to apply the changes.
 4. Apply changes. Providers and vehicles will be shown in the tracking window.
@@ -50,7 +52,7 @@ Tracking
 ==================
 
 #. Start online tracking. 
-#. Open guidance window and select two vehicles/object to see distances and bearing. A compass is visible if the windows lower edge is pulled down.
+#. Open guidance window and select two vehicles/objects to see distances and bearing. A compass is visible if the windows lower edge is pulled down.
 
 .. index:: Recording
 
@@ -58,7 +60,7 @@ Recording
 ==================
 
 #. Position and bearing of the vehicles and objects can be recorded to a text file. All objects are merged into one file. After 10000 lines a new file is created.
-#. In properties dialogue select a path where to put the files.
+#. In properties dialogue select a path where to store the files.
 #. Recording can be started automatically on tracking start or manually.
 
 .. Indices and tables
