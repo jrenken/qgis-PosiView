@@ -342,9 +342,7 @@ class PosiView:
         '''
         propDlg = PosiviewProperties(self.project, self.iface.mainWindow())
         propDlg.applyChanges.connect(self.onApplyConfigChanges)
-        result = propDlg.exec_()
-        if result:
-            self.onApplyConfigChanges(propDlg.projectProperties)
+        propDlg.exec_()
 
     @pyqtSlot(str)
     def dumpProvider(self, name):

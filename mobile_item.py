@@ -60,7 +60,7 @@ class MobileItem(QObject):
         self.timer = QTimer(self)
         self.timer.timeout.connect(self.timeout)
         self.notifyCount = int(params.get('nofixNotify', 0))
-        if self.notifyCount: 
+        if self.notifyCount:
             self.timer.timeout.connect(self.notifyTimeout)
         self.timeoutCount = 0
         self.timeoutTime = int(params.get('timeout', 3000))
@@ -224,7 +224,7 @@ class MobileItem(QObject):
     def notifyTimeout(self):
         self.timeoutCount += 1
         if self.timeoutCount == self.notifyCount:
-            msg = self.tr(u'No fix of %s since more than %d seconds') % (self.name, self.timeoutTime * self.timeoutCount / 1000)
+            msg = self.tr(u'No fix for %s since more than %d seconds!') % (self.name, self.timeoutTime * self.timeoutCount / 1000)
             w = self.iface.messageBar().createMessage(self.tr(u'PosiView Attention'), msg)
             l = QLabel(w)
             m = QMovie(':/plugins/PosiView/hand.gif')

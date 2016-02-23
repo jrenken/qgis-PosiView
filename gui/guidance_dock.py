@@ -4,7 +4,6 @@ Created on 30.01.2015
 @author: jrenken
 '''
 import os
-
 from PyQt4 import QtGui, uic
 from PyQt4.QtCore import pyqtSlot, QSettings, QDateTime
 from qgis.core import QgsPoint, QgsDistanceArea
@@ -42,9 +41,22 @@ class GuidanceDock(QtGui.QDockWidget, FORM_CLASS):
         self.trgPos = [None, 0.0]
         self.srcHeading = 0.0
         self.trgHeading = 0.0
-        self.format = 1
-        self.startTimer(1000)
+        s = QSettings()
+        self.format = s.value('PosiView/Guidance/Format', defaultValue=1, type=int)
+        self.showUtc = s.value('PosiView/Misc/ShowUtcClock', defaultValue=False, type=bool)
+        self.timer = 0
+        self.setUtcClock()
 
+    def setUtcClock(self):
+        if self.showUtc:
+            if not self.timer:
+                self.timer = self.startTimer(1000)
+            self.frameUtcClock.show()
+        else:
+            self.frameUtcClock.hide()
+            self.killTimer(self.timer)
+            self.timer = 0
+        
     def setMobiles(self, mobiles):
         self.reset()
         self.mobiles = mobiles
@@ -65,10 +77,15 @@ class GuidanceDock(QtGui.QDockWidget, FORM_CLASS):
         m = s.value('PosiView/Guidance/Target')
         if m in self.mobiles:
             self.comboBoxTarget.setCurrentIndex(self.comboBoxTarget.findText(m))
+        self.showUtc = s.value('PosiView/Misc/ShowUtcClock', defaultValue=False, type=bool)
+        self.setUtcClock()
+        
 
     @pyqtSlot(name='on_pushButtonFormat_clicked')
     def switchCoordinateFormat(self):
         self.format = (self.format + 1) % 3
+        s = QSettings()
+        s.setValue('PosiView/Guidance/Format', self.format)
         if self.trgPos[0]:
             lon, lat = self.posToStr(self.trgPos[0])
             self.labelTargetLat.setText(lat)

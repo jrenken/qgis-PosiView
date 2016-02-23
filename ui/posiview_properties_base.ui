@@ -343,41 +343,10 @@
                     </property>
                    </widget>
                   </item>
-                 </layout>
-                </widget>
-               </item>
-               <item>
-                <widget class="QgsCollapsibleGroupBox" name="groupBox_7">
-                 <property name="enabled">
-                  <bool>false</bool>
-                 </property>
-                 <property name="title">
-                  <string>Display</string>
-                 </property>
-                 <layout class="QGridLayout" name="gridLayout_2">
-                  <item row="0" column="1">
-                   <widget class="QComboBox" name="comboBox">
-                    <item>
-                     <property name="text">
-                      <string>Decimal Degrees</string>
-                     </property>
-                    </item>
-                    <item>
-                     <property name="text">
-                      <string>Degerees, Decimal Minutes</string>
-                     </property>
-                    </item>
-                    <item>
-                     <property name="text">
-                      <string>Degrees, Minutes, Decimal Seconds</string>
-                     </property>
-                    </item>
-                   </widget>
-                  </item>
-                  <item row="0" column="0">
-                   <widget class="QLabel" name="label_4">
+                  <item row="3" column="0">
+                   <widget class="QCheckBox" name="checkBoxUtcClock">
                     <property name="text">
-                     <string>Coordinate Format:</string>
+                     <string>Show UTC clock in guidance window</string>
                     </property>
                    </widget>
                   </item>
@@ -421,8 +390,8 @@
                <rect>
                 <x>0</x>
                 <y>0</y>
-                <width>589</width>
-                <height>777</height>
+                <width>184</width>
+                <height>369</height>
                </rect>
               </property>
               <layout class="QVBoxLayout" name="verticalLayout_8">
@@ -663,8 +632,8 @@
                <rect>
                 <x>0</x>
                 <y>0</y>
-                <width>589</width>
-                <height>777</height>
+                <width>513</width>
+                <height>619</height>
                </rect>
               </property>
               <layout class="QVBoxLayout" name="verticalLayout_4">

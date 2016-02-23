@@ -34,6 +34,7 @@ class PosiViewProject(object):
         self.recorderPath = environ['HOME']
         self.autoRecord = False
         self.notifyDuration = 0
+        self.showUtcClock = False
         self.trackingStarted = False
 
     def startTracking(self):
@@ -61,6 +62,7 @@ class PosiViewProject(object):
         props['RecorderPath'] = self.recorderPath
         props['AutoRecord'] = self.autoRecord
         props['NotifyDuration'] = self.notifyDuration
+        props['ShowUtcClock'] = self.showUtcClock
         m = dict()
         for k in self.mobileItems.keys():
             p = self.mobileItems[k].properties()
@@ -86,6 +88,7 @@ class PosiViewProject(object):
         self.recorderPath = properties.get('RecorderPath', environ['HOME'])
         self.autoRecord = bool(properties.get('AutoRecord', False))
         self.notifyDuration = int(properties.get('NotifyDuration', 0))
+        self.showUtcClock = properties.get('ShowUtcClock', False)
 
         pr = properties['Provider']
         for k in pr.keys():
@@ -157,6 +160,7 @@ class PosiViewProject(object):
         properties['RecorderPath'] = s.value('Recorder/Path', environ['HOME'])
         properties['AutoRecord'] = s.value('Recorder/AutoRecord', False, type=bool)
         properties['NotifyDuration'] = s.value('Misc/NotifyDuration', 0, type=int)
+        properties['ShowUtcClock'] = s.value('Misc/ShowUtcClock', False, type=bool)
         s.endGroup()
         return properties
 
@@ -170,7 +174,8 @@ class PosiViewProject(object):
             properties = self.properties()
 
         s.beginGroup('PosiView')
-        s.remove('')
+        s.remove('Mobiles')
+        s.remove('DataProvider')
         idx = 0
         s.beginWriteArray('Mobiles')
         try:
@@ -199,6 +204,7 @@ class PosiViewProject(object):
         s.setValue('Recorder/Path', properties['RecorderPath'])
         s.setValue('Recorder/AutoRecord', properties['AutoRecord'])
         s.setValue('Misc/NotifyDuration', properties['NotifyDuration'])
+        s.setValue('Misc/ShowUtcClock', properties['ShowUtcClock'])
         s.endGroup()
 
     # noinspection PyMethodMayBeStatic

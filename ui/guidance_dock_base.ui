@@ -23,7 +23,7 @@
    </property>
    <layout class="QVBoxLayout" name="verticalLayout" stretch="0,5,1,1,1">
     <item>
-     <widget class="QFrame" name="frame_5">
+     <widget class="QFrame" name="frameUtcClock">
       <property name="frameShape">
        <enum>QFrame::StyledPanel</enum>
       </property>

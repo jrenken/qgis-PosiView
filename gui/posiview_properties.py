@@ -30,7 +30,6 @@ class PosiviewProperties(QgsOptionsDialogBase, Ui_PosiviewPropertiesBase):
         super(PosiviewProperties, self).__init__("PosiViewProperties", parent)
         self.setupUi(self)
         self.groupBox_6.hide()
-        self.groupBox_7.hide()
         self.initOptionsBase(False)
         self.restoreOptionsBaseUi()
         self.comboBoxParser.addItems(PARSERS)
@@ -64,6 +63,7 @@ class PosiviewProperties(QgsOptionsDialogBase, Ui_PosiviewPropertiesBase):
         self.lineEditRecorderPath.setText(properties['RecorderPath'])
         self.checkBoxAutoRecording.setChecked(properties['AutoRecord'])
         self.spinBoxNotifyDuration.setValue(properties['NotifyDuration'])
+        self.checkBoxUtcClock.setChecked((properties['ShowUtcClock']))
 
     def updateGeneralData(self):
         self.projectProperties['Mission']['cruise'] = self.lineEditCruise.text()
@@ -72,6 +72,7 @@ class PosiviewProperties(QgsOptionsDialogBase, Ui_PosiviewPropertiesBase):
         self.projectProperties['RecorderPath'] = self.lineEditRecorderPath.text()
         self.projectProperties['AutoRecord'] = self.checkBoxAutoRecording.isChecked()
         self.projectProperties['NotifyDuration'] = self.spinBoxNotifyDuration.value()
+        self.projectProperties['ShowUtcClock'] = self.checkBoxUtcClock.isChecked()
 
     def getColor(self, value):
         try:
