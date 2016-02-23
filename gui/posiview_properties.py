@@ -311,6 +311,5 @@ class PosiviewProperties(QgsOptionsDialogBase, Ui_PosiviewPropertiesBase):
     @pyqtSlot(name='on_buttonBox_helpRequested')
     def showHelp(self):
         """Display application help to the user."""
-        help_file = 'file://' + os.path.join(os.path.split(os.path.dirname(__file__))[0], 'help', 'index.html')
-        # noinspection PyCallByClass,PyTypeChecker
-        QDesktopServices.openUrl(QUrl(help_file))
+        help_file = os.path.join(os.path.split(os.path.dirname(__file__))[0], 'help', 'index.html')
+        QDesktopServices.openUrl(QUrl.fromLocalFile(help_file))
