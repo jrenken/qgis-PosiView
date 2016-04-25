@@ -4,6 +4,7 @@ Created on 25.04.2016
 @author: jrenken
 '''
 
+import datetime
 from parser import Parser
 from nmea import NmeaRecord
 
@@ -51,8 +52,11 @@ class AisParser(Parser):
         try:
             result = {'id': binPayload.getInt(8, 30),
                       'lat': float(binPayload.getInt(89, 27)) / 600000.0,
-                      'lon': float(binPayload.getInt(61, 28)) / 600000.0,
-                      'time': binPayload.getInt(137, 6)}
+                      'lon': float(binPayload.getInt(61, 28)) / 600000.0}
+            dt = datetime.datetime.utcnow()
+            dt.second = binPayload.getInt(137, 6)
+            dt -= datetime.datetime(1970, 1, 1)
+            result['time'] = dt.total_seconds()
             head = binPayload.getInt(128, 9)
             if head == 511:
                 head = 0.1 * float(binPayload.getInt(116, 12))
