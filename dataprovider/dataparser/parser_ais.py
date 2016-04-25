@@ -11,7 +11,10 @@ from nmea import NmeaRecord
 
 class AisParser(Parser):
     '''
-    classdocs
+    Parser for AIS Position Report Class A
+    Type 1, 2 and 3 messages share a common reporting structure
+
+    !AIVDM,1,1,,A,139Qfu`P000WtshNI2u@0Ow20HD4,0*55
     '''
 
     def __init__(self):
@@ -30,12 +33,12 @@ class AisParser(Parser):
         if nmea.valid:
             fcnt = nmea.value(1)
             frag = nmea.value(2)
-    
+
             if frag == 1:
                 self.binaryPayload = nmea[5]
             else:
                 self.binaryPayload += nmea[5]
-              
+
             if frag == fcnt:
                 return self.decodePayload(self.binaryPayload)
             return {}
@@ -45,18 +48,13 @@ class AisParser(Parser):
         for c in payload:
             val = self.get6Bit(c)
             binPayload.extend(val, 6)
-        print "CNB", binPayload, len(binPayload)
-        print binPayload.getInt(0, 6)
-        print float(binPayload.getInt(61, 28))
-        print float(binPayload.getInt(89, 27))
         try:
             result = {'id': binPayload.getInt(8, 30),
                       'lat': float(binPayload.getInt(89, 27)) / 600000.0,
-                      'lon': float(binPayload.getInt(61, 28)) / 600000.0}
-            dt = datetime.datetime.utcnow()
-            dt.second = binPayload.getInt(137, 6)
-            dt -= datetime.datetime(1970, 1, 1)
-            result['time'] = dt.total_seconds()
+                      'lon': float(binPayload.getInt(61, 28)) / 600000.0,
+                      'depth': 0.0}
+            dt = datetime.datetime.utcnow().replace(second=binPayload.getInt(137, 6))
+            result['time'] = (dt - datetime.datetime(1970, 1, 1)).total_seconds()
             head = binPayload.getInt(128, 9)
             if head == 511:
                 head = 0.1 * float(binPayload.getInt(116, 12))
@@ -70,12 +68,13 @@ class AisParser(Parser):
         if res > 40:
             res -= 8
         return res
-    
+
 
 class BitVector:
     '''
+    Helper class for handling AIS binary payload data
     '''
-     
+
     def __init__(self, val=0, size=0):
         '''
         constructor
@@ -94,10 +93,10 @@ class BitVector:
 
     def __len__(self):
         return len(self.vector)
-    
+
     def __str__(self):
         return str(self.vector)
-    
+
     def getInt(self, start, size):
         'get integer value from a slice'
         if size > 32:
@@ -109,9 +108,9 @@ class BitVector:
         for i in range(start, start + size):
             mask >>= 1
             if self.vector[i]:
-                result |= mask;
-        return result;
-    
+                result |= mask
+        return result
+
 if __name__ == "__main__":
     p = AisParser()
     print p.parse('!AIVDM,1,1,,A,139cJd>P1IPWunbNI:nsdOvrRHAH,0*24')

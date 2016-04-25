@@ -11,7 +11,6 @@ from parser import Parser
 
 class GpsParser(Parser):
     '''
-    classdocs
     $GPRMC,140808,A,5301.4970,N,00852.1740,E,000.0,000.0,030715,0.4,E,N*15
     '''
 

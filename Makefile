@@ -69,6 +69,7 @@ PY_FILES = \
 	dataprovider/dataparser/parser_gps.py \
 	dataprovider/dataparser/parser_psonlld.py \
 	dataprovider/dataparser/parser_cp16.py \
+	dataprovider/dataparser/parser_ais.py \
 	dataprovider/dataparser/parser.py \
 
 
