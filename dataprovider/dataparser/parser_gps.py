@@ -29,7 +29,7 @@ class GpsParser(Parser):
 
     def decodeRmc(self, data):
         nmea = NmeaRecord(data)
-        if (nmea.valid):
+        if nmea.valid:
             try:
                 result = {'lat': nmea.fromDDM(3, 4),
                           'lon': nmea.fromDDM(5, 6)}
