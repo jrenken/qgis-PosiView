@@ -49,6 +49,8 @@ class AisParser(Parser):
             val = self.get6Bit(c)
             binPayload.extend(val, 6)
         try:
+            if binPayload.getInt(0,6) not in (1, 2, 3):
+                return {}
             result = {'id': binPayload.getInt(8, 30),
                       'lat': float(binPayload.getInt(89, 27)) / 600000.0,
                       'lon': float(binPayload.getInt(61, 28)) / 600000.0,

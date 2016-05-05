@@ -3,3 +3,16 @@
 *~
 *.zip
 help/build
+/__init__.pyc
+/guidance_dock.pyc
+/moving_item.pyc
+/parser.pyc
+/posi_view.pyc
+/posi_view_dialog.pyc
+/position_marker.pyc
+/position_provider.pyc
+/posiview_project.pyc
+/posiview_properties.pyc
+/posiview_properties_base.pyc
+/resources_rc.pyc
+/tracking_dock.pyc
