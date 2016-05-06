@@ -17,7 +17,6 @@ class AisParser(Parser):
     !AIVDM,1,1,,A,139Qfu`P000WtshNI2u@0Ow20HD4,0*55
     '''
 
-
     def __init__(self):
         '''
         Constructor
