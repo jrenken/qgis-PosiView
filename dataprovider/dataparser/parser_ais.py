@@ -55,7 +55,7 @@ class AisParser(Parser):
             type = binPayload.getInt(0, 6)
             if type in (1, 2, 3):
                 bs = {'lat': 89, 'lon': 61, 'ts': 137, 'head': 128, 'cog': 116}
-            elif type == 18:
+            elif type in (18, 19):
                 bs = {'lat': 85, 'lon': 57, 'ts': 133, 'head': 124, 'cog': 112}
             else:
                 return {}
