@@ -17,6 +17,7 @@ class AisParser(Parser):
     !AIVDM,1,1,,A,139Qfu`P000WtshNI2u@0Ow20HD4,0*55
     '''
 
+
     def __init__(self):
         '''
         Constructor
@@ -48,35 +49,32 @@ class AisParser(Parser):
         for c in payload:
             val = self.get6Bit(c)
             binPayload.extend(val, 6)
+
         try:
             mmsi = binPayload.getInt(8, 30)
-            type = binPayload.getInt(0,6)
-            sec = 0
-            head = 0
-            result = {'id': mmsi,
-                      'depth': 0.0}
+            type = binPayload.getInt(0, 6)
             if type in (1, 2, 3):
-                result['lat'] = float(binPayload.getInt(89, 27)) / 600000.0
-                result['lon'] = float(binPayload.getInt(61, 28)) / 600000.0
-                sec = binPayload.getInt(137, 6)
-                head = binPayload.getInt(128, 9)
-                if head == 511:
-                    head = 0.1 * float(binPayload.getInt(116, 12))
+                bs = {'lat': 89, 'lon': 61, 'ts': 137, 'head': 128, 'cog': 116}
             elif type == 18:
-                result['lat'] = float(binPayload.getInt(85, 27)) / 600000.0
-                result['lon'] = float(binPayload.getInt(57, 28)) / 600000.0
-                sec = binPayload.getInt(133, 6)
-                head = binPayload.getInt(124, 9)
-                if head == 511:
-                    head = 0.1 * float(binPayload.getInt(112, 12))
+                bs = {'lat': 85, 'lon': 57, 'ts': 133, 'head': 124, 'cog': 112}
+            else:
+                return {}
+
+            result = {'id': mmsi,
+                      'lat': float(binPayload.getInt(bs['lat'], 27)) / 600000.0,
+                      'lon': float(binPayload.getInt(bs['lon'], 28)) / 600000.0,
+                      'depth': 0.0}
+            sec = binPayload.getInt(bs['ts'], 6)
             dt = datetime.datetime.utcnow()
             if sec < 60:
                 dt.replace(second=sec)
             result['time'] = (dt - datetime.datetime(1970, 1, 1)).total_seconds()
+            head = binPayload.getInt(bs['head'], 9)
+            if head == 511:
+                head = 0.1 * float(binPayload.getInt(bs['cog'], 12))
             result['heading'] = head
             return dict((k, v) for k, v in result.iteritems() if v is not None)
-        except (ValueError, KeyError):
-            print 'AIS exception'
+        except [ValueError, KeyError]:
             return {}
 
     def get6Bit(self, ch):
