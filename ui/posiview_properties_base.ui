@@ -390,8 +390,8 @@
                <rect>
                 <x>0</x>
                 <y>0</y>
-                <width>184</width>
-                <height>369</height>
+                <width>589</width>
+                <height>777</height>
                </rect>
               </property>
               <layout class="QVBoxLayout" name="verticalLayout_8">
@@ -632,8 +632,8 @@
                <rect>
                 <x>0</x>
                 <y>0</y>
-                <width>513</width>
-                <height>619</height>
+                <width>589</width>
+                <height>777</height>
                </rect>
               </property>
               <layout class="QVBoxLayout" name="verticalLayout_4">
@@ -817,6 +817,9 @@
                    <widget class="QSpinBox" name="spinBoxMobileTimeout">
                     <property name="suffix">
                      <string> sec</string>
+                    </property>
+                    <property name="maximum">
+                     <number>3600</number>
                     </property>
                    </widget>
                   </item>

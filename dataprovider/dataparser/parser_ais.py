@@ -49,20 +49,34 @@ class AisParser(Parser):
             val = self.get6Bit(c)
             binPayload.extend(val, 6)
         try:
-            if binPayload.getInt(0,6) not in (1, 2, 3):
-                return {}
-            result = {'id': binPayload.getInt(8, 30),
-                      'lat': float(binPayload.getInt(89, 27)) / 600000.0,
-                      'lon': float(binPayload.getInt(61, 28)) / 600000.0,
+            mmsi = binPayload.getInt(8, 30)
+            type = binPayload.getInt(0,6)
+            sec = 0
+            head = 0
+            result = {'id': mmsi,
                       'depth': 0.0}
-            dt = datetime.datetime.utcnow().replace(second=binPayload.getInt(137, 6))
+            if type in (1, 2, 3):
+                result['lat'] = float(binPayload.getInt(89, 27)) / 600000.0
+                result['lon'] = float(binPayload.getInt(61, 28)) / 600000.0
+                sec = binPayload.getInt(137, 6)
+                head = binPayload.getInt(128, 9)
+                if head == 511:
+                    head = 0.1 * float(binPayload.getInt(116, 12))
+            elif type == 18:
+                result['lat'] = float(binPayload.getInt(85, 27)) / 600000.0
+                result['lon'] = float(binPayload.getInt(57, 28)) / 600000.0
+                sec = binPayload.getInt(133, 6)
+                head = binPayload.getInt(124, 9)
+                if head == 511:
+                    head = 0.1 * float(binPayload.getInt(112, 12))
+            dt = datetime.datetime.utcnow()
+            if sec < 60:
+                dt.replace(second=sec)
             result['time'] = (dt - datetime.datetime(1970, 1, 1)).total_seconds()
-            head = binPayload.getInt(128, 9)
-            if head == 511:
-                head = 0.1 * float(binPayload.getInt(116, 12))
             result['heading'] = head
             return dict((k, v) for k, v in result.iteritems() if v is not None)
-        except [ValueError, KeyError]:
+        except (ValueError, KeyError):
+            print 'AIS exception'
             return {}
 
     def get6Bit(self, ch):
