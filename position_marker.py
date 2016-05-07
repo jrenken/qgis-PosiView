@@ -136,7 +136,7 @@ class PositionMarker(QgsMapCanvasItem):
             tp.setCenter(self.pos)
             tp.setIconType(QgsVertexMarker.ICON_CROSS)
             tp.setColor(self.trackColor)
-            tp.setZValue(self.zValue())
+            tp.setZValue(self.zValue() - 0.1)
             tp.setIconSize(3)
             tp.setPenWidth(5)
             self.track.append(tp)
