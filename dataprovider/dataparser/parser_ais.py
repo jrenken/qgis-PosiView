@@ -73,7 +73,7 @@ class AisParser(Parser):
                 head = 0.1 * float(binPayload.getInt(bs['cog'], 12))
             result['heading'] = head
             return dict((k, v) for k, v in result.iteritems() if v is not None)
-        except [ValueError, KeyError]:
+        except (ValueError, KeyError, IndexError):
             return {}
 
     def get6Bit(self, ch):
