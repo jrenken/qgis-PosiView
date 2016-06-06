@@ -138,7 +138,7 @@ class PositionMarker(QgsMapCanvasItem):
             tp.setColor(self.trackColor)
             tp.setZValue(self.zValue() - 0.1)
             tp.setIconSize(3)
-            tp.setPenWidth(5)
+            tp.setPenWidth(3)
             self.track.append(tp)
 
     def setVisible(self, visible):

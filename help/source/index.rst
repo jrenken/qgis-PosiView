@@ -42,7 +42,7 @@ Configuration
   * The Z-value defines the vertical painting order.
   * Select a timeout. When no fix is received within that time the display in the tracking window turns red. 
     An additional notification is displayed in the messagebar when no fix is received within n times the timout.
-  * Assign one ore more data providers. If a provider provides more then one position a filter is needed. This could be a beacon id or a string.
+  * Assign one ore more data providers. If a provider provides more then one position a filter is needed. This could be a beacon id or a string. For AIS provider the filter has to be the MMSI.
   * Don't forget to apply the changes.
 4. Apply changes. Providers and vehicles will be shown in the tracking window.
 
