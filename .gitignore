@@ -2,6 +2,7 @@
 *_rc.py
 *~
 *.zip
+ui_*.py
 help/build
 /__init__.pyc
 /guidance_dock.pyc

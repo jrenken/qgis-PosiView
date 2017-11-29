@@ -144,7 +144,7 @@
           </sizepolicy>
          </property>
          <property name="currentIndex">
-          <number>0</number>
+          <number>1</number>
          </property>
          <widget class="QWidget" name="mOptsPage_01">
           <layout class="QVBoxLayout" name="verticalLayout_14">
@@ -165,7 +165,7 @@
                 <x>0</x>
                 <y>0</y>
                 <width>589</width>
-                <height>777</height>
+                <height>774</height>
                </rect>
               </property>
               <layout class="QVBoxLayout" name="verticalLayout_13">
@@ -391,7 +391,7 @@
                 <x>0</x>
                 <y>0</y>
                 <width>589</width>
-                <height>777</height>
+                <height>774</height>
                </rect>
               </property>
               <layout class="QVBoxLayout" name="verticalLayout_8">
@@ -440,7 +440,7 @@
                         </property>
                         <property name="icon">
                          <iconset>
-                          <normaloff>:/images/themes/default/mActionAdd.png</normaloff>:/images/themes/default/mActionAdd.png</iconset>
+                          <normaloff>:/images/themes/default/mActionAdd.svg</normaloff>:/images/themes/default/mActionAdd.svg</iconset>
                         </property>
                        </widget>
                       </item>
@@ -457,7 +457,7 @@
                         </property>
                         <property name="icon">
                          <iconset>
-                          <normaloff>:/images/themes/default/mActionRemove.png</normaloff>:/images/themes/default/mActionRemove.png</iconset>
+                          <normaloff>:/images/themes/default/mActionRemove.svg</normaloff>:/images/themes/default/mActionRemove.svg</iconset>
                         </property>
                        </widget>
                       </item>
@@ -588,6 +588,10 @@
                       <property name="text">
                        <string>Apply Properties</string>
                       </property>
+                      <property name="icon">
+                       <iconset>
+                        <normaloff>:/plugins/PosiView/refresh.png</normaloff>:/plugins/PosiView/refresh.png</iconset>
+                      </property>
                      </widget>
                     </item>
                    </layout>
@@ -633,7 +637,7 @@
                 <x>0</x>
                 <y>0</y>
                 <width>589</width>
-                <height>777</height>
+                <height>774</height>
                </rect>
               </property>
               <layout class="QVBoxLayout" name="verticalLayout_4">
@@ -679,7 +683,7 @@
                         </property>
                        </spacer>
                       </item>
-                      <item>
+                      <item alignment="Qt::AlignHCenter">
                        <widget class="QToolButton" name="toolButtonAddMobile">
                         <property name="toolTip">
                          <string>Add a new mobile</string>
@@ -692,11 +696,11 @@
                         </property>
                         <property name="icon">
                          <iconset>
-                          <normaloff>:/images/themes/default/mActionAdd.png</normaloff>:/images/themes/default/mActionAdd.png</iconset>
+                          <normaloff>:/images/themes/default/mActionAdd.svg</normaloff>:/images/themes/default/mActionAdd.svg</iconset>
                         </property>
                        </widget>
                       </item>
-                      <item>
+                      <item alignment="Qt::AlignHCenter">
                        <widget class="QToolButton" name="toolButtonRemoveMobile">
                         <property name="toolTip">
                          <string>Delete mobile</string>
@@ -709,7 +713,7 @@
                         </property>
                         <property name="icon">
                          <iconset>
-                          <normaloff>:/images/themes/default/mActionRemove.png</normaloff>:/images/themes/default/mActionRemove.png</iconset>
+                          <normaloff>:/images/themes/default/mActionRemove.svg</normaloff>:/images/themes/default/mActionRemove.svg</iconset>
                         </property>
                        </widget>
                       </item>
@@ -878,11 +882,11 @@
                         </property>
                         <property name="icon">
                          <iconset>
-                          <normaloff>:/images/themes/default/mActionRefresh.png</normaloff>:/images/themes/default/mActionRefresh.png</iconset>
+                          <normaloff>:/plugins/PosiView/refresh.png</normaloff>:/plugins/PosiView/refresh.png</iconset>
                         </property>
                        </widget>
                       </item>
-                      <item>
+                      <item alignment="Qt::AlignHCenter">
                        <widget class="QToolButton" name="toolButtonRemoveMobileProvider">
                         <property name="toolTip">
                          <string>Remove provider from list</string>
@@ -895,7 +899,7 @@
                         </property>
                         <property name="icon">
                          <iconset>
-                          <normaloff>:/images/themes/default/mActionRemove.png</normaloff>:/images/themes/default/mActionRemove.png</iconset>
+                          <normaloff>:/images/themes/default/mActionRemove.svg</normaloff>:/images/themes/default/mActionRemove.svg</iconset>
                         </property>
                        </widget>
                       </item>
@@ -1045,6 +1049,10 @@
                    <widget class="QPushButton" name="pushButtonApplyMobile">
                     <property name="text">
                      <string>Apply Properties</string>
+                    </property>
+                    <property name="icon">
+                     <iconset>
+                      <normaloff>:/plugins/PosiView/refresh.png</normaloff>:/plugins/PosiView/refresh.png</iconset>
                     </property>
                    </widget>
                   </item>
