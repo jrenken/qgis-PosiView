@@ -126,19 +126,22 @@ class PositionMarker(QgsMapCanvasItem):
         self.size = max(paintLength, paintWidth)
         self.bounding = sqrt(pow(paintLength, 2) + pow(paintLength, 2))
 
+    def newTrackPoint(self, pos):
+        tp = QgsVertexMarker(self.canvas)
+        tp.setCenter(pos)
+        tp.setIconType(QgsVertexMarker.ICON_CROSS)
+        tp.setColor(self.trackColor)
+        tp.setZValue(self.zValue() - 0.1)
+        tp.setIconSize(3)
+        tp.setPenWidth(3)
+
     def updateTrack(self):
         if self.pos and self.trackLen:
             if len(self.track) >= self.trackLen:
                 tpr = self.track.popleft()
                 self.canvas.scene().removeItem(tpr[0])
                 del(tpr)
-            tp = QgsVertexMarker(self.canvas)
-            tp.setCenter(self.pos)
-            tp.setIconType(QgsVertexMarker.ICON_CROSS)
-            tp.setColor(self.trackColor)
-            tp.setZValue(self.zValue() - 0.1)
-            tp.setIconSize(3)
-            tp.setPenWidth(3)
+            tp = self.newTrackPoint(self.pos)
             self.track.append((tp, self.pos))
 
     def setVisible(self, visible):
@@ -154,13 +157,7 @@ class PositionMarker(QgsMapCanvasItem):
     def setTrack(self, track):
         self.track.clear()
         for tp in track:
-            tpn = QgsVertexMarker(self.canvas)
-            tpn.setCenter(tp)
-            tpn.setIconType(QgsVertexMarker.ICON_CROSS)
-            tpn.setColor(self.trackColor)
-            tpn.setZValue(self.zValue() - 0.1)
-            tpn.setIconSize(3)
-            tpn.setPenWidth(3)
+            tpn = self.newTrackPoint(tp)
             self.track.append((tpn, tp))
 
     def paint(self, painter, xxx, xxx2):

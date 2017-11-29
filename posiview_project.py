@@ -105,7 +105,7 @@ class PosiViewProject(object):
                 m.applyTrack(self.trackCache[m.name])
             except KeyError:
                 pass
-                    
+   
             for k1 in m.dataProvider.keys():
                 try:
                     m.subscribePositionProvider(self.dataProviders[k1], m.dataProvider[k1])
