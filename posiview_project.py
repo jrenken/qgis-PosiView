@@ -36,6 +36,7 @@ class PosiViewProject(object):
         self.notifyDuration = 0
         self.showUtcClock = False
         self.trackingStarted = False
+        self.trackCache = dict()
 
     def startTracking(self):
         if not self.trackingStarted:
@@ -100,6 +101,11 @@ class PosiViewProject(object):
             mob[k]['NotifyDuration'] = self.notifyDuration
             m = MobileItem(self.iface, mob[k])
             self.mobileItems[m.name] = m
+            try:
+                m.applyTrack(self.trackCache[m.name])
+            except KeyError:
+                pass
+                    
             for k1 in m.dataProvider.keys():
                 try:
                     m.subscribePositionProvider(self.dataProviders[k1], m.dataProvider[k1])
@@ -107,11 +113,13 @@ class PosiViewProject(object):
                     self.iface.messageBar().pushMessage(self.tr(u'Error'), self.tr(u"Can't subscribe dataprovider: ")
                                    + k1 + self.tr(u' for ') + m.name,
                                    level=QgsMessageBar.CRITICAL, duration=5)
+        self.trackCache.clear()
 
     def unload(self):
         self.stopTracking()
         self.dataProviders.clear()
         for m in self.mobileItems.values():
+            self.trackCache[m.name] = m.getTrack()
             m.removeFromCanvas()
         self.mobileItems.clear()
 

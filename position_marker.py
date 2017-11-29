@@ -130,7 +130,7 @@ class PositionMarker(QgsMapCanvasItem):
         if self.pos and self.trackLen:
             if len(self.track) >= self.trackLen:
                 tpr = self.track.popleft()
-                self.canvas.scene().removeItem(tpr)
+                self.canvas.scene().removeItem(tpr[0])
                 del(tpr)
             tp = QgsVertexMarker(self.canvas)
             tp.setCenter(self.pos)
@@ -139,17 +139,29 @@ class PositionMarker(QgsMapCanvasItem):
             tp.setZValue(self.zValue() - 0.1)
             tp.setIconSize(3)
             tp.setPenWidth(3)
-            self.track.append(tp)
+            self.track.append((tp, self.pos))
 
     def setVisible(self, visible):
         for tp in self.track:
-            tp.setVisible(visible)
+            tp[0].setVisible(visible)
         QgsMapCanvasItem.setVisible(self, visible)
 
     def deleteTrack(self):
         for tp in self.track:
-            self.canvas.scene().removeItem(tp)
+            self.canvas.scene().removeItem(tp[0])
         self.track.clear()
+
+    def setTrack(self, track):
+        self.track.clear()
+        for tp in track:
+            tpn = QgsVertexMarker(self.canvas)
+            tpn.setCenter(tp)
+            tpn.setIconType(QgsVertexMarker.ICON_CROSS)
+            tpn.setColor(self.trackColor)
+            tpn.setZValue(self.zValue() - 0.1)
+            tpn.setIconSize(3)
+            tpn.setPenWidth(3)
+            self.track.append((tpn, tp))
 
     def paint(self, painter, xxx, xxx2):
         if not self.pos:

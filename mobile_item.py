@@ -234,3 +234,11 @@ class MobileItem(QObject):
             m.start()
             w.layout().addWidget(l)
             self.iface.messageBar().pushWidget(w, QgsMessageBar.CRITICAL, duration=self.notifyDuration)
+
+    def getTrack(self):
+        tr = [e[1] for e in self.marker.track]
+        return tr
+
+    def applyTrack(self, track):
+        self.marker.setTrack(track)
+
