@@ -25,12 +25,14 @@ from PyQt4.QtGui import QPainter, QBrush, QColor, QPen, QPolygonF
 from qgis.gui import QgsMapCanvasItem, QgsVertexMarker
 from qgis.core import QgsDistanceArea
 from _collections import deque
-from math import sqrt
 
 
 class PositionMarker(QgsMapCanvasItem):
     '''
-    classdocs
+    MapCanvasItem for showing the MobileItem on the MapCanvas
+    Can have different appearences, fixed ones like corss, x or box
+    or a userdefined shape.
+    Can display also a label on the canvas
     '''
 
     def __init__(self, canvas, params={}):
@@ -46,27 +48,32 @@ class PositionMarker(QgsMapCanvasItem):
         self.canvas = canvas
         self.type = params.get('type', 'BOX').upper()
         self.size = int(params.get('size', 16))
-        self.bounding = 1.414213562 * self.size
+        self.showLabel = bool(params.get('showLabel', True))
+        s = (self.size - 1) / 2
         self.length = float(params.get('length', 98.0))
         self.width = float(params.get('width', 17.0))
         self.shape = params.get('shape', ((0.0, -0.5), (0.5, -0.3), (0.5, 0.5), (-0.5, 0.50), (-0.5, -0.3)))
-        s = (self.size - 1) / 2
         self.paintShape = QPolygonF([QPointF(-s, -s), QPointF(s, -s), QPointF(s, s), QPointF(-s, s)])
         self.color = self.getColor(params.get('color', 'black'))
         self.fillColor = self.getColor(params.get('fillColor', 'lime'))
         self.penWidth = int(params.get('penWidth', 1))
+        spw = s + self.penWidth + 1
+        self.bounding = QRectF(-spw, -spw, spw * 2, spw * 2)
         if self.type in ('CROSS', 'X'):
             self.penWidth = 5
         self.trackLen = int(params.get('trackLength', 100))
         self.trackColor = self.getColor(params.get('trackColor', self.fillColor))
         self.track = deque()
-        self.pos = None
+        self.position = None
         self.heading = 0
         super(PositionMarker, self).__init__(canvas)
         self.setZValue(int(params.get('zValue', 100)))
         self.distArea = QgsDistanceArea()
         self.distArea.setEllipsoid(u'WGS84')
         self.distArea.setEllipsoidalMode(True)
+        if self.showLabel:
+            self.label = MarkerLabel(self.canvas, params)
+            self.label.setZValue(self.zValue() + 0.1)
         self.updateSize()
 
     def properties(self):
@@ -80,13 +87,16 @@ class PositionMarker(QgsMapCanvasItem):
                 'penWidth': self.penWidth,
                 'trackLength': self.trackLen,
                 'trackColor' : self.trackColor.rgba(),
-                'zValue': self.zValue()}
+                'zValue': self.zValue(),
+                'showLabel': self.showLabel}
 
     def setMapPosition(self, pos):
-        if self.pos != pos:
+        if self.position != pos:
             self.updateTrack()
-            self.pos = pos
-            self.setPos(self.toCanvasCoordinates(self.pos))
+            self.position = pos
+            self.setPos(self.toCanvasCoordinates(self.position))
+            if self.showLabel:
+                self.label.setMapPosition(pos)
             self.update()
 
     def newHeading(self, heading):
@@ -96,15 +106,16 @@ class PositionMarker(QgsMapCanvasItem):
             self.update()
 
     def resetPosition(self):
-        self.pos = None
+        self.position = None
+        if self.showLabel:
+            self.label.resetPoition()
 
     def updatePosition(self):
-        if self.pos:
+        if self.position:
             self.prepareGeometryChange()
             self.updateSize()
-            self.setPos(self.toCanvasCoordinates(self.pos))
+            self.setPos(self.toCanvasCoordinates(self.position))
             self.setRotation(self.canvas.rotation() + self.heading)
-            self.update()
 
     def updateSize(self):
         if self.type != 'SHAPE':
@@ -124,7 +135,9 @@ class PositionMarker(QgsMapCanvasItem):
         for v in self.shape:
             self.paintShape << QPointF(v[0] * paintWidth, v[1] * paintLength)
         self.size = max(paintLength, paintWidth)
-        self.bounding = sqrt(pow(paintLength, 2) + pow(paintLength, 2))
+        sw = paintWidth / 2 + (self.penWidth + 1)
+        sh = paintLength / 2 + (self.penWidth + 1)
+        self.bounding = QRectF(QPointF(-sw, -sh), QPointF(sw, sh))
 
     def newTrackPoint(self, pos):
         tp = QgsVertexMarker(self.canvas)
@@ -134,20 +147,23 @@ class PositionMarker(QgsMapCanvasItem):
         tp.setZValue(self.zValue() - 0.1)
         tp.setIconSize(3)
         tp.setPenWidth(3)
+        return tp
 
     def updateTrack(self):
-        if self.pos and self.trackLen:
+        if self.position and self.trackLen:
             if len(self.track) >= self.trackLen:
                 tpr = self.track.popleft()
                 self.canvas.scene().removeItem(tpr[0])
                 del(tpr)
-            tp = self.newTrackPoint(self.pos)
-            self.track.append((tp, self.pos))
+            tp = self.newTrackPoint(self.position)
+            self.track.append((tp, self.position))
 
     def setVisible(self, visible):
         for tp in self.track:
             tp[0].setVisible(visible)
         QgsMapCanvasItem.setVisible(self, visible)
+        if self.showLabel:
+            self.label.setVisible(visible)
 
     def deleteTrack(self):
         for tp in self.track:
@@ -161,7 +177,7 @@ class PositionMarker(QgsMapCanvasItem):
             self.track.append((tpn, tp))
 
     def paint(self, painter, xxx, xxx2):
-        if not self.pos:
+        if not self.position:
             return
 
         s = (self.size - 1) / 2
@@ -185,8 +201,7 @@ class PositionMarker(QgsMapCanvasItem):
             painter.drawConvexPolygon(self.paintShape)
 
     def boundingRect(self):
-        s = self.bounding / 2
-        return QRectF(QPointF(-s, -s), QPointF(s, s))
+        return self.bounding
 
     def getColor(self, value):
         try:
@@ -196,4 +211,64 @@ class PositionMarker(QgsMapCanvasItem):
 
     def removeFromCanvas(self):
         self.deleteTrack()
+        if self.showLabel:
+            self.canvas.scene().removeItem(self.label)
         self.canvas.scene().removeItem(self)
+
+
+class MarkerLabel(QgsMapCanvasItem):
+    '''
+    Visual representation of the markers/mobiles name
+    '''
+
+    def __init__(self, canvas, params={}):
+        '''
+        Constructor
+        :param iface: An interface instance that will be passed to this class
+            which provides the hook by which you can manipulate the QGIS
+            application at run time.
+        :type iface: QgsInterface
+        :param params: A dictionary defining all the properties of the position marker
+        :type params: dictionary
+        '''
+        self.canvas = canvas
+        self.label = params.get('Name', 'Item')
+        self.LABEL_DISTANCE = 50
+        self.labelDistance = params.get('labelDistance', self.LABEL_DISTANCE)
+        self.labelRect = QRectF(self.canvas.fontMetrics().boundingRect(
+                self.label)).translated(QPointF(self.labelDistance, -self.labelDistance))
+        self.labelRect.setBottomLeft(QPointF(0, 0))
+        self.color = self.getColor(params.get('color', 'black'))
+        self.position = None
+        super(MarkerLabel, self).__init__(canvas)
+
+    def boundingRect(self):
+        return self.labelRect
+
+    def paint(self, painter, xxx, xxx2):
+        if not self.position:
+            return
+        pen = QPen(self.color)
+        pen.setWidth(1)
+        painter.setPen(pen)
+        painter.drawLine(QPointF(0, 0), QPointF(self.labelDistance, -self.labelDistance / 2))
+        painter.drawText(QPointF(self.labelDistance + 2, -self.labelDistance / 2 + 2), self.label)
+
+    def setMapPosition(self, pos):
+        if self.position != pos:
+            self.position = pos
+            self.setPos(self.toCanvasCoordinates(self.position))
+            self.update()
+
+    def resetPoition(self):
+        self.position = None
+
+    def updatePosition(self):
+        if self.position:
+            self.setPos(self.toCanvasCoordinates(self.position))
+
+    def getColor(self, value):
+        try:
+            return QColor.fromRgba(int(value))
+        except ValueError:
+            return QColor(value)

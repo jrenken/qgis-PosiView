@@ -97,7 +97,7 @@ class MobileItem(QObject):
         :type filterId:
         '''
         provider.newDataReceived.connect(self.processNewData)
-        if filterId is not None:
+        if filterId not in (None, 'None'):
             self.messageFilter[provider.name] = filterId
         elif provider.name in self.messageFilter.keys():
             self.messageFilter.pop(provider.name, None)
