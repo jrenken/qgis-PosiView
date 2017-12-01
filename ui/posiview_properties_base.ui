@@ -144,7 +144,7 @@
           </sizepolicy>
          </property>
          <property name="currentIndex">
-          <number>1</number>
+          <number>2</number>
          </property>
          <widget class="QWidget" name="mOptsPage_01">
           <layout class="QVBoxLayout" name="verticalLayout_14">
@@ -164,8 +164,8 @@
                <rect>
                 <x>0</x>
                 <y>0</y>
-                <width>589</width>
-                <height>774</height>
+                <width>408</width>
+                <height>467</height>
                </rect>
               </property>
               <layout class="QVBoxLayout" name="verticalLayout_13">
@@ -429,6 +429,12 @@
                       </item>
                       <item>
                        <widget class="QToolButton" name="toolButtonAddDataProvider">
+                        <property name="minimumSize">
+                         <size>
+                          <width>32</width>
+                          <height>32</height>
+                         </size>
+                        </property>
                         <property name="toolTip">
                          <string>Add a new data provider</string>
                         </property>
@@ -446,6 +452,12 @@
                       </item>
                       <item>
                        <widget class="QToolButton" name="toolButtonRemoveDataProvider">
+                        <property name="minimumSize">
+                         <size>
+                          <width>32</width>
+                          <height>32</height>
+                         </size>
+                        </property>
                         <property name="toolTip">
                          <string>Remove current provider</string>
                         </property>
@@ -685,6 +697,12 @@
                       </item>
                       <item alignment="Qt::AlignHCenter">
                        <widget class="QToolButton" name="toolButtonAddMobile">
+                        <property name="minimumSize">
+                         <size>
+                          <width>32</width>
+                          <height>32</height>
+                         </size>
+                        </property>
                         <property name="toolTip">
                          <string>Add a new mobile</string>
                         </property>
@@ -702,6 +720,12 @@
                       </item>
                       <item alignment="Qt::AlignHCenter">
                        <widget class="QToolButton" name="toolButtonRemoveMobile">
+                        <property name="minimumSize">
+                         <size>
+                          <width>32</width>
+                          <height>32</height>
+                         </size>
+                        </property>
                         <property name="toolTip">
                          <string>Delete mobile</string>
                         </property>
@@ -753,7 +777,7 @@
                     </property>
                    </widget>
                   </item>
-                  <item row="9" column="1">
+                  <item row="10" column="1">
                    <widget class="QComboBox" name="comboBoxProviders"/>
                   </item>
                   <item row="3" column="1">
@@ -766,7 +790,7 @@
                     </property>
                    </widget>
                   </item>
-                  <item row="10" column="0">
+                  <item row="11" column="0">
                    <widget class="QLabel" name="label_12">
                     <property name="text">
                      <string>Data Provider:</string>
@@ -787,7 +811,7 @@
                     </property>
                    </widget>
                   </item>
-                  <item row="9" column="2">
+                  <item row="10" column="2">
                    <widget class="QLineEdit" name="lineEditProviderFilter">
                     <property name="sizePolicy">
                      <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
@@ -837,7 +861,7 @@
                     </property>
                    </widget>
                   </item>
-                  <item row="10" column="1" colspan="2">
+                  <item row="11" column="1" colspan="2">
                    <layout class="QHBoxLayout" name="horizontalLayout_5">
                     <item>
                      <widget class="QTableView" name="mMobileProviderTableView">
@@ -888,6 +912,12 @@
                       </item>
                       <item alignment="Qt::AlignHCenter">
                        <widget class="QToolButton" name="toolButtonRemoveMobileProvider">
+                        <property name="minimumSize">
+                         <size>
+                          <width>32</width>
+                          <height>32</height>
+                         </size>
+                        </property>
                         <property name="toolTip">
                          <string>Remove provider from list</string>
                         </property>
@@ -995,7 +1025,7 @@
                     </property>
                    </widget>
                   </item>
-                  <item row="8" column="0" colspan="3">
+                  <item row="9" column="0" colspan="3">
                    <widget class="QFrame" name="frame">
                     <property name="frameShape">
                      <enum>QFrame::HLine</enum>
@@ -1028,14 +1058,14 @@
                     </property>
                    </widget>
                   </item>
-                  <item row="9" column="0">
+                  <item row="10" column="0">
                    <widget class="QLabel" name="label_14">
                     <property name="text">
                      <string>Provider and filter:</string>
                     </property>
                    </widget>
                   </item>
-                  <item row="11" column="0" colspan="3">
+                  <item row="12" column="0" colspan="3">
                    <widget class="QFrame" name="frame_2">
                     <property name="frameShape">
                      <enum>QFrame::HLine</enum>
@@ -1045,7 +1075,7 @@
                     </property>
                    </widget>
                   </item>
-                  <item row="12" column="2">
+                  <item row="13" column="2">
                    <widget class="QPushButton" name="pushButtonApplyMobile">
                     <property name="text">
                      <string>Apply Properties</string>
@@ -1066,6 +1096,20 @@
                     </property>
                     <property name="suffix">
                      <string> * Timeout</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="8" column="0">
+                   <widget class="QLabel" name="label_4">
+                    <property name="text">
+                     <string>Marker Label:</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="8" column="1">
+                   <widget class="QCheckBox" name="checkBoxShowLabel">
+                    <property name="text">
+                     <string>Visible</string>
                     </property>
                    </widget>
                   </item>
