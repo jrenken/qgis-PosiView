@@ -57,6 +57,8 @@ class MobileItem(QObject):
         self.crsXform.setSourceCrs(QgsCoordinateReferenceSystem(4326))
         self.onCrsChange()
         self.canvas.destinationCrsChanged.connect(self.onCrsChange)
+        if hasattr(self.canvas, 'magnificationChanged'):
+            self.canvas.magnificationChanged.connect(self.onMagnificationChanged)
         self.timer = QTimer(self)
         self.timer.timeout.connect(self.timeout)
         self.notifyCount = int(params.get('nofixNotify', 0))
@@ -161,13 +163,13 @@ class MobileItem(QObject):
             self.marker.newHeading(data['heading'])
 
     @pyqtSlot(float)
-    def onScaleChange(self, scale):
+    def onScaleChange(self, ):
         '''
         Slot called when the map is zoomed
         :param scale: New scale
         :type scale: float
         '''
-        self.marker.updateSize()
+        self.marker.updatePosition()
 
     @pyqtSlot()
     def onCrsChange(self):
@@ -176,7 +178,16 @@ class MobileItem(QObject):
         '''
         crsDst = self.canvas.mapSettings().destinationCrs()
         self.crsXform.setDestCRS(crsDst)
-        self.marker.updateSize()
+        self.marker.updatePosition()
+
+    @pyqtSlot(float)
+    def onMagnificationChanged(self, ):
+        '''
+        Slot called when the map magnification has changed
+        :param scale: New scale
+        :type scale: float
+        '''
+        self.marker.updateMapMagnification()
 
     @pyqtSlot(bool)
     def setEnabled(self, enabled):

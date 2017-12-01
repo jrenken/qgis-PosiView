@@ -117,6 +117,13 @@ class PositionMarker(QgsMapCanvasItem):
             self.setPos(self.toCanvasCoordinates(self.position))
             self.setRotation(self.canvas.rotation() + self.heading)
 
+    def updateMapMagnification(self):
+        self.updatePosition()
+        if self.showLabel:
+            self.label.updatePosition()
+        for tp in self.track:
+            tp[0].updatePosition()
+
     def updateSize(self):
         if self.type != 'SHAPE':
             return
