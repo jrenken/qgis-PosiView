@@ -142,9 +142,7 @@ class PositionMarker(QgsMapCanvasItem):
         for v in self.shape:
             self.paintShape << QPointF(v[0] * paintWidth, v[1] * paintLength)
         self.size = max(paintLength, paintWidth)
-        sw = paintWidth / 2 + (self.penWidth + 1)
-        sh = paintLength / 2 + (self.penWidth + 1)
-        self.bounding = QRectF(QPointF(-sw, -sh), QPointF(sw, sh))
+        self.bounding = self.paintShape.boundingRect()
 
     def newTrackPoint(self, pos):
         tp = QgsVertexMarker(self.canvas)
