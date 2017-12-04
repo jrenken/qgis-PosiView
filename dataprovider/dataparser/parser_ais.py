@@ -14,7 +14,7 @@ class AisParser(Parser):
     Parser for AIS Position Report Class A and B
     Type 1, 2 and 3 messages share a common reporting structure
 
-    !AIVDM,1,1,,A,139Qfu`P000WtshNI2u@0Ow20HD4,0*55
+    '
     '''
 
     def __init__(self):
@@ -27,7 +27,7 @@ class AisParser(Parser):
         self.fragmentcount = 0
 
     def parse(self, data):
-        if not data.startswith('!AIVDM'):
+        if not data[3:6] in ('VDM', 'VDO'): 
             return {}
         nmea = NmeaRecord(data)
         if nmea.valid:
