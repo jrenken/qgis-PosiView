@@ -44,10 +44,7 @@ class AisParser(Parser):
             return {}
 
     def decodePayload(self, payload):
-        binPayload = BitVector()
-        for c in payload:
-            val = self.get6Bit(c)
-            binPayload.extend(val, 6)
+        binPayload = BitVector(payload)
 
         try:
             mmsi = binPayload.getInt(8, 30)
@@ -76,12 +73,6 @@ class AisParser(Parser):
         except (ValueError, KeyError, IndexError):
             return {}
 
-    def get6Bit(self, ch):
-        res = ord(ch) - 48
-        if res > 40:
-            res -= 8
-        return res
-
 
 class BitVector:
     '''
@@ -91,9 +82,16 @@ class BitVector:
     def __init__(self, val=0, size=0):
         '''
         constructor
+        :param val: either an integer or a 6bit encoded string
+        :type val: integer, long or string
+        :param size: number of bit contained in val if val is int or long
+        :type size: int 
         '''
         self.vector = []
-        if size:
+        if type(val) is str:
+            for c in val:
+                self.append6Bit(c)
+        elif type(val) in (int, long) and size:
             self.extend(val, size)
 
     def extend(self, val, size):
@@ -103,6 +101,17 @@ class BitVector:
             fmt = '{0:0%ib}' % size
             l = list(map(int, fmt.format(val)))
             self.vector.extend(l)
+
+    def append6Bit(self, ch):
+        ''' return s the 6 bit binary value of a hex decoded bit field as used in AIS sentences
+        :param ch: character 
+        :type ch: unsigned char
+        :return 6 bit value
+        '''
+        res = ord(ch) - 48
+        if res > 40:
+            res -= 8
+        self.extend(res, 6)
 
     def __len__(self):
         return len(self.vector)
