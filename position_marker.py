@@ -52,6 +52,8 @@ class PositionMarker(QgsMapCanvasItem):
         s = (self.size - 1) / 2
         self.length = float(params.get('length', 98.0))
         self.width = float(params.get('width', 17.0))
+        self.offsetX = float(params.get('offsetX', 0.0))
+        self.offsetY = float(params.get('offsetY', 0.0))
         self.shape = params.get('shape', ((0.0, -0.5), (0.5, -0.3), (0.5, 0.5), (-0.5, 0.50), (-0.5, -0.3)))
         self.paintShape = QPolygonF([QPointF(-s, -s), QPointF(s, -s), QPointF(s, s), QPointF(-s, s)])
         self.color = self.getColor(params.get('color', 'black'))
@@ -81,6 +83,8 @@ class PositionMarker(QgsMapCanvasItem):
                 'size': self.size,
                 'length': self.length,
                 'width': self.width,
+                'offsetX': self.offsetX,
+                'offsetY': self.offsetY,
                 'shape': self.shape,
                 'color': self.color.rgba(),
                 'fillColor': self.fillColor.rgba(),
@@ -138,9 +142,11 @@ class PositionMarker(QgsMapCanvasItem):
             f = s.outputDpi() / 0.0254 / s.scale()
         paintLength = max(self.length * f, 50)
         paintWidth = paintLength * self.width / self.length
+        offsY = self.offsetX / self.length * paintLength
+        offsX = self.offsetY / self.width * paintWidth
         self.paintShape.clear()
         for v in self.shape:
-            self.paintShape << QPointF(v[0] * paintWidth, v[1] * paintLength)
+            self.paintShape << QPointF(v[0] * paintWidth - offsX, v[1] * paintLength + offsY)
         self.size = max(paintLength, paintWidth)
         self.bounding = self.paintShape.boundingRect()
 
