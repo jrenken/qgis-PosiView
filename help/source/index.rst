@@ -14,6 +14,9 @@ PosiView multi vehicle/object tracking tool
      
 .. index:: Concpets
 
+.. image:: _static/posiview.png
+    :align: center
+
 Concepts
 ==================
 
@@ -87,7 +90,7 @@ Tracking
 #. Start online tracking. 
 #. Open guidance window and select two vehicles/objects to see distances and bearing. A compass is visible if the windows lower edge is pulled down.
 
-.. index:: Guidance window
+   .. index:: Guidance window
    
    .. image:: _static/guidance.png
       :align: center
