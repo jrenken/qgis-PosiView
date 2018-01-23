@@ -23,13 +23,14 @@ class GpsParser(Parser):
         super(GpsParser, self).__init__()
 
     def parse(self, data):
-        if data.startswith('$GPRMC'):
+        data_id = data[3:6]
+        if data_id == 'RMC':
             return self.decodeRmc(data)
-        elif data.startswith('$GPVTG'):
+        elif data_id == 'VTG':
             return self.decodeVtg(data)
-        elif data.startswith('$GPGLL'):
+        elif data_id == 'GLL':
             return self.decodeGll(data)
-        elif data.startswith('$GPGGA'):
+        elif data_id == 'GGA':
             return self.decodeGga(data)
 
     def decodeRmc(self, data):
