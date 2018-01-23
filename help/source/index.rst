@@ -41,7 +41,7 @@ Configuration
 
 #. Enable PosiView and open configuration dialog
 
-.. index:: Provider; creating
+   .. index:: Provider; creating
 
 
 #. On Provider page create and configure providers as needed.
@@ -50,7 +50,7 @@ Configuration
    * :doc:`provider`
    * Don't forget to apply the changes.
 
-.. index:: Vehicles; creating
+   .. index:: Vehicles; creating
 
 #. On Vehicle/Object page create and configure a vehicle as needed.
 
@@ -65,7 +65,7 @@ Configuration
    * :doc:`vehicle`
    * Don't forget to apply the changes.
 
-.. index:: Vehicles; testing
+   .. index:: Vehicles; testing
 
 
 #. Apply changes and close dialog. Providers and vehicles will be shown in the tracking window.
