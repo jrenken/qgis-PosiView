@@ -41,7 +41,7 @@ master_doc = 'index'
 
 # General information about the project.
 project = u'PosiView'
-copyright = u'2016, Jens Renken/Marum/University of Bremen'
+copyright = u'2015-2018, Jens Renken/Marum/University of Bremen'
 
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the

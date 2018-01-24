@@ -13,7 +13,7 @@ name=PosiView
 about=Track multiple objects and vehicles and display them as shapes and points on the canvas
 description=PosiView tracks multiple mobile objects and vehicles and displays their position on the canvas
 qgisMinimumVersion=2.8
-version=0.4.0
+version=0.5.0
 author=Jens Renken (Marum, University of Bremen)
 email=renken@marum.de
 
@@ -22,7 +22,13 @@ email=renken@marum.de
 # Recommended items:
 
 # Uncomment the following line and add your changelog:
-changelog=0.4.0 (2016-06-06)
+changelog=0.5.0 (2018-01-24)
+    - fix issues related to QGIS 2.18
+    - preserve tracks when configuration dialogue is executed
+    - add label for displayed vehicles
+    - general improvements and optimizations
+    - improved documentation
+  0.4.0 (2016-06-06)
     - add parser for AIS Position Report Class A and B
     - GPS parser now parses also GGA and GLL sentences
     - draw track always below the vehicle

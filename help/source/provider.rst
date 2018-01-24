@@ -4,21 +4,18 @@
 Configuring a provider in depth
 ===============================
 
-**Configuration dialogue**
+**Configuration dialog**
 
-  Open the configuration dialog and select the provider tab
+  Open the configuration dialog and select the provider tab.
 
   .. index:: Provider; in depth
-
 
   .. image:: _static/config_provider.png
       :align: center
 
-
-
-  #. Create a new provider by clicking on the ``+``-Button
-  #. Assign a unique name
-  #. Select a device type, which is one of these:
+  #. Create a new provider by clicking on the ``+``-Button.
+  #. Assign a unique name.
+  #. Select a device type, which is one of these:.
 
      * UDP server socket
      * TCP client socket
