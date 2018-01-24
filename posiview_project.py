@@ -105,13 +105,13 @@ class PosiViewProject(object):
                 m.applyTrack(self.trackCache[m.name])
             except KeyError:
                 pass
-   
+
             for k1 in m.dataProvider.keys():
                 try:
                     m.subscribePositionProvider(self.dataProviders[k1], m.dataProvider[k1])
                 except KeyError:
-                    self.iface.messageBar().pushMessage(self.tr(u'Error'), self.tr(u"Can't subscribe dataprovider: ")
-                                   + k1 + self.tr(u' for ') + m.name,
+                    self.iface.messageBar().pushMessage(self.tr(u'Error'), self.tr(u"Can't subscribe dataprovider: ") +
+                                   k1 + self.tr(u' for ') + m.name,
                                    level=QgsMessageBar.CRITICAL, duration=5)
         self.trackCache.clear()
 

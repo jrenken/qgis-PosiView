@@ -1,5 +1,5 @@
 PosiView Plugin (c)  for QGIS					
-(c) Copyright 2015 MARUM - Center for Marine Environmental Sciences					
+(c) Copyright 2015-2018 MARUM - Center for Marine Environmental Sciences
 Author: Jens Renken
 Email: renken@marum.de		
 	

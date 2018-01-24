@@ -252,4 +252,3 @@ class MobileItem(QObject):
 
     def applyTrack(self, track):
         self.marker.setTrack(track)
-

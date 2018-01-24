@@ -46,7 +46,7 @@ for underwater devices.
     PosiView tracks multiple vehicles and movable objects reporting
     their position via USBL, GPS or other navigation devices.
 
-    Copyright (C) 2015 MARUM - Center for Marine Environmental Sciences
+    Copyright (C) 2015-2018 MARUM - Center for Marine Environmental Sciences
 
     PosiView Plugin is free software: you can redistribute it and/or
     modify it under the terms of the GNU General Public License as published by

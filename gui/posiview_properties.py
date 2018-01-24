@@ -113,7 +113,6 @@ class PosiviewProperties(QgsOptionsDialogBase, Ui_PosiviewPropertiesBase):
     @pyqtSlot(str, name='on_comboBoxMobileType_currentIndexChanged')
     def mobileTypeChanged(self, mType):
         if mType == 'SHAPE':
-#             self.lineEditMobileShape.setText(str(mobile['shape']))
             self.lineEditMobileShape.setEnabled(True)
         else:
             self.lineEditMobileShape.setEnabled(False)

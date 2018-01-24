@@ -27,7 +27,7 @@ class AisParser(Parser):
         self.fragmentcount = 0
 
     def parse(self, data):
-        if not data[3:6] in ('VDM', 'VDO'): 
+        if not data[3:6] in ('VDM', 'VDO'):
             return {}
         nmea = NmeaRecord(data)
         if nmea.valid:
@@ -85,7 +85,7 @@ class BitVector:
         :param val: either an integer or a 6bit encoded string
         :type val: integer, long or string
         :param size: number of bit contained in val if val is int or long
-        :type size: int 
+        :type size: int
         '''
         self.vector = []
         if type(val) is str:
@@ -104,7 +104,7 @@ class BitVector:
 
     def append6Bit(self, ch):
         ''' return s the 6 bit binary value of a hex decoded bit field as used in AIS sentences
-        :param ch: character 
+        :param ch: character
         :type ch: unsigned char
         :return 6 bit value
         '''
