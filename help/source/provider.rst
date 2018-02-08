@@ -29,7 +29,7 @@ Configuring a provider in depth
         Parser      Description                                                 Records
         ==========  ==========================================================  =============================
         IX_USBL     IXBlue USBL systems like GAPS or Posidonia                  $PTSAG, $PTSAH, $HEHDT
-        PISE        Rcord used by ISE for their vehicles                        $PISE
+        PISE        Record used by ISE for their vehicles                       $PISE
         MINIPOS     Saab MiniPos3 output                                        $PSAAS
         GPS         Standard GPS Sentences                                      $__RMC, $__GLL, $__VTG, $__GGA
         PSONLLD     Sonardyne USBL system Ranger2                               $PSONLLD
