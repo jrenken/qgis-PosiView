@@ -66,7 +66,7 @@ class Recorder(QObject):
         line = dt.strftime('%d.%m.%Y\t%H:%M:%S')
         for v in self.mobiles.values():
             lat, lon, depth, heading = v.reportPosition()
-            line += '\t{:.6f}\t{:.6f}\t{:.1f}\t{:.1f}'.format(lat, lon, depth, heading)
+            line += '\t{:.9f}\t{:.9f}\t{:.1f}\t{:.1f}'.format(lat, lon, depth, heading)
         line += '\n'
         try:
             self.file.write(line)
