@@ -35,6 +35,7 @@ from gui.position_display import PositionDisplay
 from recorder import Recorder
 from qgis.gui import QgsMessageBar
 
+from measure_maptool import MeasureMapTool
 
 class PosiView:
     """QGIS Plugin Implementation."""
@@ -83,6 +84,8 @@ class PosiView:
         self.positionDisplay = PositionDisplay(self.iface)
         self.recorder = None
         iface.initializationCompleted.connect(self.postInitialize)
+        self.mapTool = MeasureMapTool(self.iface.mapCanvas())
+        self.iface.mapCanvas().setMapTool(self.mapTool)
 
     # noinspection PyMethodMayBeStatic
     def tr(self, message):
@@ -249,10 +252,20 @@ class PosiView:
             status_tip=self.tr(u'Configure PosiView'),
             parent=self.iface.mainWindow())
 
+        measureAction = self.add_action(
+            u'measureAction',
+            os.path.join(iconPath, 'preferences.png'),
+            text=self.tr(u'&Measure Distance and Azimuth'),
+            callback=self.measure,
+            visible_flag=False,
+            status_tip=self.tr(u'&Measure Distance and Azimuth'),
+            parent=self.iface.mainWindow())
+
         loadAction.toggled.connect(trackingAction.setVisible)
         loadAction.toggled.connect(configAction.setVisible)
         loadAction.toggled.connect(recordAction.setVisible)
-
+        loadAction.toggled.connect(measureAction.setVisible)
+        
     def unload(self):
         """Removes the plugin menu item and icon from QGIS GUI.
            Unloads and removes also the project.
@@ -391,3 +404,10 @@ class PosiView:
         self.guidanceVisible = self.guidance.isVisible()
         self.tracking.hide()
         self.guidance.hide()
+
+    @pyqtSlot()
+    def measure(self):
+        '''
+        Enable MapTool for meauring distance and azimuth
+        '''
+        self.iface.mapCanvas().setMapTool(self.mapTool)
