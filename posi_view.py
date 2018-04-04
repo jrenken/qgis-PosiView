@@ -254,7 +254,7 @@ class PosiView:
 
         measureAction = self.add_action(
             u'measureAction',
-            os.path.join(iconPath, 'preferences.png'),
+            os.path.join(iconPath, 'measure.png'),
             text=self.tr(u'&Measure Distance and Azimuth'),
             callback=self.measure,
             visible_flag=False,
