@@ -126,59 +126,64 @@
 <context>
     <name>PosiView</name>
     <message>
-        <location filename="posi_view.py" line="266"/>
+        <location filename="posi_view.py" line="282"/>
         <source>&amp;PosiView</source>
         <translation>&amp;PosiView</translation>
     </message>
     <message>
-        <location filename="posi_view.py" line="204"/>
+        <location filename="posi_view.py" line="207"/>
         <source>Enable PosiView</source>
         <translation>PosiView aktivieren</translation>
     </message>
     <message>
-        <location filename="posi_view.py" line="213"/>
+        <location filename="posi_view.py" line="216"/>
         <source>Start/stop tracking</source>
         <translation>Tracking starten/stoppen</translation>
     </message>
     <message>
-        <location filename="posi_view.py" line="243"/>
+        <location filename="posi_view.py" line="246"/>
         <source>Configure PosiView</source>
         <translation>Konfiguriere PosiView</translation>
     </message>
     <message>
-        <location filename="posi_view.py" line="204"/>
+        <location filename="posi_view.py" line="207"/>
         <source>&amp;Enable PosiView</source>
         <translation>&amp;Aktiviere PosiView</translation>
     </message>
     <message>
-        <location filename="posi_view.py" line="213"/>
+        <location filename="posi_view.py" line="216"/>
         <source>&amp;Start/stop tracking</source>
         <translation>Tracking &amp;starten/stoppen</translation>
     </message>
     <message>
-        <location filename="posi_view.py" line="243"/>
+        <location filename="posi_view.py" line="246"/>
         <source>&amp;Configure PosiView</source>
         <translation>PosiView &amp;Konfiguration</translation>
     </message>
     <message>
-        <location filename="posi_view.py" line="228"/>
+        <location filename="posi_view.py" line="231"/>
         <source>Start/stop &amp;recording</source>
         <translation>&amp;Aufnahme starten/stoppen</translation>
     </message>
     <message>
-        <location filename="posi_view.py" line="228"/>
+        <location filename="posi_view.py" line="231"/>
         <source>Start/stop recording</source>
         <translation>Aufnahme starten/stoppen</translation>
     </message>
     <message>
-        <location filename="posi_view.py" line="382"/>
+        <location filename="posi_view.py" line="398"/>
         <source>PosiView Recorder</source>
         <translation>PosiView Recorder</translation>
     </message>
     <message>
-        <location filename="posi_view.py" line="382"/>
+        <location filename="posi_view.py" line="398"/>
         <source>Recording started: </source>
         <translation>Aufnahme gestartet:</translation>
+    </message>
+    <message>
+        <location filename="posi_view.py" line="255"/>
+        <source>&amp;Measure Distance and Azimuth</source>
+        <translation>Distanz und Winkel &amp;messen</translation>
     </message>
 </context>
 <context>
@@ -202,27 +207,27 @@
 <context>
     <name>PosiviewProperties</name>
     <message>
-        <location filename="posiview_properties.py" line="306"/>
+        <location filename="posiview_properties.py" line="305"/>
         <source>Vessel</source>
         <translation>Schiff</translation>
     </message>
     <message>
-        <location filename="posiview_properties.py" line="307"/>
+        <location filename="posiview_properties.py" line="306"/>
         <source>ROV</source>
         <translation>ROV</translation>
     </message>
     <message>
-        <location filename="posiview_properties.py" line="308"/>
+        <location filename="posiview_properties.py" line="307"/>
         <source>AUV</source>
         <translation>AUV</translation>
     </message>
     <message>
-        <location filename="posiview_properties.py" line="309"/>
+        <location filename="posiview_properties.py" line="308"/>
         <source>Arrow</source>
         <translation>Pfeil</translation>
     </message>
     <message>
-        <location filename="posiview_properties.py" line="298"/>
+        <location filename="posiview_properties.py" line="297"/>
         <source>Select Recorder Path</source>
         <translation>Recorder-Pfad wählen</translation>
     </message>
