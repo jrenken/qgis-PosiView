@@ -268,7 +268,7 @@ class PosiView:
         loadAction.toggled.connect(configAction.setVisible)
         loadAction.toggled.connect(recordAction.setVisible)
         loadAction.toggled.connect(measureAction.setVisible)
-        
+
     def unload(self):
         """Removes the plugin menu item and icon from QGIS GUI.
            Unloads and removes also the project.

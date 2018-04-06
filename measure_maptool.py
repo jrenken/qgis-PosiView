@@ -18,7 +18,6 @@ class MeasureMapTool(QgsMapToolEmitPoint):
     Display result as tooltip on the canvas
     '''
 
-
     def __init__(self, canvas):
         '''
         Constructor
@@ -64,9 +63,9 @@ class MeasureMapTool(QgsMapToolEmitPoint):
             dist = self.distArea.measureLine(self.startPoint, self.endPoint)
             bearing = self.distArea.bearing(self.startPoint, self.endPoint) * 180 / pi
             if bearing < 0:
-                bearing += 360.0 
+                bearing += 360.0
             text = u'{:.1f} m; {:.1f}\u00b0'.format(dist, bearing)
-            QToolTip.showText( self.canvas.mapToGlobal( e.pos() ), text, self.canvas )
+            QToolTip.showText(self.canvas.mapToGlobal(e.pos()), text, self.canvas)
 
     def activate(self):
         self.reset()

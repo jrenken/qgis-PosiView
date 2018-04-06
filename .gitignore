@@ -3,6 +3,7 @@
 *~
 *.zip
 ui_*.py
+*.qm
 help/build
 /__init__.pyc
 /guidance_dock.pyc
