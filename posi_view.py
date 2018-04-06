@@ -86,7 +86,6 @@ class PosiView:
         self.recorder = None
         iface.initializationCompleted.connect(self.postInitialize)
         self.mapTool = MeasureMapTool(self.iface.mapCanvas())
-        self.iface.mapCanvas().setMapTool(self.mapTool)
 
     # noinspection PyMethodMayBeStatic
     def tr(self, message):
