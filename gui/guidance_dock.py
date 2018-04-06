@@ -145,9 +145,9 @@ class GuidanceDock(QtGui.QDockWidget, FORM_CLASS):
             lon, lat = self.posToStr(pos)
             self.labelSourceLat.setText(lat)
             self.labelSourceLon.setText(lon)
-            self.labelSourceDepth.setText(str(depth))
+            self.labelSourceDepth.setText('{:.1f}'.format(depth))
             if self.trgPos[0] is not None:
-                self.labelVertDistance.setText(str(self.trgPos[1] - depth))
+                self.labelVertDistance.setText('{:.1f}'.format(self.trgPos[1] - depth))
                 dist = self.distArea.measureLine(self.trgPos[0], pos)
                 self.labelDistance.setText('{:.1f}'.format(dist))
                 if dist != 0:
@@ -165,9 +165,9 @@ class GuidanceDock(QtGui.QDockWidget, FORM_CLASS):
             lon, lat = self.posToStr(pos)
             self.labelTargetLat.setText(lat)
             self.labelTargetLon.setText(lon)
-            self.labelTargetDepth.setText(str(depth))
+            self.labelTargetDepth.setText('{:.1f}'.format(depth))
             if self.srcPos[0] is not None:
-                self.labelVertDistance.setText(str(depth - self.srcPos[1]))
+                self.labelVertDistance.setText('{:.1f}'.format(depth - self.srcPos[1]))
                 dist = self.distArea.measureLine(pos, self.srcPos[0])
                 self.labelDistance.setText('{:.1f}'.format(dist))
                 if dist != 0:
@@ -183,14 +183,14 @@ class GuidanceDock(QtGui.QDockWidget, FORM_CLASS):
     def onNewTargetAttitude(self, heading, pitch, roll):
         if self.trgHeading != heading:
             self.trgHeading = heading
-            self.labelTargetHeading.setText(str(heading))
+            self.labelTargetHeading.setText('{:.1f}'.format(heading))
             self.compass.setAngle2(heading)
 
     @pyqtSlot(float, float, float)
     def onNewSourceAttitude(self, heading, pitch, roll):
         if self.srcHeading != heading:
             self.srcHeading = heading
-            self.labelSourceHeading.setText(str(heading))
+            self.labelSourceHeading.setText('{:.1f}'.format(heading))
             self.compass.setAngle(heading)
 
     def reset(self):
