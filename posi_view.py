@@ -37,6 +37,7 @@ from qgis.gui import QgsMessageBar
 
 from measure_maptool import MeasureMapTool
 
+
 class PosiView:
     """QGIS Plugin Implementation."""
 

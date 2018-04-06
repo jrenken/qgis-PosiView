@@ -14,15 +14,19 @@ class NmeaRecord:
         if (data is None):
             self.fields = []
         else:
-            s = data.strip()
-            if s[-3] == '*':
-                chs = 0
-                for i in range(1, len(s) - 3):
-                    chs ^= ord(s[i])
-                if chs != int(s[-2:], 16):
-                    self.valid = False
-                s = s[:-3]
-            self.fields = s.split(',')
+            try:
+                s = data.strip()
+                if s[-3] == '*':
+                    chs = 0
+                    for i in range(1, len(s) - 3):
+                        chs ^= ord(s[i])
+                    if chs != int(s[-2:], 16):
+                        self.valid = False
+                    s = s[:-3]
+                self.fields = s.split(',')
+            except Exception:
+                self.fields = []
+                self.valid = False
 
     def __str__(self):
         return self.sentence(True)
