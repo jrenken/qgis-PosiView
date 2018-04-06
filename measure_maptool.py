@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 '''
 Created on Apr 4, 2018
 
@@ -5,7 +6,7 @@ Created on Apr 4, 2018
 '''
 from PyQt4.QtCore import pyqtSlot
 from qgis.gui import QgsMapToolEmitPoint, QgsRubberBand
-from PyQt4.Qt import Qt, QPointF
+from PyQt4.Qt import Qt
 from qgis.core import QgsGeometry, QGis, QgsDistanceArea
 from PyQt4.QtGui import QToolTip
 from math import pi
@@ -39,11 +40,9 @@ class MeasureMapTool(QgsMapToolEmitPoint):
 
     def reset(self):
         self.startPoint = self.endPoint = None
-        self.isEmittingPoint = False
         self.rubberBand.reset(QGis.Line)
 
     def canvasPressEvent(self, e):
-        self.isEmittingPoint = False
         self.startPoint = self.toMapCoordinates(e.pos())
 
     def canvasReleaseEvent(self, e):
@@ -66,7 +65,7 @@ class MeasureMapTool(QgsMapToolEmitPoint):
             bearing = self.distArea.bearing(self.startPoint, self.endPoint) * 180 / pi
             if bearing < 0:
                 bearing += 360.0 
-            text = 'Dist: {:.1f} m at {:.1f} deg'.format(dist, bearing)
+            text = u'{:.1f} m; {:.1f}\u00b0'.format(dist, bearing)
             QToolTip.showText( self.canvas.mapToGlobal( e.pos() ), text, self.canvas )
 
     def activate(self):

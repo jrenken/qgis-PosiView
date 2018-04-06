@@ -258,8 +258,11 @@ class PosiView:
             text=self.tr(u'&Measure Distance and Azimuth'),
             callback=self.measure,
             visible_flag=False,
+            checkable_flag=True,
             status_tip=self.tr(u'&Measure Distance and Azimuth'),
             parent=self.iface.mainWindow())
+        if self.iface.actionPan():
+            measureAction.setActionGroup(self.iface.actionPan().actionGroup())
 
         loadAction.toggled.connect(trackingAction.setVisible)
         loadAction.toggled.connect(configAction.setVisible)
@@ -405,9 +408,10 @@ class PosiView:
         self.tracking.hide()
         self.guidance.hide()
 
-    @pyqtSlot()
-    def measure(self):
+    @pyqtSlot(bool)
+    def measure(self, checked=False):
         '''
         Enable MapTool for meauring distance and azimuth
         '''
-        self.iface.mapCanvas().setMapTool(self.mapTool)
+        if checked:
+            self.iface.mapCanvas().setMapTool(self.mapTool)
