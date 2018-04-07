@@ -111,6 +111,18 @@ Recording
 #. On General page of the properties dialog select a path where to store the files.
 #. Recording starts manually or automatically on tracking start.
 
+.. index:: Measuring
+
+Measuring
+==================
+
+PosiView provides a simple tool to measure distance and azimuth
+
+* Activate measure tool
+* Click on map and keep mouse button pressed
+* move the mouse
+* release mouse button
+
 .. Indices and tables
 
 ==================
