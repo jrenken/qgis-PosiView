@@ -13,8 +13,6 @@ class AisParser(Parser):
     '''
     Parser for AIS Position Report Class A and B
     Type 1, 2 and 3 messages share a common reporting structure
-
-    '
     '''
 
     def __init__(self):
@@ -29,15 +27,15 @@ class AisParser(Parser):
     def parse(self, data):
         if not data[3:6] in ('VDM', 'VDO'):
             return {}
-        nmea = NmeaRecord(data)
-        if nmea.valid:
-            fcnt = nmea.value(1)
-            frag = nmea.value(2)
+        self.nmea = NmeaRecord(data)
+        if self.nmea.valid:
+            fcnt = self.nmea.value(1)
+            frag = self.nmea.value(2)
 
             if frag == 1:
-                self.binaryPayload = nmea[5]
+                self.binaryPayload = self.nmea[5]
             else:
-                self.binaryPayload += nmea[5]
+                self.binaryPayload += self.nmea[5]
 
             if frag == fcnt:
                 return self.decodePayload(self.binaryPayload)
@@ -48,26 +46,29 @@ class AisParser(Parser):
 
         try:
             mmsi = binPayload.getInt(8, 30)
-            type = binPayload.getInt(0, 6)
-            if type in (1, 2, 3):
-                bs = {'lat': 89, 'lon': 61, 'ts': 137, 'head': 128, 'cog': 116}
-            elif type in (18, 19):
-                bs = {'lat': 85, 'lon': 57, 'ts': 133, 'head': 124, 'cog': 112}
+            rtype = binPayload.getInt(0, 6)
+            if rtype in (1, 2, 3):
+                bs = {'lat': (89, 27, True), 'lon': (61, 28, True),
+                      'ts': (137, 6, False), 'head': (128, 9, False), 'cog': (116, 12, False)}
+            elif rtype in (18, 19):
+                bs = {'lat': (85, 27, True), 'lon': (57, 28, True),
+                      'ts': (133, 6, False), 'head': (124, 9, False), 'cog': (112, 12, False)}
             else:
                 return {}
 
             result = {'id': mmsi,
-                      'lat': float(binPayload.getInt(bs['lat'], 27)) / 600000.0,
-                      'lon': float(binPayload.getInt(bs['lon'], 28)) / 600000.0,
+                      'type': rtype,
+                      'lat': float(binPayload.getInt(*bs['lat'])) / 600000.0,
+                      'lon': float(binPayload.getInt(*bs['lon'])) / 600000.0,
                       'depth': 0.0}
-            sec = binPayload.getInt(bs['ts'], 6)
+            sec = binPayload.getInt(*bs['ts'])
             dt = datetime.datetime.utcnow()
             if sec < 60:
                 dt.replace(second=sec)
             result['time'] = (dt - datetime.datetime(1970, 1, 1)).total_seconds()
-            head = binPayload.getInt(bs['head'], 9)
+            head = binPayload.getInt(*bs['head'])
             if head == 511:
-                head = 0.1 * float(binPayload.getInt(bs['cog'], 12))
+                head = 0.1 * float(binPayload.getInt(*bs['cog']))
             result['heading'] = head
             return dict((k, v) for k, v in result.iteritems() if v is not None)
         except (ValueError, KeyError, IndexError):
@@ -119,18 +120,31 @@ class BitVector:
     def __str__(self):
         return str(self.vector)
 
-    def getInt(self, start, size):
-        'get integer value from a slice'
+    def getInt(self, start, size, signed=False):
+        '''
+        get integer value from a slice
+        :param start: index of first bit in vector
+        :type start: int
+        :param size: size of subvector
+        :type size; int
+        :param signed: true if result is a signe int
+        :type signed: bool
+        :return the int value
+        '''
         if size > 32:
             raise ValueError("Maximum size is 32 bit")
         if start + size > len(self.vector):
             raise KeyError("Size extends vector size")
-        result = int()
-        mask = int(1) << size
+
+        mask = (int(1) << size)
+        if self.vector[start] and signed:
+            result = ~int(0)
+        else:
+            result = mask - 1
         for i in range(start, start + size):
             mask >>= 1
-            if self.vector[i]:
-                result |= mask
+            if not self.vector[i]:
+                result &= ~mask
         return result
 
 if __name__ == "__main__":
