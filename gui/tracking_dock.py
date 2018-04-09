@@ -100,7 +100,7 @@ class TrackingDisplay(QToolBar):
         self.posLabel = QLabel("--:--:-- 0.000000 0.000000\nd = 0.0")
         self.posLabel.setAlignment(Qt.AlignHCenter | Qt.AlignVCenter)
         self.posLabel.setMinimumSize(180, 23)
-        self.posLabel.setStyleSheet('background: red; font-size: 8pt')
+        self.posLabel.setStyleSheet('background: red; font-size: 8pt; color: white;')
         self.posLabelAction = QWidgetAction(self)
         self.posLabelAction.setDefaultWidget(self.posLabel)
         self.addAction(self.posLabelAction)
@@ -124,22 +124,22 @@ class TrackingDisplay(QToolBar):
         self.posLabel.setText(s)
         if not self.upToDate:
             if fix > self.lastFix:
-                self.posLabel.setStyleSheet('background: lime; font-size: 8pt')
+                self.posLabel.setStyleSheet('background: lime; font-size: 8pt; color: black;')
                 self.upToDate = True
         self.lastFix = fix
 
     @pyqtSlot()
     def onTimeout(self):
         self.upToDate = False
-        self.posLabel.setStyleSheet('background: red; font-size: 8pt')
+        self.posLabel.setStyleSheet('background: red; font-size: 8pt; color: white;')
 
     @pyqtSlot(bool)
     def onEnableClicked(self, enable):
         self.upToDate = False
         if enable:
-            self.posLabel.setStyleSheet('background: red; font-size: 8pt')
+            self.posLabel.setStyleSheet('background: red; font-size: 8pt; color: white;')
         else:
-            self.posLabel.setStyleSheet('background: white; font-size: 8pt')
+            self.posLabel.setStyleSheet('background: white; font-size: 8pt; color: black;')
 
     def releaseMobile(self):
         self.mobile = None
