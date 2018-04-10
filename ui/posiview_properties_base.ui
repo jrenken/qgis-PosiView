@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>807</width>
+    <width>847</width>
     <height>850</height>
    </rect>
   </property>
@@ -144,7 +144,7 @@
           </sizepolicy>
          </property>
          <property name="currentIndex">
-          <number>2</number>
+          <number>0</number>
          </property>
          <widget class="QWidget" name="mOptsPage_01">
           <layout class="QVBoxLayout" name="verticalLayout_14">
@@ -164,8 +164,8 @@
                <rect>
                 <x>0</x>
                 <y>0</y>
-                <width>408</width>
-                <height>467</height>
+                <width>673</width>
+                <height>799</height>
                </rect>
               </property>
               <layout class="QVBoxLayout" name="verticalLayout_13">
@@ -330,6 +330,13 @@
                     </property>
                    </widget>
                   </item>
+                  <item row="3" column="0">
+                   <widget class="QCheckBox" name="checkBoxUtcClock">
+                    <property name="text">
+                     <string>Show UTC clock in guidance window</string>
+                    </property>
+                   </widget>
+                  </item>
                   <item row="0" column="1">
                    <widget class="QSpinBox" name="spinBoxNotifyDuration">
                     <property name="suffix">
@@ -343,10 +350,46 @@
                     </property>
                    </widget>
                   </item>
-                  <item row="3" column="0">
-                   <widget class="QCheckBox" name="checkBoxUtcClock">
+                  <item row="4" column="1">
+                   <layout class="QHBoxLayout" name="horizontalLayout_8">
+                    <item>
+                     <widget class="QComboBox" name="comboBoxDefaultPositionFormat">
+                      <property name="currentIndex">
+                       <number>0</number>
+                      </property>
+                      <item>
+                       <property name="text">
+                        <string>Decimal Degrees</string>
+                       </property>
+                      </item>
+                      <item>
+                       <property name="text">
+                        <string>Degrees, Decimal Minutes</string>
+                       </property>
+                      </item>
+                      <item>
+                       <property name="text">
+                        <string>Degrees, Minutes,  Decimal Seconds</string>
+                       </property>
+                      </item>
+                     </widget>
+                    </item>
+                    <item>
+                     <widget class="QCheckBox" name="checkBoxWithSuffix">
+                      <property name="layoutDirection">
+                       <enum>Qt::LeftToRight</enum>
+                      </property>
+                      <property name="text">
+                       <string>Suffix</string>
+                      </property>
+                     </widget>
+                    </item>
+                   </layout>
+                  </item>
+                  <item row="4" column="0">
+                   <widget class="QLabel" name="label_23">
                     <property name="text">
-                     <string>Show UTC clock in guidance window</string>
+                     <string>Default position format:</string>
                     </property>
                    </widget>
                   </item>
@@ -390,8 +433,8 @@
                <rect>
                 <x>0</x>
                 <y>0</y>
-                <width>206</width>
-                <height>391</height>
+                <width>633</width>
+                <height>799</height>
                </rect>
               </property>
               <layout class="QVBoxLayout" name="verticalLayout_8">
@@ -649,7 +692,7 @@
                 <x>0</x>
                 <y>0</y>
                 <width>633</width>
-                <height>796</height>
+                <height>799</height>
                </rect>
               </property>
               <layout class="QVBoxLayout" name="verticalLayout_4">

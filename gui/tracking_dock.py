@@ -7,7 +7,7 @@ Created on 29.01.2015
 import os
 
 from PyQt4 import uic
-from PyQt4.QtCore import Qt , QSignalMapper, pyqtSignal
+from PyQt4.QtCore import Qt , QSignalMapper, QSettings, pyqtSignal
 from PyQt4.Qt import pyqtSlot, QSize
 from qgis.core import QgsPoint
 from PyQt4.QtGui import QIcon, QAction, QLabel, QWidgetAction, QToolBar,\
@@ -75,6 +75,10 @@ class TrackingDisplay(QToolBar):
         self.mobile = mobile
         self.upToDate = False
         self.lastFix = 0.0
+        s = QSettings()
+        self.defFormat = s.value('PosiView/Misc/DefaultFormat', defaultValue=0, type=int)
+        self.format = self.defFormat & 3
+        self.withSuff = bool(self.defFormat & 4)
         self.createActions()
         self.mobile.newPosition.connect(self.onNewPosition)
         self.mobile.timeout.connect(self.onTimeout)
@@ -99,7 +103,8 @@ class TrackingDisplay(QToolBar):
         self.addSeparator()
         self.posLabel = QLabel("--:--:-- 0.000000 0.000000\nd = 0.0")
         self.posLabel.setAlignment(Qt.AlignHCenter | Qt.AlignVCenter)
-        self.posLabel.setMinimumSize(180, 23)
+        widths = (180, 196, 204, 180, 184, 200, 208, 184)
+        self.posLabel.setMinimumSize(widths[self.format], 23)
         self.posLabel.setStyleSheet('background: red; font-size: 8pt; color: white;')
         self.posLabelAction = QWidgetAction(self)
         self.posLabelAction.setDefaultWidget(self.posLabel)
@@ -115,10 +120,16 @@ class TrackingDisplay(QToolBar):
     def onNewPosition(self, fix, pos, depth, altitude):
         s = str()
         if fix > 0:
-            s = strftime('%H:%M:%S', gmtime(fix))
+            s = strftime('%H:%M:%S   ', gmtime(fix))
         else:
-            s = '--:--:--'
-        s += "   {:f}  {:f}\nd = {:.1f}".format(pos.y(), pos.x(), depth)
+            s = '--:--:-- '
+        if self.format == 0:
+            s += "{:f}  {:f}".format(pos.y(), pos.x())
+        elif self.format == 1:
+            s += ', '.join(pos.toDegreesMinutes(4, self.withSuff, True).rsplit(',')[::-1])
+        else:
+            s += ', '.join(pos.toDegreesMinutesSeconds(2, self.withSuff, True).split(',')[::-1])
+        s += "\nd = {:.1f}".format(depth)
         if altitude > -9999:
             s += "   alt = {:.1f}".format(altitude)
         self.posLabel.setText(s)

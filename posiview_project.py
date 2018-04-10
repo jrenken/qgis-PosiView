@@ -35,6 +35,7 @@ class PosiViewProject(object):
         self.autoRecord = False
         self.notifyDuration = 0
         self.showUtcClock = False
+        self.defaultFormat = 5
         self.trackingStarted = False
         self.trackCache = dict()
 
@@ -64,6 +65,7 @@ class PosiViewProject(object):
         props['AutoRecord'] = self.autoRecord
         props['NotifyDuration'] = self.notifyDuration
         props['ShowUtcClock'] = self.showUtcClock
+        props['DefaultFormat'] = self.defaultFormat
         m = dict()
         for k in self.mobileItems.keys():
             p = self.mobileItems[k].properties()
@@ -90,6 +92,7 @@ class PosiViewProject(object):
         self.autoRecord = bool(properties.get('AutoRecord', False))
         self.notifyDuration = int(properties.get('NotifyDuration', 0))
         self.showUtcClock = properties.get('ShowUtcClock', False)
+        self.defaultFormat = properties.get('DefaultFormat', False)
 
         pr = properties['Provider']
         for k in pr.keys():
@@ -169,6 +172,7 @@ class PosiViewProject(object):
         properties['AutoRecord'] = s.value('Recorder/AutoRecord', False, type=bool)
         properties['NotifyDuration'] = s.value('Misc/NotifyDuration', 0, type=int)
         properties['ShowUtcClock'] = s.value('Misc/ShowUtcClock', False, type=bool)
+        properties['DefaultFormat'] = s.value('Misc/DefaultFormat', 5, type=int)
         s.endGroup()
         return properties
 
@@ -213,6 +217,7 @@ class PosiViewProject(object):
         s.setValue('Recorder/AutoRecord', properties['AutoRecord'])
         s.setValue('Misc/NotifyDuration', properties['NotifyDuration'])
         s.setValue('Misc/ShowUtcClock', properties['ShowUtcClock'])
+        s.setValue('Misc/DefaultFormat', properties['DefaultFormat'])
         s.endGroup()
 
     # noinspection PyMethodMayBeStatic

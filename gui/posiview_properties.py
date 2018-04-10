@@ -63,7 +63,9 @@ class PosiviewProperties(QgsOptionsDialogBase, Ui_PosiviewPropertiesBase):
         self.lineEditRecorderPath.setText(properties['RecorderPath'])
         self.checkBoxAutoRecording.setChecked(properties['AutoRecord'])
         self.spinBoxNotifyDuration.setValue(properties['NotifyDuration'])
-        self.checkBoxUtcClock.setChecked((properties['ShowUtcClock']))
+        self.checkBoxUtcClock.setChecked(properties['ShowUtcClock'])
+        self.checkBoxWithSuffix.setChecked(properties['DefaultFormat'] & 4)
+        self.comboBoxDefaultPositionFormat.setCurrentIndex((properties['DefaultFormat']) & 3)
 
     def updateGeneralData(self):
         self.projectProperties['Mission']['cruise'] = self.lineEditCruise.text()
@@ -73,6 +75,9 @@ class PosiviewProperties(QgsOptionsDialogBase, Ui_PosiviewPropertiesBase):
         self.projectProperties['AutoRecord'] = self.checkBoxAutoRecording.isChecked()
         self.projectProperties['NotifyDuration'] = self.spinBoxNotifyDuration.value()
         self.projectProperties['ShowUtcClock'] = self.checkBoxUtcClock.isChecked()
+        self.projectProperties['DefaultFormat'] = self.comboBoxDefaultPositionFormat.currentIndex()
+        if self.checkBoxWithSuffix.isChecked():
+            self.projectProperties['DefaultFormat'] |= 4
 
     def getColor(self, value):
         try:
