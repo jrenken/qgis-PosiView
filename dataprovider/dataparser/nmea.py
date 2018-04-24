@@ -3,7 +3,6 @@ Created on 03.06.2015
 
 @author: jrenken
 '''
-from operator import __getitem__
 
 
 class NmeaRecord:
