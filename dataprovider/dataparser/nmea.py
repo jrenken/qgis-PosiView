@@ -86,9 +86,11 @@ class NmeaRecord:
             deg = float(self.fields[val][0:(dot - 2)])
             minute = float(self.fields[val][(dot - 2):])
             deg = deg + minute / 60.0
-            if (hem > 0):
+            if hem > 0:
+                if not self.fields[hem] in 'NSEW':
+                    raise ValueError
                 if self.fields[hem] == 'S' or self.fields[hem] == 'W':
                     deg *= -1
             return deg
-        except ValueError:
+        except (ValueError, IndexError):
             return defaultValue
