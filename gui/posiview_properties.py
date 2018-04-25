@@ -97,7 +97,10 @@ class PosiviewProperties(QgsOptionsDialogBase, Ui_PosiviewPropertiesBase):
         ''' Save the current configuration
         '''
         fn = QFileDialog.getSaveFileName(None, 'Save PosiView configuration', '', 'Configuration (*.ini *.conf)')
-        self.project.store(fn)
+        if fn:
+            if not os.path.splitext(fn)[1]:
+                fn += u'.conf'
+            self.project.store(fn)
 
     @pyqtSlot(name='on_actionLoadConfiguration_triggered')
     def onActionLoadConfigurationTriggered(self):
