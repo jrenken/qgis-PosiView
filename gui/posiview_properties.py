@@ -320,7 +320,8 @@ class PosiviewProperties(QgsOptionsDialogBase, Ui_PosiviewPropertiesBase):
         elif selectedAction == rovAction:
             self.lineEditMobileShape.setText(u'((0.3, -0.5), (0.5, -0.3), (0.5, 0.5), (-0.5, 0.5), (-0.5, -0.3), (-0.3, -0.5))')
         elif selectedAction == auvAction:
-            self.lineEditMobileShape.setText(u'((0, -0.5), (0.5, -0.3), (0.5, 0.5), (-0.5, 0.5), (-0.5, -0.3))')
+            self.lineEditMobileShape.setText(u'((0, -0.5), (0.4, -0.3), (0.5, -0.3), (0.5, -0.2), (0.4, -0.2), (0.4, 0.3), (0.5, 0.3), (0.5, 0.4), (0.4, 0.4), (0.0, 0.5), \
+             (-0.4, 0.4), (-0.5, 0.4), (-0.5, 0.3), (-0.4, 0.3), (-0.4, -0.2), (-0.5, -0.2), (-0.5, -0.3), (-0.4, -0.3))')
         elif selectedAction == arrowAction:
             self.lineEditMobileShape.setText(u'((0, -0.5), (0.5, 0.5), (0, 0), (-0.5, 0.5))')
 
