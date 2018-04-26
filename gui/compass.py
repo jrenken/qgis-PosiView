@@ -5,10 +5,9 @@ Created on 23.06.2015
 '''
 
 import sys
-from PyQt4.QtCore import pyqtSignal, Qt, QPoint, QSize, pyqtSlot, pyqtProperty
-from PyQt4.QtGui import QWidget, QPainter, QPalette, QFont, QFontMetricsF, QPen,\
-    QPolygon, QSpinBox, QVBoxLayout
-from PyQt4.Qt import QApplication
+from qgis.PyQt.QtCore import pyqtSignal, Qt, QPoint, QSize, pyqtSlot, pyqtProperty
+from qgis.PyQt.QtWidgets import QWidget, QSpinBox, QVBoxLayout
+from qgis.PyQt.QtGui import QPainter, QPalette, QFont, QFontMetricsF, QPen
 
 
 class CompassWidget(QWidget):
@@ -152,6 +151,8 @@ class CompassWidget(QWidget):
 
 
 if __name__ == "__main__":
+    from qgis.PyQt.Qt import QApplication
+
     app = QApplication(sys.argv)
 
     window = QWidget()

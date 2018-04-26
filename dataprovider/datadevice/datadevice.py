@@ -3,7 +3,7 @@ Created on 04.06.2015
 
 @author: jrenken
 '''
-from PyQt4.QtCore import QObject, pyqtSlot, pyqtSignal
+from qgis.PyQt.QtCore import QObject, pyqtSlot, pyqtSignal
 
 
 class DataDevice(QObject):

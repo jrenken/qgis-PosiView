@@ -3,8 +3,9 @@ Created on 31.07.2015
 
 @author: jrenken
 '''
-from parser import Parser
-from nmea import NmeaRecord
+from __future__ import absolute_import
+from .parser import Parser
+from .nmea import NmeaRecord
 
 
 class CP16Parser(Parser):
@@ -29,6 +30,6 @@ class CP16Parser(Parser):
                               'heading': nmea.value(3),
                               'pitch': nmea.value(5),
                               'roll': nmea.value(6)}
-                    return dict((k, v) for k, v in result.iteritems() if v is not None)
+                    return dict((k, v) for k, v in result.items() if v is not None)
                 except ValueError:
                     return {}

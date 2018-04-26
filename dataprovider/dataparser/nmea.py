@@ -3,9 +3,11 @@ Created on 03.06.2015
 
 @author: jrenken
 '''
+from builtins import range
+from builtins import object
 
 
-class NmeaRecord:
+class NmeaRecord(object):
     '''Handle NMEA Records'''
 
     def __init__(self, data=None):

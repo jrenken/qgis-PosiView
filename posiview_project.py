@@ -4,10 +4,14 @@ Created on 05.06.2015
 
 @author: jrenken
 '''
+from __future__ import absolute_import
+from builtins import str
+from builtins import range
+from builtins import object
 from os import environ
-from PyQt4.QtCore import QSettings, QCoreApplication
-from mobile_item import MobileItem
-from dataprovider.data_provider import DataProvider
+from qgis.PyQt.QtCore import QSettings, QCoreApplication
+from .mobile_item import MobileItem
+from .dataprovider.data_provider import DataProvider
 from qgis.gui import QgsMessageBar
 
 
@@ -41,21 +45,21 @@ class PosiViewProject(object):
 
     def startTracking(self):
         if not self.trackingStarted:
-            for v in self.dataProviders.values():
+            for v in list(self.dataProviders.values()):
                 v.start()
             self.trackingStarted = True
 
     def stopTracking(self):
         if self.trackingStarted:
-            for v in self.dataProviders.values():
+            for v in list(self.dataProviders.values()):
                 v.stop()
             self.trackingStarted = False
 
     def loadSettings(self, iniFile=None):
         self.read(iniFile)
-        for k in self.mobileItems.keys():
+        for k in list(self.mobileItems.keys()):
             item = self.mobileItems[k]
-            for key in item.dataProvider.keys():
+            for key in list(item.dataProvider.keys()):
                 item.subscribePositionProvider(self.dataProviders[key], item.dataProvider[key])
 
     def properties(self):
@@ -67,12 +71,12 @@ class PosiViewProject(object):
         props['ShowUtcClock'] = self.showUtcClock
         props['DefaultFormat'] = self.defaultFormat
         m = dict()
-        for k in self.mobileItems.keys():
+        for k in list(self.mobileItems.keys()):
             p = self.mobileItems[k].properties()
             m[p['Name']] = p
         props['Mobiles'] = m
         pr = dict()
-        for k in self.dataProviders.keys():
+        for k in list(self.dataProviders.keys()):
             p = self.dataProviders[k].properties()
             pr[p['Name']] = p
         props['Provider'] = pr
@@ -95,12 +99,12 @@ class PosiViewProject(object):
         self.defaultFormat = properties.get('DefaultFormat', False)
 
         pr = properties['Provider']
-        for k in pr.keys():
+        for k in list(pr.keys()):
             p = DataProvider(pr[k])
             self.dataProviders[p.name] = p
 
         mob = properties['Mobiles']
-        for k in mob.keys():
+        for k in list(mob.keys()):
             mob[k]['NotifyDuration'] = self.notifyDuration
             m = MobileItem(self.iface, mob[k])
             self.mobileItems[m.name] = m
@@ -109,7 +113,7 @@ class PosiViewProject(object):
             except KeyError:
                 pass
 
-            for k1 in m.dataProvider.keys():
+            for k1 in list(m.dataProvider.keys()):
                 try:
                     m.subscribePositionProvider(self.dataProviders[k1], m.dataProvider[k1])
                 except KeyError:
@@ -121,7 +125,7 @@ class PosiViewProject(object):
     def unload(self):
         self.stopTracking()
         self.dataProviders.clear()
-        for m in self.mobileItems.values():
+        for m in list(self.mobileItems.values()):
             self.trackCache[m.name] = m.getTrack()
             m.removeFromCanvas()
         self.mobileItems.clear()
@@ -191,9 +195,9 @@ class PosiViewProject(object):
         idx = 0
         s.beginWriteArray('Mobiles')
         try:
-            for v in properties['Mobiles'].values():
+            for v in list(properties['Mobiles'].values()):
                 s.setArrayIndex(idx)
-                for k1, v1 in v.items():
+                for k1, v1 in list(v.items()):
                     s.setValue(k1, str(v1))
                 idx += 1
         except KeyError:
@@ -202,9 +206,9 @@ class PosiViewProject(object):
         idx = 0
         s.beginWriteArray('DataProvider')
         try:
-            for v in properties['Provider'].values():
+            for v in list(properties['Provider'].values()):
                 s.setArrayIndex(idx)
-                for k1, v1 in v.items():
+                for k1, v1 in list(v.items()):
                     s.setValue(k1, str(v1))
                 idx += 1
         except KeyError:

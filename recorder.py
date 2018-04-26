@@ -3,7 +3,7 @@ Created on 13.07.2015
 
 @author: jrenken
 '''
-from PyQt4.QtCore import QObject, QTimer, pyqtSlot, pyqtSignal
+from qgis.PyQt.QtCore import QObject, QTimer, pyqtSlot, pyqtSignal
 import os
 from datetime import datetime
 
@@ -64,7 +64,7 @@ class Recorder(QObject):
     def takeSnapshot(self):
         dt = datetime.utcnow()
         line = dt.strftime('%d.%m.%Y\t%H:%M:%S')
-        for v in self.mobiles.values():
+        for v in list(self.mobiles.values()):
             lat, lon, depth, heading = v.reportPosition()
             line += '\t{:.9f}\t{:.9f}\t{:.1f}\t{:.1f}'.format(lat, lon, depth, heading)
         line += '\n'

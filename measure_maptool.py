@@ -4,11 +4,11 @@ Created on Apr 4, 2018
 
 @author: jrenken
 '''
-from PyQt4.QtCore import pyqtSlot
+from qgis.PyQt.QtCore import pyqtSlot
 from qgis.gui import QgsMapToolEmitPoint, QgsRubberBand
-from PyQt4.Qt import Qt
-from qgis.core import QgsGeometry, QGis, QgsDistanceArea
-from PyQt4.QtGui import QToolTip
+from qgis.PyQt.Qt import Qt
+from qgis.core import QgsGeometry, QgsDistanceArea
+from qgis.PyQt.QtWidgets import QToolTip
 from math import pi
 
 
@@ -31,7 +31,7 @@ class MeasureMapTool(QgsMapToolEmitPoint):
         self.distArea.setEllipsoidalMode(True)
         self.onCrsChange()
 
-        self.rubberBand = QgsRubberBand(self.canvas, QGis.Line)
+        self.rubberBand = QgsRubberBand(self.canvas)
         self.rubberBand.setZValue(1e6)
         self.rubberBand.setColor(Qt.red)
         self.rubberBand.setWidth(1)

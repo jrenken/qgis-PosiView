@@ -3,15 +3,16 @@ Created on 30.01.2015
 
 @author: jrenken
 '''
+from builtins import str
+from builtins import range
 
 import os
-from PyQt4 import uic
-from PyQt4.QtCore import Qt, pyqtSlot, QModelIndex, pyqtSignal, QUrl
-from PyQt4.QtGui import QStringListModel, QStandardItem, QColor,\
-    QFileDialog, QStandardItemModel, QAbstractButton, QDialogButtonBox, QMenu,\
-    QDesktopServices
+from qgis.PyQt import uic
+from qgis.PyQt.QtCore import Qt, pyqtSlot, QModelIndex, pyqtSignal, QUrl
+from qgis.PyQt.QtGui import QStandardItem, QColor, QStandardItemModel, QDesktopServices
+from qgis.PyQt.QtWidgets import QFileDialog, QAbstractButton, QDialogButtonBox, QMenu
 from qgis.gui import QgsOptionsDialogBase
-from PyQt4.Qt import QPoint
+from qgis.PyQt.Qt import QPoint
 from PosiView.dataprovider.dataparser import PARSERS
 from PosiView.dataprovider.datadevice import DEVICE_TYPES, NETWORK_TYPES
 from PosiView.gui.ui_posiview_properties_base import Ui_PosiviewPropertiesBase
@@ -96,7 +97,7 @@ class PosiviewProperties(QgsOptionsDialogBase, Ui_PosiviewPropertiesBase):
     def onActionSaveConfigurationTriggered(self):
         ''' Save the current configuration
         '''
-        fn = QFileDialog.getSaveFileName(None, 'Save PosiView configuration', '', 'Configuration (*.ini *.conf)')
+        fn, __ = QFileDialog.getSaveFileName(None, 'Save PosiView configuration', '', 'Configuration (*.ini *.conf)')
         if fn:
             if not os.path.splitext(fn)[1]:
                 fn += u'.conf'
@@ -106,7 +107,7 @@ class PosiviewProperties(QgsOptionsDialogBase, Ui_PosiviewPropertiesBase):
     def onActionLoadConfigurationTriggered(self):
         ''' Load configuration from file
         '''
-        fn = QFileDialog.getOpenFileName(None, 'Save PosiView configuration', '', 'Configuration (*.ini *.conf)')
+        fn, __ = QFileDialog.getOpenFileName(None, 'Save PosiView configuration', '', 'Configuration (*.ini *.conf)')
         self.projectProperties = self.project.read(fn)
         self.setupModelData(self.projectProperties)
         self.setupGeneralData(self.projectProperties)
@@ -208,7 +209,7 @@ class PosiviewProperties(QgsOptionsDialogBase, Ui_PosiviewPropertiesBase):
         r = 0
         self.mobileProviderModel.removeRows(0, self.mobileProviderModel.rowCount())
         if 'provider' in mobile:
-            for k, v in mobile['provider'].items():
+            for k, v in list(mobile['provider'].items()):
                 prov = QStandardItem(k)
                 val = QStandardItem(str(v))
                 self.mobileProviderModel.setItem(r, 0, prov)

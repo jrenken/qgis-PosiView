@@ -20,25 +20,27 @@
  *                                                                         *
  ***************************************************************************/
 """
-from PyQt4.QtCore import QSettings, QTranslator, qVersion, QCoreApplication, Qt,\
-    pyqtSlot, QSize
-from PyQt4.QtGui import QAction, QIcon
+from __future__ import absolute_import
+from builtins import object
+from qgis.PyQt.QtCore import QSettings, QTranslator, qVersion, QCoreApplication, Qt, pyqtSlot, QSize
+from qgis.PyQt.QtWidgets import QAction
+from qgis.PyQt.QtGui import QIcon
 # Initialize Qt resources from file resources.py
-import resources_rc
+from .resources_rc import *
 import os.path
-from posiview_project import PosiViewProject
-from gui.tracking_dock import TrackingDock
-from gui.guidance_dock import GuidanceDock
-from gui.posiview_properties import PosiviewProperties
-from gui.dataprovider_dump import DataProviderDump
-from gui.position_display import PositionDisplay
-from recorder import Recorder
+from .posiview_project import PosiViewProject
+from .gui.tracking_dock import TrackingDock
+from .gui.guidance_dock import GuidanceDock
+from .gui.posiview_properties import PosiviewProperties
+from .gui.dataprovider_dump import DataProviderDump
+from .gui.position_display import PositionDisplay
+from .recorder import Recorder
 from qgis.gui import QgsMessageBar
 
-from measure_maptool import MeasureMapTool
+from .measure_maptool import MeasureMapTool
 
 
-class PosiView:
+class PosiView(object):
     """QGIS Plugin Implementation."""
 
     def __init__(self, iface):
@@ -77,7 +79,7 @@ class PosiView:
 
         self.tracking = TrackingDock()
         self.iface.addDockWidget(Qt.LeftDockWidgetArea, self.tracking)
-        self.tracking.providerToolbar.triggered.connect(self.dumpProvider)
+#         self.tracking.providerToolbar.triggered.connect(self.dumpProvider)
         self.guidance = GuidanceDock()
         self.iface.addDockWidget(Qt.LeftDockWidgetArea, self.guidance)
         self.guidanceVisible = False
@@ -278,7 +280,7 @@ class PosiView:
         self.tracking.removeProviders()
         self.project.unload()
         self.iface.mainWindow().statusBar().removeWidget(self.positionDisplay)
-        for action in self.actions.values():
+        for action in list(self.actions.values()):
             self.iface.removePluginMenu(
                 self.tr(u'&PosiView'),
                 action)

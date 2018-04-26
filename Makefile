@@ -104,13 +104,13 @@ default: compile
 compile: $(COMPILED_RESOURCE_FILES) $(COMPILED_UI_FILES)
 
 %_rc.py : %.qrc $(RESOURCES_SRC)
-	pyrcc4 -o $*_rc.py  $<
+	pyrcc5 -o $*_rc.py  $<
 
 %.qm : %.ts
 	$(LRELEASE) $<
 
 gui/ui_%.py : ui/%.ui
-	python -m qgis.PyQt.uic.pyuic -o $@ $<
+	python3 -m qgis.PyQt.uic.pyuic -o $@ $<
 
 test: compile transcompile
 	@echo

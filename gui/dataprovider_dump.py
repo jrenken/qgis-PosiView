@@ -3,11 +3,12 @@ Created on 08.07.2015
 
 @author: jrenken
 '''
+from builtins import str
 
 import os
-from PyQt4 import uic
-from PyQt4.QtGui import QDialog
-from PyQt4.QtCore import pyqtSlot, Qt
+from qgis.PyQt import uic
+from qgis.PyQt.QtWidgets import QDialog
+from qgis.PyQt.QtCore import pyqtSlot, Qt
 
 FORM_CLASS, BASE_CLASS = uic.loadUiType(os.path.join(
     os.path.split(os.path.dirname(__file__))[0], 'ui', 'dataprovider_dump_base.ui'), False)

@@ -3,12 +3,14 @@ Created on 05.06.2015
 
 @author: jrenken
 '''
-from PyQt4.QtCore import QObject, pyqtSlot, QTimer, pyqtSignal
+from __future__ import absolute_import
+from builtins import str
+from qgis.PyQt.QtCore import QObject, pyqtSlot, QTimer, pyqtSignal
 from qgis.core import QgsPoint, QgsCoordinateTransform, \
         QgsCoordinateReferenceSystem, QgsCsException
 from qgis.gui import QgsMessageBar
-from position_marker import PositionMarker
-from PyQt4.QtGui import QLabel, QMovie
+from .position_marker import PositionMarker
+from qgis.PyQt.QtWidgets import QLabel
 
 
 class MobileItem(QObject):
@@ -101,7 +103,7 @@ class MobileItem(QObject):
         provider.newDataReceived.connect(self.processNewData)
         if filterId not in (None, 'None'):
             self.messageFilter[provider.name] = filterId
-        elif provider.name in self.messageFilter.keys():
+        elif provider.name in list(self.messageFilter.keys()):
             self.messageFilter.pop(provider.name, None)
 
     def unsubscribePositionProvider(self, provider):
@@ -127,7 +129,7 @@ class MobileItem(QObject):
             return
         try:
             name = data['name']
-            if name in self.messageFilter.keys():
+            if name in list(self.messageFilter.keys()):
                 if data['id'] != self.messageFilter[name]:
                     return
         except:

@@ -3,15 +3,16 @@ Created on 29.01.2015
 
 @author: jrenken
 '''
+from builtins import str
 
 import os
 
-from PyQt4 import uic
-from PyQt4.QtCore import Qt , QSignalMapper, QSettings, pyqtSignal
-from PyQt4.Qt import pyqtSlot, QSize
+from qgis.PyQt import uic
+from qgis.PyQt.QtCore import Qt, QSettings, QSignalMapper, pyqtSignal
+from qgis.PyQt.Qt import pyqtSlot, QSize
 from qgis.core import QgsPoint
-from PyQt4.QtGui import QIcon, QAction, QLabel, QWidgetAction, QToolBar,\
-    QDockWidget, QToolButton
+from qgis.PyQt.QtGui import QIcon
+from qgis.PyQt.QtWidgets import QAction, QLabel, QWidgetAction, QToolBar, QDockWidget, QToolButton
 from time import gmtime, strftime
 
 

@@ -3,10 +3,16 @@ Created on 25.04.2016
 
 @author: jrenken
 '''
+from __future__ import print_function
+from __future__ import absolute_import
+from builtins import str
+from builtins import map
+from builtins import range
+from builtins import object
 
 import datetime
-from parser import Parser
-from nmea import NmeaRecord
+from .parser import Parser
+from .nmea import NmeaRecord
 
 
 class AisParser(Parser):
@@ -70,12 +76,12 @@ class AisParser(Parser):
             if head == 511:
                 head = 0.1 * float(binPayload.getInt(*bs['cog']))
             result['heading'] = head
-            return dict((k, v) for k, v in result.iteritems() if v is not None)
+            return dict((k, v) for k, v in result.items() if v is not None)
         except (ValueError, KeyError, IndexError):
             return {}
 
 
-class BitVector:
+class BitVector(object):
     '''
     Helper class for handling AIS binary payload data
     '''
@@ -92,7 +98,7 @@ class BitVector:
         if type(val) is str:
             for c in val:
                 self.append6Bit(c)
-        elif type(val) in (int, long) and size:
+        elif type(val) in (int, int) and size:
             self.extend(val, size)
 
     def extend(self, val, size):
@@ -149,4 +155,5 @@ class BitVector:
 
 if __name__ == "__main__":
     p = AisParser()
-    print p.parse('!AIVDM,1,1,,A,139cJd>P1IPWunbNI:nsdOvrRHAH,0*24')
+    # fix_print_with_import
+    print(p.parse('!AIVDM,1,1,,A,139cJd>P1IPWunbNI:nsdOvrRHAH,0*24'))

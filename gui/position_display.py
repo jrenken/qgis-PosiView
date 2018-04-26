@@ -3,10 +3,10 @@ Created on 09.07.2015
 
 @author: jrenken
 '''
-from PyQt4.QtGui import QWidget, QHBoxLayout, QToolButton, QLineEdit
+from qgis.PyQt.QtWidgets import QWidget, QHBoxLayout, QToolButton, QLineEdit
 from qgis.core import QgsCoordinateReferenceSystem, QgsCoordinateTransform, QgsPoint
-from PyQt4.Qt import pyqtSlot
-from PyQt4.QtCore import Qt, QSettings
+from qgis.PyQt.Qt import pyqtSlot
+from qgis.PyQt.QtCore import Qt, QSettings
 
 
 class PositionDisplay(QWidget):

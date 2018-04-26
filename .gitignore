@@ -9,4 +9,4 @@ help/build
 .project
 .pydevproject
 .settings/
-
+*.bak

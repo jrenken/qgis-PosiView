@@ -20,8 +20,8 @@
  *                                                                         *
  ***************************************************************************/
 """
-from PyQt4.QtCore import QPointF, QRectF, QLineF, QPoint
-from PyQt4.QtGui import QPainter, QBrush, QColor, QPen, QPolygonF
+from qgis.PyQt.QtCore import QPointF, QRectF, QPoint
+from qgis.PyQt.QtGui import QPainter, QBrush, QColor, QPen, QPolygonF
 from qgis.gui import QgsMapCanvasItem, QgsVertexMarker
 from qgis.core import QgsDistanceArea
 from _collections import deque

@@ -4,9 +4,10 @@ Created on 30.01.2015
 @author: jrenken
 '''
 import os
-from PyQt4 import QtGui, uic
-from PyQt4.QtCore import pyqtSlot, QSettings, QDateTime
+from qgis.PyQt import QtGui, uic
+from qgis.PyQt.QtCore import pyqtSlot, QSettings, QDateTime
 from qgis.core import QgsPoint, QgsDistanceArea
+from qgis.PyQt.QtWidgets import QDockWidget
 from math import pi
 from .compass import CompassWidget
 
@@ -14,7 +15,7 @@ FORM_CLASS, _ = uic.loadUiType(os.path.join(
     os.path.split(os.path.dirname(__file__))[0], 'ui', 'guidance_dock_base.ui'))
 
 
-class GuidanceDock(QtGui.QDockWidget, FORM_CLASS):
+class GuidanceDock(QDockWidget, FORM_CLASS):
     '''
     classdocs
     '''
@@ -32,8 +33,8 @@ class GuidanceDock(QtGui.QDockWidget, FORM_CLASS):
         self.verticalLayout.setStretch(5, 8)
         self.distArea = QgsDistanceArea()
         self.distArea.setEllipsoid(u'WGS84')
-        self.distArea.setEllipsoidalMode(True)
-        self.distArea.setSourceCrs(3452L)
+#         self.distArea.setEllipsoidalMode(True)
+        self.distArea.setSourceCrs(3452)
         self.fontSize = 11
         self.source = None
         self.target = None

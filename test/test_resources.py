@@ -14,7 +14,7 @@ __copyright__ = 'Copyright 2015, Jens Renken/Marum/University of Bremen'
 
 import unittest
 
-from PyQt4.QtGui import QIcon
+from qgis.PyQt.QtGui import QIcon
 
 
 class PosiViewDialogTest(unittest.TestCase):
