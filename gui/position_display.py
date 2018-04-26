@@ -4,7 +4,7 @@ Created on 09.07.2015
 @author: jrenken
 '''
 from qgis.PyQt.QtWidgets import QWidget, QHBoxLayout, QToolButton, QLineEdit
-from qgis.core import QgsCoordinateReferenceSystem, QgsCoordinateTransform, QgsPoint
+from qgis.core import QgsCoordinateReferenceSystem, QgsCoordinateTransform, QgsPointXY, QgsProject, QgsCoordinateFormatter
 from qgis.PyQt.Qt import pyqtSlot
 from qgis.PyQt.QtCore import Qt, QSettings
 
@@ -46,9 +46,9 @@ class PositionDisplay(QWidget):
         self.button.setText(self.__FORMATS[self.format])
 
         canvas = iface.mapCanvas()
-        crsDest = QgsCoordinateReferenceSystem(4326)
+        crsDest = QgsCoordinateReferenceSystem('EPSG:4326')
         crsSrc = canvas.mapSettings().destinationCrs()
-        self.xform = QgsCoordinateTransform(crsSrc, crsDest)
+        self.xform = QgsCoordinateTransform(crsSrc, crsDest, QgsProject.instance())
         canvas.xyCoordinates.connect(self.mouseMoved)
         canvas.destinationCrsChanged.connect(self.mapCrsHasChanged)
         self.canvas = canvas
@@ -65,7 +65,7 @@ class PositionDisplay(QWidget):
         crsSrc = self.canvas.mapSettings().destinationCrs()
         self.xform.setSourceCrs(crsSrc)
 
-    @pyqtSlot(QgsPoint)
+    @pyqtSlot(QgsPointXY)
     def mouseMoved(self, point):
         pt = self.xform.transform(point)
         self.label.setText(self.posToStr(pt))
@@ -74,6 +74,6 @@ class PositionDisplay(QWidget):
         if self.format == 0:
             return '{:.6f}, {:.6f}'.format(pos.y(), pos.x())
         if self.format == 1:
-            return ', '.join(pos.toDegreesMinutes(4, True, True).rsplit(',')[::-1])
+            return ', '.join(QgsCoordinateFormatter.format(pos, QgsCoordinateFormatter.FormatDegreesMinutes, 4).rsplit(',')[::-1])
         if self.format == 2:
-            return ', '.join(pos.toDegreesMinutesSeconds(2, True, True).split(',')[::-1])
+            return ', '.join(QgsCoordinateFormatter.format(pos, QgsCoordinateFormatter.FormatDegreesMinutesSeconds, 2).rsplit(',')[::-1])

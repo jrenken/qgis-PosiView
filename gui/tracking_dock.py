@@ -159,7 +159,7 @@ class TrackingDisplay(QToolBar):
 
 class ProviderToolBar(QToolBar):
     '''
-    Widget to display the vehicles/objects status and position
+    Widget to display the dataprovider status
     '''
 
     triggered = pyqtSignal(str)
@@ -172,7 +172,7 @@ class ProviderToolBar(QToolBar):
         self.upToDate = False
         self.actions = []
         self.setToolButtonStyle(Qt.ToolButtonTextUnderIcon)
-        self.signalMapper.mapped[str].connect(self.triggered)
+        self.signalMapper.mapped['QString'].connect(self.triggered)
 
     def createAction(self, provider):
         icon = QIcon(':/plugins/PosiView/ledgreen.png')

@@ -23,7 +23,7 @@
 from qgis.PyQt.QtCore import QPointF, QRectF, QPoint
 from qgis.PyQt.QtGui import QPainter, QBrush, QColor, QPen, QPolygonF
 from qgis.gui import QgsMapCanvasItem, QgsVertexMarker
-from qgis.core import QgsDistanceArea
+from qgis.core import QgsDistanceArea, QgsProject
 from _collections import deque
 
 
@@ -72,7 +72,6 @@ class PositionMarker(QgsMapCanvasItem):
         self.setZValue(int(params.get('zValue', 100)))
         self.distArea = QgsDistanceArea()
         self.distArea.setEllipsoid(u'WGS84')
-        self.distArea.setEllipsoidalMode(True)
         if self.showLabel:
             self.label = MarkerLabel(self.canvas, params)
             self.label.setZValue(self.zValue() + 0.1)
@@ -132,7 +131,7 @@ class PositionMarker(QgsMapCanvasItem):
         if self.type != 'SHAPE':
             return
         s = self.canvas.mapSettings()
-        self.distArea.setSourceCrs(s.destinationCrs())
+        self.distArea.setSourceCrs(s.destinationCrs(), QgsProject.instance().transformContext())
         try:
             p1 = self.toMapCoordinates(QPoint(0, 0))
             p2 = self.toMapCoordinates(QPoint(0, 100))

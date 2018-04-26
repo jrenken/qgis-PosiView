@@ -179,7 +179,7 @@ class MobileItem(QObject):
         SLot called when the mapcanvas CRS is changed
         '''
         crsDst = self.canvas.mapSettings().destinationCrs()
-        self.crsXform.setDestCRS(crsDst)
+        self.crsXform.setDestinationCrs(crsDst)
         self.marker.updatePosition()
 
     @pyqtSlot(float)

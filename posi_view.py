@@ -22,7 +22,7 @@
 """
 from __future__ import absolute_import
 from builtins import object
-from qgis.PyQt.QtCore import QSettings, QTranslator, qVersion, QCoreApplication, Qt, pyqtSlot, QSize
+from qgis.PyQt.QtCore import QObject, QSettings, QTranslator, qVersion, QCoreApplication, Qt, pyqtSlot, QSize
 from qgis.PyQt.QtWidgets import QAction
 from qgis.PyQt.QtGui import QIcon
 # Initialize Qt resources from file resources.py
@@ -79,7 +79,7 @@ class PosiView(object):
 
         self.tracking = TrackingDock()
         self.iface.addDockWidget(Qt.LeftDockWidgetArea, self.tracking)
-#         self.tracking.providerToolbar.triggered.connect(self.dumpProvider)
+        self.tracking.providerToolbar.triggered.connect(self.dumpProvider)
         self.guidance = GuidanceDock()
         self.iface.addDockWidget(Qt.LeftDockWidgetArea, self.guidance)
         self.guidanceVisible = False
@@ -318,7 +318,7 @@ class PosiView(object):
             self.project.unload()
             self.iface.mainWindow().statusBar().removeWidget(self.positionDisplay)
 
-    @pyqtSlot(bool)
+#     @pyqtSlot(bool)
     def startStopTracking(self, checked=False):
         ''' Start or stop the online tracking
         :param checked: decide wether to start or stop tracking
@@ -332,7 +332,7 @@ class PosiView(object):
             self.project.stopTracking()
             self.actions['recordAction'].setChecked(checked)
 
-    @pyqtSlot(dict)
+#     @pyqtSlot(dict)
     def onApplyConfigChanges(self, properties):
         '''Apply the changed configuration to the posiview project. The is done
            by unloading and loading again the project.
@@ -364,7 +364,7 @@ class PosiView(object):
         propDlg.applyChanges.connect(self.onApplyConfigChanges)
         propDlg.exec_()
 
-    @pyqtSlot(str)
+#    @pyqtSlot(str)
     def dumpProvider(self, name):
         '''Opens the dataprovider dump window which shows the raw input and the parsed output
            of a dataprovider
@@ -379,7 +379,7 @@ class PosiView(object):
         except KeyError:
             pass
 
-    @pyqtSlot(bool)
+#     @pyqtSlot(bool)
     def startStopRecording(self, checked=False):
         '''Start or stop the position recording
         :param checked: decide wether to start or stop recording
@@ -391,7 +391,7 @@ class PosiView(object):
             else:
                 self.recorder.stopRecording()
 
-    @pyqtSlot(str)
+#     @pyqtSlot(str)
     def recordingStarted(self, fileName):
         '''Display a message with filename if recording is stated
         :param fileName: name of the recorder file
@@ -401,7 +401,7 @@ class PosiView(object):
                 self.tr(u'Recording started: ') + fileName,
                 level=QgsMessageBar.INFO, duration=20)
 
-    @pyqtSlot()
+#     @pyqtSlot()
     def postInitialize(self):
         '''Do some GUI stuff after qgis is initialized.
         Hides the docking windows.
@@ -410,7 +410,7 @@ class PosiView(object):
         self.tracking.hide()
         self.guidance.hide()
 
-    @pyqtSlot(bool)
+#     @pyqtSlot(bool)
     def measure(self, checked=False):
         '''
         Enable MapTool for meauring distance and azimuth

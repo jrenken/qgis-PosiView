@@ -8,7 +8,7 @@ from builtins import range
 
 import os
 from qgis.PyQt import uic
-from qgis.PyQt.QtCore import Qt, pyqtSlot, QModelIndex, pyqtSignal, QUrl
+from qgis.PyQt.QtCore import Qt, pyqtSlot, QModelIndex, pyqtSignal, QUrl, QStringListModel
 from qgis.PyQt.QtGui import QStandardItem, QColor, QStandardItemModel, QDesktopServices
 from qgis.PyQt.QtWidgets import QFileDialog, QAbstractButton, QDialogButtonBox, QMenu
 from qgis.gui import QgsOptionsDialogBase
