@@ -10,7 +10,7 @@ import os
 from qgis.PyQt import uic
 from qgis.PyQt.QtCore import Qt, QSettings, QSignalMapper, pyqtSignal
 from qgis.PyQt.Qt import pyqtSlot, QSize
-from qgis.core import QgsPoint
+from qgis.core import QgsPointXY, QgsCoordinateFormatter
 from qgis.PyQt.QtGui import QIcon
 from qgis.PyQt.QtWidgets import QAction, QLabel, QWidgetAction, QToolBar, QDockWidget, QToolButton
 from time import gmtime, strftime
@@ -79,7 +79,7 @@ class TrackingDisplay(QToolBar):
         s = QSettings()
         self.defFormat = s.value('PosiView/Misc/DefaultFormat', defaultValue=0, type=int)
         self.format = self.defFormat & 3
-        self.withSuff = bool(self.defFormat & 4)
+        self.withSuff = QgsCoordinateFormatter.FlagDegreesUseStringSuffix if bool(self.defFormat & 4) else QgsCoordinateFormatter.FormatFlag(0)
         self.createActions()
         self.mobile.newPosition.connect(self.onNewPosition)
         self.mobile.timeout.connect(self.onTimeout)
@@ -117,7 +117,7 @@ class TrackingDisplay(QToolBar):
         self.deleteTrackAction.triggered.connect(self.mobile.deleteTrack)
         self.centerAction.triggered.connect(self.mobile.centerOnMap)
 
-    @pyqtSlot(float, QgsPoint, float, float)
+    @pyqtSlot(float, QgsPointXY, float, float)
     def onNewPosition(self, fix, pos, depth, altitude):
         s = str()
         if fix > 0:
@@ -127,9 +127,17 @@ class TrackingDisplay(QToolBar):
         if self.format == 0:
             s += "{:f}  {:f}".format(pos.y(), pos.x())
         elif self.format == 1:
-            s += ', '.join(pos.toDegreesMinutes(4, self.withSuff, True).rsplit(',')[::-1])
+            s += ', '.join(QgsCoordinateFormatter.format(pos,
+                                                         QgsCoordinateFormatter.FormatDegreesMinutes,
+                                                         4,
+                                                         self.withSuff
+                                                         ).rsplit(',')[::-1])
         else:
-            s += ', '.join(pos.toDegreesMinutesSeconds(2, self.withSuff, True).split(',')[::-1])
+            s += ', '.join(QgsCoordinateFormatter.format(pos,
+                                                         QgsCoordinateFormatter.FormatDegreesMinutesSeconds,
+                                                         2,
+                                                         self.withSuff
+                                                         ).rsplit(',')[::-1])
         s += "\nd = {:.1f}".format(depth)
         if altitude > -9999:
             s += "   alt = {:.1f}".format(altitude)

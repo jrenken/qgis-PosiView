@@ -7,7 +7,7 @@ Created on 23.06.2015
 import sys
 from qgis.PyQt.QtCore import pyqtSignal, Qt, QPoint, QSize, pyqtSlot, pyqtProperty
 from qgis.PyQt.QtWidgets import QWidget, QSpinBox, QVBoxLayout
-from qgis.PyQt.QtGui import QPainter, QPalette, QFont, QFontMetricsF, QPen
+from qgis.PyQt.QtGui import QPainter, QPalette, QFont, QFontMetricsF, QPen, QPolygon
 
 
 class CompassWidget(QWidget):

@@ -7,7 +7,7 @@ Created on Apr 4, 2018
 from qgis.PyQt.QtCore import pyqtSlot
 from qgis.gui import QgsMapToolEmitPoint, QgsRubberBand
 from qgis.PyQt.Qt import Qt
-from qgis.core import QgsGeometry, QgsDistanceArea, QgsProject
+from qgis.core import QgsGeometry, QgsDistanceArea, QgsProject, QgsPoint
 from qgis.PyQt.QtWidgets import QToolTip
 from math import pi
 
@@ -27,8 +27,6 @@ class MeasureMapTool(QgsMapToolEmitPoint):
         self.canvas.destinationCrsChanged.connect(self.onCrsChange)
         self.distArea = QgsDistanceArea()
         self.distArea.setEllipsoid(u'WGS84')
-#         self.distArea.computeAreaInit()
-#         self.distArea.setEllipsoidalMode(True)
         self.onCrsChange()
 
         self.rubberBand = QgsRubberBand(self.canvas)
@@ -54,8 +52,8 @@ class MeasureMapTool(QgsMapToolEmitPoint):
         self.endPoint = self.toMapCoordinates(e.pos())
         self.rubberBand.setToGeometry(
             QgsGeometry.fromPolyline([
-                self.startPoint,
-                self.endPoint
+                QgsPoint(self.startPoint),
+                QgsPoint(self.endPoint)
             ]),
             None
             )

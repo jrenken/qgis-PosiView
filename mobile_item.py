@@ -6,11 +6,12 @@ Created on 05.06.2015
 from __future__ import absolute_import
 from builtins import str
 from qgis.PyQt.QtCore import QObject, pyqtSlot, QTimer, pyqtSignal
-from qgis.core import QgsPoint, QgsCoordinateTransform, \
+from qgis.core import Qgis, QgsPointXY, QgsCoordinateTransform, \
         QgsCoordinateReferenceSystem, QgsCsException
 from qgis.gui import QgsMessageBar
 from .position_marker import PositionMarker
 from qgis.PyQt.QtWidgets import QLabel
+from qgis.PyQt.QtGui import QMovie
 
 
 class MobileItem(QObject):
@@ -22,7 +23,7 @@ class MobileItem(QObject):
 
     mobileItemCount = 0
 
-    newPosition = pyqtSignal(float, QgsPoint, float, float)
+    newPosition = pyqtSignal(float, QgsPointXY, float, float)
     newAttitude = pyqtSignal(float, float, float)   # heading, pitch, roll
     timeout = pyqtSignal()
 
@@ -137,7 +138,7 @@ class MobileItem(QObject):
         self.extData.update(data)
 
         if 'lat' in data and 'lon' in data:
-            self.position = QgsPoint(data['lon'], data['lat'])
+            self.position = QgsPointXY(data['lon'], data['lat'])
             self.heading = data.get('heading', -9999.9)
             self.depth = data.get('depth', -9999.9)
             try:
@@ -246,7 +247,7 @@ class MobileItem(QObject):
             m.setParent(l)
             m.start()
             w.layout().addWidget(l)
-            self.iface.messageBar().pushWidget(w, QgsMessageBar.CRITICAL, duration=self.notifyDuration)
+            self.iface.messageBar().pushWidget(w, level=Qgis.Critical, duration=self.notifyDuration)
 
     def getTrack(self):
         tr = [e[1] for e in self.marker.track]

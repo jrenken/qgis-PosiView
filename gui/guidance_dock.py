@@ -6,7 +6,7 @@ Created on 30.01.2015
 import os
 from qgis.PyQt import QtGui, uic
 from qgis.PyQt.QtCore import pyqtSlot, QSettings, QDateTime
-from qgis.core import QgsPoint, QgsDistanceArea, QgsProject, QgsCoordinateReferenceSystem
+from qgis.core import QgsPointXY, QgsDistanceArea, QgsProject, QgsCoordinateReferenceSystem, QgsCoordinateFormatter
 from qgis.PyQt.QtWidgets import QDockWidget
 from math import pi
 from .compass import CompassWidget
@@ -98,9 +98,13 @@ class GuidanceDock(QDockWidget, FORM_CLASS):
         if self.format == 0:
             return "{:.6f}".format(pos.x()), "{:.6f}".format(pos.y())
         if self.format == 1:
-            return pos.toDegreesMinutes(4, True, True).split(',')
+            return ', '.join(QgsCoordinateFormatter.format(pos,
+                                                           QgsCoordinateFormatter.FormatDegreesMinutes,
+                                                           4).rsplit(',')[::-1]).split(',')
         if self.format == 2:
-            return pos.toDegreesMinutesSeconds(2, True, True).split(',')
+            return ', '.join(QgsCoordinateFormatter.format(pos,
+                                                           QgsCoordinateFormatter.FormatDegreesMinutesSeconds,
+                                                           2).rsplit(',')[::-1]).split(',')
 
     @pyqtSlot(str, name='on_comboBoxSource_currentIndexChanged')
     def sourceChanged(self, mob):
@@ -139,7 +143,7 @@ class GuidanceDock(QDockWidget, FORM_CLASS):
             self.target = None
         self.resetTarget()
 
-    @pyqtSlot(float, QgsPoint, float, float)
+    @pyqtSlot(float, QgsPointXY, float, float)
     def onNewSourcePosition(self, fix, pos, depth, altitude):
         if [pos, depth] != self.srcPos:
             lon, lat = self.posToStr(pos)
@@ -159,7 +163,7 @@ class GuidanceDock(QDockWidget, FORM_CLASS):
                 self.labelDirection.setText('{:.1f}'.format(bearing))
             self.srcPos = [pos, depth]
 
-    @pyqtSlot(float, QgsPoint, float, float)
+    @pyqtSlot(float, QgsPointXY, float, float)
     def onNewTargetPosition(self, fix, pos, depth, altitude):
         if [pos, depth] != self.trgPos:
             lon, lat = self.posToStr(pos)
