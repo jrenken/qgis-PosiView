@@ -36,6 +36,7 @@ from .gui.dataprovider_dump import DataProviderDump
 from .gui.position_display import PositionDisplay
 from .recorder import Recorder
 from qgis.gui import QgsMessageBar
+from qgis.core import Qgis
 
 from .measure_maptool import MeasureMapTool
 
@@ -399,7 +400,7 @@ class PosiView(object):
         '''
         self.iface.messageBar().pushMessage(self.tr(u'PosiView Recorder'),
                 self.tr(u'Recording started: ') + fileName,
-                level=QgsMessageBar.INFO, duration=20)
+                level=Qgis.Info, duration=20)
 
 #     @pyqtSlot()
     def postInitialize(self):

@@ -13,6 +13,7 @@ from qgis.PyQt.QtCore import QSettings, QCoreApplication
 from .mobile_item import MobileItem
 from .dataprovider.data_provider import DataProvider
 from qgis.gui import QgsMessageBar
+from qgis.core import Qgis
 
 
 class PosiViewProject(object):
@@ -119,7 +120,7 @@ class PosiViewProject(object):
                 except KeyError:
                     self.iface.messageBar().pushMessage(self.tr(u'Error'), self.tr(u"Can't subscribe dataprovider: ") +
                                    k1 + self.tr(u' for ') + m.name,
-                                   level=QgsMessageBar.CRITICAL, duration=5)
+                                   level=Qgis.Critical, duration=5)
         self.trackCache.clear()
 
     def unload(self):

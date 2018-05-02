@@ -13,7 +13,7 @@ name=PosiView
 about=Track multiple objects and vehicles and display them as shapes and points on the canvas
 description=PosiView tracks multiple mobile objects and vehicles and displays their position on the canvas
 qgisMinimumVersion=3.0
-version=0.6.0
+version=0.89.0
 author=Jens Renken (Marum, University of Bremen)
 email=renken@marum.de
 
@@ -22,7 +22,9 @@ email=renken@marum.de
 # Recommended items:
 
 # Uncomment the following line and add your changelog:
-changelog=0.6.0 (2018-04-25)
+changelog=0.89.0
+    - upgrade to QGIS3
+  0.6.0 (2018-04-25)
     - add a measure tool for distance and bearing
     - make parsers more tolerant against corrupted input
     - change font color and make format selectable in tracking display
