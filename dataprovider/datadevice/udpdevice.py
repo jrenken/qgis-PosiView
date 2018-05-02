@@ -26,7 +26,7 @@ class UdpDevice(DataDevice):
         self.host = params.get('Host', None)
         self.port = int(params.get('Port', 2000))
         self.iodevice.readyRead.connect(self.readyRead)
-        self.buffer = list()
+        self.buffer = bytearray()
 
     def connectDevice(self):
         result = False
@@ -56,9 +56,9 @@ class UdpDevice(DataDevice):
         if self.iodevice.hasPendingDatagrams():
             self.buffer.extend(self.readData())
         try:
-            i = self.buffer.index('\n')
+            i = self.buffer.index(b'\n')
             data = self.buffer[0:i]
             del self.buffer[0:i + 1]
-            return ''.join(data)
+            return data.decode()
         except ValueError:
             return ''

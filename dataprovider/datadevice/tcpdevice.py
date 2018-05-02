@@ -46,7 +46,7 @@ class TcpDevice(DataDevice):
     def readData(self):
         size = self.iodevice.bytesAvailable()
         data = self.iodevice.read(size)
-        return data
+        return data.decode()
 
     def readLine(self):
         if self.iodevice.canReadLine():
@@ -57,7 +57,7 @@ class TcpDevice(DataDevice):
     def socketConnected(self):
         self.deviceConnected.emit(True)
         if self.gpsdInit:
-            self.iodevice.writeData('?WATCH={"class":"WATCH","nmea":true}')
+            self.iodevice.writeData(b'?WATCH={"class":"WATCH","nmea":true}')
 
     @pyqtSlot()
     def socketDisconnected(self):
