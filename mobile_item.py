@@ -52,6 +52,7 @@ class MobileItem(QObject):
         self.position = None
         self.heading = 0.0
         self.depth = 0.0
+        self.altitude = 0.0
         self.lastFix = 0.0
         self.crsXform = QgsCoordinateTransform()
         self.crsXform.setSourceCrs(QgsCoordinateReferenceSystem(4326))
@@ -138,6 +139,7 @@ class MobileItem(QObject):
             self.position = QgsPoint(data['lon'], data['lat'])
             self.heading = data.get('heading', -9999.9)
             self.depth = data.get('depth', -9999.9)
+            self.altitude = data.get('altitude', -9999.9)
             try:
                 self.coordinates = self.crsXform.transform(self.position)
                 self.marker.setMapPosition(self.coordinates)
@@ -225,11 +227,11 @@ class MobileItem(QObject):
         '''
         Report the position of the item. Used for logging
         :returns: geographic postion, depth and altitude
-        :rtype: float, float, float, float
+        :rtype: float, float, float, float, float
         '''
         if self.position is None:
-            return -9999.9, -9999.9, -9999.9, 0.0
-        return self.position.y(), self.position.x(), self.depth, self.heading
+            return -9999.9, -9999.9, -9999.9, 0.0, -9999.9
+        return self.position.y(), self.position.x(), self.depth, self.heading, self.altitude
 
     @pyqtSlot()
     def notifyTimeout(self):
