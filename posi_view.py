@@ -35,7 +35,6 @@ from .gui.posiview_properties import PosiviewProperties
 from .gui.dataprovider_dump import DataProviderDump
 from .gui.position_display import PositionDisplay
 from .recorder import Recorder
-from qgis.gui import QgsMessageBar
 from qgis.core import Qgis
 
 from .measure_maptool import MeasureMapTool
@@ -305,7 +304,7 @@ class PosiView(object):
             self.tracking.show()
             if self.guidanceVisible:
                 self.guidance.show()
-            self.iface.mainWindow().statusBar().insertPermanentWidget(1, self.positionDisplay)
+            self.iface.mainWindow().statusBar().addPermanentWidget(self.positionDisplay, 2)
             self.positionDisplay.show()
         else:
             self.actions['trackingAction'].setChecked(False)
