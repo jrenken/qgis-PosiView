@@ -64,9 +64,9 @@ class Recorder(QObject):
     def takeSnapshot(self):
         dt = datetime.utcnow()
         line = dt.strftime('%d.%m.%Y\t%H:%M:%S')
-        for v in list(self.mobiles.values()):
-            lat, lon, depth, heading = v.reportPosition()
-            line += '\t{:.9f}\t{:.9f}\t{:.1f}\t{:.1f}'.format(lat, lon, depth, heading)
+        for v in self.mobiles.values():
+            lat, lon, depth, heading, altitude = v.reportPosition()
+            line += '\t{:.9f}\t{:.9f}\t{:.1f}\t{:.1f}\t{:.1f}'.format(lat, lon, depth, heading, altitude)
         line += '\n'
         try:
             self.file.write(line)
@@ -80,6 +80,6 @@ class Recorder(QObject):
     def fileHeader(self):
         header = 'Date\tTime'
         for k in self.mobiles:
-            header = header + '\t' + k + ' Lat\t' + k + ' Lon\t' + k + ' Depth\t' + k + ' Heading'
+            header = header + '\t' + k + ' Lat\t' + k + ' Lon\t' + k + ' Depth\t' + k + ' Heading\t' + k + ' Altitude'
         header += '\n'
         return header
