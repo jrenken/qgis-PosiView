@@ -22,7 +22,7 @@ email=renken@marum.de
 # Recommended items:
 
 # Uncomment the following line and add your changelog:
-changelog=0.89.0
+changelog=0.89.0 (2018-05-29)
     - upgrade to QGIS3
   0.6.0 (2018-04-25)
     - add a measure tool for distance and bearing
@@ -75,7 +75,7 @@ repository=https://github.com/jrenken/qgis-PosiView
 category=Plugins
 icon=icon.png
 # experimental flag
-experimental=False
+experimental=True
 
 # deprecated flag (applies to the whole plugin, not just a single version)
 deprecated=False
