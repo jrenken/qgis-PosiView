@@ -9,7 +9,7 @@ from qgis.core import QgsPoint, QgsCoordinateTransform, \
 from qgis.gui import QgsMessageBar
 from position_marker import PositionMarker
 from PyQt4.QtGui import QLabel, QMovie
-
+import math
 
 class MobileItem(QObject):
     '''
@@ -23,6 +23,8 @@ class MobileItem(QObject):
     newPosition = pyqtSignal(float, QgsPoint, float, float)
     newAttitude = pyqtSignal(float, float, float)   # heading, pitch, roll
     timeout = pyqtSignal()
+
+    TOL = 1e-8
 
     def __init__(self, iface, params={}, parent=None):
         '''
@@ -56,6 +58,7 @@ class MobileItem(QObject):
         self.lastFix = 0.0
         self.crsXform = QgsCoordinateTransform()
         self.crsXform.setSourceCrs(QgsCoordinateReferenceSystem(4326))
+        self.rot = 0.0
         self.onCrsChange()
         self.canvas.destinationCrsChanged.connect(self.onCrsChange)
         if hasattr(self.canvas, 'magnificationChanged'):
@@ -162,7 +165,7 @@ class MobileItem(QObject):
         if 'heading' in data:
             self.newAttitude.emit(data['heading'], data.get('pitch', 0.0),
                                   data.get('roll', 0.0))
-            self.marker.newHeading(data['heading'])
+            self.marker.newHeading(data['heading'] + self.rot)
 
     @pyqtSlot(float)
     def onScaleChange(self, ):
@@ -181,6 +184,7 @@ class MobileItem(QObject):
         crsDst = self.canvas.mapSettings().destinationCrs()
         self.crsXform.setDestCRS(crsDst)
         self.marker.updatePosition()
+#         self.calculateNorthDirection()
 
     @pyqtSlot(float)
     def onMagnificationChanged(self, ):
@@ -254,3 +258,58 @@ class MobileItem(QObject):
 
     def applyTrack(self, track):
         self.marker.setTrack(track)
+
+    def calculateNorthDirection(self):
+        '''
+        Calculate the north misalignment depending on the CRS
+        Algorithm is taken from QgsDecorationNorthArrow
+        '''
+        canvasExtent = self.canvas.extent()
+        fullExtent = self.canvas.fullExtent()
+        extent = canvasExtent.intersect(fullExtent)
+        if self.canvas.layerCount() > 0 and not extent.isEmpty():
+            outputCrs = self.canvas.mapSettings().destinationCrs()
+            if outputCrs.isValid() and not outputCrs.geographicFlag():
+                ourCrs =  QgsCoordinateReferenceSystem(u'EPSG:4326')
+                transform = QgsCoordinateTransform(outputCrs, ourCrs)
+                p1 = QgsPoint(extent.center())
+                p2 = QgsPoint(p1.x(), p1.y() + extent.height() * 0.25);
+
+                try:
+                    p1 = transform.transform(p1)
+                    p2 = transform.transform(p2)
+                except QgsCsException:
+                    return False
+
+                angle = 0.0
+                p1.multiply(math.pi / 180.0)
+                p2.multiply(math.pi / 180.0)
+
+                y = math.sin(p2.x() - p1.x()) * math.cos(p2.y())
+                x = math.cos( p1.y() ) * math.sin( p2.y() ) - math.sin( p1.y() ) * math.cos( p2.y() ) * math.cos( p2.x() - p1.x() )
+                if y > 0.0:
+                    if x > 0.0 and  y / x  > self.TOL:
+                        angle = math.atan( y / x )
+                    elif  x < 0.0 and ( y / x ) < - self.TOL:
+                        angle = math.pi - math.atan( -y / x );
+                    else:
+                        angle = 0.5 * math.pi;
+                elif y < 0.0:
+                    if x > 0.0 and ( y / x ) < -self.TOL:
+                        angle = -math.atan( -y / x );
+                    elif x < 0.0 and ( y / x ) > self.TOL:
+                        angle = math.atan( y / x ) - math.pi;
+                    else:
+                        angle = 1.5 * math.pi;
+                else:
+                    if x > self.TOL:
+                        angle = 0.0;
+                    elif x < -self.TOL:
+                        angle = math.pi;
+                    else:
+                        angle = 0.0;
+                self.rot = math.fmod( 360.0 - angle * 180.0 / math.pi, 360.0)
+            else:
+                self.rot = 0.0
+
+            print self.rot
