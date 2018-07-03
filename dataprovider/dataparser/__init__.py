@@ -19,7 +19,7 @@
 #
 ###############################################################################
 
-PARSERS = ('IX_USBL', 'PISE', 'MINIPOS', 'GPS', 'PSONLLD', 'CP16', 'AIS')
+PARSERS = ('IX_USBL', 'PISE', 'MINIPOS', 'GPS', 'PSONLLD', 'CP16', 'AIS', 'MARUM')
 
 
 def createParser(parserType=''):
@@ -44,6 +44,9 @@ def createParser(parserType=''):
     if parserType.upper() == 'AIS':
         from .parser_ais import AisParser
         return AisParser()
+    if parserType.upper() == 'MARUM':
+        from .parser_pmtm import PmtmParser
+        return PmtmParser()
 
     from .parser import Parser
     return Parser()
