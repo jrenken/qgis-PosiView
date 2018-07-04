@@ -25,6 +25,7 @@ from qgis.PyQt.QtGui import QPainter, QBrush, QColor, QPen, QPolygonF
 from qgis.gui import QgsMapCanvasItem, QgsVertexMarker
 from qgis.core import QgsDistanceArea, QgsProject
 from _collections import deque
+from math import fmod, pi
 
 
 class PositionMarker(QgsMapCanvasItem):
@@ -68,6 +69,7 @@ class PositionMarker(QgsMapCanvasItem):
         self.track = deque()
         self.position = None
         self.heading = 0
+        self.northAlign = 0.0
         super(PositionMarker, self).__init__(canvas)
         self.setZValue(int(params.get('zValue', 100)))
         self.distArea = QgsDistanceArea()
@@ -105,7 +107,7 @@ class PositionMarker(QgsMapCanvasItem):
     def newHeading(self, heading):
         if self.heading != heading:
             self.heading = heading
-            self.setRotation(self.canvas.rotation() + self.heading)
+            self.setRotation(self.canvas.rotation() + self.heading - self.northAlign)
             self.update()
 
     def resetPosition(self):
@@ -118,7 +120,7 @@ class PositionMarker(QgsMapCanvasItem):
             self.prepareGeometryChange()
             self.updateSize()
             self.setPos(self.toCanvasCoordinates(self.position))
-            self.setRotation(self.canvas.rotation() + self.heading)
+            self.setRotation(self.canvas.rotation() + self.heading - self.northAlign)
 
     def updateMapMagnification(self):
         self.updatePosition()
@@ -133,11 +135,18 @@ class PositionMarker(QgsMapCanvasItem):
         s = self.canvas.mapSettings()
         self.distArea.setSourceCrs(s.destinationCrs(), QgsProject.instance().transformContext())
         try:
-            p1 = self.toMapCoordinates(QPoint(0, 0))
-            p2 = self.toMapCoordinates(QPoint(0, 100))
-            l = self.distArea.measureLine(p1, p2)
-            f = 100 / l
-        except:
+            if self.position:
+                p1 = self.position
+                p = self.toCanvasCoordinates(self.position)
+                p2 = self.toMapCoordinates(QPoint(p.x(), p.y() + 100.0))
+            else:
+                p = self.canvas.viewport().rect().center()
+                p1 = self.toMapCoordinates(p)
+                p2 = self.toMapCoordinates(QPoint(p.x(), p.y() + 100))
+            lngth = self.distArea.measureLine(p1, p2)
+            f = 100.0 / lngth
+            self.northAlign = self.distArea.bearing(p2, p1) * 180.0 / pi + self.canvas.rotation()
+        except Exception:
             f = s.outputDpi() / 0.0254 / s.scale()
         paintLength = max(self.length * f, 50)
         paintWidth = paintLength * self.width / self.length

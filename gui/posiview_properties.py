@@ -168,7 +168,7 @@ class PosiviewProperties(QgsOptionsDialogBase, Ui_PosiviewPropertiesBase):
             for r in range(self.mobileProviderModel.rowCount()):
                 try:
                     fil = int(self.mobileProviderModel.item(r, 1).data(Qt.DisplayRole))
-                except:
+                except Exception:
                     fil = self.mobileProviderModel.item(r, 1).data(Qt.DisplayRole)
                     if not fil:
                         fil = None

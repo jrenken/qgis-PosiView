@@ -106,8 +106,8 @@ class BitVector(object):
             if size > 32:
                 raise ValueError('Too many bits. Maximum is 32')
             fmt = '{0:0%ib}' % size
-            l = list(map(int, fmt.format(val)))
-            self.vector.extend(l)
+            lst = list(map(int, fmt.format(val)))
+            self.vector.extend(lst)
 
     def append6Bit(self, ch):
         ''' return s the 6 bit binary value of a hex decoded bit field as used in AIS sentences
@@ -152,6 +152,7 @@ class BitVector(object):
             if not self.vector[i]:
                 result &= ~mask
         return result
+
 
 if __name__ == "__main__":
     p = AisParser()

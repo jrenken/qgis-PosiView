@@ -55,7 +55,6 @@ class MobileItem(QObject):
         self.position = None
         self.heading = 0.0
         self.depth = 0.0
-        self.altitude = 0.0
         self.lastFix = 0.0
         self.crsXform = QgsCoordinateTransform()
         self.crsXform.setSourceCrs(QgsCoordinateReferenceSystem(4326))
@@ -134,7 +133,7 @@ class MobileItem(QObject):
             if name in list(self.messageFilter.keys()):
                 if data['id'] != self.messageFilter[name]:
                     return
-        except:
+        except Exception:
             pass
         self.extData.update(data)
 
@@ -142,7 +141,6 @@ class MobileItem(QObject):
             self.position = QgsPointXY(data['lon'], data['lat'])
             self.heading = data.get('heading', -9999.9)
             self.depth = data.get('depth', -9999.9)
-            self.altitude = data.get('altitude', -9999.9)
             try:
                 self.coordinates = self.crsXform.transform(self.position)
                 self.marker.setMapPosition(self.coordinates)
@@ -230,11 +228,11 @@ class MobileItem(QObject):
         '''
         Report the position of the item. Used for logging
         :returns: geographic postion, depth and altitude
-        :rtype: float, float, float, float, float
+        :rtype: float, float, float, float
         '''
         if self.position is None:
-            return -9999.9, -9999.9, -9999.9, 0.0, -9999.9
-        return self.position.y(), self.position.x(), self.depth, self.heading, self.altitude
+            return -9999.9, -9999.9, -9999.9, 0.0
+        return self.position.y(), self.position.x(), self.depth, self.heading
 
     @pyqtSlot()
     def notifyTimeout(self):
@@ -242,13 +240,13 @@ class MobileItem(QObject):
         if self.timeoutCount == self.notifyCount:
             msg = self.tr(u'No fix for %s since more than %d seconds!') % (self.name, self.timeoutTime * self.timeoutCount / 1000)
             w = self.iface.messageBar().createMessage(self.tr(u'PosiView Attention'), msg)
-            l = QLabel(w)
+            label = QLabel(w)
             m = QMovie(':/plugins/PosiView/hand.gif')
             m.setSpeed(75)
-            l.setMovie(m)
-            m.setParent(l)
+            label.setMovie(m)
+            m.setParent(label)
             m.start()
-            w.layout().addWidget(l)
+            w.layout().addWidget(label)
             self.iface.messageBar().pushWidget(w, level=Qgis.Critical, duration=self.notifyDuration)
 
     def getTrack(self):

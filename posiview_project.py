@@ -140,7 +140,7 @@ class PosiViewProject(object):
             except ValueError:
                 try:
                     return eval(val)
-                except:
+                except Exception:
                     return val
 
     def read(self, iniFile=None):
