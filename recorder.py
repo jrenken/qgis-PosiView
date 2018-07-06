@@ -13,7 +13,7 @@ class Recorder(QObject):
     classdocs
     '''
 
-    recordingStarted = pyqtSignal(str)
+    recordingStarted = pyqtSignal(str, bool)
 
     def __init__(self, path, interval=1000, maxLines=10000, parent=None):
         '''
@@ -43,10 +43,10 @@ class Recorder(QObject):
             self.file = open(self.fileName, 'w')
             self.file.write(self.fileHeader())
             self.lineCount = 0
-            self.recordingStarted.emit(self.fileName)
+            self.recordingStarted.emit(self.fileName, True)
         except IOError:
             self.file = None
-            pass
+            self.recordingStarted.emit(self.fileName, False)
 
     @pyqtSlot()
     def startRecording(self):
@@ -62,6 +62,8 @@ class Recorder(QObject):
 
     @pyqtSlot()
     def takeSnapshot(self):
+        if self.file is None:
+            return
         dt = datetime.utcnow()
         line = dt.strftime('%d.%m.%Y\t%H:%M:%S')
         for v in self.mobiles.values():
@@ -74,7 +76,7 @@ class Recorder(QObject):
             if self.lineCount > self.maxLines:
                 self.file.close()
                 self.openFile()
-        except [IOError, ValueError]:
+        except (IOError, ValueError):
             pass
 
     def fileHeader(self):
