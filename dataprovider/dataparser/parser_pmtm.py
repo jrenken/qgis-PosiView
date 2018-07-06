@@ -3,10 +3,11 @@ Created on 22.06.2015
 
 @author: jrenken
 '''
+from __future__ import absolute_import
 
 import datetime
-from nmea import NmeaRecord
-from parser import Parser
+from .nmea import NmeaRecord
+from .parser import Parser
 
 
 class PmtmParser(Parser):
@@ -56,7 +57,7 @@ class PmtmParser(Parser):
                     dt = datetime.datetime.utcnow()
                 td = dt - datetime.datetime(1970, 1, 1)
                 result['time'] = td.total_seconds()
-                return dict((k, v) for k, v in result.iteritems() if v is not None)
+                return dict((k, v) for k, v in result.items() if v is not None)
             except ValueError:
                 return {}
 
@@ -68,7 +69,7 @@ class PmtmParser(Parser):
                           'roll': nmea.value(2),
                           'pitch': nmea.value(3),
                           'heading': nmea.value(4)}
-                return dict((k, v) for k, v in result.iteritems() if v is not None)
+                return dict((k, v) for k, v in result.items() if v is not None)
             except ValueError:
                 return {}
 
@@ -80,6 +81,6 @@ class PmtmParser(Parser):
                           'velforw': nmea.value(2),
                           'velport': nmea.value(3),
                           'velup': nmea.value(4)}
-                return dict((k, v) for k, v in result.iteritems() if v is not None)
+                return dict((k, v) for k, v in result.items() if v is not None)
             except ValueError:
                 return {}

@@ -391,15 +391,21 @@ class PosiView(object):
             else:
                 self.recorder.stopRecording()
 
-#     @pyqtSlot(str)
-    def recordingStarted(self, fileName):
-        '''Display a message with filename if recording is stated
+#     @pyqtSlot(str, bool)
+    def recordingStarted(self, fileName, success=True):
+        '''Display a message with filename if recording is started
         :param fileName: name of the recorder file
         :type name: str
         '''
-        self.iface.messageBar().pushMessage(self.tr(u'PosiView Recorder'),
-                self.tr(u'Recording started: ') + fileName,
-                level=Qgis.Info, duration=20)
+        if success:
+            self.iface.messageBar().pushMessage(self.tr(u'PosiView Recorder'),
+                    self.tr(u'Recording started: ') + fileName,
+                    level=Qgis.Info, duration=20)
+        else:
+            self.iface.messageBar().pushMessage(self.tr(u'PosiView Recorder'),
+                    self.tr(u'Start recording failed: ') + fileName,
+                    level=Qgis.Critical, duration=20)
+            self.actions['recordAction'].setChecked(False)
 
 #     @pyqtSlot()
     def postInitialize(self):
