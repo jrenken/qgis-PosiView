@@ -20,7 +20,7 @@
  *                                                                         *
  ***************************************************************************/
 """
-from qgis.PyQt.QtCore import QPointF, QRectF, QPoint
+from qgis.PyQt.QtCore import QPointF, QRectF, QPoint, QLineF
 from qgis.PyQt.QtGui import QPainter, QBrush, QColor, QPen, QPolygonF
 from qgis.gui import QgsMapCanvasItem, QgsVertexMarker
 from qgis.core import QgsDistanceArea, QgsProject
@@ -145,7 +145,7 @@ class PositionMarker(QgsMapCanvasItem):
                 p2 = self.toMapCoordinates(QPoint(p.x(), p.y() + 100))
             lngth = self.distArea.measureLine(p1, p2)
             f = 100.0 / lngth
-            self.northAlign = self.distArea.bearing(p2, p1) * 180.0 / pi + self.canvas.rotation()
+            self.northAlign = fmod(self.distArea.bearing(p2, p1) * 180.0 / pi + self.canvas.rotation(), 360.0)
         except Exception:
             f = s.outputDpi() / 0.0254 / s.scale()
         paintLength = max(self.length * f, 50)
