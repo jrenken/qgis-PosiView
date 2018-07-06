@@ -71,7 +71,8 @@ PY_FILES = \
 	dataprovider/dataparser/parser_psonlld.py \
 	dataprovider/dataparser/parser_cp16.py \
 	dataprovider/dataparser/parser_ais.py \
-	dataprovider/dataparser/parser.py \
+	dataprovider/dataparser/parser_pmtm.py \
+	dataprovider/dataparser/parser.py
 
 
 UI_FILES = ui/guidance_dock_base.ui \

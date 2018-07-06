@@ -35,6 +35,7 @@ Configuring a provider in depth
         PSONLLD     Sonardyne USBL system Ranger2                               $PSONLLD
         CP16        CP-16 compass                                               $PCI
         AIS         Automatic Identification System                             !AIVDM, !AIVDO
+        MARUM       Marum's own sentences                                       $PMTM___
         ==========  ==========================================================  =============================
     
   #. Click  ``Apply Properties``
