@@ -50,7 +50,7 @@ class TcpDevice(DataDevice):
 
     def readLine(self):
         if self.iodevice.canReadLine():
-            return str(self.iodevice.readLine())
+            return self.iodevice.readLine().data().decode("ASCII")
         return ''
 
     @pyqtSlot()
