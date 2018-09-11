@@ -45,12 +45,20 @@ class TcpDevice(DataDevice):
 
     def readData(self):
         size = self.iodevice.bytesAvailable()
-        data = self.iodevice.read(size)
-        return data.decode()
+        if size:
+            data = self.iodevice.read(size)
+            try:
+                return data.decode()
+            except ValueError:
+                return ''
+        return ''
 
     def readLine(self):
         if self.iodevice.canReadLine():
-            return self.iodevice.readLine().data().decode("ASCII")
+            try:
+                return self.iodevice.readLine().data().decode()
+            except ValueError:
+                return ''
         return ''
 
     @pyqtSlot()
