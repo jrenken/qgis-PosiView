@@ -60,5 +60,7 @@ class UdpDevice(DataDevice):
             data = self.buffer[0:i]
             del self.buffer[0:i + 1]
             return data.decode()
+        except UnicodeDecodeError:
+            return '<decode error>'
         except ValueError:
             return ''

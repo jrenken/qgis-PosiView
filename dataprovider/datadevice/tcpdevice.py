@@ -49,16 +49,16 @@ class TcpDevice(DataDevice):
             data = self.iodevice.read(size)
             try:
                 return data.decode()
-            except ValueError:
-                return ''
+            except UnicodeDecodeError:
+                return '<decode error>'
         return ''
 
     def readLine(self):
         if self.iodevice.canReadLine():
             try:
                 return self.iodevice.readLine().data().decode()
-            except ValueError:
-                return ''
+            except UnicodeDecodeError:
+                return '<decode error>'
         return ''
 
     @pyqtSlot()
