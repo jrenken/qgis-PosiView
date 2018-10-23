@@ -53,6 +53,7 @@ PY_FILES = \
 	gui/posiview_properties.py \
 	gui/tracking_dock.py \
 	gui/guidance_dock.py \
+	gui/compass_dock.py \
 	gui/dataprovider_dump.py \
 	gui/position_display.py \
 	gui/compass.py \
@@ -77,6 +78,7 @@ PY_FILES = \
 
 UI_FILES = ui/guidance_dock_base.ui \
 		ui/tracking_dock_base.ui \
+		ui/compass_dock_base.ui \
 		ui/dataprovider_dump_base.ui
 
 COMPILED_UI_FILES = gui/ui_posiview_properties_base.py
