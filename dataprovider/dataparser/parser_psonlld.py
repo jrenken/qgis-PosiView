@@ -13,6 +13,8 @@ class PsonlldParser(Parser):
     '''
     Parser for the PSONLLD sentences provided by Sonardyne USBL system Ranger2
     $PSONLLD,153005.253,24,A,50.02495,8.873323,425.3,,,,,,,,*3e<CR><LF>
+    Ships heading is only provided by the PSONALL sentence  ----v.
+    $PSONALL,Ship 1,CRP,134446.175,650879.00,5688874.16,0.00,180.00,,G,0.00,0.00,,0.109,0.001*51
     '''
 
     def __init__(self):
@@ -42,3 +44,16 @@ class PsonlldParser(Parser):
                     return dict((k, v) for k, v in result.iteritems() if v is not None)
                 except ValueError:
                     return {}
+        elif data.startswith('$PSONALL'):
+            nmea = NmeaRecord(data)
+            if (nmea.valid):
+                try:
+                    heading = nmea.value(7)
+                    if heading:
+                        result = {'id': nmea[1], 'heading': nmea.value(7)}
+                        return result
+                    else:
+                        return {}
+                except ValueError:
+                    return {}
+
