@@ -129,7 +129,7 @@ class MobileItem(QObject):
         try:
             name = data['name']
             if name in self.messageFilter.keys():
-                if data['id'] != self.messageFilter[name]:
+                if not data['id'] in (self.messageFilter[name], str(self.messageFilter[name])):
                     return
         except:
             pass

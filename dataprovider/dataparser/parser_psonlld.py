@@ -30,7 +30,7 @@ class PsonlldParser(Parser):
                 try:
                     if nmea[3] == 'V':
                         return {}
-                    result = {'id': nmea.value(2), 'lat': nmea.value(4),
+                    result = {'id': nmea[2], 'lat': nmea.value(4),
                               'lon': nmea.value(5), 'depth': nmea.value(6)}
                     t = datetime.datetime.utcnow()
                     try:
