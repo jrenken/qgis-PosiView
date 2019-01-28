@@ -72,6 +72,7 @@ PY_FILES = \
 	dataprovider/dataparser/parser_cp16.py \
 	dataprovider/dataparser/parser_ais.py \
 	dataprovider/dataparser/parser_pmtm.py \
+	dataprovider/dataparser/parser_test.py \
 	dataprovider/dataparser/parser.py
 
 
