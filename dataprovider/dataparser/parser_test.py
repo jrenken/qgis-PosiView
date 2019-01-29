@@ -3,9 +3,11 @@ Created on Jan 28, 2019
 
 @author: jrenken
 '''
+from __future__ import absolute_import
 
 from .parser import Parser
 from datetime import datetime
+
 
 class TestParser(Parser):
     '''
@@ -25,4 +27,3 @@ class TestParser(Parser):
                      'time': (dt - datetime(1970,1,1,0,0,0)).total_seconds() }
         except ValueError:
             return {}
-        
