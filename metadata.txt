@@ -24,6 +24,8 @@ email=renken@marum.de
 # Uncomment the following line and add your changelog:
 changelog=0.6.3
     - PSONLLD parser interprets PSONALL sentence for heading
+  0.6.2
+    - add additional compass dock widget
   0.6.1
     - rotate vehicles when when canvas north is not direction up
     - improve size and bearing calculation

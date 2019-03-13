@@ -29,6 +29,7 @@ import os.path
 from posiview_project import PosiViewProject
 from gui.tracking_dock import TrackingDock
 from gui.guidance_dock import GuidanceDock
+from gui.compass_dock import CompassDock
 from gui.posiview_properties import PosiviewProperties
 from gui.dataprovider_dump import DataProviderDump
 from gui.position_display import PositionDisplay
@@ -81,6 +82,9 @@ class PosiView:
         self.guidance = GuidanceDock()
         self.iface.addDockWidget(Qt.LeftDockWidgetArea, self.guidance)
         self.guidanceVisible = False
+        self.compass = CompassDock()
+        self.iface.addDockWidget(Qt.LeftDockWidgetArea, self.compass)
+        self.compassVisible = False
         self.providerDump = None
         self.positionDisplay = PositionDisplay(self.iface)
         self.recorder = None
@@ -295,6 +299,7 @@ class PosiView:
             self.project.load(p)
             self.tracking.setMobiles(self.project.mobileItems)
             self.guidance.setMobiles(self.project.mobileItems)
+            self.compass.setMobiles(self.project.mobileItems)
             self.tracking.setProviders(self.project.dataProviders)
             self.recorder = Recorder(self.project.recorderPath)
             self.recorder.setMobiles(self.project.mobileItems)
@@ -302,6 +307,8 @@ class PosiView:
             self.tracking.show()
             if self.guidanceVisible:
                 self.guidance.show()
+            if self.compassVisible:
+                self.compass.show()
             self.iface.mainWindow().statusBar().insertPermanentWidget(1, self.positionDisplay)
             self.positionDisplay.show()
         else:
@@ -313,6 +320,8 @@ class PosiView:
             self.tracking.hide()
             self.guidanceVisible = self.guidance.isVisible()
             self.guidance.hide()
+            self.compassVisible = self.compass.isVisible()
+            self.compass.hide();
             self.project.unload()
             self.iface.mainWindow().statusBar().removeWidget(self.positionDisplay)
 
@@ -350,6 +359,7 @@ class PosiView:
             self.recorder.path = self.project.recorderPath
             self.tracking.setMobiles(self.project.mobileItems)
             self.guidance.setMobiles(self.project.mobileItems)
+            self.compass.setMobiles(self.project.mobileItems)
             self.tracking.setProviders(self.project.dataProviders)
             self.recorder.setMobiles(self.project.mobileItems)
             self.actions['trackingAction'].setChecked(track)
@@ -411,8 +421,10 @@ class PosiView:
         Hides the docking windows.
         '''
         self.guidanceVisible = self.guidance.isVisible()
+        self.compassVisible = self.compass.isVisible()
         self.tracking.hide()
         self.guidance.hide()
+        self.compass.hide()
 
     @pyqtSlot(bool)
     def measure(self, checked=False):
