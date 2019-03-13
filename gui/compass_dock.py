@@ -5,8 +5,9 @@ Created on Oct 23, 2018
 '''
 
 import os
-from PyQt4 import QtGui, uic
-from PyQt4.QtCore import pyqtSlot, QSettings
+from qgis.PyQt import QtGui, uic
+from qgis.PyQt.QtCore import pyqtSlot, QSettings
+from qgis.PyQt.QtWidgets import QDockWidget
 from .compass import CompassWidget
 
 
@@ -14,7 +15,7 @@ FORM_CLASS, _ = uic.loadUiType(os.path.join(
     os.path.split(os.path.dirname(__file__))[0], 'ui', 'compass_dock_base.ui'))
 
 
-class CompassDock(QtGui.QDockWidget, FORM_CLASS):
+class CompassDock(QDockWidget, FORM_CLASS):
     '''
     Displays a compass with two independant needles with selectabel source
     '''
@@ -142,6 +143,6 @@ class CompassDock(QtGui.QDockWidget, FORM_CLASS):
         if fsize != self.fontSize:
             self.fontSize = fsize
             self.dockWidgetContents.setStyleSheet("font-weight: bold; font-size: {}pt".format(self.fontSize))
-        return QtGui.QDockWidget.resizeEvent(self, event)
+        return QDockWidget.resizeEvent(self, event)
 
         

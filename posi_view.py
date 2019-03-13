@@ -309,13 +309,9 @@ class PosiView(object):
             self.tracking.show()
             if self.guidanceVisible:
                 self.guidance.show()
-<<<<<<< HEAD
-            self.iface.mainWindow().statusBar().addPermanentWidget(self.positionDisplay, 2)
-=======
             if self.compassVisible:
                 self.compass.show()
-            self.iface.mainWindow().statusBar().insertPermanentWidget(1, self.positionDisplay)
->>>>>>> 76f340c... add new compass dock widget
+            self.iface.mainWindow().statusBar().addPermanentWidget(self.positionDisplay, 2)
             self.positionDisplay.show()
         else:
             self.actions['trackingAction'].setChecked(False)
