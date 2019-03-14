@@ -161,6 +161,7 @@ class PosiviewProperties(QgsOptionsDialogBase, Ui_PosiviewPropertiesBase):
             mobile['fillColor'] = self.mColorButtonMobileFillColor.color().rgba()
             mobile['timeout'] = self.spinBoxMobileTimeout.value() * 1000
             mobile['nofixNotify'] = self.spinBoxMobileNotification.value()
+            mobile['fadeOut'] = self.checkBoxFadeOut.isChecked()
             mobile['trackLength'] = self.spinBoxTrackLength.value()
             mobile['trackColor'] = self.mColorButtonMobileTrackColor.color().rgba()
             mobile['showLabel'] = self.checkBoxShowLabel.isChecked()
@@ -203,6 +204,7 @@ class PosiviewProperties(QgsOptionsDialogBase, Ui_PosiviewPropertiesBase):
         self.mColorButtonMobileFillColor.setColor(self.getColor(mobile.get('fillColor', 'green')))
         self.spinBoxMobileTimeout.setValue(mobile.get('timeout', 3000) / 1000)
         self.spinBoxMobileNotification.setValue(mobile.get('nofixNotify', 0))
+        self.checkBoxFadeOut.setChecked(mobile.get('fadeOut', False))
         self.spinBoxTrackLength.setValue(mobile.get('trackLength', 100))
         self.mColorButtonMobileTrackColor.setColor(self.getColor(mobile.get('trackColor', 'green')))
         self.checkBoxShowLabel.setChecked(mobile.get('showLabel', False))

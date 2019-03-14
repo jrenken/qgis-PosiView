@@ -66,11 +66,13 @@ class MobileItem(QObject):
         self.timer = QTimer(self)
         self.timer.timeout.connect(self.timeout)
         self.notifyCount = int(params.get('nofixNotify', 0))
-        if self.notifyCount:
+        self.fadeOut = bool(params.get('fadeOut', False))
+        if self.notifyCount or self.fadeOut:
             self.timer.timeout.connect(self.notifyTimeout)
         self.timeoutCount = 0
         self.timeoutTime = int(params.get('timeout', 3000))
         self.notifyDuration = int(params.get('NotifyDuration', 0))
+        self.timedOut = False
         self.enabled = True
 
     def removeFromCanvas(self):
@@ -88,6 +90,7 @@ class MobileItem(QObject):
         d = {'Name' : self.name,
              'timeout': self.timeoutTime,
              'nofixNotify': self.notifyCount,
+             'fadeOut': self.fadeOut,
              'enabled': self.enabled,
              'provider' : self.dataProvider}
         d.update(self.marker.properties())
@@ -139,6 +142,9 @@ class MobileItem(QObject):
         self.extData.update(data)
 
         if 'lat' in data and 'lon' in data:
+            if self.fadeOut and self.timedOut:
+                self.marker.setVisible(True)
+                self.timedOut = False
             self.position = QgsPointXY(data['lon'], data['lat'])
             self.heading = data.get('heading', -9999.9)
             self.depth = data.get('depth', -9999.9)
@@ -238,18 +244,22 @@ class MobileItem(QObject):
 
     @pyqtSlot()
     def notifyTimeout(self):
-        self.timeoutCount += 1
-        if self.timeoutCount == self.notifyCount:
-            msg = self.tr(u'No fix for %s since more than %d seconds!') % (self.name, self.timeoutTime * self.timeoutCount / 1000)
-            w = self.iface.messageBar().createMessage(self.tr(u'PosiView Attention'), msg)
-            label = QLabel(w)
-            m = QMovie(':/plugins/PosiView/hand.gif')
-            m.setSpeed(75)
-            label.setMovie(m)
-            m.setParent(label)
-            m.start()
-            w.layout().addWidget(label)
-            self.iface.messageBar().pushWidget(w, level=Qgis.Critical, duration=self.notifyDuration)
+        if self.fadeOut and not self.timedOut:
+            self.marker.setVisible(False)
+            self.timedOut = True
+        if self.notifyCount:
+            self.timeoutCount += 1
+            if self.timeoutCount == self.notifyCount:
+                msg = self.tr(u'No fix for %s since more than %d seconds!') % (self.name, self.timeoutTime * self.timeoutCount / 1000)
+                w = self.iface.messageBar().createMessage(self.tr(u'PosiView Attention'), msg)
+                label = QLabel(w)
+                m = QMovie(':/plugins/PosiView/hand.gif')
+                m.setSpeed(75)
+                label.setMovie(m)
+                m.setParent(label)
+                m.start()
+                w.layout().addWidget(label)
+                self.iface.messageBar().pushWidget(w, level=Qgis.Critical, duration=self.notifyDuration)
 
     def getTrack(self):
         tr = [e[1] for e in self.marker.track]
