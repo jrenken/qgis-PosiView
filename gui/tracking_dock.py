@@ -32,11 +32,11 @@ class TrackingDock(QDockWidget, FORM_CLASS):
         super(TrackingDock, self).__init__(parent)
         self.setupUi(self)
         self.providerToolbar = ProviderToolBar()
-        self.verticalLayout.addWidget(self.providerToolbar)
+        self.verticalLayoutWindow.insertWidget(0, self.providerToolbar)
 
     def addMobile(self, mobile):
         display = TrackingDisplay(mobile)
-        self.verticalLayout.addWidget(display)
+        self.verticalLayout.insertWidget(0, display)
 
     def removeMobiles(self):
         allTracking = self.findChildren(TrackingDisplay)
@@ -74,7 +74,7 @@ class TrackingDisplay(QToolBar):
         self.setMovable(True)
         self.setFloatable(True)
         self.mobile = mobile
-        self.upToDate = False
+        self.timedOut = True
         self.lastFix = 0.0
         s = QSettings()
         self.defFormat = s.value('PosiView/Misc/DefaultFormat', defaultValue=0, type=int)
@@ -142,20 +142,21 @@ class TrackingDisplay(QToolBar):
         if altitude > -9999:
             s += "   alt = {:.1f}".format(altitude)
         self.posLabel.setText(s)
-        if not self.upToDate:
+        if self.timedOut:
             if fix > self.lastFix:
                 self.posLabel.setStyleSheet('background: lime; font-size: 8pt; color: black;')
-                self.upToDate = True
+                self.timedOut = False
         self.lastFix = fix
 
     @pyqtSlot()
     def onTimeout(self):
-        self.upToDate = False
-        self.posLabel.setStyleSheet('background: red; font-size: 8pt; color: white;')
+        if not self.timedOut:
+            self.timedOut = True
+            self.posLabel.setStyleSheet('background: red; font-size: 8pt; color: white;')
 
     @pyqtSlot(bool)
     def onEnableClicked(self, enable):
-        self.upToDate = False
+        self.timedOut = True
         if enable:
             self.posLabel.setStyleSheet('background: red; font-size: 8pt; color: white;')
         else:
@@ -177,7 +178,6 @@ class ProviderToolBar(QToolBar):
         self.signalMapper = QSignalMapper(self)
         self.setMovable(True)
         self.setFloatable(True)
-        self.upToDate = False
         self.actions = []
         self.setToolButtonStyle(Qt.ToolButtonTextUnderIcon)
         self.signalMapper.mapped['QString'].connect(self.triggered)

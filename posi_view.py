@@ -323,7 +323,7 @@ class PosiView(object):
             self.guidanceVisible = self.guidance.isVisible()
             self.guidance.hide()
             self.compassVisible = self.compass.isVisible()
-            self.compass.hide();
+            self.compass.hide()
             self.project.unload()
             self.iface.mainWindow().statusBar().removeWidget(self.positionDisplay)
 

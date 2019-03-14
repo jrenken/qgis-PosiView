@@ -20,7 +20,6 @@ class CompassDock(QDockWidget, FORM_CLASS):
     Displays a compass with two independant needles with selectabel source
     '''
 
-
     def __init__(self, parent=None):
         '''
         Constructor
@@ -41,7 +40,7 @@ class CompassDock(QDockWidget, FORM_CLASS):
         self.srcHeading = 0.0
         self.trgHeading = 0.0
         s = QSettings()
-        
+
     def setMobiles(self, mobiles):
         self.reset()
         self.mobiles = mobiles
@@ -96,8 +95,6 @@ class CompassDock(QDockWidget, FORM_CLASS):
             self.target = None
         self.resetTarget()
 
-
-
     @pyqtSlot(float, float, float)
     def onNewTargetAttitude(self, heading, pitch, roll):
         if self.trgHeading != heading:
@@ -111,8 +108,6 @@ class CompassDock(QDockWidget, FORM_CLASS):
             self.srcHeading = heading
             self.labelSourceHeading.setText('{:.1f}\xb0'.format(heading))
             self.compass.setAngle(heading)
-
-
 
     def reset(self):
         try:
@@ -144,5 +139,3 @@ class CompassDock(QDockWidget, FORM_CLASS):
             self.fontSize = fsize
             self.dockWidgetContents.setStyleSheet("font-weight: bold; font-size: {}pt".format(self.fontSize))
         return QDockWidget.resizeEvent(self, event)
-
-        
