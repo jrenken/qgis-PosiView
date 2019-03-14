@@ -102,7 +102,7 @@ class TrackingDisplay(QToolBar):
         self.enableAction.triggered.connect(self.mobile.setEnabled)
 
         self.addSeparator()
-        self.posLabel = QLabel("--:--:-- 0.000000 0.000000\nd = 0.0")
+        self.posLabel = QLabel("--:--:-- 0.000000 0.000000")
         self.posLabel.setAlignment(Qt.AlignHCenter | Qt.AlignVCenter)
         widths = (180, 196, 204, 180, 184, 200, 208, 184)
         self.posLabel.setMinimumSize(widths[self.format], 23)
@@ -138,9 +138,13 @@ class TrackingDisplay(QToolBar):
                                                          2,
                                                          self.withSuff
                                                          ).rsplit(',')[::-1])
-        s += "\nd = {:.1f}".format(depth)
+        if depth > -9999:
+            s += "\nd = {:.1f}".format(depth)
         if altitude > -9999:
-            s += "   alt = {:.1f}".format(altitude)
+            if depth > -9999:
+                s += "   alt = {:.1f}".format(altitude)
+            else:
+                s += "\nalt = {:.1f}".format(altitude)
         self.posLabel.setText(s)
         if self.timedOut:
             if fix > self.lastFix:

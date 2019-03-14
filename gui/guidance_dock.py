@@ -98,13 +98,9 @@ class GuidanceDock(QDockWidget, FORM_CLASS):
         if self.format == 0:
             return "{:.6f}".format(pos.x()), "{:.6f}".format(pos.y())
         if self.format == 1:
-            return ', '.join(QgsCoordinateFormatter.format(pos,
-                                                           QgsCoordinateFormatter.FormatDegreesMinutes,
-                                                           4).rsplit(',')[::-1]).split(',')
+            return QgsCoordinateFormatter.format(pos, QgsCoordinateFormatter.FormatDegreesMinutes, 4).split(',')
         if self.format == 2:
-            return ', '.join(QgsCoordinateFormatter.format(pos,
-                                                           QgsCoordinateFormatter.FormatDegreesMinutesSeconds,
-                                                           2).rsplit(',')[::-1]).split(',')
+            return QgsCoordinateFormatter.format(pos, QgsCoordinateFormatter.FormatDegreesMinutesSeconds, 2).split(',')
 
     @pyqtSlot(str, name='on_comboBoxSource_currentIndexChanged')
     def sourceChanged(self, mob):
@@ -149,9 +145,11 @@ class GuidanceDock(QDockWidget, FORM_CLASS):
             lon, lat = self.posToStr(pos)
             self.labelSourceLat.setText(lat)
             self.labelSourceLon.setText(lon)
-            self.labelSourceDepth.setText('{:.1f}'.format(depth))
+            if depth > -9999:
+                self.labelSourceDepth.setText('{:.1f}'.format(depth))
             if self.trgPos[0] is not None:
-                self.labelVertDistance.setText('{:.1f}'.format(self.trgPos[1] - depth))
+                if depth > -9999 and self.trgPos[1] > -9999:
+                    self.labelVertDistance.setText('{:.1f}'.format(self.trgPos[1] - depth))
                 dist = self.distArea.measureLine(self.trgPos[0], pos)
                 self.labelDistance.setText('{:.1f}'.format(dist))
                 if dist != 0:
@@ -169,9 +167,11 @@ class GuidanceDock(QDockWidget, FORM_CLASS):
             lon, lat = self.posToStr(pos)
             self.labelTargetLat.setText(lat)
             self.labelTargetLon.setText(lon)
-            self.labelTargetDepth.setText('{:.1f}'.format(depth))
+            if depth > -9999:
+                self.labelTargetDepth.setText('{:.1f}'.format(depth))
             if self.srcPos[0] is not None:
-                self.labelVertDistance.setText('{:.1f}'.format(depth - self.srcPos[1]))
+                if depth > -9999 and self.srcPos[1] > -9999:
+                    self.labelVertDistance.setText('{:.1f}'.format(depth - self.srcPos[1]))
                 dist = self.distArea.measureLine(pos, self.srcPos[0])
                 self.labelDistance.setText('{:.1f}'.format(dist))
                 if dist != 0:
