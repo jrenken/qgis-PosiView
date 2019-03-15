@@ -69,10 +69,11 @@ PY_FILES = \
 	dataprovider/dataparser/parser_pise.py \
 	dataprovider/dataparser/parser_minipos.py \
 	dataprovider/dataparser/parser_gps.py \
-	dataprovider/dataparser/parser_psonlld.py \
+	dataprovider/dataparser/parser_ranger2.py \
 	dataprovider/dataparser/parser_cp16.py \
 	dataprovider/dataparser/parser_ais.py \
 	dataprovider/dataparser/parser_pmtm.py \
+	dataprovider/dataparser/parser_targetpos.py \
 	dataprovider/dataparser/parser.py
 
 
@@ -136,11 +137,11 @@ test: compile transcompile
 deploy: compile doc transcompile
 	@echo
 	@echo "------------------------------------------"
-	@echo "Deploying plugin to your .qgis2 directory."
+	@echo "Deploying plugin to your .qgis3 directory."
 	@echo "------------------------------------------"
 	# The deploy  target only works on unix like operating system where
 	# the Python plugin directory is located at:
-	# $HOME/$(QGISDIR)/python/plugins
+	# \$HOME/$(QGISDIR)/python/plugins
 	mkdir -p $(HOME)/$(QGISDIR)/python/plugins/$(PLUGINNAME)
 	cp -vf --parents $(PY_FILES) $(HOME)/$(QGISDIR)/python/plugins/$(PLUGINNAME)
 	cp -vf --parents $(UI_FILES) $(HOME)/$(QGISDIR)/python/plugins/$(PLUGINNAME)
