@@ -13,7 +13,7 @@ name=PosiView
 about=Track multiple objects and vehicles and display them as shapes and points on the canvas
 description=PosiView tracks multiple mobile objects and vehicles and displays their position on the canvas
 qgisMinimumVersion=3.0
-version=0.89.2
+version=0.90.0
 author=Jens Renken (Marum, University of Bremen)
 email=renken@marum.de
 
@@ -22,7 +22,13 @@ email=renken@marum.de
 # Recommended items:
 
 # Uncomment the following line and add your changelog:
-changelog=0.89.2 (2018-10-01)
+changelog=0.90.0 (2019-03-15)
+    - rename and extend parser for Ranger2 USBL
+    - parser for simple target-position string
+    - add additional compass dock window
+    - optionally fade out objects on timeout
+    - bugfixes
+  0.89.2 (2018-10-01)
     - properly decode strings from TCP device
     - handle unicode decoding exceptions
   0.89.1 (2018-07-06)
