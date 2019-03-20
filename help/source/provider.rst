@@ -23,20 +23,21 @@ Configuring a provider in depth
   
   #. Select the host address. For UDP sockets 0.0.0.0 listens on any available interfaces.
   #. Select the portnumber.
-  #. Select a parser. Following parsers are available up to now:
+  #. Select a parser. Following parsers are available up to now: :doc:`protocol`
 
-        ==========  ==========================================================  ============================= 
-        Parser      Description                                                 Records
-        ==========  ==========================================================  =============================
-        IX_USBL     IXBlue USBL systems like GAPS or Posidonia                  $PTSAG, $PTSAH, $HEHDT
-        PISE        Record used by ISE for their vehicles                       $PISE
-        MINIPOS     Saab MiniPos3 output                                        $PSAAS
-        GPS         Standard GPS Sentences                                      $__RMC, $__GLL, $__VTG, $__GGA
-        PSONLLD     Sonardyne USBL system Ranger2                               $PSONLLD
-        CP16        CP-16 compass                                               $PCI
-        AIS         Automatic Identification System                             !AIVDM, !AIVDO
-        MARUM       Marum's own sentences                                       $PMTM___
-        ==========  ==========================================================  =============================
+        ==========  ===============================================================  ============================= 
+        Parser      Description                                                      Records
+        ==========  ===============================================================  =============================
+        IX_USBL     IXBlue USBL systems like GAPS or Posidonia                       $PTSAG, $PTSAH, $HEHDT
+        PISE        Record used by ISE for their vehicles                            $PISE
+        MINIPOS     Saab MiniPos3 output                                             $PSAAS
+        GPS         Standard GPS Sentences                                           $__RMC, $__GLL, $__VTG, $__GGA
+        RANGER2     Sonardyne USBL system Ranger2                                    $PSONLLD, $PSONALL
+        CP16        CP-16 compass                                                    $PCI
+        AIS         Automatic Identification System                                  !AIVDM, !AIVDO
+        MARUM       Marum's own sentences                                            $PMTM___
+        TARGET_POS  Simple non NMEA string containing Id, Lat, Lon and opt. values
+        ==========  ===============================================================  =============================
     
   #. Click  ``Apply Properties``
   #. Continue with creating vehicles:  :doc:`vehicle`
