@@ -28,7 +28,8 @@ class TargetPosParser(Parser):
                 result['depth'] = self.getOptValue(fields, 3)
                 result['altitude'] = self.getOptValue(fields, 4)
                 result['heading'] = self.getOptValue(fields, 5)
-            return dict((k, v) for k, v in result.items() if v is not None)
+                return dict((k, v) for k, v in result.items() if v is not None)
+            return result
         except ValueError:
             return {}
 

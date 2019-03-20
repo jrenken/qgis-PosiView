@@ -326,7 +326,7 @@
        <item>
         <widget class="QLabel" name="label_13">
          <property name="text">
-          <string>Heading (°)</string>
+          <string>Bearing (°)</string>
          </property>
         </widget>
        </item>
