@@ -301,6 +301,8 @@ class PosiView(object):
             self.project.load(p)
             self.tracking.setMobiles(self.project.mobileItems)
             self.guidance.setMobiles(self.project.mobileItems)
+            self.guidance.onActiveLayerChanged(self.iface.activeLayer())
+            self.iface.currentLayerChanged.connect(self.guidance.onActiveLayerChanged)
             self.compass.setMobiles(self.project.mobileItems)
             self.tracking.setProviders(self.project.dataProviders)
             self.recorder = Recorder(self.project.recorderPath)
@@ -322,6 +324,10 @@ class PosiView(object):
             self.tracking.hide()
             self.guidanceVisible = self.guidance.isVisible()
             self.guidance.hide()
+            try:
+                self.iface.currentLayerChanged.disconnect(self.guidance.onActiveLayerChanged)
+            except TypeError:
+                pass
             self.compassVisible = self.compass.isVisible()
             self.compass.hide()
             self.project.unload()

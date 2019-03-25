@@ -4,9 +4,10 @@ Created on 30.01.2015
 @author: jrenken
 '''
 import os
-from qgis.PyQt import QtGui, uic
+from qgis.PyQt import uic
 from qgis.PyQt.QtCore import pyqtSlot, QSettings, QDateTime
-from qgis.core import QgsPointXY, QgsDistanceArea, QgsProject, QgsCoordinateReferenceSystem, QgsCoordinateFormatter
+from qgis.core import QgsPointXY, QgsDistanceArea, QgsProject, QgsCoordinateReferenceSystem
+from qgis.core import QgsCoordinateFormatter, QgsMapLayer, QgsWkbTypes
 from qgis.PyQt.QtWidgets import QDockWidget
 from math import pi
 from .compass import CompassWidget
@@ -46,6 +47,7 @@ class GuidanceDock(QDockWidget, FORM_CLASS):
         self.showUtc = s.value('PosiView/Misc/ShowUtcClock', defaultValue=False, type=bool)
         self.timer = 0
         self.setUtcClock()
+        self.layer = None
 
     def setUtcClock(self):
         if self.showUtc:
@@ -62,21 +64,22 @@ class GuidanceDock(QDockWidget, FORM_CLASS):
         self.mobiles = mobiles
         self.comboBoxSource.blockSignals(True)
         self.comboBoxTarget.blockSignals(True)
+        mobs = sorted(mobiles.keys())
         self.comboBoxSource.clear()
-        self.comboBoxSource.addItems(sorted(mobiles.keys()))
+        self.comboBoxSource.addItems(mobs)
         self.comboBoxSource.setCurrentIndex(-1)
         self.comboBoxTarget.clear()
-        self.comboBoxTarget.addItems(sorted(mobiles.keys()))
+        self.comboBoxTarget.addItems(mobs)
         self.comboBoxTarget.setCurrentIndex(-1)
         self.comboBoxSource.blockSignals(False)
         self.comboBoxTarget.blockSignals(False)
         s = QSettings()
         m = s.value('PosiView/Guidance/Source')
         if m in self.mobiles:
-            self.comboBoxSource.setCurrentIndex(self.comboBoxSource.findText(m))
+            self.comboBoxSource.setCurrentText(m)  # Index(self.comboBoxSource.findText(m))
         m = s.value('PosiView/Guidance/Target')
         if m in self.mobiles:
-            self.comboBoxTarget.setCurrentIndex(self.comboBoxTarget.findText(m))
+            self.comboBoxTarget.setCurrentText(m)  # Index(self.comboBoxTarget.findText(m))
         self.showUtc = s.value('PosiView/Misc/ShowUtcClock', defaultValue=False, type=bool)
         self.setUtcClock()
 
@@ -111,15 +114,22 @@ class GuidanceDock(QDockWidget, FORM_CLASS):
             except TypeError:
                 pass
 
-        try:
-            self.source = self.mobiles[mob]
-            self.source.newPosition.connect(self.onNewSourcePosition)
-            self.source.newAttitude.connect(self.onNewSourceAttitude)
-            s = QSettings()
-            s.setValue('PosiView/Guidance/Source', mob)
-        except KeyError:
-            self.source = None
-        self.resetSource()
+        if mob in self.mobiles:
+            try:
+                self.source = self.mobiles[mob]
+                self.source.newPosition.connect(self.onNewSourcePosition)
+                self.source.newAttitude.connect(self.onNewSourceAttitude)
+                s = QSettings()
+                s.setValue('PosiView/Guidance/Source', mob)
+            except KeyError:
+                self.source = None
+            self.resetSource()
+        elif self.layer:
+            for f in self.layer.getFeatures():
+                if f['name'] == mob:
+                    pos = f.geometry().asPoint()
+                    self.resetSource()
+                    self.onNewSourcePosition(None, pos, -9999, -9999)
 
     @pyqtSlot(str, name='on_comboBoxTarget_currentIndexChanged')
     def targetChanged(self, mob):
@@ -129,15 +139,23 @@ class GuidanceDock(QDockWidget, FORM_CLASS):
                 self.target.newAttitude.disconnect(self.onNewTargetAttitude)
             except TypeError:
                 pass
-        try:
-            self.target = self.mobiles[mob]
-            self.target.newPosition.connect(self.onNewTargetPosition)
-            self.target.newAttitude.connect(self.onNewTargetAttitude)
-            s = QSettings()
-            s.setValue('PosiView/Guidance/Target', mob)
-        except KeyError:
-            self.target = None
-        self.resetTarget()
+
+        if mob in self.mobiles:
+            try:
+                self.target = self.mobiles[mob]
+                self.target.newPosition.connect(self.onNewTargetPosition)
+                self.target.newAttitude.connect(self.onNewTargetAttitude)
+                s = QSettings()
+                s.setValue('PosiView/Guidance/Target', mob)
+            except KeyError:
+                self.target = None
+            self.resetTarget()
+        elif self.layer:
+            for f in self.layer.getFeatures():
+                if f['name'] == mob:
+                    pos = f.geometry().asPoint()
+                    self.resetTarget()
+                    self.onNewTargetPosition(None, pos, -9999, -9999)
 
     @pyqtSlot(float, QgsPointXY, float, float)
     def onNewSourcePosition(self, fix, pos, depth, altitude):
@@ -197,6 +215,24 @@ class GuidanceDock(QDockWidget, FORM_CLASS):
             self.labelSourceHeading.setText('{:.1f}'.format(heading))
             self.compass.setAngle(heading)
 
+    @pyqtSlot(QgsMapLayer)
+    def onActiveLayerChanged(self, layer):
+        self.cleanComboBox(self.comboBoxSource)
+        self.cleanComboBox(self.comboBoxTarget)
+        self.layer = None
+        if not layer:
+            return
+        if layer.type() == QgsMapLayer.VectorLayer and layer.wkbType() == QgsWkbTypes.Point:
+            if layer.fields().indexOf('name') != -1:
+                self.layer = layer
+                self.comboBoxSource.blockSignals(True)
+                self.comboBoxTarget.blockSignals(True)
+                items = [f['name'] for f in layer.getFeatures()]
+                self.comboBoxSource.addItems(items)
+                self.comboBoxTarget.addItems(items)
+                self.comboBoxSource.blockSignals(False)
+                self.comboBoxTarget.blockSignals(False)
+
     def reset(self):
         try:
             if self.source is not None:
@@ -235,6 +271,15 @@ class GuidanceDock(QDockWidget, FORM_CLASS):
         self.labelTargetDepth.setText('---')
         self.compass.reset(2)
         self.resetDistBearing()
+
+    def cleanComboBox(self, comboBox):
+        comboBox.blockSignals(True)
+        ct = comboBox.currentText()
+        for _ in range(len(self.mobiles), comboBox.count()):
+            comboBox.removeItem(len(self.mobiles))
+        if ct not in self.mobiles:
+            comboBox.setCurrentIndex(-1)
+        comboBox.blockSignals(False)
 
     def resetDistBearing(self):
         self.labelDirection.setText('---')

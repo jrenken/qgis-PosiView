@@ -42,12 +42,12 @@ Protocol description of available sentences
  
 **MARUM**
 
-* $PMTMGPO,HROV,180702,092343.92,-53.1234567,-152.1234567,P,0234.5,018.2,270*3B\r\n
+* $PMTMGPO,HROV,180702,092343.92,-53.1234567,-152.1234567,P,0234.5,018.2,270*3B<CR><LF>
  $PMTMGPO,<sender>,<date>,<time>,<Latitude>,<Longitude>,<position_source>,<depth>,<altitude>,<heading>*hh<CR><LF>
-* $PMTMATT,HROV,1.2,3.5,273.4*6F
- $PMTMATT,<sender>,<pitch>,<roll>,<heading>*<checksum>
-* $PMMTSPD,HROV,0.4,0.6,0.3*6F
- $PMTMSPD,HROV,<forward_speed><port_speed><up_speed>
+* $PMTMATT,HROV,1.2,3.5,273.4*6F<CR><LF>
+ $PMTMATT,<sender>,<pitch>,<roll>,<heading>*<checksum><CR><LF>
+* $PMMTSPD,HROV,0.4,0.6,0.3*6F<CR><LF>
+ $PMTMSPD,HROV,<forward_speed><port_speed><up_speed><CR><LF>
 
 **TARGET_POS**
 
