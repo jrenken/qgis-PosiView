@@ -41,3 +41,12 @@ Configuring a provider in depth
     
   #. Click  ``Apply Properties``
   #. Continue with creating vehicles:  :doc:`vehicle`
+  
+
+.. Indices and tables
+
+==================
+
+* :ref:`genindex`
+* :ref:`search`
+  

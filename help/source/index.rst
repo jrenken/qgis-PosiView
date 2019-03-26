@@ -44,7 +44,7 @@ Configuration
    .. index:: Provider; creating
 
 
-#. On Provider page create and configure providers as needed.
+#. On Provider page, create and configure providers as needed.
 
    * Add a new provider first, give it a unique name and select the properties.
    * :doc:`provider`
@@ -54,7 +54,7 @@ Configuration
    
    .. index:: Vehicles; creating
 
-#. On Vehicle/Object page create and configure a vehicle as needed.
+#. On Vehicle/Object page, create and configure a vehicle as needed.
 
    * Add a new vehicle first, give it a unique name and set the properties.
    * Select a type. For shape types a template shape can be choosen by right clicking on the shape lineedit. If needed, modify the shape by hand.
@@ -96,12 +96,26 @@ Tracking
 
 #. Start online tracking. 
 #. Open guidance window and select two vehicles/objects to see distances and bearing. A compass is visible if the windows lower edge is pulled down.
+   The guidance window allows also to display the position of static targets of a map layer.
+   
+   Requirements for the targets:
+   
+   * Layer geometry type is 'POINT' 
+   * Layer contains a field 'name'
+   * Layer has to be the active (selected) layer. The position display is reset when the active layer changes.
 
    .. index:: Guidance window
    
    .. image:: _static/guidance.png
       :align: center
 
+#. An additional compass window shows the heading of two vehicles
+
+   .. index:: Compass window
+   
+   .. image:: _static/compass.png
+      :align: center
+      
 .. index:: Recording
 
 Recording

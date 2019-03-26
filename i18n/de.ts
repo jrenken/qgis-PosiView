@@ -47,7 +47,7 @@
     <message>
         <location filename="../ui/dataprovider_dump_base.ui" line="72"/>
         <source>Parsed Output</source>
-        <translation></translation>
+        <translation>Analysierte Ausgangsdaten</translation>
     </message>
 </context>
 <context>
