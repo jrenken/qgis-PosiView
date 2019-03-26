@@ -102,7 +102,7 @@ Tracking
    
    * Layer geometry type is 'POINT' 
    * Layer contains a field 'name'
-   * Layer has to be the active (selected) layer. The position display is reset when the active layer changes.
+   * Layer has to be the active (selected) layer. The position display is reset when the active layer changes. The plugin doesn't monitor layer modifications. 
 
    .. index:: Guidance window
    
