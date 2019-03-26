@@ -126,7 +126,7 @@ class GuidanceDock(QDockWidget, FORM_CLASS):
             self.resetSource()
         elif self.layer:
             for f in self.layer.getFeatures():
-                if f['name'] == mob:
+                if f['name'] == mob[:-2]:
                     pos = f.geometry().asPoint()
                     self.resetSource()
                     self.onNewSourcePosition(None, pos, -9999, -9999)
@@ -152,7 +152,7 @@ class GuidanceDock(QDockWidget, FORM_CLASS):
             self.resetTarget()
         elif self.layer:
             for f in self.layer.getFeatures():
-                if f['name'] == mob:
+                if f['name'] == mob[:-2]:
                     pos = f.geometry().asPoint()
                     self.resetTarget()
                     self.onNewTargetPosition(None, pos, -9999, -9999)
@@ -217,8 +217,11 @@ class GuidanceDock(QDockWidget, FORM_CLASS):
 
     @pyqtSlot(QgsMapLayer)
     def onActiveLayerChanged(self, layer):
-        self.cleanComboBox(self.comboBoxSource)
-        self.cleanComboBox(self.comboBoxTarget)
+        if self.cleanComboBox(self.comboBoxSource):
+            self.resetSource()
+        if self.cleanComboBox(self.comboBoxTarget):
+            self.resetTarget()
+
         self.layer = None
         if not layer:
             return
@@ -227,7 +230,7 @@ class GuidanceDock(QDockWidget, FORM_CLASS):
                 self.layer = layer
                 self.comboBoxSource.blockSignals(True)
                 self.comboBoxTarget.blockSignals(True)
-                items = [f['name'] for f in layer.getFeatures()]
+                items = sorted([f['name'] + '  ' for f in layer.getFeatures()])
                 self.comboBoxSource.addItems(items)
                 self.comboBoxTarget.addItems(items)
                 self.comboBoxSource.blockSignals(False)
@@ -252,7 +255,7 @@ class GuidanceDock(QDockWidget, FORM_CLASS):
 
     def resetSource(self):
         self.srcPos = [None, 0.0]
-        self.srcHeading = -720.0
+        self.srcHeading = -9999.0
 
         self.labelSourceLat.setText('---')
         self.labelSourceLon.setText('---')
@@ -263,7 +266,7 @@ class GuidanceDock(QDockWidget, FORM_CLASS):
 
     def resetTarget(self):
         self.trgPos = [None, 0.0]
-        self.trgHeading = -720.0
+        self.trgHeading = -9999.0
 
         self.labelTargetLat.setText('---')
         self.labelTargetLon.setText('---')
@@ -275,11 +278,15 @@ class GuidanceDock(QDockWidget, FORM_CLASS):
     def cleanComboBox(self, comboBox):
         comboBox.blockSignals(True)
         ct = comboBox.currentText()
-        for _ in range(len(self.mobiles), comboBox.count()):
+        for _ in range(comboBox.count() - len(self.mobiles)):
             comboBox.removeItem(len(self.mobiles))
         if ct not in self.mobiles:
             comboBox.setCurrentIndex(-1)
+            res = True
+        else:
+            res = False
         comboBox.blockSignals(False)
+        return res
 
     def resetDistBearing(self):
         self.labelDirection.setText('---')

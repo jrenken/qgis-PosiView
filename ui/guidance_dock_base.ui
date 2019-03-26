@@ -137,7 +137,11 @@
         </property>
         <layout class="QVBoxLayout" name="verticalLayout_2" stretch="1,0,0,0,0">
          <item>
-          <widget class="QComboBox" name="comboBoxSource"/>
+          <widget class="QComboBox" name="comboBoxSource">
+           <property name="maxCount">
+            <number>100</number>
+           </property>
+          </widget>
          </item>
          <item>
           <widget class="QLabel" name="labelSourceLat">
@@ -231,7 +235,11 @@
         </property>
         <layout class="QVBoxLayout" name="verticalLayout_3" stretch="1,0,0,0,0">
          <item>
-          <widget class="QComboBox" name="comboBoxTarget"/>
+          <widget class="QComboBox" name="comboBoxTarget">
+           <property name="maxCount">
+            <number>100</number>
+           </property>
+          </widget>
          </item>
          <item>
           <widget class="QLabel" name="labelTargetLat">
