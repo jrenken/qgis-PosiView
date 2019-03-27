@@ -31,7 +31,11 @@
         </property>
         <layout class="QVBoxLayout" name="verticalLayout_1">
          <item>
-          <widget class="QComboBox" name="comboBoxSource"/>
+          <widget class="QComboBox" name="comboBoxSource">
+           <property name="sizeAdjustPolicy">
+            <enum>QComboBox::AdjustToMinimumContentsLength</enum>
+           </property>
+          </widget>
          </item>
          <item>
           <widget class="QLabel" name="labelSourceHeading">
@@ -62,7 +66,11 @@
         </property>
         <layout class="QVBoxLayout" name="verticalLayout_2">
          <item>
-          <widget class="QComboBox" name="comboBoxTarget"/>
+          <widget class="QComboBox" name="comboBoxTarget">
+           <property name="sizeAdjustPolicy">
+            <enum>QComboBox::AdjustToMinimumContentsLength</enum>
+           </property>
+          </widget>
          </item>
          <item>
           <widget class="QLabel" name="labelTargetHeading">

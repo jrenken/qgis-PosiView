@@ -141,6 +141,9 @@
            <property name="maxCount">
             <number>100</number>
            </property>
+           <property name="sizeAdjustPolicy">
+            <enum>QComboBox::AdjustToMinimumContentsLength</enum>
+           </property>
           </widget>
          </item>
          <item>
@@ -238,6 +241,9 @@
           <widget class="QComboBox" name="comboBoxTarget">
            <property name="maxCount">
             <number>100</number>
+           </property>
+           <property name="sizeAdjustPolicy">
+            <enum>QComboBox::AdjustToMinimumContentsLength</enum>
            </property>
           </widget>
          </item>
