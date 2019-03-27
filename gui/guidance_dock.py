@@ -294,7 +294,7 @@ class GuidanceDock(QDockWidget, FORM_CLASS):
         self.labelVertDistance.setText('---')
 
     def resizeEvent(self, event):
-        fsize = event.size().width() / 45
+        fsize = max(11, event.size().width() / 45)
         if fsize != self.fontSize:
             self.fontSize = fsize
             self.dockWidgetContents.setStyleSheet("font-weight: bold; font-size: {}pt".format(self.fontSize))
