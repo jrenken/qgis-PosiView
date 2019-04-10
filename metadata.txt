@@ -13,7 +13,7 @@ name=PosiView
 about=Track multiple objects and vehicles and display them as shapes and points on the canvas
 description=PosiView tracks multiple mobile objects and vehicles and displays their position on the canvas
 qgisMinimumVersion=3.0
-version=1.0.1
+version=1.0.2
 author=Jens Renken (Marum, University of Bremen)
 email=renken@marum.de
 
@@ -22,7 +22,10 @@ email=renken@marum.de
 # Recommended items:
 
 # Uncomment the following line and add your changelog:
-changelog=1.0.1 (2019-03-27)
+changelog=1.0.2 (2019-04-10)
+    - some minor GUI polishing
+    - bugfix north alignment calulation
+  1.0.1 (2019-03-27)
     - fix resizeEvent bug for guidance and compass docks
   1.0.0 (2019-03-26)
     - display position of static targets in guidance window

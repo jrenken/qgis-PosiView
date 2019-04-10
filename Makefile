@@ -101,7 +101,7 @@ PLUGIN_UPLOAD = $(c)/plugin_upload.py
 
 RESOURCE_SRC=$(shell grep '^ *<file' resources.qrc | sed 's@</file>@@g;s/.*>//g' | tr '\n' ' ')
 
-QGISDIR=.qgis3
+QGISDIR=.local/share/QGIS/QGIS3/profiles/default
 
 default: compile
 
