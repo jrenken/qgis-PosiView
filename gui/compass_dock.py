@@ -30,6 +30,7 @@ class CompassDock(QDockWidget, FORM_CLASS):
         super(CompassDock, self).__init__(parent)
 
         self.setupUi(self)
+        self.setStyleSheet("QLabel { padding-left: 5px; padding-right: 5px; }")
         self.compass = CompassWidget()
         self.compass.setMinimumHeight(80)
         self.verticalLayout.addWidget(self.compass)
@@ -134,7 +135,7 @@ class CompassDock(QDockWidget, FORM_CLASS):
         self.compass.reset(2)
 
     def resizeEvent(self, event):
-        fsize = max(11, event.size().width() / 45)
+        fsize = max(9, event.size().width() / 45)
         if fsize != self.fontSize:
             self.fontSize = fsize
             self.dockWidgetContents.setStyleSheet("font-weight: bold; font-size: {}pt".format(self.fontSize))

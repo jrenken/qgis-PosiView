@@ -28,6 +28,7 @@ class GuidanceDock(QDockWidget, FORM_CLASS):
         super(GuidanceDock, self).__init__(parent)
 
         self.setupUi(self)
+        self.setStyleSheet("QLabel { padding-left: 5px; padding-right: 5px; }")
         self.compass = CompassWidget()
         self.compass.setMinimumHeight(80)
         self.verticalLayout.addWidget(self.compass)
@@ -294,10 +295,10 @@ class GuidanceDock(QDockWidget, FORM_CLASS):
         self.labelVertDistance.setText('---')
 
     def resizeEvent(self, event):
-        fsize = max(11, event.size().width() / 45)
+        fsize = max(9, event.size().width() / 45)
         if fsize != self.fontSize:
             self.fontSize = fsize
-            self.dockWidgetContents.setStyleSheet("font-weight: bold; font-size: {}pt".format(self.fontSize))
+            self.dockWidgetContents.setStyleSheet("font-weight: bold; font-size: {}pt;".format(self.fontSize))
         return QDockWidget.resizeEvent(self, event)
 
     def timerEvent(self, event):
