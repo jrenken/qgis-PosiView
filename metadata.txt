@@ -22,7 +22,7 @@ email=renken@marum.de
 # Recommended items:
 
 # Uncomment the following line and add your changelog:
-changelog=1.0.2 (2019-04-10)
+changelog=1.0.2 (2019-04-11)
     - some minor GUI polishing
     - bugfix north alignment calulation
   1.0.1 (2019-03-27)
