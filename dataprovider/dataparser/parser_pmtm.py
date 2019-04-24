@@ -49,8 +49,11 @@ class PmtmParser(Parser):
                           'heading': nmea.value(9, 0.0),
                           'source': nmea[6]}
                 try:
-                    dt = datetime.datetime(int(nmea[2][0:4]), int(nmea[2][4:6]),
-                                       int(nmea[2][6:]),
+                    year = int(nmea[2][:-4])
+                    if year < 100:
+                        year += 2000
+                    dt = datetime.datetime(year, int(nmea[2][-4:-2]),
+                                       int(nmea[2][-2:]),
                                        int(nmea[3][0:2]), int(nmea[3][2:4]),
                                        int(nmea[3][4:6]))
                 except ValueError:
