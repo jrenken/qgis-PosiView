@@ -13,7 +13,7 @@ name=PosiView
 about=Track multiple objects and vehicles and display them as shapes and points on the canvas
 description=PosiView tracks multiple mobile objects and vehicles and displays their position on the canvas
 qgisMinimumVersion=3.0
-version=1.0.2
+version=1.0.3
 author=Jens Renken (Marum, University of Bremen)
 email=renken@marum.de
 
@@ -22,7 +22,9 @@ email=renken@marum.de
 # Recommended items:
 
 # Uncomment the following line and add your changelog:
-changelog=1.0.2 (2019-04-11)
+changelog=1.0.3 (2019-04-25)
+    - change date format of $PMTMGPO record in MARUM parser to be more NMEA conform
+  1.0.2 (2019-04-11)
     - some minor GUI polishing
     - bugfix north alignment calulation
   1.0.1 (2019-03-27)
