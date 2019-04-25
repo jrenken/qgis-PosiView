@@ -77,8 +77,8 @@ Filter id: <name>
 **MARUM**
 ::
 
-  $PMTMGPO,HROV,180702,092343.92,-53.1234567,-152.1234567,P,0234.5,018.2,270*3B<CR><LF>
-  $PMTMGPO,<sender>,<date>,<time>,<Latitude>,<Longitude>,<position_source>,<depth>,<altitude>,<heading>*hh<CR><LF>
+  $PMTMGPO,HROV,020718,092343.92,-53.1234567,-152.1234567,P,0234.5,018.2,270*3B<CR><LF>
+  $PMTMGPO,<sender>,<date: ddmmyy>,<time: hhmmss[.ms]>,<Latitude>,<Longitude>,<position_source>,<depth>,<altitude>,<heading>*hh<CR><LF>
 
   $PMTMATT,HROV,1.2,3.5,273.4*6F<CR><LF>
   $PMTMATT,<sender>,<pitch>,<roll>,<heading>*<checksum><CR><LF>

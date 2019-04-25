@@ -16,7 +16,7 @@ class PmtmParser(Parser):
     Sentences:
     Geographical position:     $PMTMGPO,<sender>,<date>,<time>,<Latitude>,<Longitude>,<position_source>,
                                 <depth>,<altitude>,<heading>*<checksum>
-                               $PMTMGPO,HROV,180702,092343.92,-53.1234567,-152.1234567,P,0234.5,018.2,270*3B\r\n
+                               $PMTMGPO,HROV,020718,092343.92,-53.1234567,-152.1234567,P,0234.5,018.2,270*3B\r\n
     Attitude:                  $PMTMATT,<sender>,<pitch>,<roll>,<heading>*<checksum>
                                $PMTMATT,HROV,1.2,3.5,273.4*6F
     Speed:                     $PMTMSPD,HROV,<forward_speed><port_speed><up_speed>
@@ -49,11 +49,9 @@ class PmtmParser(Parser):
                           'heading': nmea.value(9, 0.0),
                           'source': nmea[6]}
                 try:
-                    year = int(nmea[2][:-4])
-                    if year < 100:
-                        year += 2000
+                    year = int(nmea[2][-2:]) + 2000
                     dt = datetime.datetime(year, int(nmea[2][-4:-2]),
-                                       int(nmea[2][-2:]),
+                                       int(nmea[2][:-4]),
                                        int(nmea[3][0:2]), int(nmea[3][2:4]),
                                        int(nmea[3][4:6]))
                 except ValueError:
