@@ -157,6 +157,7 @@ class PosiViewProject(object):
             mobile = dict()
             for k in s.childKeys():
                 mobile[k] = self.convertToBestType(s.value(k))
+            mobile['Name'] = s.value('Name', 'Mobile_{:d}'.format(i), type=str)
             properties['Mobiles'][mobile['Name']] = mobile
         s.endArray()
 
@@ -167,6 +168,7 @@ class PosiViewProject(object):
             provider = dict()
             for k in s.childKeys():
                 provider[k] = self.convertToBestType(s.value(k))
+            provider['Name'] = s.value('Name', 'Provider_{:d}'.format(i), type=str)
             properties['Provider'][provider['Name']] = provider
         s.endArray()
         properties['Mission'] = dict()
