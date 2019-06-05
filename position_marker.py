@@ -113,7 +113,7 @@ class PositionMarker(QgsMapCanvasItem):
     def resetPosition(self):
         self.position = None
         if self.showLabel:
-            self.label.resetPoition()
+            self.label.resetPosition()
 
     def updatePosition(self):
         if self.position:
@@ -279,7 +279,7 @@ class MarkerLabel(QgsMapCanvasItem):
             self.setPos(self.toCanvasCoordinates(self.position))
             self.update()
 
-    def resetPoition(self):
+    def resetPosition(self):
         self.position = None
 
     def updatePosition(self):

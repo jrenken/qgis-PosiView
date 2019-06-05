@@ -39,7 +39,8 @@ class GpsParser(Parser):
         if nmea.valid:
             try:
                 result = {'lat': nmea.fromDDM(3, 4),
-                          'lon': nmea.fromDDM(5, 6)}
+                          'lon': nmea.fromDDM(5, 6),
+                          'course': nmea.value(8)}
                 try:
                     dt = datetime.datetime.utcnow().replace(hour=int(nmea[5][0:2]),
                                         minute=int(nmea[5][2:4]), second=int(nmea[5][4:6]))
@@ -91,5 +92,5 @@ class GpsParser(Parser):
         if (nmea.valid):
             h = nmea.value(1)
             if h is not None:
-                return {'heading': h}
+                return {'course': h}
         return {}

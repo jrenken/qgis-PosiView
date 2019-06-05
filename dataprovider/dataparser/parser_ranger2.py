@@ -55,11 +55,8 @@ class Ranger2Parser(Parser):
         nmea = NmeaRecord(data)
         if (nmea.valid):
             try:
-                heading = nmea.value(7)
-                if heading:
-                    result = {'id': nmea[1], 'heading': nmea.value(7)}
-                    return result
-                else:
-                    return {}
+                result = {'id': nmea[1], 'heading': nmea.value(7),
+                          'course': nmea.value(8)}
+                return dict((k, v) for k, v in result.items() if v is not None)
             except ValueError:
                 return {}

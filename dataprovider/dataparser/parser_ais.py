@@ -75,7 +75,9 @@ class AisParser(Parser):
             head = binPayload.getInt(*bs['head'])
             if head == 511:
                 head = 0.1 * float(binPayload.getInt(*bs['cog']))
-            result['heading'] = head
+                result['course'] = head
+            else:
+                result['heading'] = head
             return dict((k, v) for k, v in result.items() if v is not None)
         except (ValueError, KeyError, IndexError):
             return {}
