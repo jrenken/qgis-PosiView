@@ -174,7 +174,7 @@ class MobileItem(QObject):
             self.marker.newHeading(data['heading'])
             self.heading = data['heading']
         elif 'course' in data:
-            if not 'heading' in self.extData:
+            if 'heading' not in self.extData:
                 self.newAttitude.emit(data['course'], data.get('pitch', 0.0),
                                       data.get('roll', 0.0))
                 self.marker.newHeading(data['course'])
