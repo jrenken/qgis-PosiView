@@ -89,6 +89,7 @@ class PositionMarker(QgsMapCanvasItem):
                 'size': self.size,
                 'length': self.length,
                 'width': self.width,
+                'defaultIcon': self.defaultIcon,
                 'offsetX': self.offsetX,
                 'offsetY': self.offsetY,
                 'shape': self.shape,
