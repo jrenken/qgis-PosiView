@@ -36,6 +36,9 @@ class PositionMarker(QgsMapCanvasItem):
     Can display also a label on the canvas
     '''
 
+    MIN_SIZE = 30
+    CIRLCE_SIZE = 30
+
     def __init__(self, canvas, params={}):
         '''
         Constructor
@@ -59,6 +62,8 @@ class PositionMarker(QgsMapCanvasItem):
         self.paintShape = QPolygonF([QPointF(-s, -s), QPointF(s, -s), QPointF(s, s), QPointF(-s, s)])
         self.color = self.getColor(params.get('color', 'black'))
         self.fillColor = self.getColor(params.get('fillColor', 'lime'))
+        self.defaultIcon = bool(params.get('defaultIcon', True))
+        self.paintCircle = False
         self.penWidth = int(params.get('penWidth', 1))
         spw = s + self.penWidth + 1
         self.bounding = QRectF(-spw, -spw, spw * 2, spw * 2)
@@ -148,15 +153,20 @@ class PositionMarker(QgsMapCanvasItem):
             self.northAlign = fmod(self.distArea.bearing(p2, p1) * 180.0 / pi + self.canvas.rotation(), 360.0)
         except Exception:
             f = s.outputDpi() / 0.0254 / s.scale()
-        paintLength = max(self.length * f, 50)
+        paintLength = max(self.length * f, self.MIN_SIZE)
         paintWidth = paintLength * self.width / self.length
         offsY = self.offsetX / self.length * paintLength
         offsX = self.offsetY / self.width * paintWidth
         self.paintShape.clear()
-        for v in self.shape:
-            self.paintShape << QPointF(v[0] * paintWidth - offsX, v[1] * paintLength + offsY)
+        if (self.length * f) < self.MIN_SIZE and self.defaultIcon:
+            self.paintCircle = True
+            self.bounding = QRectF(-self.CIRLCE_SIZE * 0.5, -self.CIRLCE_SIZE - 2, self.CIRLCE_SIZE, self.CIRLCE_SIZE * 1.5)
+        else:
+            self.paintCircle = False
+            for v in self.shape:
+                self.paintShape << QPointF(v[0] * paintWidth - offsX, v[1] * paintLength + offsY)
+            self.bounding = self.paintShape.boundingRect()
         self.size = max(paintLength, paintWidth)
-        self.bounding = self.paintShape.boundingRect()
 
     def newTrackPoint(self, pos):
         tp = QgsVertexMarker(self.canvas)
@@ -203,6 +213,7 @@ class PositionMarker(QgsMapCanvasItem):
         pen = QPen(self.color)
         pen.setWidth(self.penWidth)
         painter.setPen(pen)
+        painter.setRenderHint(QPainter.Antialiasing, True)
         if self.type == 'CROSS':
             painter.drawLine(QLineF(-s, 0, s, 0))
             painter.drawLine(QLineF(0, -s, 0, s))
@@ -214,10 +225,15 @@ class PositionMarker(QgsMapCanvasItem):
             painter.setBrush(brush)
             painter.drawConvexPolygon(self.paintShape)
         elif self.type == 'SHAPE':
-            painter.setRenderHint(QPainter.Antialiasing, True)
-            brush = QBrush(self.fillColor)
-            painter.setBrush(brush)
-            painter.drawConvexPolygon(self.paintShape)
+            if self.paintCircle:
+                pen.setWidth(self.penWidth * 2)
+                painter.setPen(pen)
+                painter.drawEllipse(QPointF(0, 0), self.CIRLCE_SIZE * 0.4, self.CIRLCE_SIZE * 0.4)
+                painter.drawLine(QLineF(0, -self.CIRLCE_SIZE * 0.4, 0, -self.CIRLCE_SIZE))
+            else:
+                brush = QBrush(self.fillColor)
+                painter.setBrush(brush)
+                painter.drawConvexPolygon(self.paintShape)
 
     def boundingRect(self):
         return self.bounding
