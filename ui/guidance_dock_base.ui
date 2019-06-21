@@ -340,7 +340,10 @@
        <item>
         <widget class="QLabel" name="label_13">
          <property name="text">
-          <string>Bearing (°)</string>
+          <string>Bearing (&amp;deg;)</string>
+         </property>
+         <property name="textFormat">
+          <enum>Qt::RichText</enum>
          </property>
         </widget>
        </item>

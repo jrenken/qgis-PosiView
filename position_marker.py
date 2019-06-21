@@ -63,6 +63,7 @@ class PositionMarker(QgsMapCanvasItem):
         self.color = self.getColor(params.get('color', 'black'))
         self.fillColor = self.getColor(params.get('fillColor', 'lime'))
         self.defaultIcon = bool(params.get('defaultIcon', True))
+        self.defaultIconFilled = bool(params.get('defaultIconFilled', False))
         self.paintCircle = False
         self.penWidth = int(params.get('penWidth', 1))
         spw = s + self.penWidth + 1
@@ -90,6 +91,7 @@ class PositionMarker(QgsMapCanvasItem):
                 'length': self.length,
                 'width': self.width,
                 'defaultIcon': self.defaultIcon,
+                'defaultIconFilled': self.defaultIconFilled,
                 'offsetX': self.offsetX,
                 'offsetY': self.offsetY,
                 'shape': self.shape,
@@ -228,6 +230,9 @@ class PositionMarker(QgsMapCanvasItem):
         elif self.type == 'SHAPE':
             if self.paintCircle:
                 pen.setWidth(self.penWidth * 2)
+                if self.defaultIconFilled:
+                    brush = QBrush(self.fillColor)
+                    painter.setBrush(brush)
                 painter.setPen(pen)
                 painter.drawEllipse(QPointF(0, 0), self.CIRLCE_SIZE * 0.4, self.CIRLCE_SIZE * 0.4)
                 painter.drawLine(QLineF(0, -self.CIRLCE_SIZE * 0.4, 0, -self.CIRLCE_SIZE))
