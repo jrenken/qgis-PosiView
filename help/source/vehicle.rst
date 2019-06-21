@@ -19,6 +19,7 @@ Configuring a vehicle/object in depth
   #. If shape is used, select the outline as python array of points in the form ((x1, y1), (x2, y2), ..., (xn, yn)).
      Right mouse click offers some predefined shapes. The size of the shape should be normalized to (1, 1). A heading of zero points upward.
   #. Enter the real world size of the vehicle.
+  #. The vehicle is not scaled for small map scales to keep it visible. To make this clear, the shape can be replaced by a default icon. 
   #. If the position reference point is not the center (0, 0) of the shape, enter the offsets towards bow and starboard.
   #. The Z-Value defines the painting order on the canvas. Vehicles with higher values will be painted on top.
   #. Select colors for outline and fill brush. Transparency can be applied.
