@@ -231,7 +231,7 @@ class GuidanceDock(QDockWidget, FORM_CLASS):
                 self.layer = layer
                 self.comboBoxSource.blockSignals(True)
                 self.comboBoxTarget.blockSignals(True)
-                items = sorted([f['name'] + '  ' for f in layer.getFeatures()])
+                items = sorted([str(f['name']) + '  ' for f in layer.getFeatures()])
                 self.comboBoxSource.addItems(items)
                 self.comboBoxTarget.addItems(items)
                 self.comboBoxSource.blockSignals(False)
