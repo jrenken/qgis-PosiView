@@ -145,7 +145,7 @@ class PositionMarker(QgsMapCanvasItem):
         try:
             if self.position:
                 p1 = self.position
-                p = self.toMapCoordinates(self.position)
+                p = self.toCanvasCoordinates(self.position)
                 p2 = self.toMapCoordinates(QPoint(p.x(), p.y() + 100.0))
             else:
                 p = self.canvas.viewport().rect().center()
