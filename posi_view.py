@@ -284,7 +284,7 @@ class PosiView(object):
         self.tracking.removeProviders()
         self.project.unload()
         self.iface.mainWindow().statusBar().removeWidget(self.positionDisplay)
-        for action in list(self.actions.values()):
+        for _, action in self.actions.items():
             self.iface.removePluginMenu(
                 self.tr(u'&PosiView'),
                 action)
