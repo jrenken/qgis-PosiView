@@ -49,7 +49,9 @@ class PosiviewProperties(QgsOptionsDialogBase, Ui_PosiviewPropertiesBase):
         self.mobileListModel = QStringListModel()
         self.mMobileListView.setModel(self.mobileListModel)
         self.mobileProviderModel = QStandardItemModel()
-        self.mobileProviderModel.setHorizontalHeaderLabels(('Provider', 'Filter', 'Flags'))
+        self.mobileProviderModel.setHorizontalHeaderLabels((QCoreApplication.translate("PosiviewProperties", 'Provider'), 
+                                                           QCoreApplication.translate("PosiviewProperties", 'Filter'),
+                                                           QCoreApplication.translate("PosiviewProperties", 'Flags')))
         self.mMobileProviderTableView.setModel(self.mobileProviderModel)
 
         self.providerListModel = QStringListModel()
@@ -261,6 +263,20 @@ class PosiviewProperties(QgsOptionsDialogBase, Ui_PosiviewPropertiesBase):
             idx = self.mMobileListView.currentIndex()
             if idx.isValid():
                 self.populateMobileWidgets(idx)
+
+    @pyqtSlot(QModelIndex, name='on_mMobileProviderTableView_clicked')
+    def pupulateMobileProviderWidgets(self, idx):
+        if idx.isValid():
+            try:
+                self.comboBoxProviders.setCurrentText(self.mobileProviderModel.item(idx.row(), 0).data(Qt.DisplayRole))
+                self.lineEditProviderFilter.setText(self.mobileProviderModel.item(idx.row(), 1).data(Qt.DisplayRole))
+                flgs = self.mobileProviderModel.item(idx.row(), 2).data(Qt.DisplayRole)
+                if not flgs:
+                    self.comboBoxProviderFlags.deselectAllOptions()
+                else:
+                    self.comboBoxProviderFlags.setCheckedItems(flgs.split(', '))
+            except AttributeError:
+                self.comboBoxProviderFlags.deselectAllOptions()
 
     @pyqtSlot(name='on_toolButtonRefreshMobileProvider_clicked')
     def refreshMobileProvider(self):

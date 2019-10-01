@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS><TS version="2.0" language="de_DE" sourcelanguage="">
+<!DOCTYPE TS>
+<TS version="2.1" language="de_DE">
 <context>
     <name>@default</name>
     <message>
@@ -224,44 +225,59 @@
 <context>
     <name>PosiviewProperties</name>
     <message>
-        <location filename="../gui/posiview_properties.py" line="349"/>
+        <location filename="../gui/posiview_properties.py" line="368"/>
         <source>Vessel</source>
         <translation>Schiff</translation>
     </message>
     <message>
-        <location filename="../gui/posiview_properties.py" line="350"/>
+        <location filename="../gui/posiview_properties.py" line="369"/>
         <source>ROV</source>
         <translation>ROV</translation>
     </message>
     <message>
-        <location filename="../gui/posiview_properties.py" line="351"/>
+        <location filename="../gui/posiview_properties.py" line="370"/>
         <source>AUV</source>
         <translation>AUV</translation>
     </message>
     <message>
-        <location filename="../gui/posiview_properties.py" line="352"/>
+        <location filename="../gui/posiview_properties.py" line="371"/>
         <source>Arrow</source>
         <translation>Pfeil</translation>
     </message>
     <message>
-        <location filename="../gui/posiview_properties.py" line="341"/>
+        <location filename="../gui/posiview_properties.py" line="360"/>
         <source>Select Recorder Path</source>
         <translation>Recorder-Pfad wählen</translation>
     </message>
     <message>
-        <location filename="../gui/posiview_properties.py" line="27"/>
+        <location filename="../gui/posiview_properties.py" line="28"/>
         <source>ignore heading</source>
         <translation>Ignoriere Heading</translation>
     </message>
     <message>
-        <location filename="../gui/posiview_properties.py" line="28"/>
+        <location filename="../gui/posiview_properties.py" line="29"/>
         <source>ignore position</source>
         <translation>Ignoriere Position</translation>
     </message>
     <message>
-        <location filename="../gui/posiview_properties.py" line="29"/>
+        <location filename="../gui/posiview_properties.py" line="30"/>
         <source>course as heading</source>
         <translation>Kurs als Heading</translation>
+    </message>
+    <message>
+        <location filename="../gui/posiview_properties.py" line="52"/>
+        <source>Provider</source>
+        <translation>Datenquelle</translation>
+    </message>
+    <message>
+        <location filename="../gui/posiview_properties.py" line="52"/>
+        <source>Filter</source>
+        <translation>Filter</translation>
+    </message>
+    <message>
+        <location filename="../gui/posiview_properties.py" line="52"/>
+        <source>Flags</source>
+        <translation>Steuerung</translation>
     </message>
 </context>
 <context>
