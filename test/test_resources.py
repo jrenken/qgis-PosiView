@@ -34,6 +34,7 @@ class PosiViewDialogTest(unittest.TestCase):
         icon = QIcon(path)
         self.assertFalse(icon.isNull())
 
+
 if __name__ == "__main__":
     suite = unittest.makeSuite(PosiViewResourcesTest)
     runner = unittest.TextTestRunner(verbosity=2)

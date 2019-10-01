@@ -8,7 +8,7 @@ from builtins import range
 
 import os
 from qgis.PyQt import uic
-from qgis.PyQt.QtCore import Qt, pyqtSlot, QModelIndex, pyqtSignal, QUrl, QStringListModel
+from qgis.PyQt.QtCore import Qt, QCoreApplication, pyqtSlot, QModelIndex, pyqtSignal, QUrl, QStringListModel
 from qgis.PyQt.QtGui import QStandardItem, QColor, QStandardItemModel, QDesktopServices
 from qgis.PyQt.QtWidgets import QFileDialog, QAbstractButton, QDialogButtonBox, QMenu
 from qgis.gui import QgsOptionsDialogBase
@@ -24,12 +24,17 @@ class PosiviewProperties(QgsOptionsDialogBase, Ui_PosiviewPropertiesBase):
     '''
     applyChanges = pyqtSignal(dict)
 
+    PROVIDER_FLAGS = (QCoreApplication.translate("PosiviewProperties", 'ignore heading'),
+                      QCoreApplication.translate("PosiviewProperties", 'ignore position'),
+                      QCoreApplication.translate("PosiviewProperties", 'course as heading'))
+
     def __init__(self, project, parent=None):
         '''
         Setup dialog widgets with the project properties
         '''
         super(PosiviewProperties, self).__init__("PosiViewProperties", parent)
         self.setupUi(self)
+        self.comboBoxProviderFlags.addItems(self.PROVIDER_FLAGS)
         self.groupBox_6.hide()
         self.initOptionsBase(False)
         self.restoreOptionsBaseUi()
@@ -40,11 +45,10 @@ class PosiviewProperties(QgsOptionsDialogBase, Ui_PosiviewPropertiesBase):
         self.mToolButtonLoad.setDefaultAction(self.actionLoadConfiguration)
         self.mToolButtonSave.setDefaultAction(self.actionSaveConfiguration)
 
-        self.mobileModel = QStringListModel()
         self.mobileListModel = QStringListModel()
         self.mMobileListView.setModel(self.mobileListModel)
         self.mobileProviderModel = QStandardItemModel()
-        self.mobileProviderModel.setHorizontalHeaderLabels(('Provider', 'Filter'))
+        self.mobileProviderModel.setHorizontalHeaderLabels(('Provider', 'Filter', 'Flags'))
         self.mMobileProviderTableView.setModel(self.mobileProviderModel)
 
         self.providerListModel = QStringListModel()
@@ -170,12 +174,27 @@ class PosiviewProperties(QgsOptionsDialogBase, Ui_PosiviewPropertiesBase):
             provs = dict()
             for r in range(self.mobileProviderModel.rowCount()):
                 try:
-                    fil = int(self.mobileProviderModel.item(r, 1).data(Qt.DisplayRole))
-                except Exception:
                     fil = self.mobileProviderModel.item(r, 1).data(Qt.DisplayRole)
-                    if not fil:
-                        fil = None
-                provs[self.mobileProviderModel.item(r, 0).data(Qt.DisplayRole)] = fil
+                    try:
+                        fil = int(fil)
+                    except (TypeError, ValueError):
+                        pass 
+                except AttributeError:
+                    fil = None 
+
+                try:
+                    flags = []
+                    flgs = self.mobileProviderModel.item(r, 2).data(Qt.DisplayRole).split(', ')
+                    for f in flgs:
+                        try:
+                            flags.append(self.PROVIDER_FLAGS.index(f))
+                        except ValueError:
+                            pass
+                except AttributeError:
+                    pass
+
+                provs[self.mobileProviderModel.item(r, 0).data(Qt.DisplayRole)] = {'id': fil, 'flags': flags }
+
             mobile['provider'] = provs
             currName = self.mobileListModel.data(index, Qt.DisplayRole)
             if not currName == mobile['Name']:
@@ -215,12 +234,23 @@ class PosiviewProperties(QgsOptionsDialogBase, Ui_PosiviewPropertiesBase):
         r = 0
         self.mobileProviderModel.removeRows(0, self.mobileProviderModel.rowCount())
         if 'provider' in mobile:
-            for k, v in list(mobile['provider'].items()):
-                prov = QStandardItem(k)
-                val = QStandardItem(str(v))
-                self.mobileProviderModel.setItem(r, 0, prov)
-                self.mobileProviderModel.setItem(r, 1, val)
+            for k, v in mobile['provider'].items():
+                try:
+                    prov = QStandardItem(k)
+                    self.mobileProviderModel.setItem(r, 0, prov)
+                    try:
+                        val = QStandardItem(str(v['id']))
+                    except TypeError:
+                        val = QStandardItem(str(v))         # for compatibility reasons
+                    self.mobileProviderModel.setItem(r, 1, val)
+                    s = ', '.join([self.PROVIDER_FLAGS[i] for i in v['flags']])
+                    flags = QStandardItem(s)
+                    flags.setToolTip(s)
+                    self.mobileProviderModel.setItem(r, 2, flags)
+                except (KeyError, TypeError, ValueError):
+                    pass
                 r += 1
+        self.mMobileProviderTableView.resizeColumnToContents(2)
 
     @pyqtSlot(name='on_toolButtonRemoveMobile_clicked')
     def removeMobile(self):
@@ -240,12 +270,14 @@ class PosiviewProperties(QgsOptionsDialogBase, Ui_PosiviewPropertiesBase):
         fil = None
         if self.lineEditProviderFilter.text() != '':
             fil = self.lineEditProviderFilter.text()
+        flags = ', '.join(self.comboBoxProviderFlags.checkedItems())
         items = self.mobileProviderModel.findItems(prov, Qt.MatchExactly, 0)
         if items:
             for item in items:
                 self.mobileProviderModel.setItem(item.row(), 1, QStandardItem(fil))
+                self.mobileProviderModel.setItem(item.row(), 2, QStandardItem(flags))
         else:
-            self.mobileProviderModel.appendRow([QStandardItem(prov), QStandardItem(fil)])
+            self.mobileProviderModel.appendRow([QStandardItem(prov), QStandardItem(fil), QStandardItem(flags)])
 
     @pyqtSlot(name='on_toolButtonRemoveMobileProvider_clicked')
     def removeMobileProvider(self):

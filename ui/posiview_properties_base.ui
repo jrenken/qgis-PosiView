@@ -162,7 +162,7 @@
           </sizepolicy>
          </property>
          <property name="currentIndex">
-          <number>0</number>
+          <number>2</number>
          </property>
          <widget class="QWidget" name="mOptsPage_01">
           <layout class="QVBoxLayout" name="verticalLayout_14">
@@ -191,8 +191,8 @@
                <rect>
                 <x>0</x>
                 <y>0</y>
-                <width>675</width>
-                <height>801</height>
+                <width>664</width>
+                <height>496</height>
                </rect>
               </property>
               <layout class="QVBoxLayout" name="verticalLayout_13">
@@ -469,8 +469,8 @@
                <rect>
                 <x>0</x>
                 <y>0</y>
-                <width>675</width>
-                <height>801</height>
+                <width>193</width>
+                <height>372</height>
                </rect>
               </property>
               <layout class="QVBoxLayout" name="verticalLayout_8">
@@ -853,7 +853,14 @@
                  <property name="collapsed">
                   <bool>false</bool>
                  </property>
-                 <layout class="QGridLayout" name="gridLayout_3">
+                 <layout class="QGridLayout" name="gridLayout_3" columnstretch="0,1,1">
+                  <item row="3" column="2">
+                   <widget class="QDoubleSpinBox" name="doubleSpinBoxMobileWidth">
+                    <property name="minimum">
+                     <double>0.010000000000000</double>
+                    </property>
+                   </widget>
+                  </item>
                   <item row="2" column="1" colspan="2">
                    <widget class="QLineEdit" name="lineEditMobileShape">
                     <property name="enabled">
@@ -870,20 +877,13 @@
                     </property>
                    </widget>
                   </item>
-                  <item row="15" column="0" colspan="3">
+                  <item row="16" column="0" colspan="3">
                    <widget class="QFrame" name="frame_2">
                     <property name="frameShape">
                      <enum>QFrame::HLine</enum>
                     </property>
                     <property name="frameShadow">
                      <enum>QFrame::Sunken</enum>
-                    </property>
-                   </widget>
-                  </item>
-                  <item row="3" column="2">
-                   <widget class="QDoubleSpinBox" name="doubleSpinBoxMobileWidth">
-                    <property name="minimum">
-                     <double>0.010000000000000</double>
                     </property>
                    </widget>
                   </item>
@@ -947,10 +947,16 @@
                   </item>
                   <item row="7" column="2">
                    <widget class="QgsColorButton" name="mColorButtonMobileFillColor">
+                    <property name="sizePolicy">
+                     <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                      <horstretch>0</horstretch>
+                      <verstretch>0</verstretch>
+                     </sizepolicy>
+                    </property>
                     <property name="minimumSize">
                      <size>
-                      <width>0</width>
-                      <height>0</height>
+                      <width>24</width>
+                      <height>25</height>
                      </size>
                     </property>
                     <property name="allowOpacity">
@@ -1041,7 +1047,7 @@
                     </property>
                    </widget>
                   </item>
-                  <item row="16" column="2">
+                  <item row="17" column="2">
                    <widget class="QPushButton" name="pushButtonApplyMobile">
                     <property name="text">
                      <string>Apply Properties</string>
@@ -1054,10 +1060,16 @@
                   </item>
                   <item row="7" column="1">
                    <widget class="QgsColorButton" name="mColorButtonMobileColor">
+                    <property name="sizePolicy">
+                     <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                      <horstretch>0</horstretch>
+                      <verstretch>0</verstretch>
+                     </sizepolicy>
+                    </property>
                     <property name="minimumSize">
                      <size>
-                      <width>0</width>
-                      <height>0</height>
+                      <width>24</width>
+                      <height>25</height>
                      </size>
                     </property>
                     <property name="allowOpacity">
@@ -1089,6 +1101,12 @@
                   </item>
                   <item row="10" column="2">
                    <widget class="QgsColorButton" name="mColorButtonMobileTrackColor">
+                    <property name="sizePolicy">
+                     <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                      <horstretch>0</horstretch>
+                      <verstretch>0</verstretch>
+                     </sizepolicy>
+                    </property>
                     <property name="allowOpacity">
                      <bool>true</bool>
                     </property>
@@ -1111,7 +1129,7 @@
                     </property>
                    </widget>
                   </item>
-                  <item row="14" column="0">
+                  <item row="15" column="0">
                    <widget class="QLabel" name="label_12">
                     <property name="text">
                      <string>Data Provider:</string>
@@ -1125,7 +1143,7 @@
                     </property>
                    </widget>
                   </item>
-                  <item row="14" column="1" colspan="2">
+                  <item row="15" column="1" colspan="2">
                    <layout class="QHBoxLayout" name="horizontalLayout_5">
                     <item>
                      <widget class="QTableView" name="mMobileProviderTableView">
@@ -1274,7 +1292,7 @@
                   <item row="5" column="0">
                    <widget class="QLabel" name="label_22">
                     <property name="text">
-                     <string>Offset towards bow, starboard [m]: </string>
+                     <string>Offset towards bow, starboard [m]:</string>
                     </property>
                    </widget>
                   </item>
@@ -1299,6 +1317,20 @@
                     </property>
                     <property name="text">
                      <string>Filled</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="14" column="1" colspan="2">
+                   <widget class="QgsCheckableComboBox" name="comboBoxProviderFlags">
+                    <property name="defaultText">
+                     <string>no exceptions</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="14" column="0">
+                   <widget class="QLabel" name="label_26">
+                    <property name="text">
+                     <string>Flags:</string>
                     </property>
                    </widget>
                   </item>
@@ -1397,6 +1429,11 @@
   </action>
  </widget>
  <customwidgets>
+  <customwidget>
+   <class>QgsCheckableComboBox</class>
+   <extends>QComboBox</extends>
+   <header>qgscheckablecombobox.h</header>
+  </customwidget>
   <customwidget>
    <class>QgsCollapsibleGroupBox</class>
    <extends>QGroupBox</extends>

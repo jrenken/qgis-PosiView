@@ -106,9 +106,13 @@ class MobileItem(QObject):
         :type filterId:
         '''
         provider.newDataReceived.connect(self.processNewData)
-        if filterId not in (None, 'None'):
-            self.messageFilter[provider.name] = filterId
-        elif provider.name in list(self.messageFilter.keys()):
+        try:
+            if filterId['id'] not in (None, 'None'):
+                self.messageFilter[provider.name] = filterId
+            elif provider.name in list(self.messageFilter.keys()):
+                self.messageFilter.pop(provider.name, None)
+        except (KeyError, TypeError):
+            print('Fehler')
             self.messageFilter.pop(provider.name, None)
 
     def unsubscribePositionProvider(self, provider):
@@ -132,16 +136,20 @@ class MobileItem(QObject):
         '''
         if not self.enabled:
             return
+
+        flags = "Heading Position"
         try:
             name = data['name']
-            if name in list(self.messageFilter.keys()):
-                if not data['id'] in (self.messageFilter[name], str(self.messageFilter[name])):
+            if name in self.messageFilter:
+                if not data['id'] in (self.messageFilter[name]['id'], str(self.messageFilter[name]['id'])):
                     return
+                if 'flags' in self.messageFilter[name]:
+                    flags = self.messageFilter[name][flags]
         except Exception:
             pass
         self.extData.update(data)
 
-        if 'lat' in data and 'lon' in data:
+        if 'Position' in flags and 'lat' in data and 'lon' in data:
             if self.fadeOut and self.timedOut:
                 self.marker.setVisible(True)
                 self.timedOut = False
@@ -168,17 +176,17 @@ class MobileItem(QObject):
                                       self.extData.get('depth', -9999.9),
                                       self.extData.get('altitude', -9999.9))
 
-        if 'heading' in data:
+        if 'Heading' in flags and 'heading' in data:
             self.newAttitude.emit(data['heading'], data.get('pitch', 0.0),
                                   data.get('roll', 0.0))
             self.marker.newHeading(data['heading'])
             self.heading = data['heading']
-        elif 'course' in data:
-            if 'heading' not in self.extData:
-                self.newAttitude.emit(data['course'], data.get('pitch', 0.0),
-                                      data.get('roll', 0.0))
-                self.marker.newHeading(data['course'])
-                self.heading = data['course']
+        elif 'Course' in flags and 'course' in data:
+            # if 'heading' not in self.extData:
+            self.newAttitude.emit(data['course'], data.get('pitch', 0.0),
+                                  data.get('roll', 0.0))
+            self.marker.newHeading(data['course'])
+            self.heading = data['course']
 
     @pyqtSlot(float)
     def onScaleChange(self, ):
