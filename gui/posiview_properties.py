@@ -16,6 +16,7 @@ from qgis.PyQt.Qt import QPoint
 from PosiView.dataprovider.dataparser import PARSERS
 from PosiView.dataprovider.datadevice import DEVICE_TYPES, NETWORK_TYPES
 from PosiView.gui.ui_posiview_properties_base import Ui_PosiviewPropertiesBase
+from PosiView.mobile_item import FILTER_FLAGS
 
 
 class PosiviewProperties(QgsOptionsDialogBase, Ui_PosiviewPropertiesBase):
@@ -24,9 +25,9 @@ class PosiviewProperties(QgsOptionsDialogBase, Ui_PosiviewPropertiesBase):
     '''
     applyChanges = pyqtSignal(dict)
 
-    PROVIDER_FLAGS = (QCoreApplication.translate("PosiviewProperties", 'ignore heading'),
-                      QCoreApplication.translate("PosiviewProperties", 'ignore position'),
-                      QCoreApplication.translate("PosiviewProperties", 'course as heading'))
+    PROVIDER_FLAGS = {FILTER_FLAGS[0]: QCoreApplication.translate("PosiviewProperties", 'ignore heading'),
+                      FILTER_FLAGS[1]: QCoreApplication.translate("PosiviewProperties", 'ignore position'),
+                      FILTER_FLAGS[2]: QCoreApplication.translate("PosiviewProperties", 'course as heading')}
 
     def __init__(self, project, parent=None):
         '''
@@ -34,7 +35,7 @@ class PosiviewProperties(QgsOptionsDialogBase, Ui_PosiviewPropertiesBase):
         '''
         super(PosiviewProperties, self).__init__("PosiViewProperties", parent)
         self.setupUi(self)
-        self.comboBoxProviderFlags.addItems(self.PROVIDER_FLAGS)
+        self.comboBoxProviderFlags.addItems(list(self.PROVIDER_FLAGS.values()))
         self.groupBox_6.hide()
         self.initOptionsBase(False)
         self.restoreOptionsBaseUi()
@@ -178,22 +179,21 @@ class PosiviewProperties(QgsOptionsDialogBase, Ui_PosiviewPropertiesBase):
                     try:
                         fil = int(fil)
                     except (TypeError, ValueError):
-                        pass 
+                        if not fil:
+                            fil = None
                 except AttributeError:
-                    fil = None 
+                    fil = None
 
                 try:
-                    flags = []
+                    flags = list()
                     flgs = self.mobileProviderModel.item(r, 2).data(Qt.DisplayRole).split(', ')
-                    for f in flgs:
-                        try:
-                            flags.append(self.PROVIDER_FLAGS.index(f))
-                        except ValueError:
-                            pass
+                    for k, v in self.PROVIDER_FLAGS.items():
+                        if v in flgs:
+                            flags.append(k)
                 except AttributeError:
                     pass
 
-                provs[self.mobileProviderModel.item(r, 0).data(Qt.DisplayRole)] = {'id': fil, 'flags': flags }
+                provs[self.mobileProviderModel.item(r, 0).data(Qt.DisplayRole)] = {'id': fil, 'flags': flags}
 
             mobile['provider'] = provs
             currName = self.mobileListModel.data(index, Qt.DisplayRole)

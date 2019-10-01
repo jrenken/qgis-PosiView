@@ -14,6 +14,9 @@ from qgis.PyQt.QtWidgets import QLabel
 from qgis.PyQt.QtGui import QMovie
 
 
+FILTER_FLAGS = ('-head', '-pos', '+course')
+
+
 class MobileItem(QObject):
     '''
     A Mobile Item that reveives its position from a dataprovider
@@ -107,12 +110,11 @@ class MobileItem(QObject):
         '''
         provider.newDataReceived.connect(self.processNewData)
         try:
-            if filterId['id'] not in (None, 'None'):
+            if filterId['id'] not in (None, 'None') or filterId['flags']:
                 self.messageFilter[provider.name] = filterId
             elif provider.name in list(self.messageFilter.keys()):
                 self.messageFilter.pop(provider.name, None)
         except (KeyError, TypeError):
-            print('Fehler')
             self.messageFilter.pop(provider.name, None)
 
     def unsubscribePositionProvider(self, provider):
@@ -137,19 +139,17 @@ class MobileItem(QObject):
         if not self.enabled:
             return
 
-        flags = "Heading Position"
+        flags = list()
         try:
             name = data['name']
-            if name in self.messageFilter:
+            if name in self.messageFilter and self.messageFilter[name]['id'] is not None:
                 if not data['id'] in (self.messageFilter[name]['id'], str(self.messageFilter[name]['id'])):
                     return
-                if 'flags' in self.messageFilter[name]:
-                    flags = self.messageFilter[name][flags]
+                flags = self.messageFilter[name]['flags']
         except Exception:
             pass
         self.extData.update(data)
-
-        if 'Position' in flags and 'lat' in data and 'lon' in data:
+        if 'lat' in data and 'lon' in data and '-pos' not in flags:
             if self.fadeOut and self.timedOut:
                 self.marker.setVisible(True)
                 self.timedOut = False
@@ -176,13 +176,12 @@ class MobileItem(QObject):
                                       self.extData.get('depth', -9999.9),
                                       self.extData.get('altitude', -9999.9))
 
-        if 'Heading' in flags and 'heading' in data:
+        if 'heading' in data and '-head' not in flags:
             self.newAttitude.emit(data['heading'], data.get('pitch', 0.0),
                                   data.get('roll', 0.0))
             self.marker.newHeading(data['heading'])
             self.heading = data['heading']
-        elif 'Course' in flags and 'course' in data:
-            # if 'heading' not in self.extData:
+        elif 'course' in data and '+course' in flags:
             self.newAttitude.emit(data['course'], data.get('pitch', 0.0),
                                   data.get('roll', 0.0))
             self.marker.newHeading(data['course'])

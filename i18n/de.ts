@@ -125,12 +125,12 @@
 <context>
     <name>MobileItem</name>
     <message>
-        <location filename="../mobile_item.py" line="270"/>
+        <location filename="../mobile_item.py" line="269"/>
         <source>PosiView Attention</source>
         <translation>PosiView Achtung</translation>
     </message>
     <message>
-        <location filename="../mobile_item.py" line="269"/>
+        <location filename="../mobile_item.py" line="268"/>
         <source>No fix for %s since more than %d seconds!</source>
         <translation>Keine Position für %s seit mehr als %d Sekunden!</translation>
     </message>
@@ -224,27 +224,27 @@
 <context>
     <name>PosiviewProperties</name>
     <message>
-        <location filename="../gui/posiview_properties.py" line="354"/>
+        <location filename="../gui/posiview_properties.py" line="349"/>
         <source>Vessel</source>
         <translation>Schiff</translation>
     </message>
     <message>
-        <location filename="../gui/posiview_properties.py" line="355"/>
+        <location filename="../gui/posiview_properties.py" line="350"/>
         <source>ROV</source>
         <translation>ROV</translation>
     </message>
     <message>
-        <location filename="../gui/posiview_properties.py" line="356"/>
+        <location filename="../gui/posiview_properties.py" line="351"/>
         <source>AUV</source>
         <translation>AUV</translation>
     </message>
     <message>
-        <location filename="../gui/posiview_properties.py" line="357"/>
+        <location filename="../gui/posiview_properties.py" line="352"/>
         <source>Arrow</source>
         <translation>Pfeil</translation>
     </message>
     <message>
-        <location filename="../gui/posiview_properties.py" line="346"/>
+        <location filename="../gui/posiview_properties.py" line="341"/>
         <source>Select Recorder Path</source>
         <translation>Recorder-Pfad wählen</translation>
     </message>
@@ -254,12 +254,12 @@
         <translation>Ignoriere Heading</translation>
     </message>
     <message>
-        <location filename="../gui/posiview_properties.py" line="27"/>
+        <location filename="../gui/posiview_properties.py" line="28"/>
         <source>ignore position</source>
         <translation>Ignoriere Position</translation>
     </message>
     <message>
-        <location filename="../gui/posiview_properties.py" line="27"/>
+        <location filename="../gui/posiview_properties.py" line="29"/>
         <source>course as heading</source>
         <translation>Kurs als Heading</translation>
     </message>
