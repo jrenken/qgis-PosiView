@@ -139,16 +139,17 @@ class MobileItem(QObject):
         if not self.enabled:
             return
 
-        flags = list()
+        pname = data['name']
+        flags = self.messageFilter[pname]['flags']
         try:
-            name = data['name']
-            if name in self.messageFilter and self.messageFilter[name]['id'] is not None:
-                if not data['id'] in (self.messageFilter[name]['id'], str(self.messageFilter[name]['id'])):
+            if pname in self.messageFilter and self.messageFilter[pname]['id'] is not None:
+                if not data['id'] in (self.messageFilter[pname]['id'], str(self.messageFilter[pname]['id'])):
                     return
-                flags = self.messageFilter[name]['flags']
         except Exception:
             pass
+
         self.extData.update(data)
+
         if 'lat' in data and 'lon' in data and '-pos' not in flags:
             if self.fadeOut and self.timedOut:
                 self.marker.setVisible(True)
