@@ -162,7 +162,7 @@
           </sizepolicy>
          </property>
          <property name="currentIndex">
-          <number>2</number>
+          <number>0</number>
          </property>
          <widget class="QWidget" name="mOptsPage_01">
           <layout class="QVBoxLayout" name="verticalLayout_14">
@@ -191,8 +191,8 @@
                <rect>
                 <x>0</x>
                 <y>0</y>
-                <width>664</width>
-                <height>496</height>
+                <width>675</width>
+                <height>801</height>
                </rect>
               </property>
               <layout class="QVBoxLayout" name="verticalLayout_13">
@@ -262,7 +262,7 @@
                   <item>
                    <widget class="QToolButton" name="mToolButtonLoad">
                     <property name="whatsThis">
-                     <string>Load a PosiView project configuration </string>
+                     <string>Load a PosiView project configuration</string>
                     </property>
                     <property name="text">
                      <string>...</string>
@@ -353,7 +353,7 @@
                   <item row="0" column="0">
                    <widget class="QLabel" name="label_21">
                     <property name="text">
-                     <string>Duration of messagebar notifications: </string>
+                     <string>Duration of messagebar notifications:</string>
                     </property>
                    </widget>
                   </item>
@@ -469,8 +469,8 @@
                <rect>
                 <x>0</x>
                 <y>0</y>
-                <width>193</width>
-                <height>372</height>
+                <width>675</width>
+                <height>801</height>
                </rect>
               </property>
               <layout class="QVBoxLayout" name="verticalLayout_8">
@@ -927,7 +927,7 @@
                   <item row="13" column="0">
                    <widget class="QLabel" name="label_14">
                     <property name="text">
-                     <string>Provider and filter:</string>
+                     <string>Provider, Filter:</string>
                     </property>
                    </widget>
                   </item>
@@ -1322,15 +1322,18 @@
                   </item>
                   <item row="14" column="1" colspan="2">
                    <widget class="QgsCheckableComboBox" name="comboBoxProviderFlags">
+                    <property name="layoutDirection">
+                     <enum>Qt::LeftToRight</enum>
+                    </property>
                     <property name="defaultText">
-                     <string>no exceptions</string>
+                     <string>none</string>
                     </property>
                    </widget>
                   </item>
                   <item row="14" column="0">
                    <widget class="QLabel" name="label_26">
                     <property name="text">
-                     <string>Flags:</string>
+                     <string>Extended Filter:</string>
                     </property>
                    </widget>
                   </item>

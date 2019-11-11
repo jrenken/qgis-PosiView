@@ -112,7 +112,7 @@ class MobileItem(QObject):
         try:
             if filterId['id'] not in (None, 'None') or filterId['flags']:
                 self.messageFilter[provider.name] = filterId
-            elif provider.name in list(self.messageFilter.keys()):
+            elif provider.name in self.messageFilter:
                 self.messageFilter.pop(provider.name, None)
         except (KeyError, TypeError):
             self.messageFilter.pop(provider.name, None)
@@ -139,12 +139,12 @@ class MobileItem(QObject):
         if not self.enabled:
             return
 
-        pname = data['name']
-        flags = self.messageFilter[pname]['flags']
+        flags = list()
         try:
-            if pname in self.messageFilter and self.messageFilter[pname]['id'] is not None:
-                if not data['id'] in (self.messageFilter[pname]['id'], str(self.messageFilter[pname]['id'])):
-                    return
+            pname = data['name']
+            flags = self.messageFilter[pname]['flags']
+            if not data['id'] in (self.messageFilter[pname]['id'], str(self.messageFilter[pname]['id'])):
+                return
         except Exception:
             pass
 

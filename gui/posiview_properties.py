@@ -25,9 +25,7 @@ class PosiviewProperties(QgsOptionsDialogBase, Ui_PosiviewPropertiesBase):
     '''
     applyChanges = pyqtSignal(dict)
 
-    PROVIDER_FLAGS = {FILTER_FLAGS[0]: QCoreApplication.translate("PosiviewProperties", 'ignore heading'),
-                      FILTER_FLAGS[1]: QCoreApplication.translate("PosiviewProperties", 'ignore position'),
-                      FILTER_FLAGS[2]: QCoreApplication.translate("PosiviewProperties", 'course as heading')}
+    PROVIDER_FLAGS = {}
 
     def __init__(self, project, parent=None):
         '''
@@ -35,6 +33,10 @@ class PosiviewProperties(QgsOptionsDialogBase, Ui_PosiviewPropertiesBase):
         '''
         super(PosiviewProperties, self).__init__("PosiViewProperties", parent)
         self.setupUi(self)
+        if not self.PROVIDER_FLAGS:
+            self.PROVIDER_FLAGS[FILTER_FLAGS[0]] = self.tr('ignore heading')
+            self.PROVIDER_FLAGS[FILTER_FLAGS[1]] = self.tr('ignore position')
+            self.PROVIDER_FLAGS[FILTER_FLAGS[2]] = self.tr('course as heading')
         self.comboBoxProviderFlags.addItems(list(self.PROVIDER_FLAGS.values()))
         self.groupBox_6.hide()
         self.initOptionsBase(False)
@@ -49,9 +51,9 @@ class PosiviewProperties(QgsOptionsDialogBase, Ui_PosiviewPropertiesBase):
         self.mobileListModel = QStringListModel()
         self.mMobileListView.setModel(self.mobileListModel)
         self.mobileProviderModel = QStandardItemModel()
-        self.mobileProviderModel.setHorizontalHeaderLabels((QCoreApplication.translate("PosiviewProperties", 'Provider'),
-                                                           QCoreApplication.translate("PosiviewProperties", 'Filter'),
-                                                           QCoreApplication.translate("PosiviewProperties", 'Flags')))
+        self.mobileProviderModel.setHorizontalHeaderLabels((self.tr('Provider'),
+                                                           self.tr('Filter'),
+                                                           self.tr('Extended Filter')))
         self.mMobileProviderTableView.setModel(self.mobileProviderModel)
 
         self.providerListModel = QStringListModel()
