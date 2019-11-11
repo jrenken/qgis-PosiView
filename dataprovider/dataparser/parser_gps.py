@@ -5,7 +5,7 @@ Created on 03.07.2015
 '''
 from __future__ import absolute_import
 
-import datetime
+from datetime import datetime, timezone
 from .nmea import NmeaRecord
 from .parser import Parser
 
@@ -42,12 +42,11 @@ class GpsParser(Parser):
                           'lon': nmea.fromDDM(5, 6),
                           'course': nmea.value(8)}
                 try:
-                    dt = datetime.datetime.utcnow().replace(hour=int(nmea[5][0:2]),
-                                        minute=int(nmea[5][2:4]), second=int(nmea[5][4:6]))
+                    dt = datetime.now(tz=timezone.utc).replace(hour=int(nmea[1][0:2]),
+                                        minute=int(nmea[1][2:4]), second=int(nmea[1][4:6]))
                 except ValueError:
-                    dt = datetime.datetime.utcnow()
-                td = dt - datetime.datetime(1970, 1, 1)
-                result['time'] = td.total_seconds()
+                    dt = datetime.now(tz=timezone.utc)
+                result['time'] = (dt - datetime(1970, 1, 1, tzinfo=timezone.utc)).total_seconds()
                 return dict((k, v) for k, v in result.items() if v is not None)
             except ValueError:
                 return {}
@@ -59,12 +58,11 @@ class GpsParser(Parser):
                 result = {'lat': nmea.fromDDM(1, 2),
                           'lon': nmea.fromDDM(3, 4)}
                 try:
-                    dt = datetime.datetime.utcnow().replace(hour=int(nmea[1][0:2]),
-                                        minute=int(nmea[1][2:4]), second=int(nmea[1][4:6]))
+                    dt = datetime.utcnow().replace(hour=int(nmea[5][0:2]),
+                                        minute=int(nmea[5][2:4]), second=int(nmea[5][4:6]))
                 except ValueError:
-                    dt = datetime.datetime.utcnow()
-                td = dt - datetime.datetime(1970, 1, 1)
-                result['time'] = td.total_seconds()
+                    dt = datetime.utcnow()
+                result['time'] = (dt - datetime(1970, 1, 1, tzinfo=timezone.utc)).total_seconds()
                 return dict((k, v) for k, v in result.items() if v is not None)
             except ValueError:
                 return {}
@@ -77,12 +75,11 @@ class GpsParser(Parser):
                           'lon': nmea.fromDDM(4, 5),
                           'depth': -float(nmea[9])}
                 try:
-                    dt = datetime.datetime.utcnow().replace(hour=int(nmea[1][0:2]),
+                    dt = datetime.utcnow().replace(hour=int(nmea[1][0:2]),
                                         minute=int(nmea[1][2:4]), second=int(nmea[1][4:6]))
                 except ValueError:
-                    dt = datetime.datetime.utcnow()
-                td = dt - datetime.datetime(1970, 1, 1)
-                result['time'] = td.total_seconds()
+                    dt = datetime.utcnow()
+                result['time'] = (dt - datetime(1970, 1, 1, tzinfo=timezone.utc)).total_seconds()
                 return dict((k, v) for k, v in result.items() if v is not None)
             except ValueError:
                 return {}
