@@ -150,32 +150,33 @@ class MobileItem(QObject):
 
         self.extData.update(data)
 
-        if 'lat' in data and 'lon' in data and '-pos' not in flags:
-            if self.fadeOut and self.timedOut:
-                self.marker.setVisible(True)
-                self.timedOut = False
-            self.position = QgsPointXY(data['lon'], data['lat'])
-            self.heading = data.get('heading', -9999.9)
-            self.depth = data.get('depth', -9999.9)
-            self.altitude = data.get('altitude', -9999.9)
-            try:
-                self.coordinates = self.crsXform.transform(self.position)
-                self.marker.setMapPosition(self.coordinates)
-                if 'time' in data:
-                    self.lastFix = data['time']
+        if '-pos' not in flags:
+            if 'lat' in data and 'lon' in data:
+                if self.fadeOut and self.timedOut:
+                    self.marker.setVisible(True)
+                    self.timedOut = False
+                self.position = QgsPointXY(data['lon'], data['lat'])
+                self.heading = data.get('heading', -9999.9)
+                self.depth = data.get('depth', -9999.9)
+                self.altitude = data.get('altitude', -9999.9)
+                try:
+                    self.coordinates = self.crsXform.transform(self.position)
+                    self.marker.setMapPosition(self.coordinates)
+                    if 'time' in data:
+                        self.lastFix = data['time']
+                        self.newPosition.emit(self.lastFix, self.position,
+                                              self.extData.get('depth', -9999.9),
+                                              self.extData.get('altitude', -9999.9))
+                        self.timer.start(self.timeoutTime)
+                        self.timeoutCount = 0
+                except QgsCsException:
+                    pass
+
+            elif self.position is not None:
+                if 'depth' in data or 'altitude' in data:
                     self.newPosition.emit(self.lastFix, self.position,
                                           self.extData.get('depth', -9999.9),
                                           self.extData.get('altitude', -9999.9))
-                    self.timer.start(self.timeoutTime)
-                    self.timeoutCount = 0
-            except QgsCsException:
-                pass
-
-        elif self.position is not None:
-            if 'depth' in data or 'altitude' in data:
-                self.newPosition.emit(self.lastFix, self.position,
-                                      self.extData.get('depth', -9999.9),
-                                      self.extData.get('altitude', -9999.9))
 
         if 'heading' in data and '-head' not in flags:
             self.newAttitude.emit(data['heading'], data.get('pitch', 0.0),
