@@ -10,7 +10,7 @@ from builtins import map
 from builtins import range
 from builtins import object
 
-import datetime
+from datetime import datetime, timezone
 from .parser import Parser
 from .nmea import NmeaRecord
 
@@ -68,10 +68,10 @@ class AisParser(Parser):
                       'lon': float(binPayload.getInt(*bs['lon'])) / 600000.0,
                       'depth': 0.0}
             sec = binPayload.getInt(*bs['ts'])
-            dt = datetime.datetime.utcnow()
+            dt = datetime.now(tz=timezone.utc)
             if sec < 60:
                 dt.replace(second=sec)
-            result['time'] = (dt - datetime.datetime(1970, 1, 1)).total_seconds()
+            result['time'] = (dt - datetime(1970, 1, 1, tzinfo=timezone.utc)).total_seconds()
             head = binPayload.getInt(*bs['head'])
             if head == 511:
                 head = 0.1 * float(binPayload.getInt(*bs['cog']))

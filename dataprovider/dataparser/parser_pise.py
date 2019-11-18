@@ -5,7 +5,7 @@ Created on 03.06.2015
 '''
 from __future__ import absolute_import
 
-import datetime
+from datetime import datetime, timezone
 from .nmea import NmeaRecord
 from .parser import Parser
 
@@ -30,14 +30,13 @@ class PiseParser(Parser):
                               'depth': nmea.value(9),
                               'speed': nmea.value(10)}
                     try:
-                        dt = datetime.datetime(int(nmea[4][0:4]), int(nmea[4][4:6]),
-                                           int(nmea[4][6:]),
-                                           int(nmea[5][0:2]), int(nmea[5][2:4]),
-                                           int(nmea[5][4:6]))
+                        dt = datetime(int(nmea[4][0:4]), int(nmea[4][4:6]),
+                                      int(nmea[4][6:]),
+                                      int(nmea[5][0:2]), int(nmea[5][2:4]),
+                                      int(nmea[5][4:6]), tzinfo=timezone.utc)
                     except ValueError:
-                        dt = datetime.datetime.utcnow()
-                    td = dt - datetime.datetime(1970, 1, 1)
-                    result['time'] = td.total_seconds()
+                        dt = datetime.now(tz=timezone.utc)
+                    result['time'] = (dt - datetime(1970, 1, 1, tzinfo=timezone.utc)).total_seconds()
                     return dict((k, v) for k, v in result.items() if v is not None)
                 except ValueError:
                     return {}

@@ -5,7 +5,7 @@ Created on 03.06.2015
 '''
 from __future__ import absolute_import
 
-import datetime
+from datetime import datetime, timezone
 from .nmea import NmeaRecord
 from .parser import Parser
 
@@ -34,13 +34,12 @@ class IxUsblParser(Parser):
                 result = {'id': nmea.value(6), 'lat': nmea.fromDDM(7, 8),
                           'lon': nmea.fromDDM(9, 10), 'depth': nmea.value(12)}
                 try:
-                    dt = datetime.datetime(int(nmea[5]), int(nmea[4]), int(nmea[3]),
+                    dt = datetime(int(nmea[5]), int(nmea[4]), int(nmea[3]),
                                    int(nmea[2][0:2]), int(nmea[2][2:4]),
-                                   int(nmea[2][4:6]), int(nmea[2][7:]) * 1000)
+                                   int(nmea[2][4:6]), int(nmea[2][7:]) * 1000, tzinfo=timezone.utc)
                 except ValueError:
-                    dt = datetime.datetime.utcnow()
-                td = dt - datetime.datetime(1970, 1, 1)
-                result['time'] = td.total_seconds()
+                    dt = datetime.now(tz=timezone.utc)
+                result['time'] = (dt - datetime(1970, 1, 1, tzinfo=timezone.utc)).total_seconds()
                 return dict((k, v) for k, v in result.items() if v is not None)
             except ValueError:
                 return {}

@@ -6,7 +6,7 @@ Created on Jan 28, 2019
 from __future__ import absolute_import
 
 from .parser import Parser
-from datetime import datetime
+from datetime import datetime, timezone
 
 
 class TargetPosParser(Parser):
@@ -21,9 +21,9 @@ class TargetPosParser(Parser):
     def parse(self, data):
         try:
             fields = data.split(',')
-            dt = datetime.utcnow()
+            dt = datetime.now(tz=timezone.utc)
             result = {'id': fields[0], 'lat': float(fields[1]), 'lon': float(fields[2]),
-                     'time': (dt - datetime(1970, 1, 1, 0, 0, 0)).total_seconds()}
+                     'time': (dt - datetime(1970, 1, 1, tzinfo=timezone.utc)).total_seconds()}
             if len(fields) > 3:
                 result['depth'] = self.getOptValue(fields, 3)
                 result['altitude'] = self.getOptValue(fields, 4)

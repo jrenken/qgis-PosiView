@@ -5,7 +5,7 @@ Created on 12.06.2015
 '''
 from __future__ import absolute_import
 
-import datetime
+from datetime import datetime, timezone
 from .parser import Parser
 from .nmea import NmeaRecord
 
@@ -36,15 +36,14 @@ class MiniPosParser(Parser):
                               'velport': nmea.value(10),
                               'velup': nmea.value(11)}
 
-                    t = datetime.datetime.utcnow()
+                    t = datetime.now(tz=timezone.utc)
                     try:
-                        dt = datetime.datetime(t.year, t.month, t.day,
-                                           int(nmea[1][0:2]), int(nmea[1][2:4]),
-                                           int(nmea[1][4:6]), int(nmea[1][7:]) * 100)
+                        dt = datetime(t.year, t.month, t.day,
+                                      int(nmea[1][0:2]), int(nmea[1][2:4]),
+                                      int(nmea[1][4:6]), int(nmea[1][7:]) * 100, tzinfo=timezone.utc)
                     except ValueError:
                         dt = t
-                    td = dt - datetime.datetime(1970, 1, 1)
-                    result['time'] = td.total_seconds()
+                    result['time'] = (dt - datetime(1970, 1, 1, tzinfo=timezone.utc)).total_seconds()
                     return dict((k, v) for k, v in result.items() if v is not None)
                 except ValueError:
                     return {}

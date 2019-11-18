@@ -5,7 +5,7 @@ Created on 13.07.2015
 '''
 from qgis.PyQt.QtCore import QObject, QTimer, pyqtSlot, pyqtSignal
 import os
-from datetime import datetime
+from datetime import datetime, timezone
 
 
 class Recorder(QObject):
@@ -36,7 +36,7 @@ class Recorder(QObject):
         self.mobiles = mobiles
 
     def openFile(self):
-        dt = datetime.utcnow()
+        dt = datetime.now(tzinfo=timezone.utc)
         s = self.filePrefix + dt.strftime('%Y%m%d-%H%M%S') + '.csv'
         self.fileName = os.path.join(self.path, self.filePrefix, s)
         try:
@@ -64,7 +64,7 @@ class Recorder(QObject):
     def takeSnapshot(self):
         if self.file is None:
             return
-        dt = datetime.utcnow()
+        dt = datetime.now(tzinfo=timezone.utc)
         line = dt.strftime('%d.%m.%Y\t%H:%M:%S')
         for v in self.mobiles.values():
             lat, lon, depth, heading, altitude = v.reportPosition()
