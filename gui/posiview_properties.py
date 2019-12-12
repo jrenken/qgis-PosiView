@@ -312,6 +312,7 @@ class PosiviewProperties(QgsOptionsDialogBase, Ui_PosiviewPropertiesBase):
             if provider['DataDeviceType'] in NETWORK_TYPES:
                 provider['Host'] = self.lineEditProviderHostName.text()
                 provider['Port'] = self.spinBoxProviderPort.value()
+                provider['ReuseAddr'] = self.checkBoxReuseAddr.isChecked()
             provider['Parser'] = self.comboBoxParser.currentText()
             currName = self.providerListModel.data(index, Qt.DisplayRole)
             if not currName == provider['Name']:
@@ -334,7 +335,7 @@ class PosiviewProperties(QgsOptionsDialogBase, Ui_PosiviewPropertiesBase):
             self.stackedWidgetDataDevice.setCurrentIndex(0)
             self.lineEditProviderHostName.setText(provider.setdefault('Host', '0.0.0.0'))
             self.spinBoxProviderPort.setValue(int(provider.setdefault('Port', 2000)))
-
+            self.checkBoxReuseAddr.setChecked(provider.setdefault('ReuseAddr', False))
         self.comboBoxParser.setCurrentIndex(self.comboBoxParser.findText(provider.setdefault('Parser', 'NONE').upper()))
 
     @pyqtSlot(name='on_toolButtonAddDataProvider_clicked')
@@ -355,6 +356,13 @@ class PosiviewProperties(QgsOptionsDialogBase, Ui_PosiviewPropertiesBase):
             idx = self.mDataProviderListView.currentIndex()
             if idx.isValid():
                 self.populateDataProviderWidgets(idx)
+
+    @pyqtSlot(str, name='on_comboBoxProviderType_currentIndexChanged')
+    def setProviderType(self, pType):
+        if pType == 'UDP':
+            self.checkBoxReuseAddr.show()
+        else:
+            self.checkBoxReuseAddr.hide()
 
     @pyqtSlot(name='on_toolButtonSelectLogPath_clicked')
     def selectRecorderPath(self):

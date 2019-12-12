@@ -565,16 +565,6 @@
                   <string>Provider Properties</string>
                  </property>
                  <layout class="QGridLayout" name="gridLayout_4" columnstretch="1,4">
-                  <item row="0" column="0">
-                   <widget class="QLabel" name="label_15">
-                    <property name="text">
-                     <string>Name:</string>
-                    </property>
-                   </widget>
-                  </item>
-                  <item row="0" column="1">
-                   <widget class="QLineEdit" name="lineEditProviderName"/>
-                  </item>
                   <item row="5" column="1">
                    <widget class="QComboBox" name="comboBoxParser">
                     <item>
@@ -582,6 +572,16 @@
                       <string>NONE</string>
                      </property>
                     </item>
+                   </widget>
+                  </item>
+                  <item row="0" column="1">
+                   <widget class="QLineEdit" name="lineEditProviderName"/>
+                  </item>
+                  <item row="0" column="0">
+                   <widget class="QLabel" name="label_15">
+                    <property name="text">
+                     <string>Name:</string>
+                    </property>
                    </widget>
                   </item>
                   <item row="1" column="1">
@@ -593,30 +593,17 @@
                      <number>0</number>
                     </property>
                     <widget class="QWidget" name="pageUdpTcp">
-                     <layout class="QGridLayout" name="gridLayout_5" columnstretch="1,4">
+                     <layout class="QGridLayout" name="gridLayout_2" columnstretch="1,2,2">
                       <property name="leftMargin">
                        <number>0</number>
                       </property>
-                      <property name="topMargin">
-                       <number>0</number>
-                      </property>
                       <property name="rightMargin">
-                       <number>0</number>
-                      </property>
-                      <property name="bottomMargin">
                        <number>0</number>
                       </property>
                       <item row="0" column="0">
                        <widget class="QLabel" name="label_17">
                         <property name="text">
                          <string>Host:</string>
-                        </property>
-                       </widget>
-                      </item>
-                      <item row="0" column="1">
-                       <widget class="QLineEdit" name="lineEditProviderHostName">
-                        <property name="text">
-                         <string>0.0.0.0</string>
                         </property>
                        </widget>
                       </item>
@@ -637,6 +624,20 @@
                         </property>
                         <property name="value">
                          <number>2000</number>
+                        </property>
+                       </widget>
+                      </item>
+                      <item row="1" column="2">
+                       <widget class="QCheckBox" name="checkBoxReuseAddr">
+                        <property name="text">
+                         <string>Reuse address</string>
+                        </property>
+                       </widget>
+                      </item>
+                      <item row="0" column="1" colspan="2">
+                       <widget class="QLineEdit" name="lineEditProviderHostName">
+                        <property name="text">
+                         <string>0.0.0.0</string>
                         </property>
                        </widget>
                       </item>
@@ -745,8 +746,8 @@
                <rect>
                 <x>0</x>
                 <y>0</y>
-                <width>675</width>
-                <height>801</height>
+                <width>621</width>
+                <height>742</height>
                </rect>
               </property>
               <layout class="QVBoxLayout" name="verticalLayout_4">

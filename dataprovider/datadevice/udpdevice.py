@@ -25,8 +25,10 @@ class UdpDevice(DataDevice):
         self.reconnect = int(params.get('Reconnect', 1000))
         self.host = params.get('Host', None)
         self.port = int(params.get('Port', 2000))
+        self.reuse = bool(params.get('ReuseAddr', False))
         self.iodevice.readyRead.connect(self.readyRead)
         self.buffer = bytearray()
+        print(self.reuse)
 
     def connectDevice(self):
         result = False
@@ -34,7 +36,10 @@ class UdpDevice(DataDevice):
             result = self.iodevice.bind(self.port)
         else:
             ha = QHostAddress(self.host)
-            result = self.iodevice.bind(ha, self.port)
+            if self.reuse:
+                result = self.iodevice.bind(ha, self.port, QAbstractSocket.ReuseAddressHint)
+            else:
+                result = self.iodevice.bind(ha, self.port)
         if result is False:
             if self.reconnect > 0:
                 QTimer.singleShot(self.reconnect, self.onReconnectTimer)
