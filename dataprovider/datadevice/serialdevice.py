@@ -23,7 +23,7 @@ class SerialDevice(DataDevice):
         print("init serial")
         self.iodevice = QSerialPort()
         self.reconnect = int(params.get('Reconnect', 1000))
-        self.serialPort = params.get('SeriaPort', '/dev/ttyUSB0')
+        self.serialPort = params.get('SerialPort', None)
         self.baudrate = int(params.get('Baudrate', 9600))
         self.databits = int(params.get('Databits', 8))
         self.parity = int(params.get('Parity', 0))
@@ -34,6 +34,7 @@ class SerialDevice(DataDevice):
     def connectDevice(self):
         if not self.serialPort:
             return
+        print('connectSerial', self.serialPort)
         self.iodevice.setPortName(self.serialPort)
         self.iodevice.setBaudRate(self.baudrate)
         self.iodevice.setDataBits(self.databits)
@@ -46,6 +47,7 @@ class SerialDevice(DataDevice):
             self.deviceConnected.emit(True)
 
     def disconnectDevice(self):
+        print('close serial')
         self.iodevice.close()
         self.deviceDisconnected.emit(True)
 

@@ -313,6 +313,9 @@ class PosiviewProperties(QgsOptionsDialogBase, Ui_PosiviewPropertiesBase):
                 provider['Host'] = self.lineEditProviderHostName.text()
                 provider['Port'] = self.spinBoxProviderPort.value()
                 provider['ReuseAddr'] = self.checkBoxReuseAddr.isChecked()
+            elif provider['DataDeviceType'] == 'SERIAL':
+                provider['Baudrate'] = self.comboBoxBaudRate.currentText()
+                provider['SerialPort'] = self.comboBoxSerialPort.currentText()
             provider['Parser'] = self.comboBoxParser.currentText()
             currName = self.providerListModel.data(index, Qt.DisplayRole)
             if not currName == provider['Name']:
@@ -336,6 +339,11 @@ class PosiviewProperties(QgsOptionsDialogBase, Ui_PosiviewPropertiesBase):
             self.lineEditProviderHostName.setText(provider.setdefault('Host', '0.0.0.0'))
             self.spinBoxProviderPort.setValue(int(provider.setdefault('Port', 2000)))
             self.checkBoxReuseAddr.setChecked(provider.setdefault('ReuseAddr', False))
+        elif provider['DataDeviceType'] == 'SERIAL':
+            self.stackedWidgetDataDevice.setCurrentIndex(1)
+            self.comboBoxSerialPort.setCurrentText(provider.setdefault('SerialPort', ''))
+            self.comboBoxBaudRate.setCurrentText(str(provider.setdefault('Baudrate', '9600')))
+            
         self.comboBoxParser.setCurrentIndex(self.comboBoxParser.findText(provider.setdefault('Parser', 'NONE').upper()))
 
     @pyqtSlot(name='on_toolButtonAddDataProvider_clicked')
@@ -363,6 +371,20 @@ class PosiviewProperties(QgsOptionsDialogBase, Ui_PosiviewPropertiesBase):
             self.checkBoxReuseAddr.show()
         else:
             self.checkBoxReuseAddr.hide()
+        if pType == 'SERIAL':
+            try:
+                from PyQt5.QtSerialPort import QSerialPortInfo
+                ports = QSerialPortInfo.availablePorts()
+                cport = self.comboBoxSerialPort.currentText()
+                self.comboBoxSerialPort.clear()
+                for port in ports:
+                    self.comboBoxSerialPort.addItem(port.portName())
+                self.comboBoxSerialPort.setCurrentText(cport)
+            except (ModuleNotFoundError, ImportError):
+                self.comboBoxSerialPort.clear()
+            self.stackedWidgetDataDevice.setCurrentIndex(1)
+        else:
+            self.stackedWidgetDataDevice.setCurrentIndex(0)
 
     @pyqtSlot(name='on_toolButtonSelectLogPath_clicked')
     def selectRecorderPath(self):

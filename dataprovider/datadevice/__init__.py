@@ -26,10 +26,10 @@ try:
     from PyQt5 import QtSerialPort
     from .serialdevice import SerialDevice
     DEVICE_TYPES = ('UDP', 'TCP', 'GPSD', 'SERIAL')
-    NETWORK_TYPES = ('UDP', 'TCP', 'GPSD', 'SERIAL')
 except (ModuleNotFoundError, ImportError):
     DEVICE_TYPES = ('UDP', 'TCP', 'GPSD')
-    NETWORK_TYPES = ('UDP', 'TCP', 'GPSD')
+
+NETWORK_TYPES = ('UDP', 'TCP', 'GPSD')
 
 
 def createDataDevice(params={}, parent=None):
