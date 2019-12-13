@@ -663,11 +663,6 @@
         <translation>Offset in Richtung Bug, Steuerbord [m]:</translation>
     </message>
     <message>
-        <location filename="../gui/ui_posiview_properties_base.py" line="717"/>
-        <source>Extended Filter:</source>
-        <translation>Erweiterte Filter:</translation>
-    </message>
-    <message>
         <location filename="../gui/ui_posiview_properties_base.py" line="684"/>
         <source>Provider, Filter:</source>
         <translation>Datenquelle, Filter:</translation>
@@ -691,6 +686,11 @@
         <location filename="../gui/ui_posiview_properties_base.py" line="664"/>
         <source>Reuse address</source>
         <translation>Lokale Adresse wiederverwenden</translation>
+    </message>
+    <message>
+        <location filename="../gui/ui_posiview_properties_base.py" line="717"/>
+        <source>Advanced Filter:</source>
+        <translation>Erweiterte Filter:</translation>
     </message>
 </context>
 <context>
