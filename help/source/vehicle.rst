@@ -30,5 +30,7 @@ Configuring a vehicle/object in depth
   #. Choose color and length of the track.
   #. Select wether the vehicle should be labeled.
   #. Choose a provider from the list. If a provider supplies multiple position messages like USBL systems do, enter a filter.
-     This could be the beacon id (USBL) or the MMSI (AIS) depending on the applied parser. Update the list.
+     This could be the beacon id (USBL) or the MMSI (AIS) depending on the applied parser. 
+     Advanced filters allow more precise control over which data should be processed, e.g. ignoring the heading or displaying the course (COG) as heading.
+     Finally update the list.
   #. Click  ``Apply Properties``

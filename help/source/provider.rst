@@ -21,8 +21,8 @@ Configuring a provider in depth
      * TCP client socket
      * GPSD client, a TCP client for GPS daemon
   
-  #. Select the host address. For UDP sockets 0.0.0.0 listens on any available interfaces.
-  #. Select the portnumber.
+  #. Select the host address. For UDP sockets 0.0.0.0 listens on any available interfaces. 
+  #. Select the portnumber. For UDP sockets the socket option SO_REUSEADDR can be set for sharing datagrams across several applications.
   #. Select a parser. Following parsers are available up to now: :doc:`protocol`
 
         ==========  ===============================================================  ============================= 
