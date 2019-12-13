@@ -28,7 +28,6 @@ class UdpDevice(DataDevice):
         self.reuse = bool(params.get('ReuseAddr', False))
         self.iodevice.readyRead.connect(self.readyRead)
         self.buffer = bytearray()
-        print(self.reuse)
 
     def connectDevice(self):
         result = False

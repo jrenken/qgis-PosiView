@@ -22,12 +22,19 @@
 from .udpdevice import UdpDevice
 from .tcpdevice import TcpDevice
 
-DEVICE_TYPES = ('UDP', 'TCP', 'GPSD')
-NETWORK_TYPES = ('UDP', 'TCP', 'GPSD')
+try: 
+    from PyQt5 import QtSerialPort
+    from .serialdevice import SerialDevice
+    DEVICE_TYPES = ('UDP', 'TCP', 'GPSD', 'SERIAL')
+    NETWORK_TYPES = ('UDP', 'TCP', 'GPSD', 'SERIAL')
+except (ModuleNotFoundError, ImportError):
+    DEVICE_TYPES = ('UDP', 'TCP', 'GPSD')
+    NETWORK_TYPES = ('UDP', 'TCP', 'GPSD')
 
 
 def createDataDevice(params={}, parent=None):
     deviceType = params.get('DataDeviceType', 'UDP').upper()
+    print(deviceType)
     if deviceType == 'UDP':
         return UdpDevice(params, parent)
     elif deviceType == 'TCP':
@@ -35,4 +42,8 @@ def createDataDevice(params={}, parent=None):
     elif deviceType == 'GPSD':
         params['GpsdInit'] = True
         return TcpDevice(params, parent)
+    elif deviceType == 'SERIAL':
+        if 'SERIAL' in DEVICE_TYPES:
+            return SerialDevice(params, parent)
+            pass
     return None
