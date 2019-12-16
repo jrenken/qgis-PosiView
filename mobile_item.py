@@ -143,8 +143,9 @@ class MobileItem(QObject):
         try:
             pname = data['name']
             flags = self.messageFilter[pname]['flags']
-            if not data['id'] in (self.messageFilter[pname]['id'], str(self.messageFilter[pname]['id'])):
-                return
+            if not self.messageFilter[pname]['id'] in (None, 'None'):
+                if not data['id'] in (self.messageFilter[pname]['id'], str(self.messageFilter[pname]['id'])):
+                    return
         except Exception:
             pass
 
