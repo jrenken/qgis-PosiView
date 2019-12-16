@@ -795,11 +795,11 @@
                         <item row="0" column="4">
                          <widget class="QComboBox" name="comboBoxDatabits">
                           <property name="currentIndex">
-                           <number>3</number>
+                           <number>0</number>
                           </property>
                           <item>
                            <property name="text">
-                            <string>5</string>
+                            <string notr="true">5</string>
                            </property>
                           </item>
                           <item>

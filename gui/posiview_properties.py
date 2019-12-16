@@ -54,7 +54,7 @@ class PosiviewProperties(QgsOptionsDialogBase, Ui_PosiviewPropertiesBase):
         self.mobileProviderModel = QStandardItemModel()
         self.mobileProviderModel.setHorizontalHeaderLabels((self.tr('Provider'),
                                                            self.tr('Filter'),
-                                                           self.tr('Extended Filter')))
+                                                           self.tr('Advanced Filter')))
         self.mMobileProviderTableView.setModel(self.mobileProviderModel)
 
         self.providerListModel = QStringListModel()
