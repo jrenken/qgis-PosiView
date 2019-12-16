@@ -22,7 +22,7 @@
 from .udpdevice import UdpDevice
 from .tcpdevice import TcpDevice
 
-try: 
+try:
     from PyQt5 import QtSerialPort
     from .serialdevice import SerialDevice
     DEVICE_TYPES = ('UDP', 'TCP', 'GPSD', 'SERIAL')

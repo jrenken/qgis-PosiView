@@ -8,9 +8,11 @@ from .datadevice import DataDevice
 from qgis.PyQt.QtCore import QObject, QTimer, QIODevice, pyqtSlot, pyqtSignal
 from PyQt5.QtSerialPort import QSerialPort
 
+
 class SerialDevice(DataDevice):
     '''
     Implementation of a Serial Device
+    Requires PyQt5 QtSerialPort module
     '''
 
     readyRead = pyqtSignal()
@@ -20,26 +22,27 @@ class SerialDevice(DataDevice):
         Constructor
         '''
         super(SerialDevice, self).__init__(params, parent)
-        print("init serial")
+        print("init serial:", params)
         self.iodevice = QSerialPort()
         self.reconnect = int(params.get('Reconnect', 1000))
         self.serialPort = params.get('SerialPort', None)
-        self.baudrate = int(params.get('Baudrate', 9600))
-        self.databits = int(params.get('Databits', 8))
-        self.parity = int(params.get('Parity', 0))
-        self.stopbits = int(params.get('Stopbits', 1))
+        self.baudrate = int(params.get('Baudrate', QSerialPort.Baud9600))
+        self.databits = int(params.get('Databits', QSerialPort.Data8))
+        self.parity = int(params.get('Parity', QSerialPort.NoParity))
+        self.stopbits = int(params.get('Stopbits', QSerialPort.OneStop))
+        self.flowControl = int(params.get('FlowControl', QSerialPort.NoFlowControl))
         self.iodevice.readyRead.connect(self.readyRead)
         self.buffer = bytearray()
 
     def connectDevice(self):
         if not self.serialPort:
             return
-        print('connectSerial', self.serialPort)
         self.iodevice.setPortName(self.serialPort)
         self.iodevice.setBaudRate(self.baudrate)
         self.iodevice.setDataBits(self.databits)
         self.iodevice.setParity(self.parity)
         self.iodevice.setStopBits(self.stopbits)
+        self.iodevice.setFlowControl(self.flowControl)
         if not self.iodevice.open(QIODevice.ReadOnly):
             if self.reconnect > 0:
                 QTimer.singleShot(self.reconnect, self.onReconnectTimer)

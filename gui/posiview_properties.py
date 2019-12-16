@@ -7,6 +7,7 @@ from builtins import str
 from builtins import range
 
 import os
+import sys
 from qgis.PyQt import uic
 from qgis.PyQt.QtCore import Qt, QCoreApplication, pyqtSlot, QModelIndex, pyqtSignal, QUrl, QStringListModel
 from qgis.PyQt.QtGui import QStandardItem, QColor, QStandardItemModel, QDesktopServices
@@ -314,8 +315,12 @@ class PosiviewProperties(QgsOptionsDialogBase, Ui_PosiviewPropertiesBase):
                 provider['Port'] = self.spinBoxProviderPort.value()
                 provider['ReuseAddr'] = self.checkBoxReuseAddr.isChecked()
             elif provider['DataDeviceType'] == 'SERIAL':
-                provider['Baudrate'] = self.comboBoxBaudRate.currentText()
                 provider['SerialPort'] = self.comboBoxSerialPort.currentText()
+                provider['Baudrate'] = int(self.comboBoxBaudRate.currentText())
+                provider['Databits'] = self.comboBoxDatabits.currentIndex() + 5
+                provider['Parity'] = self.comboBoxParity.currentIndex()
+                provider['Stopbits'] = self.comboBoxStopbits.currentIndex() + 1
+                provider['FlowControl'] = self.comboBoxFlow.currentIndex()
             provider['Parser'] = self.comboBoxParser.currentText()
             currName = self.providerListModel.data(index, Qt.DisplayRole)
             if not currName == provider['Name']:
@@ -339,11 +344,14 @@ class PosiviewProperties(QgsOptionsDialogBase, Ui_PosiviewPropertiesBase):
             self.lineEditProviderHostName.setText(provider.setdefault('Host', '0.0.0.0'))
             self.spinBoxProviderPort.setValue(int(provider.setdefault('Port', 2000)))
             self.checkBoxReuseAddr.setChecked(provider.setdefault('ReuseAddr', False))
-        elif provider['DataDeviceType'] == 'SERIAL':
+        elif provider['DataDeviceType'] == 'SERIAL' and 'PyQt5.QtSerialPort' in sys.modules:
             self.stackedWidgetDataDevice.setCurrentIndex(1)
             self.comboBoxSerialPort.setCurrentText(provider.setdefault('SerialPort', ''))
             self.comboBoxBaudRate.setCurrentText(str(provider.setdefault('Baudrate', '9600')))
-            
+            self.comboBoxDatabits.setCurrentIndex(provider.setdefault('Databits', 8) - 5)
+            self.comboBoxParity.setCurrentIndex(provider.setdefault('Parity', 0))
+            self.comboBoxStopbits.setCurrentIndex(provider.setdefault('Stopbits', 1) - 1)
+            self.comboBoxFlow.setCurrentIndex(provider.setdefault('FlowControl', 0))
         self.comboBoxParser.setCurrentIndex(self.comboBoxParser.findText(provider.setdefault('Parser', 'NONE').upper()))
 
     @pyqtSlot(name='on_toolButtonAddDataProvider_clicked')
@@ -380,9 +388,10 @@ class PosiviewProperties(QgsOptionsDialogBase, Ui_PosiviewPropertiesBase):
                 for port in ports:
                     self.comboBoxSerialPort.addItem(port.portName())
                 self.comboBoxSerialPort.setCurrentText(cport)
+                self.stackedWidgetDataDevice.setCurrentIndex(1)
             except (ModuleNotFoundError, ImportError):
                 self.comboBoxSerialPort.clear()
-            self.stackedWidgetDataDevice.setCurrentIndex(1)
+                self.stackedWidgetDataDevice.setCurrentIndex(0)
         else:
             self.stackedWidgetDataDevice.setCurrentIndex(0)
 
