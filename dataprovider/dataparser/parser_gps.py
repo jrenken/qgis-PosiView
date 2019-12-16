@@ -40,7 +40,8 @@ class GpsParser(Parser):
             try:
                 result = {'lat': nmea.fromDDM(3, 4),
                           'lon': nmea.fromDDM(5, 6),
-                          'course': nmea.value(8)}
+                          'course': nmea.value(8),
+                          'id': nmea[0][1:3]}
                 try:
                     dt = datetime.now(tz=timezone.utc).replace(hour=int(nmea[1][0:2]),
                                         minute=int(nmea[1][2:4]), second=int(nmea[1][4:6]))
@@ -56,7 +57,8 @@ class GpsParser(Parser):
         if nmea.valid:
             try:
                 result = {'lat': nmea.fromDDM(1, 2),
-                          'lon': nmea.fromDDM(3, 4)}
+                          'lon': nmea.fromDDM(3, 4),
+                          'id': nmea[0][1:3]}
                 try:
                     dt = datetime.now(timezone.utc).replace(hour=int(nmea[5][0:2]),
                                         minute=int(nmea[5][2:4]), second=int(nmea[5][4:6]))
@@ -73,7 +75,8 @@ class GpsParser(Parser):
             try:
                 result = {'lat': nmea.fromDDM(2, 3),
                           'lon': nmea.fromDDM(4, 5),
-                          'depth': -float(nmea[9])}
+                          'depth': -float(nmea[9]),
+                          'id': nmea[0][1:3]}
                 try:
                     dt = datetime.now(timezone.utc).replace(hour=int(nmea[1][0:2]),
                                         minute=int(nmea[1][2:4]), second=int(nmea[1][4:6]))
@@ -89,5 +92,5 @@ class GpsParser(Parser):
         if (nmea.valid):
             h = nmea.value(1)
             if h is not None:
-                return {'course': h}
+                return {'course': h, 'id': nmea[0][1:3]}
         return {}
