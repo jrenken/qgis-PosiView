@@ -738,7 +738,7 @@
                         <item row="0" column="2">
                          <widget class="QComboBox" name="comboBoxBaudRate">
                           <property name="currentIndex">
-                           <number>0</number>
+                           <number>3</number>
                           </property>
                           <item>
                            <property name="text">
@@ -795,7 +795,7 @@
                         <item row="0" column="4">
                          <widget class="QComboBox" name="comboBoxDatabits">
                           <property name="currentIndex">
-                           <number>0</number>
+                           <number>3</number>
                           </property>
                           <item>
                            <property name="text">
