@@ -25,8 +25,7 @@ It accepts position and other data usually provided in NMEA-0183 format from dev
 like GPS, USBL systems or other sensors.
 
 Connection to those devices is established by data provider
-connecting to network sockets (UDP/TCP). 
-Future alternatives like file based inputs are planned.
+connecting to network sockets (UDP/TCP) or serial ports. 
 
 To get something up and running just do:
 

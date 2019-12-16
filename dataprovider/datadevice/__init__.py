@@ -34,7 +34,6 @@ NETWORK_TYPES = ('UDP', 'TCP', 'GPSD')
 
 def createDataDevice(params={}, parent=None):
     deviceType = params.get('DataDeviceType', 'UDP').upper()
-    print(deviceType)
     if deviceType == 'UDP':
         return UdpDevice(params, parent)
     elif deviceType == 'TCP':

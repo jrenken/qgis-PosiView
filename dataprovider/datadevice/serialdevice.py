@@ -22,7 +22,6 @@ class SerialDevice(DataDevice):
         Constructor
         '''
         super(SerialDevice, self).__init__(params, parent)
-        print("init serial:", params)
         self.iodevice = QSerialPort()
         self.reconnect = int(params.get('Reconnect', 1000))
         self.serialPort = params.get('SerialPort', None)
@@ -50,7 +49,6 @@ class SerialDevice(DataDevice):
             self.deviceConnected.emit(True)
 
     def disconnectDevice(self):
-        print('close serial')
         self.iodevice.close()
         self.deviceDisconnected.emit(True)
 
