@@ -390,7 +390,7 @@
     <message>
         <location filename="../gui/ui_posiview_properties_base.py" line="765"/>
         <source>Port:</source>
-        <translation>Port:</translation>
+        <translation>Schnittstelle:</translation>
     </message>
     <message>
         <location filename="../gui/ui_posiview_properties_base.py" line="757"/>

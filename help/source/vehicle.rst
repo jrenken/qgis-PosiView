@@ -28,7 +28,7 @@ Configuring a vehicle/object in depth
      A notification message is triggered if notification timeout is set.
   #. Select the timeout behavior. If checked, the vehicle will be faded out if a timeout occures.
   #. Choose color and length of the track.
-  #. Select wether the vehicle should be labeled.
+  #. Select wether to label the vehicle.
   #. Choose a provider from the list. If a provider supplies multiple position messages like USBL systems do, enter a filter.
      This could be the beacon id (USBL) or the MMSI (AIS) depending on the applied parser. 
      Advanced filters allow more precise control over which data should be processed, e.g. ignoring the heading or displaying the course (COG) as heading.

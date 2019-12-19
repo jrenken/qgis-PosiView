@@ -22,7 +22,7 @@ Configuring a provider in depth
      * GPSD client, a TCP client for GPS daemon
      * SERIAL serial port (requires python module PyQt5.QtSerialPort)
   
-  #. Select the host address. For UDP sockets 0.0.0.0 listens on any available interfaces. 
+  #. Select the host address. For UDP sockets "0.0.0.0" is a good choice, as it binds the socket to any available interface. 
   #. Select the portnumber. For UDP sockets the socket option SO_REUSEADDR can be set for sharing datagrams across several applications.
   #. Or configure device, baud rate, data format and flow control of a serial port.
   #. Select a parser. Following parsers are available up to now: :doc:`protocol`
