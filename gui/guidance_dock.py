@@ -5,10 +5,11 @@ Created on 30.01.2015
 '''
 import os
 from qgis.PyQt import uic
-from qgis.PyQt.QtCore import pyqtSlot, QSettings, QDateTime
+from qgis.PyQt.QtCore import pyqtSlot, QSettings
 from qgis.core import QgsPointXY, QgsDistanceArea, QgsProject, QgsCoordinateReferenceSystem
 from qgis.core import QgsCoordinateFormatter, QgsMapLayer, QgsWkbTypes
 from qgis.PyQt.QtWidgets import QDockWidget
+from datetime import datetime, timezone
 from math import pi
 from .compass import CompassWidget
 
@@ -302,5 +303,5 @@ class GuidanceDock(QDockWidget, FORM_CLASS):
         return QDockWidget.resizeEvent(self, event)
 
     def timerEvent(self, event):
-        dt = QDateTime.currentDateTimeUtc()
-        self.labelTimeUtc.setText(dt.time().toString(u'hh:mm:ss'))
+        dt = datetime.now(tz=timezone.utc)
+        self.labelTimeUtc.setText(dt.strftime("%H:%M:%S"))
