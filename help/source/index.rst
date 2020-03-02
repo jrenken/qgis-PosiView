@@ -21,10 +21,10 @@ Concepts
 ==================
 
 PosiView is a plugin that allows to track multiple vehicles and objects.
-It accepts position and other data usually provided in NMEA-0183 format from devices 
+It accepts position and attitude data usually provided in NMEA-0183 format by devices 
 like GPS, USBL systems or other sensors.
 
-Connection to those devices is established by data provider
+Connection to those devices is established by data providers
 connecting to network sockets (UDP/TCP) or serial ports. 
 
 To get something up and running just do:
@@ -115,6 +115,9 @@ Tracking
    .. image:: _static/compass.png
       :align: center
       
+#. Left mouse click on the green tracking display with CTRL-key hold down copies the current vehicle position to the clipboard. The position can 
+   also be transferred via drag and drop.
+
 .. index:: Recording
 
 Recording
@@ -129,12 +132,12 @@ Recording
 Measuring
 ==================
 
-PosiView provides a simple tool to measure distance and azimuth
+PosiView provides a simple tool to measure distance and azimuth:
 
 * Activate measure tool
 * Click on map and keep mouse button pressed
-* move the mouse
-* release mouse button
+* Move the mouse
+* Holding the CTRL-key down during release, copies the current position to the clipboard
 
 .. Indices and tables
 
