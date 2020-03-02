@@ -5,7 +5,7 @@ Created on 09.07.2015
 '''
 from qgis.PyQt.QtWidgets import QWidget, QHBoxLayout, QToolButton, QLineEdit
 from qgis.core import QgsCoordinateReferenceSystem, QgsCoordinateTransform, QgsPointXY, QgsProject, QgsCoordinateFormatter
-from qgis.PyQt.Qt import pyqtSlot
+from qgis.PyQt.Qt import pyqtSlot, pyqtSignal
 from qgis.PyQt.QtCore import Qt, QSettings
 
 
@@ -16,6 +16,8 @@ class PositionDisplay(QWidget):
     '''
 
     __FORMATS = ('DD', 'DDM', 'DMDS')
+
+    exportPosition = pyqtSignal(str)
 
     def __init__(self, iface, parent=None):
         '''Constructor
@@ -68,7 +70,9 @@ class PositionDisplay(QWidget):
     @pyqtSlot(QgsPointXY)
     def mouseMoved(self, point):
         pt = self.xform.transform(point)
-        self.label.setText(self.posToStr(pt))
+        pos = self.posToStr(pt)
+        self.label.setText(pos)
+        self.exportPosition.emit(pos)
 
     def posToStr(self, pos):
         if self.format == 0:

@@ -10,6 +10,7 @@ from qgis.PyQt.Qt import Qt
 from qgis.core import QgsGeometry, QgsDistanceArea, QgsProject, QgsPoint
 from qgis.PyQt.QtWidgets import QToolTip
 from math import pi
+from qgis.PyQt.QtGui import QGuiApplication
 
 
 class MeasureMapTool(QgsMapToolEmitPoint):
@@ -28,6 +29,7 @@ class MeasureMapTool(QgsMapToolEmitPoint):
         self.distArea = QgsDistanceArea()
         self.distArea.setEllipsoid(u'WGS84')
         self.onCrsChange()
+        self.posText = ''
 
         self.rubberBand = QgsRubberBand(self.canvas)
         self.rubberBand.setZValue(1e6)
@@ -44,6 +46,8 @@ class MeasureMapTool(QgsMapToolEmitPoint):
 
     def canvasReleaseEvent(self, e):
         self.startPoint = None
+        if e.modifiers() == Qt.ControlModifier:
+            QGuiApplication.clipboard().setText(self.posText)
         self.reset()
 
     def canvasMoveEvent(self, e):
@@ -80,3 +84,7 @@ class MeasureMapTool(QgsMapToolEmitPoint):
         '''
         crsDst = self.canvas.mapSettings().destinationCrs()
         self.distArea.setSourceCrs(crsDst, QgsProject.instance().transformContext())
+
+    @pyqtSlot(str)
+    def positionUpdate(self, pos):
+        self.posText = pos

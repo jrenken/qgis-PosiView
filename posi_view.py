@@ -92,6 +92,7 @@ class PosiView(object):
         self.recorder = None
         iface.initializationCompleted.connect(self.postInitialize)
         self.mapTool = MeasureMapTool(self.iface.mapCanvas())
+        self.positionDisplay.exportPosition.connect(self.mapTool.positionUpdate)
 
     # noinspection PyMethodMayBeStatic
     def tr(self, message):
