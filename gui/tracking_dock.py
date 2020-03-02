@@ -8,10 +8,10 @@ from builtins import str
 import os
 
 from qgis.PyQt import uic
-from qgis.PyQt.QtCore import Qt, QSettings, QSignalMapper, pyqtSignal
+from qgis.PyQt.QtCore import Qt, QSettings, QSignalMapper, QMimeData, pyqtSignal
 from qgis.PyQt.Qt import pyqtSlot, QSize
 from qgis.core import QgsPointXY, QgsCoordinateFormatter
-from qgis.PyQt.QtGui import QIcon
+from qgis.PyQt.QtGui import QIcon, QDrag
 from qgis.PyQt.QtWidgets import QAction, QLabel, QWidgetAction, QToolBar, QDockWidget, QToolButton
 from time import gmtime, strftime
 
@@ -83,6 +83,7 @@ class TrackingDisplay(QToolBar):
         self.createActions()
         self.mobile.newPosition.connect(self.onNewPosition)
         self.mobile.timeout.connect(self.onTimeout)
+        self.posText = '0.000000, 0.000000'
 
     def createActions(self):
         self.nameLabel = QLabel(self.mobile.name)
@@ -102,7 +103,7 @@ class TrackingDisplay(QToolBar):
         self.enableAction.triggered.connect(self.mobile.setEnabled)
 
         self.addSeparator()
-        self.posLabel = QLabel("--:--:-- 0.000000 0.000000")
+        self.posLabel = QLabel("--:--:-- 0.000000, 0.000000")
         self.posLabel.setAlignment(Qt.AlignHCenter | Qt.AlignVCenter)
         widths = (180, 196, 204, 180, 184, 200, 208, 184)
         self.posLabel.setMinimumSize(widths[self.format], 23)
@@ -125,19 +126,20 @@ class TrackingDisplay(QToolBar):
         else:
             s = '--:--:-- '
         if self.format == 0:
-            s += "{:f}  {:f}".format(pos.y(), pos.x())
+            self.posText = "{:f}  {:f}".format(pos.y(), pos.x())
         elif self.format == 1:
-            s += ', '.join(QgsCoordinateFormatter.format(pos,
+            self.posText = ', '.join(QgsCoordinateFormatter.format(pos,
                                                          QgsCoordinateFormatter.FormatDegreesMinutes,
                                                          4,
                                                          self.withSuff
                                                          ).rsplit(',')[::-1])
         else:
-            s += ', '.join(QgsCoordinateFormatter.format(pos,
+            self.posText = ', '.join(QgsCoordinateFormatter.format(pos,
                                                          QgsCoordinateFormatter.FormatDegreesMinutesSeconds,
                                                          2,
                                                          self.withSuff
                                                          ).rsplit(',')[::-1])
+        s += self.posText
         if depth > -9999:
             s += "\nd = {:.1f}".format(depth)
         if altitude > -9999:
@@ -165,6 +167,14 @@ class TrackingDisplay(QToolBar):
             self.posLabel.setStyleSheet('background: red; font-size: 8pt; color: white;')
         else:
             self.posLabel.setStyleSheet('background: white; font-size: 8pt; color: black;')
+
+    def mousePressEvent(self, event):
+        if event.button() == Qt.LeftButton:
+            drag = QDrag(self)
+            mimeData = QMimeData()
+            mimeData.setText(self.posText)
+            drag.setMimeData(mimeData)
+            drag.exec_()
 
     def releaseMobile(self):
         self.mobile = None
