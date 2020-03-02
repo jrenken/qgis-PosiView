@@ -11,7 +11,7 @@ from qgis.PyQt import uic
 from qgis.PyQt.QtCore import Qt, QSettings, QSignalMapper, QMimeData, pyqtSignal
 from qgis.PyQt.Qt import pyqtSlot, QSize
 from qgis.core import QgsPointXY, QgsCoordinateFormatter
-from qgis.PyQt.QtGui import QIcon, QDrag
+from qgis.PyQt.QtGui import QIcon, QDrag, QGuiApplication
 from qgis.PyQt.QtWidgets import QAction, QLabel, QWidgetAction, QToolBar, QDockWidget, QToolButton
 from time import gmtime, strftime
 
@@ -170,11 +170,14 @@ class TrackingDisplay(QToolBar):
 
     def mousePressEvent(self, event):
         if event.button() == Qt.LeftButton:
-            drag = QDrag(self)
-            mimeData = QMimeData()
-            mimeData.setText(self.posText)
-            drag.setMimeData(mimeData)
-            drag.exec_()
+            if event.modifiers() == Qt.ControlModifier:
+                QGuiApplication.clipboard().setText(self.posText)
+            else:
+                drag = QDrag(self)
+                mimeData = QMimeData()
+                mimeData.setText(self.posText)
+                drag.setMimeData(mimeData)
+                drag.exec_()
 
     def releaseMobile(self):
         self.mobile = None
