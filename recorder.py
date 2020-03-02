@@ -36,7 +36,7 @@ class Recorder(QObject):
         self.mobiles = mobiles
 
     def openFile(self):
-        dt = datetime.now(tzinfo=timezone.utc)
+        dt = datetime.now(tz=timezone.utc)
         s = self.filePrefix + dt.strftime('%Y%m%d-%H%M%S') + '.csv'
         self.fileName = os.path.join(self.path, self.filePrefix, s)
         try:
@@ -64,7 +64,7 @@ class Recorder(QObject):
     def takeSnapshot(self):
         if self.file is None:
             return
-        dt = datetime.now(tzinfo=timezone.utc)
+        dt = datetime.now(tz=timezone.utc)
         line = dt.strftime('%d.%m.%Y\t%H:%M:%S')
         for v in self.mobiles.values():
             lat, lon, depth, heading, altitude = v.reportPosition()
