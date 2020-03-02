@@ -19,6 +19,7 @@
 #
 ###############################################################################
 
+from .datadevice import DataDevice
 from .udpdevice import UdpDevice
 from .tcpdevice import TcpDevice
 
@@ -44,4 +45,4 @@ def createDataDevice(params={}, parent=None):
     elif deviceType == 'SERIAL':
         if 'SERIAL' in DEVICE_TYPES:
             return SerialDevice(params, parent)
-    return None
+    return DataDevice(params, parent)
