@@ -26,7 +26,6 @@ class CP16Parser(Parser):
             if nmea.valid:
                 try:
                     result = {'depth': nmea.value(1),
-                              'altitude': nmea.value(2),
                               'heading': nmea.value(3),
                               'pitch': nmea.value(5),
                               'roll': nmea.value(6)}
