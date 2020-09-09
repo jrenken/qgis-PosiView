@@ -33,6 +33,8 @@ class GpsParser(Parser):
             return self.decodeGll(data)
         elif data_id == 'GGA':
             return self.decodeGga(data)
+        elif data_id == 'HDT':
+            return self.decodeHdt(data)
 
     def decodeRmc(self, data):
         nmea = NmeaRecord(data)
@@ -93,4 +95,12 @@ class GpsParser(Parser):
             h = nmea.value(1)
             if h is not None:
                 return {'course': h, 'id': nmea[0][1:3]}
+        return {}
+
+    def decodeHdt(self, data):
+        nmea = NmeaRecord(data)
+        if (nmea.valid):
+            h = nmea.value(1)
+            if h is not None:
+                return {'heading': h, 'id': nmea[0][1:3]}
         return {}
