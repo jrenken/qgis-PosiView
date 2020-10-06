@@ -277,7 +277,7 @@ class PosiviewProperties(QgsOptionsDialogBase, Ui_PosiviewPropertiesBase):
                 self.comboBoxProviderFlags.deselectAllOptions()
                 if flgs:
                     self.comboBoxProviderFlags.setCheckedItems(flgs.split(', '))
-            except AttributeError:
+            except (AttributeError, TypeError):
                 pass
 
     @pyqtSlot(name='on_toolButtonRefreshMobileProvider_clicked')
