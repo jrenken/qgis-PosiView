@@ -19,7 +19,7 @@
 #
 ###############################################################################
 
-PARSERS = ('IX_USBL', 'PISE', 'MINIPOS', 'GPS', 'RANGER2', 'CP16', 'AIS', 'MARUM', 'TARGET_POS')
+PARSERS = ('IX_USBL', 'PISE', 'MINIPOS', 'GPS', 'RANGER2', 'CP16', 'COMPASS', 'AIS', 'MARUM', 'TARGET_POS')
 
 
 def createParser(parserType=''):
@@ -41,6 +41,9 @@ def createParser(parserType=''):
     if parserType.upper() == 'CP16':
         from .parser_cp16 import CP16Parser
         return CP16Parser()
+    if parserType.upper() == 'COMPASS':
+        from .parser_compass import CompassParser
+        return CompassParser()
     if parserType.upper() == 'AIS':
         from .parser_ais import AisParser
         return AisParser()
