@@ -91,12 +91,23 @@ Filter id: <sender>
 **TARGET_POS**
 ::
 
-  <target><latitude><longitude>[,<depth>,<altitude>,<heading>]<CR><LF>
+  <target>,<latitude>,<longitude>[,<depth>,<altitude>,<heading>]<CR><LF>
   person1,53.625827,8.736457<CR><LF>
 
 Filter id: <target>
 
+**COMPASS**
+::
 
+  $C<heading>P<pitch>R<roll>[optional key/value pairs]<CR><LF>
+  $C347.0P2.5R-1.8<CR><LF>
+
+
+  $--HDM,<heading>,<magnetic>*hh<CR><LF>
+  $HCHDM,20.73,M*03
+
+  $--HDT,heading,<true>*hh<CR><LF>
+  $HCHDT,212.4,T*2C
 
 .. Indices and tables
 

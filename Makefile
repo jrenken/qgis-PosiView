@@ -75,6 +75,7 @@ PY_FILES = \
 	dataprovider/dataparser/parser_ais.py \
 	dataprovider/dataparser/parser_pmtm.py \
 	dataprovider/dataparser/parser_targetpos.py \
+	dataprovider/dataparser/parser_compass.py \
 	dataprovider/dataparser/parser.py
 
 

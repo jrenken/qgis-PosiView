@@ -33,12 +33,13 @@ Configuring a provider in depth
         IX_USBL     IXBlue USBL systems like GAPS or Posidonia                       $PTSAG, $PTSAH, $HEHDT
         PISE        Record used by ISE for their vehicles                            $PISE
         MINIPOS     Saab MiniPos3 output                                             $PSAAS
-        GPS         Standard GPS Sentences                                           $__RMC, $__GLL, $__VTG, $__GGA
+        GPS         Standard GPS Sentences                                           $__RMC, $__GLL, $__VTG, $__GGA, $__HDT
         RANGER2     Sonardyne USBL system Ranger2                                    $PSONLLD, $PSONALL
         CP16        CP-16 compass                                                    $PCI
         AIS         Automatic Identification System                                  !AIVDM, !AIVDO
         MARUM       Marum's own sentences                                            $PMTM___
         TARGET_POS  Simple non NMEA string containing Id, Lat, Lon and opt. values
+        COMPASS     Heading and attitude as emitted by compass modules               $C, $__HDT, $__HDM
         ==========  ===============================================================  =============================
     
   #. Click  ``Apply Properties``
