@@ -22,9 +22,9 @@ email=renken@marum.de
 # Recommended items:
 
 # Uncomment the following line and add your changelog:
-changelog=1.2.2 (2020-10-20)
-    - add parser for compass modules like PNI TCM2.* and others
-    - GPS parser decodes now heading sentence $--HDT
+changelog=1.2.2 (2021-03-18)
+    - add parser for compass modules like PNI TCM2 and others
+    - GPS parser decodes heading sentence $--HDT
   1.2.1 (2020-03-02)
     - bugfixes in recorder and CP16 parser
     - position in tracking display is now draggable

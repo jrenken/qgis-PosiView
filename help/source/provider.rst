@@ -15,13 +15,13 @@ Configuring a provider in depth
 
   #. Create a new provider by clicking on the ``+``-Button.
   #. Assign a unique name.
-  #. Select a device type, which is one of these:.
-
+  #. Select a device type, which can be one of the following:
+     
      * UDP server socket
      * TCP client socket
-     * GPSD client, a TCP client for GPS daemon
-     * SERIAL serial port (requires python module PyQt5.QtSerialPort)
-  
+     * GPSD client, a TCP client for gpsd
+     * SERIAL port (requires python module PyQt5.QtSerialPort)
+     
   #. Select the host address. For UDP sockets "0.0.0.0" is a good choice, as it binds the socket to any available interface. 
   #. Select the portnumber. For UDP sockets the socket option SO_REUSEADDR can be set for sharing datagrams across several applications.
   #. Or configure device, baud rate, data format and flow control of a serial port.
@@ -37,7 +37,7 @@ Configuring a provider in depth
         RANGER2     Sonardyne USBL system Ranger2                                    $PSONLLD, $PSONALL
         CP16        CP-16 compass                                                    $PCI
         AIS         Automatic Identification System                                  !AIVDM, !AIVDO
-        MARUM       Marum's own sentences                                            $PMTM___
+        MARUM       MARUM's own sentences                                            $PMTM___
         TARGET_POS  Simple non NMEA string containing Id, Lat, Lon and opt. values
         COMPASS     Heading and attitude as emitted by compass modules               $C, $__HDT, $__HDM
         ==========  ===============================================================  =============================

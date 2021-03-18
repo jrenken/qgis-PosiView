@@ -50,7 +50,7 @@ Configuration
    * Don't forget to apply the changes.
 
    |
-   
+
    .. index:: Vehicles; creating
 
 #. On Vehicle/Object page, create and configure a vehicle as needed.
@@ -79,7 +79,9 @@ Configuration
    .. image:: _static/tracking.png
       :align: center
 
-|
+   |
+
+     .. index:: Vehicles; dumping
 
 #. Click on the green LED of the provider to see what comes in and what is parsed.
 

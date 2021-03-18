@@ -31,6 +31,13 @@ Configuring a vehicle/object in depth
   #. Select wether to label the vehicle.
   #. Choose a provider from the list. If a provider supplies multiple position messages like USBL systems do, enter a filter.
      This could be the beacon id (USBL) or the MMSI (AIS) depending on the applied parser. 
-     Advanced filters allow more precise control over which data should be processed, e.g. ignoring the heading or displaying the course (COG) as heading.
+     Advanced filters allow more granular control over what data to process, e.g. ignoring the heading or displaying the course (COG) as heading.
      Finally update the list.
   #. Click  ``Apply Properties``
+
+==================
+
+* :ref:`genindex`
+* :ref:`search`
+  
+  
