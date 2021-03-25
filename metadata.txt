@@ -13,7 +13,7 @@ name=PosiView
 about=Track multiple objects and vehicles and display them as shapes and points on the canvas
 description=PosiView tracks multiple mobile objects and vehicles and displays their position on the canvas
 qgisMinimumVersion=3.0
-version=1.2.2
+version=1.2.3rc1
 author=Jens Renken (Marum, University of Bremen)
 email=renken@marum.de
 
@@ -22,7 +22,9 @@ email=renken@marum.de
 # Recommended items:
 
 # Uncomment the following line and add your changelog:
-changelog=1.2.2 (2021-03-18)
+changelog=1.2.3 (2021-03-25)
+    - make antenna altitude field in GGA sentence optional
+  1.2.2 (2021-03-18)
     - add parser for compass modules like PNI TCM2 and others
     - GPS parser decodes heading sentence $--HDT
   1.2.1 (2020-03-02)

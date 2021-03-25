@@ -77,8 +77,10 @@ class GpsParser(Parser):
             try:
                 result = {'lat': nmea.fromDDM(2, 3),
                           'lon': nmea.fromDDM(4, 5),
-                          'depth': -float(nmea[9]),
+                          'depth': nmea.value(9),
                           'id': nmea[0][1:3]}
+                if result['depth']:
+                    result['depth'] = -result['depth']
                 try:
                     dt = datetime.now(timezone.utc).replace(hour=int(nmea[1][0:2]),
                                         minute=int(nmea[1][2:4]), second=int(nmea[1][4:6]))
