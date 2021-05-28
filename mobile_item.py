@@ -61,7 +61,7 @@ class MobileItem(QObject):
         self.altitude = 0.0
         self.lastFix = 0.0
         self.crsXform = QgsCoordinateTransform()
-        self.crsXform.setSourceCrs(QgsCoordinateReferenceSystem(4326))
+        self.crsXform.setSourceCrs(QgsCoordinateReferenceSystem('EPSG:4326'))
         self.onCrsChange()
         self.canvas.destinationCrsChanged.connect(self.onCrsChange)
         if hasattr(self.canvas, 'magnificationChanged'):
