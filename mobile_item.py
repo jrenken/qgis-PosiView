@@ -47,8 +47,8 @@ class MobileItem(QObject):
         self.iface = iface
         self.canvas = iface.mapCanvas()
         MobileItem.mobileItemCount += 1
-        self.name = params.setdefault('Name', 'MobileItem_' +
-                                      str(MobileItem.mobileItemCount))
+        self.name = params.setdefault('Name',
+                'MobileItem_' + str(MobileItem.mobileItemCount))
         self.marker = PositionMarker(self.canvas, params)
         self.marker.setToolTip(self.name)
         self.dataProvider = params.get('provider', dict())

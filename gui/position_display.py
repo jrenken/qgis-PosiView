@@ -54,6 +54,8 @@ class PositionDisplay(QWidget):
         canvas.xyCoordinates.connect(self.mouseMoved)
         canvas.destinationCrsChanged.connect(self.mapCrsHasChanged)
         self.canvas = canvas
+        self.sep = QgsCoordinateFormatter.separator() + ' '
+
 
     @pyqtSlot(name='on_toolButtonFormat_clicked')
     def switchCoordinateFormat(self):
@@ -75,9 +77,12 @@ class PositionDisplay(QWidget):
         self.exportPosition.emit(pos)
 
     def posToStr(self, pos):
-        if self.format == 0:
-            return '{:.6f}, {:.6f}'.format(pos.y(), pos.x())
+        flg = QgsCoordinateFormatter.FlagDegreesPadMinutesSeconds | QgsCoordinateFormatter.FlagDegreesUseStringSuffix
         if self.format == 1:
-            return ', '.join(QgsCoordinateFormatter.format(pos, QgsCoordinateFormatter.FormatDegreesMinutes, 4).rsplit(',')[::-1])
-        if self.format == 2:
-            return ', '.join(QgsCoordinateFormatter.format(pos, QgsCoordinateFormatter.FormatDegreesMinutesSeconds, 2).rsplit(',')[::-1])
+            f, pr = QgsCoordinateFormatter.FormatDegreesMinutes, 4
+        elif self.format == 2:
+            f, pr = QgsCoordinateFormatter.FormatDegreesMinutesSeconds, 2
+        else:
+            f, pr, flg = QgsCoordinateFormatter.FormatDecimalDegrees, 6, QgsCoordinateFormatter.FormatFlag(0)
+
+        return self.sep.join((QgsCoordinateFormatter.formatY(pos.y(), f, pr, flg), QgsCoordinateFormatter.formatX(pos.x(), f, pr, flg)))

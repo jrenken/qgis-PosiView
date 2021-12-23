@@ -79,7 +79,9 @@ class TrackingDisplay(QToolBar):
         s = QSettings()
         self.defFormat = s.value('PosiView/Misc/DefaultFormat', defaultValue=0, type=int)
         self.format = self.defFormat & 3
-        self.withSuff = QgsCoordinateFormatter.FlagDegreesUseStringSuffix if bool(self.defFormat & 4) else QgsCoordinateFormatter.FormatFlag(0)
+        self.withSuff = QgsCoordinateFormatter.FlagDegreesUseStringSuffix | QgsCoordinateFormatter.FlagDegreesPadMinutesSeconds \
+                if bool(self.defFormat & 4) else QgsCoordinateFormatter.FormatFlag(0)
+        self.sep = QgsCoordinateFormatter.separator() + ' '
         self.createActions()
         self.mobile.newPosition.connect(self.onNewPosition)
         self.mobile.timeout.connect(self.onTimeout)
@@ -125,20 +127,15 @@ class TrackingDisplay(QToolBar):
             s = strftime('%H:%M:%S   ', gmtime(fix))
         else:
             s = '--:--:-- '
-        if self.format == 0:
-            self.posText = "{:f}  {:f}".format(pos.y(), pos.x())
-        elif self.format == 1:
-            self.posText = ', '.join(QgsCoordinateFormatter.format(pos,
-                                                         QgsCoordinateFormatter.FormatDegreesMinutes,
-                                                         4,
-                                                         self.withSuff
-                                                         ).rsplit(',')[::-1])
+        
+        if self.format == 1:
+            f, pr = QgsCoordinateFormatter.FormatDegreesMinutes, 4
+        elif self.format == 2:
+            f, pr = QgsCoordinateFormatter.FormatDegreesMinutesSeconds, 2
         else:
-            self.posText = ', '.join(QgsCoordinateFormatter.format(pos,
-                                                         QgsCoordinateFormatter.FormatDegreesMinutesSeconds,
-                                                         2,
-                                                         self.withSuff
-                                                         ).rsplit(',')[::-1])
+            f, pr = QgsCoordinateFormatter.FormatDecimalDegrees, 6
+        self.posText = self.sep.join((QgsCoordinateFormatter.formatY(pos.y(), f, pr, self.withSuff), 
+                                      QgsCoordinateFormatter.formatX(pos.x(), f, pr, self.withSuff)))    
         s += self.posText
         if depth > -9999:
             s += "\nd = {:.1f}".format(depth)

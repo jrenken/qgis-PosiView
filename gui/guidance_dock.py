@@ -50,6 +50,7 @@ class GuidanceDock(QDockWidget, FORM_CLASS):
         self.timer = 0
         self.setUtcClock()
         self.layer = None
+        self.sep = QgsCoordinateFormatter.separator()
 
     def setUtcClock(self):
         if self.showUtc:
@@ -101,11 +102,14 @@ class GuidanceDock(QDockWidget, FORM_CLASS):
 
     def posToStr(self, pos):
         if self.format == 0:
-            return "{:.6f}".format(pos.x()), "{:.6f}".format(pos.y())
+            return QgsCoordinateFormatter.format(pos, QgsCoordinateFormatter.FormatDecimalDegrees, 6,  
+                                                 QgsCoordinateFormatter.FormatFlag(0)).split(self.sep)
         if self.format == 1:
-            return QgsCoordinateFormatter.format(pos, QgsCoordinateFormatter.FormatDegreesMinutes, 4).split(',')
+            return QgsCoordinateFormatter.format(pos, QgsCoordinateFormatter.FormatDegreesMinutes, 4,
+                                                 QgsCoordinateFormatter.FlagDegreesPadMinutesSeconds | QgsCoordinateFormatter.FlagDegreesUseStringSuffix).split(self.sep)
         if self.format == 2:
-            return QgsCoordinateFormatter.format(pos, QgsCoordinateFormatter.FormatDegreesMinutesSeconds, 2).split(',')
+            return QgsCoordinateFormatter.format(pos, QgsCoordinateFormatter.FormatDegreesMinutesSeconds, 2,
+                                                 QgsCoordinateFormatter.FlagDegreesPadMinutesSeconds | QgsCoordinateFormatter.FlagDegreesUseStringSuffix).split(self.sep)
 
     @pyqtSlot(str, name='on_comboBoxSource_currentIndexChanged')
     def sourceChanged(self, mob):
