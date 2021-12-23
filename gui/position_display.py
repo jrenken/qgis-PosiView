@@ -56,7 +56,6 @@ class PositionDisplay(QWidget):
         self.canvas = canvas
         self.sep = QgsCoordinateFormatter.separator() + ' '
 
-
     @pyqtSlot(name='on_toolButtonFormat_clicked')
     def switchCoordinateFormat(self):
         self.format = (self.format + 1) % 3

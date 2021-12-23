@@ -127,15 +127,15 @@ class TrackingDisplay(QToolBar):
             s = strftime('%H:%M:%S   ', gmtime(fix))
         else:
             s = '--:--:-- '
-        
+
         if self.format == 1:
             f, pr = QgsCoordinateFormatter.FormatDegreesMinutes, 4
         elif self.format == 2:
             f, pr = QgsCoordinateFormatter.FormatDegreesMinutesSeconds, 2
         else:
             f, pr = QgsCoordinateFormatter.FormatDecimalDegrees, 6
-        self.posText = self.sep.join((QgsCoordinateFormatter.formatY(pos.y(), f, pr, self.withSuff), 
-                                      QgsCoordinateFormatter.formatX(pos.x(), f, pr, self.withSuff)))    
+        self.posText = self.sep.join((QgsCoordinateFormatter.formatY(pos.y(), f, pr, self.withSuff),
+                                      QgsCoordinateFormatter.formatX(pos.x(), f, pr, self.withSuff)))
         s += self.posText
         if depth > -9999:
             s += "\nd = {:.1f}".format(depth)

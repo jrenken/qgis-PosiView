@@ -102,7 +102,7 @@ class GuidanceDock(QDockWidget, FORM_CLASS):
 
     def posToStr(self, pos):
         if self.format == 0:
-            return QgsCoordinateFormatter.format(pos, QgsCoordinateFormatter.FormatDecimalDegrees, 6,  
+            return QgsCoordinateFormatter.format(pos, QgsCoordinateFormatter.FormatDecimalDegrees, 6,
                                                  QgsCoordinateFormatter.FormatFlag(0)).split(self.sep)
         if self.format == 1:
             return QgsCoordinateFormatter.format(pos, QgsCoordinateFormatter.FormatDegreesMinutes, 4,
