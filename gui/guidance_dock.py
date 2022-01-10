@@ -7,7 +7,7 @@ import os
 from qgis.PyQt import uic
 from qgis.PyQt.QtCore import pyqtSlot, QSettings
 from qgis.core import QgsPointXY, QgsDistanceArea, QgsProject, QgsCoordinateReferenceSystem
-from qgis.core import QgsCoordinateFormatter, QgsMapLayer, QgsWkbTypes
+from qgis.core import QgsCoordinateFormatter as cf, QgsMapLayer, QgsWkbTypes
 from qgis.PyQt.QtWidgets import QDockWidget
 from datetime import datetime, timezone
 from math import pi
@@ -50,7 +50,7 @@ class GuidanceDock(QDockWidget, FORM_CLASS):
         self.timer = 0
         self.setUtcClock()
         self.layer = None
-        self.sep = QgsCoordinateFormatter.separator()
+        self.sep = cf.separator()
 
     def setUtcClock(self):
         if self.showUtc:
@@ -102,14 +102,14 @@ class GuidanceDock(QDockWidget, FORM_CLASS):
 
     def posToStr(self, pos):
         if self.format == 0:
-            return QgsCoordinateFormatter.format(pos, QgsCoordinateFormatter.FormatDecimalDegrees, 6,
-                                                 QgsCoordinateFormatter.FormatFlag(0)).split(self.sep)
+            return cf.format(pos, cf.FormatDecimalDegrees, 6,
+                             cf.FormatFlag(0)).split(self.sep)
         if self.format == 1:
-            return QgsCoordinateFormatter.format(pos, QgsCoordinateFormatter.FormatDegreesMinutes, 4,
-                                                 QgsCoordinateFormatter.FlagDegreesPadMinutesSeconds | QgsCoordinateFormatter.FlagDegreesUseStringSuffix).split(self.sep)
+            return cf.format(pos, cf.FormatDegreesMinutes, 4,
+                             cf.FlagDegreesUseStringSuffix).split(self.sep)
         if self.format == 2:
-            return QgsCoordinateFormatter.format(pos, QgsCoordinateFormatter.FormatDegreesMinutesSeconds, 2,
-                                                 QgsCoordinateFormatter.FlagDegreesPadMinutesSeconds | QgsCoordinateFormatter.FlagDegreesUseStringSuffix).split(self.sep)
+            return cf.format(pos, cf.FormatDegreesMinutesSeconds, 2,
+                             cf.FlagDegreesUseStringSuffix).split(self.sep)
 
     @pyqtSlot(str, name='on_comboBoxSource_currentIndexChanged')
     def sourceChanged(self, mob):

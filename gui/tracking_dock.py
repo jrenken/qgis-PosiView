@@ -10,7 +10,7 @@ import os
 from qgis.PyQt import uic
 from qgis.PyQt.QtCore import Qt, QSettings, QSignalMapper, QMimeData, pyqtSignal
 from qgis.PyQt.Qt import pyqtSlot, QSize
-from qgis.core import QgsPointXY, QgsCoordinateFormatter
+from qgis.core import QgsPointXY, QgsCoordinateFormatter as cf
 from qgis.PyQt.QtGui import QIcon, QDrag, QGuiApplication
 from qgis.PyQt.QtWidgets import QAction, QLabel, QWidgetAction, QToolBar, QDockWidget, QToolButton
 from time import gmtime, strftime
@@ -79,9 +79,8 @@ class TrackingDisplay(QToolBar):
         s = QSettings()
         self.defFormat = s.value('PosiView/Misc/DefaultFormat', defaultValue=0, type=int)
         self.format = self.defFormat & 3
-        self.withSuff = QgsCoordinateFormatter.FlagDegreesUseStringSuffix | QgsCoordinateFormatter.FlagDegreesPadMinutesSeconds \
-                if bool(self.defFormat & 4) else QgsCoordinateFormatter.FormatFlag(0)
-        self.sep = QgsCoordinateFormatter.separator() + ' '
+        self.withSuff = cf.FlagDegreesUseStringSuffix if bool(self.defFormat & 4) else cf.FormatFlag(0)
+        self.sep = cf.separator() + ' '
         self.createActions()
         self.mobile.newPosition.connect(self.onNewPosition)
         self.mobile.timeout.connect(self.onTimeout)
@@ -129,13 +128,13 @@ class TrackingDisplay(QToolBar):
             s = '--:--:-- '
 
         if self.format == 1:
-            f, pr = QgsCoordinateFormatter.FormatDegreesMinutes, 4
+            f, pr = cf.FormatDegreesMinutes, 4
         elif self.format == 2:
-            f, pr = QgsCoordinateFormatter.FormatDegreesMinutesSeconds, 2
+            f, pr = cf.FormatDegreesMinutesSeconds, 2
         else:
-            f, pr = QgsCoordinateFormatter.FormatDecimalDegrees, 6
-        self.posText = self.sep.join((QgsCoordinateFormatter.formatY(pos.y(), f, pr, self.withSuff),
-                                      QgsCoordinateFormatter.formatX(pos.x(), f, pr, self.withSuff)))
+            f, pr = cf.FormatDecimalDegrees, 6
+        self.posText = self.sep.join((cf.formatY(pos.y(), f, pr, self.withSuff),
+                                      cf.formatX(pos.x(), f, pr, self.withSuff)))
         s += self.posText
         if depth > -9999:
             s += "\nd = {:.1f}".format(depth)

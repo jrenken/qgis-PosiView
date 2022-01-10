@@ -4,7 +4,8 @@ Created on 09.07.2015
 @author: jrenken
 '''
 from qgis.PyQt.QtWidgets import QWidget, QHBoxLayout, QToolButton, QLineEdit
-from qgis.core import QgsCoordinateReferenceSystem, QgsCoordinateTransform, QgsPointXY, QgsProject, QgsCoordinateFormatter
+from qgis.core import QgsCoordinateReferenceSystem, QgsCoordinateTransform, QgsPointXY, QgsProject
+from qgis.core import QgsCoordinateFormatter as cf
 from qgis.PyQt.Qt import pyqtSlot, pyqtSignal
 from qgis.PyQt.QtCore import Qt, QSettings
 
@@ -54,7 +55,7 @@ class PositionDisplay(QWidget):
         canvas.xyCoordinates.connect(self.mouseMoved)
         canvas.destinationCrsChanged.connect(self.mapCrsHasChanged)
         self.canvas = canvas
-        self.sep = QgsCoordinateFormatter.separator() + ' '
+        self.sep = cf.separator() + ' '
 
     @pyqtSlot(name='on_toolButtonFormat_clicked')
     def switchCoordinateFormat(self):
@@ -76,12 +77,12 @@ class PositionDisplay(QWidget):
         self.exportPosition.emit(pos)
 
     def posToStr(self, pos):
-        flg = QgsCoordinateFormatter.FlagDegreesPadMinutesSeconds | QgsCoordinateFormatter.FlagDegreesUseStringSuffix
+        flg = cf.FlagDegreesUseStringSuffix
         if self.format == 1:
-            f, pr = QgsCoordinateFormatter.FormatDegreesMinutes, 4
+            f, pr = cf.FormatDegreesMinutes, 4
         elif self.format == 2:
-            f, pr = QgsCoordinateFormatter.FormatDegreesMinutesSeconds, 2
+            f, pr = cf.FormatDegreesMinutesSeconds, 2
         else:
-            f, pr, flg = QgsCoordinateFormatter.FormatDecimalDegrees, 6, QgsCoordinateFormatter.FormatFlag(0)
+            f, pr, flg = cf.FormatDecimalDegrees, 6, cf.FormatFlag(0)
 
-        return self.sep.join((QgsCoordinateFormatter.formatY(pos.y(), f, pr, flg), QgsCoordinateFormatter.formatX(pos.x(), f, pr, flg)))
+        return self.sep.join((cf.formatY(pos.y(), f, pr, flg), cf.formatX(pos.x(), f, pr, flg)))
