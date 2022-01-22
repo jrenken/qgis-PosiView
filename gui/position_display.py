@@ -55,7 +55,10 @@ class PositionDisplay(QWidget):
         canvas.xyCoordinates.connect(self.mouseMoved)
         canvas.destinationCrsChanged.connect(self.mapCrsHasChanged)
         self.canvas = canvas
-        self.sep = cf.separator() + ' '
+        try:
+            self.sep = cf.separator() + ' '
+        except AttributeError:
+            self.sep = '  '
 
     @pyqtSlot(name='on_toolButtonFormat_clicked')
     def switchCoordinateFormat(self):

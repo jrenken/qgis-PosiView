@@ -80,7 +80,10 @@ class TrackingDisplay(QToolBar):
         self.defFormat = s.value('PosiView/Misc/DefaultFormat', defaultValue=0, type=int)
         self.format = self.defFormat & 3
         self.withSuff = cf.FlagDegreesUseStringSuffix if bool(self.defFormat & 4) else cf.FormatFlag(0)
-        self.sep = cf.separator() + ' '
+        try:
+            self.sep = cf.separator() + ' '
+        except AttributeError:
+            self.sep = '  '
         self.createActions()
         self.mobile.newPosition.connect(self.onNewPosition)
         self.mobile.timeout.connect(self.onTimeout)

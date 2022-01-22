@@ -50,7 +50,6 @@ class GuidanceDock(QDockWidget, FORM_CLASS):
         self.timer = 0
         self.setUtcClock()
         self.layer = None
-        self.sep = cf.separator()
 
     def setUtcClock(self):
         if self.showUtc:
@@ -102,14 +101,20 @@ class GuidanceDock(QDockWidget, FORM_CLASS):
 
     def posToStr(self, pos):
         if self.format == 0:
-            return cf.format(pos, cf.FormatDecimalDegrees, 6,
-                             cf.FormatFlag(0)).split(self.sep)
+            return (cf.formatX(pos.x(), cf.FormatDecimalDegrees, 6,
+                             cf.FormatFlag(0)),
+                    cf.formatY(pos.y(), cf.FormatDecimalDegrees, 6,
+                             cf.FormatFlag(0)))
         if self.format == 1:
-            return cf.format(pos, cf.FormatDegreesMinutes, 4,
-                             cf.FlagDegreesUseStringSuffix).split(self.sep)
+            return (cf.formatX(pos.x(), cf.FormatDegreesMinutes, 4,
+                             cf.FlagDegreesUseStringSuffix),
+                    cf.formatY(pos.y(), cf.FormatDegreesMinutes, 4,
+                             cf.FlagDegreesUseStringSuffix))
         if self.format == 2:
-            return cf.format(pos, cf.FormatDegreesMinutesSeconds, 2,
-                             cf.FlagDegreesUseStringSuffix).split(self.sep)
+            return (cf.formatX(pos.x(), cf.FormatDegreesMinutesSeconds, 2,
+                             cf.FlagDegreesUseStringSuffix),
+                    cf.formatY(pos.y(), cf.FormatDegreesMinutesSeconds, 2,
+                             cf.FlagDegreesUseStringSuffix))
 
     @pyqtSlot(str, name='on_comboBoxSource_currentIndexChanged')
     def sourceChanged(self, mob):
