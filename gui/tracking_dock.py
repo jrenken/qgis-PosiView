@@ -83,7 +83,7 @@ class TrackingDisplay(QToolBar):
         try:
             self.sep = cf.separator() + ' '
         except AttributeError:
-            self.sep = '  '
+            self.sep = ', '
         self.createActions()
         self.mobile.newPosition.connect(self.onNewPosition)
         self.mobile.timeout.connect(self.onTimeout)

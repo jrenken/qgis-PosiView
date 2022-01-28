@@ -58,7 +58,7 @@ class PositionDisplay(QWidget):
         try:
             self.sep = cf.separator() + ' '
         except AttributeError:
-            self.sep = '  '
+            self.sep = ', '
 
     @pyqtSlot(name='on_toolButtonFormat_clicked')
     def switchCoordinateFormat(self):
