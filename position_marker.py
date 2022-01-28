@@ -146,11 +146,11 @@ class PositionMarker(QgsMapCanvasItem):
             if self.position:
                 p1 = self.position
                 p = self.toCanvasCoordinates(self.position)
-                p2 = self.toMapCoordinates(QPoint(p.x(), p.y() + 100))
+                p2 = self.toMapCoordinates(QPoint(int(p.x()), int(p.y()) + 100))
             else:
                 p = self.canvas.viewport().rect().center()
                 p1 = self.toMapCoordinates(p)
-                p2 = self.toMapCoordinates(QPoint(p.x(), p.y() + 100))
+                p2 = self.toMapCoordinates(QPoint(int(p.x()), int(p.y()) + 100))
             lngth = self.distArea.measureLine(p1, p2)
             f = 100.0 / lngth
             self.northAlign = fmod(self.distArea.bearing(p2, p1) * 180.0 / pi + self.canvas.rotation(), 360.0)
