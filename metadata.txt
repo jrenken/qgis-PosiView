@@ -22,10 +22,11 @@ email=renken@marum.de
 # Recommended items:
 
 # Uncomment the following line and add your changelog:
-changelog=1.2.3 (2021-12-23)
+changelog=1.2.3 (2022-02-01)
     - make antenna altitude field in GGA sentence optional
-    - fix position display for german (or maybe other) locale
+    - fix position display for german (or maybe other) locale settings
     - bugfixes and minor improvements
+    - fix backward compatibility issues
   1.2.2 (2021-03-18)
     - add parser for compass modules like PNI TCM2 and others
     - GPS parser decodes heading sentence $--HDT
