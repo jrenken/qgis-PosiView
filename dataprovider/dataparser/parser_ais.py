@@ -34,7 +34,7 @@ class AisParser(Parser):
         start = data.find('!')
         if start == -1 or len(data) < (start + 6):
             return {}
-        if data[(start + 3):(start + 6)] in ('VDM', 'VDO'):
+        if not data[(start + 3):(start + 6)] in ('VDM', 'VDO'):
             return {}
         self.nmea = NmeaRecord(data[start:])
         if self.nmea.valid:
