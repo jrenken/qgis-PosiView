@@ -39,6 +39,8 @@ class UdpDevice(DataDevice):
                 result = self.iodevice.bind(ha, self.port, QAbstractSocket.ReuseAddressHint)
             else:
                 result = self.iodevice.bind(ha, self.port)
+            if result and ha.isMulticast():
+                result = self.iodevice.joinMulticastGroup(ha)
         if result is False:
             if self.reconnect > 0:
                 QTimer.singleShot(self.reconnect, self.onReconnectTimer)
