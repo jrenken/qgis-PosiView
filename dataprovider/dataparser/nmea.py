@@ -38,7 +38,7 @@ class NmeaRecord(object):
             chs = 0
             for i in range(1, len(s)):
                 chs ^= ord(s[i])
-            s += "*%02x" % chs
+            s += "*%02X" % chs
         return s + "\r\n"
 
     def __getitem__(self, key):
