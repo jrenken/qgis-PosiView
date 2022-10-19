@@ -226,8 +226,8 @@ class GuidanceDock(QDockWidget, FORM_CLASS):
             self.labelSourceHeading.setText('{:.1f}'.format(heading))
             self.compass.setAngle(heading)
 
-    @pyqtSlot()
-    @pyqtSlot(QgsMapLayer)
+    # @pyqtSlot()
+    # @pyqtSlot(QgsMapLayer)
     def onActiveLayerChanged(self, layer=None):
         if self.cleanComboBox(self.comboBoxSource):
             self.resetSource()
