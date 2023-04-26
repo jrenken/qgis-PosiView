@@ -24,10 +24,11 @@ class CompassWidget(QWidget):
                            225: "225", 270: "270", 315: "315"}
 
     def paintEvent(self, event):
+        if self.height() < 40:
+            return
         painter = QPainter()
         painter.begin(self)
         painter.setRenderHint(QPainter.Antialiasing)
-
         painter.fillRect(event.rect(), self.palette().brush(QPalette.Window))
         self.drawMarkings(painter)
         self.drawNeedle(painter)

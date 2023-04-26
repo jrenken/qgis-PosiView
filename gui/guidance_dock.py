@@ -31,7 +31,7 @@ class GuidanceDock(QDockWidget, FORM_CLASS):
         self.setupUi(self)
         self.setStyleSheet("QLabel { padding-left: 5px; padding-right: 5px; }")
         self.compass = CompassWidget()
-        self.compass.setMinimumHeight(80)
+        self.compass.setMinimumHeight(10)
         self.verticalLayout.addWidget(self.compass)
         self.verticalLayout.setStretch(5, 8)
         self.distArea = QgsDistanceArea()
