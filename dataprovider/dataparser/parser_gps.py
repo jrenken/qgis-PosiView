@@ -78,9 +78,8 @@ class GpsParser(Parser):
                 result = {'lat': nmea.fromDDM(2, 3),
                           'lon': nmea.fromDDM(4, 5),
                           'altitude': nmea.value(9),
+                          'depth': 0.0,
                           'id': nmea[0][1:3]}
-                # if result['depth']:
-                #     result['depth'] = -result['depth']
                 try:
                     dt = datetime.now(timezone.utc).replace(hour=int(nmea[1][0:2]),
                                         minute=int(nmea[1][2:4]), second=int(nmea[1][4:6]))
@@ -93,11 +92,14 @@ class GpsParser(Parser):
 
     def decodeVtg(self, data):
         nmea = NmeaRecord(data)
-        if (nmea.valid):
-            h = nmea.value(1)
-            if h is not None:
-                return {'course': h, 'id': nmea[0][1:3]}
-        return {}
+        if nmea.valid:
+            try:
+                result = {'course': nmea.value(1),
+                          'speed': nmea.value(7) / 3.6,
+                          'id': nmea[0][1:3]}
+                return dict((k, v) for k, v in result.items() if v is not None)
+            except ValueError:
+                return {}
 
     def decodeHdt(self, data):
         nmea = NmeaRecord(data)
