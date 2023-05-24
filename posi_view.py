@@ -23,7 +23,7 @@
 from __future__ import absolute_import
 from builtins import object
 from qgis.PyQt.QtCore import QObject, QSettings, QTranslator, qVersion, QCoreApplication, Qt, pyqtSlot, QSize
-from qgis.PyQt.QtWidgets import QAction
+from qgis.PyQt.QtWidgets import QAction, QWidget
 from qgis.PyQt.QtGui import QIcon
 # Initialize Qt resources from file resources.py
 from .resources_rc import *
@@ -284,7 +284,13 @@ class PosiView(object):
         self.tracking.removeMobiles()
         self.tracking.removeProviders()
         self.project.unload()
-        self.iface.mainWindow().statusBar().removeWidget(self.positionDisplay)
+        self.positionDisplay.hide()
+        self.iface.statusBarIface().removeWidget(self.positionDisplay)
+        try:
+            self.iface.statusBarIface().findChild(QWidget, 'mCoordsEdit').show()
+            self.iface.statusBarIface().findChild(QWidget, 'mMagnifierWidget').show()
+        except AttributeError:
+            pass
         for _, action in self.actions.items():
             self.iface.removePluginMenu(
                 self.tr(u'&PosiView'),
@@ -314,7 +320,15 @@ class PosiView(object):
                 self.guidance.show()
             if self.compassVisible:
                 self.compass.show()
-            self.iface.mainWindow().statusBar().addPermanentWidget(self.positionDisplay, 2)
+            self.iface.statusBarIface().addPermanentWidget(self.positionDisplay, 2)
+            if self.project.narrowScreen:
+                try:
+                    self.iface.statusBarIface().findChild(QWidget, 'mCoordsEdit').hide()
+                    self.iface.statusBarIface().findChild(QWidget, 'mMagnifierWidget').hide()
+                except AttributeError:
+                    pass
+                # for w in self.iface.statusBarIface().children():
+                #     print(w.metaObject().className(), w.objectName())
             self.positionDisplay.show()
         else:
             self.actions['trackingAction'].setChecked(False)
@@ -332,7 +346,14 @@ class PosiView(object):
             self.compassVisible = self.compass.isVisible()
             self.compass.hide()
             self.project.unload()
-            self.iface.mainWindow().statusBar().removeWidget(self.positionDisplay)
+            self.positionDisplay.hide()
+            self.iface.statusBarIface().removeWidget(self.positionDisplay)
+            try:
+                self.iface.statusBarIface().findChild(QWidget, 'mCoordsEdit').show()
+                self.iface.statusBarIface().findChild(QWidget, 'mMagnifierWidget').show()
+            except AttributeError:
+                pass
+
 
 #     @pyqtSlot(bool)
     def startStopTracking(self, checked=False):

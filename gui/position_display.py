@@ -3,11 +3,12 @@ Created on 09.07.2015
 
 @author: jrenken
 '''
-from qgis.PyQt.QtWidgets import QWidget, QHBoxLayout, QToolButton, QLineEdit
+from qgis.PyQt.QtWidgets import QWidget, QHBoxLayout, QToolButton, QLineEdit 
 from qgis.core import QgsCoordinateReferenceSystem, QgsCoordinateTransform, QgsPointXY, QgsProject
 from qgis.core import QgsCoordinateFormatter as cf
 from qgis.PyQt.Qt import pyqtSlot, pyqtSignal
 from qgis.PyQt.QtCore import Qt, QSettings
+from qgis.PyQt.QtGui import QFontMetrics
 
 
 class PositionDisplay(QWidget):
@@ -31,7 +32,7 @@ class PositionDisplay(QWidget):
         super(PositionDisplay, self).__init__(parent)
         self.setObjectName('positionDisplay')
         layout = QHBoxLayout()
-        layout.setContentsMargins(0, 0, 3, 0)
+        layout.setContentsMargins(0, 0, 0, 0)
         self.button = QToolButton(self)
         self.button.setObjectName('toolButtonFormat')
         self.button.clicked.connect(self.switchCoordinateFormat)
@@ -41,6 +42,9 @@ class PositionDisplay(QWidget):
         self.label.setReadOnly(True)
         self.label.setAlignment(Qt.AlignHCenter)
         self.label.setStyleSheet('font-weight: bold;')
+        fm = QFontMetrics(self.label.font())
+        self.label.setMinimumWidth(fm.boundingRect("19°27′17,77″N 154°42′26,98″W").width())
+        # self.label.setContentsMargins(0, 0, 0, 0)
         layout.addWidget(self.label)
         self.setLayout(layout)
 

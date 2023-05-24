@@ -75,6 +75,7 @@ class PosiviewProperties(QgsOptionsDialogBase, Ui_PosiviewPropertiesBase):
         self.checkBoxAutoRecording.setChecked(properties['AutoRecord'])
         self.spinBoxNotifyDuration.setValue(properties['NotifyDuration'])
         self.checkBoxUtcClock.setChecked(properties['ShowUtcClock'])
+        self.checkBoxNarrowScreen.setChecked(properties['NarrowScreen'])
         self.checkBoxWithSuffix.setChecked(properties['DefaultFormat'] & 4)
         self.comboBoxDefaultPositionFormat.setCurrentIndex((properties['DefaultFormat']) & 3)
 
@@ -86,6 +87,7 @@ class PosiviewProperties(QgsOptionsDialogBase, Ui_PosiviewPropertiesBase):
         self.projectProperties['AutoRecord'] = self.checkBoxAutoRecording.isChecked()
         self.projectProperties['NotifyDuration'] = self.spinBoxNotifyDuration.value()
         self.projectProperties['ShowUtcClock'] = self.checkBoxUtcClock.isChecked()
+        self.projectProperties['NarrowScreen'] = self.checkBoxNarrowScreen.isChecked()
         self.projectProperties['DefaultFormat'] = self.comboBoxDefaultPositionFormat.currentIndex()
         if self.checkBoxWithSuffix.isChecked():
             self.projectProperties['DefaultFormat'] |= 4
