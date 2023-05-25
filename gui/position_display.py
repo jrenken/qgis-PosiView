@@ -3,7 +3,7 @@ Created on 09.07.2015
 
 @author: jrenken
 '''
-from qgis.PyQt.QtWidgets import QWidget, QHBoxLayout, QToolButton, QLineEdit 
+from qgis.PyQt.QtWidgets import QWidget, QHBoxLayout, QToolButton, QLineEdit
 from qgis.core import QgsCoordinateReferenceSystem, QgsCoordinateTransform, QgsPointXY, QgsProject
 from qgis.core import QgsCoordinateFormatter as cf
 from qgis.PyQt.Qt import pyqtSlot, pyqtSignal
@@ -38,19 +38,21 @@ class PositionDisplay(QWidget):
         self.button.clicked.connect(self.switchCoordinateFormat)
         self.button.setAutoRaise(True)
         layout.addWidget(self.button)
+        s = QSettings()
+        self.format = s.value('PosiView/PositionDisplay/Format', defaultValue=1, type=int)
+        self.button.setText(self.__FORMATS[self.format])
+
         self.label = QLineEdit('---  ---')
         self.label.setReadOnly(True)
         self.label.setAlignment(Qt.AlignHCenter)
         self.label.setStyleSheet('font-weight: bold;')
         fm = QFontMetrics(self.label.font())
-        self.label.setMinimumWidth(fm.boundingRect("19°27′17,77″N 154°42′26,98″W").width())
-        # self.label.setContentsMargins(0, 0, 0, 0)
+        self.miniumWidths = [fm.boundingRect("-00,000000° -000,000000°").width(),
+                             fm.boundingRect("00°00,0000′S  000°00,0000′W").width(),
+                             fm.boundingRect("00°00′00,00″N 000°00′00,00″W").width()]
+        self.label.setMinimumWidth(self.miniumWidths[self.format % 3])
         layout.addWidget(self.label)
         self.setLayout(layout)
-
-        s = QSettings()
-        self.format = s.value('PosiView/PositionDisplay/Format', defaultValue=1, type=int)
-        self.button.setText(self.__FORMATS[self.format])
 
         canvas = iface.mapCanvas()
         crsDest = QgsCoordinateReferenceSystem('EPSG:4326')
@@ -67,6 +69,7 @@ class PositionDisplay(QWidget):
     @pyqtSlot(name='on_toolButtonFormat_clicked')
     def switchCoordinateFormat(self):
         self.format = (self.format + 1) % 3
+        self.label.setMinimumWidth(self.miniumWidths[self.format])
         self.button.setText(self.tr(self.__FORMATS[self.format]))
         s = QSettings()
         s.setValue('PosiView/PositionDisplay/Format', self.format)

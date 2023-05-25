@@ -327,8 +327,6 @@ class PosiView(object):
                     self.iface.statusBarIface().findChild(QWidget, 'mMagnifierWidget').hide()
                 except AttributeError:
                     pass
-                # for w in self.iface.statusBarIface().children():
-                #     print(w.metaObject().className(), w.objectName())
             self.positionDisplay.show()
         else:
             self.actions['trackingAction'].setChecked(False)
@@ -353,7 +351,6 @@ class PosiView(object):
                 self.iface.statusBarIface().findChild(QWidget, 'mMagnifierWidget').show()
             except AttributeError:
                 pass
-
 
 #     @pyqtSlot(bool)
     def startStopTracking(self, checked=False):
