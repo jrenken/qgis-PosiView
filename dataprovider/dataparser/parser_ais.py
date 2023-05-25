@@ -58,10 +58,12 @@ class AisParser(Parser):
             rtype = binPayload.getInt(0, 6)
             if rtype in (1, 2, 3):
                 bs = {'lat': (89, 27, True), 'lon': (61, 28, True),
-                      'ts': (137, 6, False), 'head': (128, 9, False), 'cog': (116, 12, False)}
+                      'ts': (137, 6, False), 'head': (128, 9, False), 'cog': (116, 12, False),
+                      'speed': (50, 10, False)}
             elif rtype in (18, 19):
                 bs = {'lat': (85, 27, True), 'lon': (57, 28, True),
-                      'ts': (133, 6, False), 'head': (124, 9, False), 'cog': (112, 12, False)}
+                      'ts': (133, 6, False), 'head': (124, 9, False), 'cog': (112, 12, False),
+                      'speed': (46, 10, False)}
             else:
                 return {}
 
@@ -69,7 +71,8 @@ class AisParser(Parser):
                       'type': rtype,
                       'lat': float(binPayload.getInt(*bs['lat'])) / 600000.0,
                       'lon': float(binPayload.getInt(*bs['lon'])) / 600000.0,
-                      'depth': 0.0}
+                      'depth': 0.0,
+                      'speed': float(binPayload.getInt(*bs['speed'])) * 0.0514444}
             sec = binPayload.getInt(*bs['ts'])
             dt = datetime.now(tz=timezone.utc)
             if sec < 60:
