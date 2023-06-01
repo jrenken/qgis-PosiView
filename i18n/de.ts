@@ -126,12 +126,12 @@
 <context>
     <name>MobileItem</name>
     <message>
-        <location filename="../mobile_item.py" line="272"/>
+        <location filename="../mobile_item.py" line="281"/>
         <source>PosiView Attention</source>
         <translation>PosiView Achtung</translation>
     </message>
     <message>
-        <location filename="../mobile_item.py" line="271"/>
+        <location filename="../mobile_item.py" line="280"/>
         <source>No fix for %s since more than %d seconds!</source>
         <translation>Keine Position für %s seit mehr als %d Sekunden!</translation>
     </message>
@@ -184,12 +184,12 @@
         <translation>Aufnahme starten/stoppen</translation>
     </message>
     <message>
-        <location filename="../posi_view.py" line="443"/>
+        <location filename="../posi_view.py" line="440"/>
         <source>PosiView Recorder</source>
         <translation>PosiView Recorder</translation>
     </message>
     <message>
-        <location filename="../posi_view.py" line="439"/>
+        <location filename="../posi_view.py" line="436"/>
         <source>Recording started: </source>
         <translation>Aufnahme gestartet: </translation>
     </message>
@@ -199,7 +199,7 @@
         <translation>Distanz und Winkel &amp;messen</translation>
     </message>
     <message>
-        <location filename="../posi_view.py" line="443"/>
+        <location filename="../posi_view.py" line="440"/>
         <source>Start recording failed: </source>
         <translation>Recorder Start fehlgeschlagen: </translation>
     </message>
@@ -225,27 +225,27 @@
 <context>
     <name>PosiviewProperties</name>
     <message>
-        <location filename="../gui/posiview_properties.py" line="410"/>
+        <location filename="../gui/posiview_properties.py" line="411"/>
         <source>Vessel</source>
         <translation>Schiff</translation>
     </message>
     <message>
-        <location filename="../gui/posiview_properties.py" line="411"/>
+        <location filename="../gui/posiview_properties.py" line="412"/>
         <source>ROV</source>
         <translation>ROV</translation>
     </message>
     <message>
-        <location filename="../gui/posiview_properties.py" line="412"/>
+        <location filename="../gui/posiview_properties.py" line="413"/>
         <source>AUV</source>
         <translation>AUV</translation>
     </message>
     <message>
-        <location filename="../gui/posiview_properties.py" line="413"/>
+        <location filename="../gui/posiview_properties.py" line="414"/>
         <source>Arrow</source>
         <translation>Pfeil</translation>
     </message>
     <message>
-        <location filename="../gui/posiview_properties.py" line="402"/>
+        <location filename="../gui/posiview_properties.py" line="403"/>
         <source>Select Recorder Path</source>
         <translation>Recorder-Pfad wählen</translation>
     </message>
@@ -265,19 +265,24 @@
         <translation>Kurs als Heading</translation>
     </message>
     <message>
-        <location filename="../gui/posiview_properties.py" line="55"/>
+        <location filename="../gui/posiview_properties.py" line="56"/>
         <source>Provider</source>
         <translation>Datenquelle</translation>
     </message>
     <message>
-        <location filename="../gui/posiview_properties.py" line="55"/>
+        <location filename="../gui/posiview_properties.py" line="56"/>
         <source>Filter</source>
         <translation>Filter</translation>
     </message>
     <message>
-        <location filename="../gui/posiview_properties.py" line="55"/>
+        <location filename="../gui/posiview_properties.py" line="56"/>
         <source>Advanced Filter</source>
         <translation>Erweiterte Filter</translation>
+    </message>
+    <message>
+        <location filename="../gui/posiview_properties.py" line="41"/>
+        <source>decode easting/northing</source>
+        <translation>Dekodiere UTM-Ostwert/Nordwert</translation>
     </message>
 </context>
 <context>
@@ -755,7 +760,7 @@
     <message>
         <location filename="../gui/ui_posiview_properties_base.py" line="748"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;When enabled, coordinate display and magnifier widget in the status bar will be hidden to provide more space for the PosiView coordinate display.&lt;/p&gt;&lt;p&gt;This allows a lower window width on narrow displays.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Die Koordinatenanzeige und die Vergrößerungsanzeige in der Statusbar werden versteckt um mehr Platz für die PosiView-Koordinatenanzeige bereitzustellem.&lt;/p&gt;&lt;p&gt;Das erlaubt die Darstellung bei geringeren Displayauflösungen.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
+        <translation>&amp;lt;html&amp;gt;&amp;lt;head/&amp;gt;&amp;lt;body&amp;gt;&amp;lt;p&amp;gt;Die Koordinatenanzeige und die Vergrößerungsanzeige in der Statusbar werden versteckt um mehr Platz für die PosiView-Koordinatenanzeige bereitzustellem.&amp;lt;/p&amp;gt;&amp;lt;p&amp;gt;Das erlaubt die Darstellung bei geringeren Displayauflösungen.&amp;lt;/p&amp;gt;&amp;lt;/body&amp;gt;&amp;lt;/html&amp;gt;</translation>
     </message>
     <message>
         <location filename="../gui/ui_posiview_properties_base.py" line="749"/>

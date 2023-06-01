@@ -38,6 +38,7 @@ class PosiviewProperties(QgsOptionsDialogBase, Ui_PosiviewPropertiesBase):
             self.PROVIDER_FLAGS[FILTER_FLAGS[0]] = self.tr('ignore heading')
             self.PROVIDER_FLAGS[FILTER_FLAGS[1]] = self.tr('ignore position')
             self.PROVIDER_FLAGS[FILTER_FLAGS[2]] = self.tr('course as heading')
+            self.PROVIDER_FLAGS[FILTER_FLAGS[3]] = self.tr('decode easting/northing')
         self.comboBoxProviderFlags.addItems(list(self.PROVIDER_FLAGS.values()))
         self.groupBox_6.hide()
         self.initOptionsBase(False)

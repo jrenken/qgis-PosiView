@@ -14,7 +14,7 @@ from qgis.PyQt.QtWidgets import QLabel
 from qgis.PyQt.QtGui import QMovie
 
 
-FILTER_FLAGS = ('-head', '-pos', '+course')
+FILTER_FLAGS = ('-head', '-pos', '+course', '+utm')
 
 
 class MobileItem(QObject):
@@ -152,6 +152,15 @@ class MobileItem(QObject):
         self.extData.update(data)
 
         if '-pos' not in flags:
+
+            if '+utm' in flags and 'easting' in data and 'northing' in data:
+                try:
+                    point = self.crsXform.transform(data['easting'], data['northing'], Qgis.TransformDirection.Reverse)
+                    data['lat'] = point.y()
+                    data['lon'] = point.x()
+                except QgsCsException:
+                    pass
+
             if 'lat' in data and 'lon' in data:
                 if self.fadeOut and self.timedOut:
                     self.marker.setVisible(True)

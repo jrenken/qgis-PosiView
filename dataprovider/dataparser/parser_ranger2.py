@@ -54,8 +54,20 @@ class Ranger2Parser(Parser):
         nmea = NmeaRecord(data)
         if (nmea.valid):
             try:
-                result = {'id': nmea[1], 'heading': nmea.value(7),
+                result = {'id': nmea[1],
+                          'easting': nmea.value(4),
+                          'northing': nmea.value(5),
+                          'depth': nmea.value(6),
+                          'heading': nmea.value(7),
                           'course': nmea.value(8)}
+                t = datetime.now(tz=timezone.utc)
+                try:
+                    dt = datetime(t.year, t.month, t.day,
+                         int(nmea[3][0:2]), int(nmea[3][2:4]),
+                         int(nmea[3][4:6]), int(nmea[3][7:]) * 100, tzinfo=timezone.utc)
+                except ValueError:
+                    dt = t
+                result['time'] = (dt - datetime(1970, 1, 1, tzinfo=timezone.utc)).total_seconds()
                 return dict((k, v) for k, v in result.items() if v is not None)
             except ValueError:
                 return {}
