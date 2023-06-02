@@ -13,7 +13,6 @@ from .position_marker import PositionMarker
 from qgis.PyQt.QtWidgets import QLabel
 from qgis.PyQt.QtGui import QMovie
 
-
 FILTER_FLAGS = ('-head', '-pos', '+course', '+utm')
 
 
@@ -150,18 +149,9 @@ class MobileItem(QObject):
             pass
 
         self.extData.update(data)
-
         if '-pos' not in flags:
 
-            if '+utm' in flags and 'easting' in data and 'northing' in data:
-                try:
-                    point = self.crsXform.transform(data['easting'], data['northing'], Qgis.TransformDirection.Reverse)
-                    data['lat'] = point.y()
-                    data['lon'] = point.x()
-                except QgsCsException:
-                    pass
-
-            if 'lat' in data and 'lon' in data:
+            if ('lat' in data and 'lon' in data) or self.hasUtmCoords(flags, data):
                 if self.fadeOut and self.timedOut:
                     self.marker.setVisible(True)
                     self.timedOut = False
@@ -181,7 +171,6 @@ class MobileItem(QObject):
                         self.timeoutCount = 0
                 except QgsCsException:
                     pass
-
             elif self.position is not None:
                 if 'depth' in data or 'altitude' in data:
                     self.newPosition.emit(self.lastFix, self.position,
@@ -198,6 +187,18 @@ class MobileItem(QObject):
                                   data.get('roll', 0.0))
             self.marker.newHeading(data['course'])
             self.heading = data['course']
+
+    def hasUtmCoords(self, flags, data):
+        if '+utm' in flags:
+            if 'easting' in data and 'northing' in data:
+                try:
+                    point = self.crsXform.transform(data['easting'], data['northing'], Qgis.TransformDirection.Reverse)
+                    data['lat'] = point.y()
+                    data['lon'] = point.x()
+                    return True
+                except QgsCsException:
+                    pass
+        return False
 
     @pyqtSlot(float)
     def onScaleChange(self, ):
