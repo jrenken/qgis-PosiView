@@ -58,6 +58,8 @@ Filter id: <id>
   $PSONALL,<name>,<offset>,<time>,<easting>,<northing>,<depth>,<heading>,<CMG>,<heading type>,<pitch>,<roll>,<velocity>,<pos accuratcity>,<depth accuracity>*hh<CR><LF>
 
 Filter id: <name>
+
+Using the position of this sentence requires a suitable CRS with the matching UTM-zone. The sentence does not provide zone information.
  
 .. index:: Protocol; CP16
 

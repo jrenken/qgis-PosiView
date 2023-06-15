@@ -4,7 +4,8 @@ Created on 09.07.2015
 @author: jrenken
 '''
 from qgis.PyQt.QtWidgets import QWidget, QHBoxLayout, QToolButton, QLineEdit
-from qgis.core import QgsCoordinateReferenceSystem, QgsCoordinateTransform, QgsPointXY, QgsProject
+from qgis.core import QgsCoordinateReferenceSystem, QgsCoordinateTransform, QgsCsException
+from qgis.core import QgsPointXY, QgsProject
 from qgis.core import QgsCoordinateFormatter as cf
 from qgis.PyQt.Qt import pyqtSlot, pyqtSignal
 from qgis.PyQt.QtCore import Qt, QSettings
@@ -81,10 +82,13 @@ class PositionDisplay(QWidget):
 
     @pyqtSlot(QgsPointXY)
     def mouseMoved(self, point):
-        pt = self.xform.transform(point)
-        pos = self.posToStr(pt)
-        self.label.setText(pos)
-        self.exportPosition.emit(pos)
+        try:
+            pt = self.xform.transform(point)
+            pos = self.posToStr(pt)
+            self.label.setText(pos)
+            self.exportPosition.emit(pos)
+        except QgsCsException:
+            pass
 
     def posToStr(self, pos):
         flg = cf.FlagDegreesUseStringSuffix
