@@ -281,6 +281,7 @@ class MarkerLabel(QgsMapCanvasItem):
         self.labelRect.setBottomLeft(QPointF(0, 0))
         self.color = self.getColor(params.get('color', 'black'))
         self.position = None
+        self.labelExtraText = ''
         super(MarkerLabel, self).__init__(canvas)
 
     def boundingRect(self):
@@ -293,7 +294,7 @@ class MarkerLabel(QgsMapCanvasItem):
         pen.setWidth(1)
         painter.setPen(pen)
         painter.drawLine(QPointF(0, 0), QPointF(self.labelDistance, -self.labelDistance / 2))
-        painter.drawText(QPointF(self.labelDistance + 2, -self.labelDistance / 2 + 2), self.label)
+        painter.drawText(QPointF(self.labelDistance + 2, -self.labelDistance / 2 + 2), self.label + self.labelExtraText)
 
     def setMapPosition(self, pos):
         if self.position != pos:
@@ -307,6 +308,12 @@ class MarkerLabel(QgsMapCanvasItem):
     def updatePosition(self):
         if self.position:
             self.setPos(self.toCanvasCoordinates(self.position))
+
+    def setLabelExtraText(self, txt):
+        self.labelExtraText = txt
+        self.labelRect = QRectF(self.canvas.fontMetrics().boundingRect(
+            self.label + self.labelExtraText)).translated(QPointF(self.labelDistance, -self.labelDistance))
+        self.update()
 
     def getColor(self, value):
         try:
