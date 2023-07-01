@@ -187,6 +187,12 @@ class MobileItem(QObject):
                                   data.get('roll', 0.0))
             self.marker.newHeading(data['course'])
             self.heading = data['course']
+        # MOOS-IvP addition: show operation mode as extra text on marker
+        if 'moos_mode' in data:
+            mode = data['moos_mode']
+            if '@' in mode:
+                _, mode = mode.split('@')
+            self.marker.label.setLabelExtraText(': ' + mode)
 
     def hasUtmCoords(self, flags, data):
         if '+utm' in flags:
