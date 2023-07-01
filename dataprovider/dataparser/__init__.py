@@ -19,7 +19,7 @@
 #
 ###############################################################################
 
-PARSERS = ('IX_USBL', 'PISE', 'MINIPOS', 'GPS', 'RANGER2', 'CP16', 'COMPASS', 'AIS', 'MARUM', 'TARGET_POS')
+PARSERS = ('IX_USBL', 'PISE', 'MINIPOS', 'GPS', 'RANGER2', 'CP16', 'COMPASS', 'AIS', 'MARUM', 'TARGET_POS', 'MOOS_NODEREPORT')
 
 
 def createParser(parserType=''):
@@ -53,6 +53,9 @@ def createParser(parserType=''):
     if parserType.upper() == 'TARGET_POS':
         from .parser_targetpos import TargetPosParser
         return TargetPosParser()
+    if parserType.upper() == 'MOOS_NODEREPORT':
+        from .parser_moos_nodereport import MoosNodeReportParser
+        return MoosNodeReportParser()
 
     from .parser import Parser
     return Parser()
