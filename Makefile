@@ -76,6 +76,7 @@ PY_FILES = \
 	dataprovider/dataparser/parser_pmtm.py \
 	dataprovider/dataparser/parser_targetpos.py \
 	dataprovider/dataparser/parser_compass.py \
+	dataprovider/dataparser/parser_moos_nodereport.py \
 	dataprovider/dataparser/parser.py
 
 
