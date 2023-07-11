@@ -377,16 +377,6 @@
                     </property>
                    </widget>
                   </item>
-                  <item row="2" column="0">
-                   <widget class="QCheckBox" name="checkBoxNarrowScreen">
-                    <property name="toolTip">
-                     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;When enabled, coordinate display and magnifier widget in the status bar will be hidden to provide more space for the PosiView coordinate display.&lt;/p&gt;&lt;p&gt;This allows a lower window width on narrow displays.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-                    </property>
-                    <property name="text">
-                     <string>Optimize for narrow screen</string>
-                    </property>
-                   </widget>
-                  </item>
                   <item row="3" column="0">
                    <widget class="QLabel" name="label_23">
                     <property name="text">
@@ -429,6 +419,16 @@
                      </widget>
                     </item>
                    </layout>
+                  </item>
+                  <item row="2" column="0" colspan="2">
+                   <widget class="QCheckBox" name="checkBoxNarrowScreen">
+                    <property name="toolTip">
+                     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;When enabled, the position display is shown in the tracking window and not in the status bar.&lt;/p&gt;&lt;p&gt;This allows a lower window width on narrow displays.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                    </property>
+                    <property name="text">
+                     <string>Show position display in tracking window, not in the statusbar</string>
+                    </property>
+                   </widget>
                   </item>
                  </layout>
                 </widget>

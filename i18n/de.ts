@@ -126,12 +126,12 @@
 <context>
     <name>MobileItem</name>
     <message>
-        <location filename="../mobile_item.py" line="281"/>
+        <location filename="../mobile_item.py" line="282"/>
         <source>PosiView Attention</source>
         <translation>PosiView Achtung</translation>
     </message>
     <message>
-        <location filename="../mobile_item.py" line="280"/>
+        <location filename="../mobile_item.py" line="281"/>
         <source>No fix for %s since more than %d seconds!</source>
         <translation>Keine Position für %s seit mehr als %d Sekunden!</translation>
     </message>
@@ -139,7 +139,7 @@
 <context>
     <name>PosiView</name>
     <message>
-        <location filename="../posi_view.py" line="295"/>
+        <location filename="../posi_view.py" line="291"/>
         <source>&amp;PosiView</source>
         <translation>&amp;PosiView</translation>
     </message>
@@ -184,12 +184,12 @@
         <translation>Aufnahme starten/stoppen</translation>
     </message>
     <message>
-        <location filename="../posi_view.py" line="440"/>
+        <location filename="../posi_view.py" line="429"/>
         <source>PosiView Recorder</source>
         <translation>PosiView Recorder</translation>
     </message>
     <message>
-        <location filename="../posi_view.py" line="436"/>
+        <location filename="../posi_view.py" line="425"/>
         <source>Recording started: </source>
         <translation>Aufnahme gestartet: </translation>
     </message>
@@ -199,7 +199,7 @@
         <translation>Distanz und Winkel &amp;messen</translation>
     </message>
     <message>
-        <location filename="../posi_view.py" line="440"/>
+        <location filename="../posi_view.py" line="429"/>
         <source>Start recording failed: </source>
         <translation>Recorder Start fehlgeschlagen: </translation>
     </message>
@@ -613,27 +613,27 @@
         <translation>&amp;lt;html&amp;gt;&amp;lt;head/&amp;gt;&amp;lt;body&amp;gt;&amp;lt;p&amp;gt;Entfernung vom Zentrum der Kontur zur Positionsreferenz in Richtung Steuerbord/rechts&amp;lt;/p&amp;gt;&amp;lt;/body&amp;gt;&amp;lt;/html&amp;gt;</translation>
     </message>
     <message>
-        <location filename="../gui/ui_posiview_properties_base.py" line="751"/>
+        <location filename="../gui/ui_posiview_properties_base.py" line="749"/>
         <source>Decimal Degrees</source>
         <translation>Dezimalgrad</translation>
     </message>
     <message>
-        <location filename="../gui/ui_posiview_properties_base.py" line="752"/>
+        <location filename="../gui/ui_posiview_properties_base.py" line="750"/>
         <source>Degrees, Decimal Minutes</source>
         <translation>Grad, Dezimalminuten</translation>
     </message>
     <message>
-        <location filename="../gui/ui_posiview_properties_base.py" line="753"/>
+        <location filename="../gui/ui_posiview_properties_base.py" line="751"/>
         <source>Degrees, Minutes,  Decimal Seconds</source>
         <translation>Grad, Minuten, Dezimalsekunden</translation>
     </message>
     <message>
-        <location filename="../gui/ui_posiview_properties_base.py" line="754"/>
+        <location filename="../gui/ui_posiview_properties_base.py" line="752"/>
         <source>Suffix</source>
         <translation>Suffix</translation>
     </message>
     <message>
-        <location filename="../gui/ui_posiview_properties_base.py" line="750"/>
+        <location filename="../gui/ui_posiview_properties_base.py" line="748"/>
         <source>Default position format:</source>
         <translation>Vorgabepositionsformat:</translation>
     </message>
@@ -758,14 +758,14 @@
         <translation>Software (XON/XOFF)</translation>
     </message>
     <message>
-        <location filename="../gui/ui_posiview_properties_base.py" line="748"/>
-        <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;When enabled, coordinate display and magnifier widget in the status bar will be hidden to provide more space for the PosiView coordinate display.&lt;/p&gt;&lt;p&gt;This allows a lower window width on narrow displays.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation>&amp;lt;html&amp;gt;&amp;lt;head/&amp;gt;&amp;lt;body&amp;gt;&amp;lt;p&amp;gt;Die Koordinatenanzeige und die Vergrößerungsanzeige in der Statusbar werden versteckt um mehr Platz für die PosiView-Koordinatenanzeige bereitzustellem.&amp;lt;/p&amp;gt;&amp;lt;p&amp;gt;Das erlaubt die Darstellung bei geringeren Displayauflösungen.&amp;lt;/p&amp;gt;&amp;lt;/body&amp;gt;&amp;lt;/html&amp;gt;</translation>
+        <location filename="../gui/ui_posiview_properties_base.py" line="753"/>
+        <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;When enabled, the position display is shown in the tracking window and not in the status bar.&lt;/p&gt;&lt;p&gt;This allows a lower window width on narrow displays.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
+        <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Wenn aktiviert, wird die Mauspositions im Trackingfenster und nicht in der Statuszeile angezeigt&lt;/p&gt;&lt;p&gt;Das ermöglicht eine geringere Fensterbreite bei schmalen Monitoren&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
-        <location filename="../gui/ui_posiview_properties_base.py" line="749"/>
-        <source>Optimize for narrow screen</source>
-        <translation>Optimierung für geringe Displayauflösung oder schmale Displays</translation>
+        <location filename="../gui/ui_posiview_properties_base.py" line="754"/>
+        <source>Show position display in tracking window, not in the statusbar</source>
+        <translation>Zeige Mausposition im Tackingfenster und nicht in der Statuszeile</translation>
     </message>
 </context>
 <context>

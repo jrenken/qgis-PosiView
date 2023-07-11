@@ -62,6 +62,15 @@ class TrackingDock(QDockWidget, FORM_CLASS):
         self.providerToolbar.clear()
         self.providerToolbar.actions = []
 
+    def addWidget(self, widget):
+        if self.verticalLayoutWindow.indexOf(widget) == -1:
+            self.verticalLayoutWindow.insertWidget(2, widget)
+
+    def removeWidget(self, widget):
+        if self.verticalLayoutWindow.indexOf(widget) != -1:
+            self.verticalLayoutWindow.removeWidget(widget)
+            widget.hide()
+
 
 class TrackingDisplay(QToolBar):
     '''

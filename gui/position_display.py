@@ -46,7 +46,9 @@ class PositionDisplay(QWidget):
         self.label = QLineEdit('---  ---')
         self.label.setReadOnly(True)
         self.label.setAlignment(Qt.AlignHCenter)
-        self.label.setStyleSheet('font-weight: bold;')
+        fnt = self.label.font()
+        fnt.setBold(True)
+        self.label.setFont(fnt)
         fm = QFontMetrics(self.label.font())
         self.miniumWidths = [fm.boundingRect("-00,000000° -000,000000°").width(),
                              fm.boundingRect("00°00,0000′S  000°00,0000′W").width(),

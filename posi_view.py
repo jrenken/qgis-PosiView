@@ -286,11 +286,7 @@ class PosiView(object):
         self.project.unload()
         self.positionDisplay.hide()
         self.iface.statusBarIface().removeWidget(self.positionDisplay)
-        try:
-            self.iface.statusBarIface().findChild(QWidget, 'mCoordsEdit').show()
-            self.iface.statusBarIface().findChild(QWidget, 'mMagnifierWidget').show()
-        except AttributeError:
-            pass
+        self.tracking.removeWidget(self.positionDisplay)
         for _, action in self.actions.items():
             self.iface.removePluginMenu(
                 self.tr(u'&PosiView'),
@@ -320,13 +316,10 @@ class PosiView(object):
                 self.guidance.show()
             if self.compassVisible:
                 self.compass.show()
-            self.iface.statusBarIface().addPermanentWidget(self.positionDisplay, 2)
             if self.project.narrowScreen:
-                try:
-                    self.iface.statusBarIface().findChild(QWidget, 'mCoordsEdit').hide()
-                    self.iface.statusBarIface().findChild(QWidget, 'mMagnifierWidget').hide()
-                except AttributeError:
-                    pass
+                self.tracking.addWidget(self.positionDisplay)
+            else:
+                self.iface.statusBarIface().addPermanentWidget(self.positionDisplay, 2)
             self.positionDisplay.show()
         else:
             self.actions['trackingAction'].setChecked(False)
@@ -346,11 +339,7 @@ class PosiView(object):
             self.project.unload()
             self.positionDisplay.hide()
             self.iface.statusBarIface().removeWidget(self.positionDisplay)
-            try:
-                self.iface.statusBarIface().findChild(QWidget, 'mCoordsEdit').show()
-                self.iface.statusBarIface().findChild(QWidget, 'mMagnifierWidget').show()
-            except AttributeError:
-                pass
+            self.tracking.removeWidget(self.positionDisplay)
 
 #     @pyqtSlot(bool)
     def startStopTracking(self, checked=False):
