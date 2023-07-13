@@ -180,6 +180,7 @@ class PosiviewProperties(QgsOptionsDialogBase, Ui_PosiviewPropertiesBase):
             mobile['trackLength'] = self.spinBoxTrackLength.value()
             mobile['trackColor'] = self.mColorButtonMobileTrackColor.color().rgba()
             mobile['showLabel'] = self.checkBoxShowLabel.isChecked()
+            mobile['showExtraText'] = self.checkBoxExtraText.isChecked()
             provs = dict()
             for r in range(self.mobileProviderModel.rowCount()):
                 try:
@@ -239,6 +240,8 @@ class PosiviewProperties(QgsOptionsDialogBase, Ui_PosiviewPropertiesBase):
         self.spinBoxTrackLength.setValue(mobile.get('trackLength', 100))
         self.mColorButtonMobileTrackColor.setColor(self.getColor(mobile.get('trackColor', 'green')))
         self.checkBoxShowLabel.setChecked(mobile.get('showLabel', False))
+        self.checkBoxExtraText.setVisible(self.checkBoxShowLabel.isChecked())
+        self.checkBoxExtraText.setChecked(mobile.get('showExtraText', False))
         r = 0
         self.mobileProviderModel.removeRows(0, self.mobileProviderModel.rowCount())
         if 'provider' in mobile:

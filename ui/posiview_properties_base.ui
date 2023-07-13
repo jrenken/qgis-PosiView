@@ -479,8 +479,8 @@
                <rect>
                 <x>0</x>
                 <y>0</y>
-                <width>619</width>
-                <height>391</height>
+                <width>675</width>
+                <height>801</height>
                </rect>
               </property>
               <layout class="QVBoxLayout" name="verticalLayout_8">
@@ -977,8 +977,8 @@
                <rect>
                 <x>0</x>
                 <y>0</y>
-                <width>621</width>
-                <height>742</height>
+                <width>675</width>
+                <height>801</height>
                </rect>
               </property>
               <layout class="QVBoxLayout" name="verticalLayout_4">
@@ -1569,6 +1569,16 @@
                     </property>
                    </widget>
                   </item>
+                  <item row="11" column="2">
+                   <widget class="QCheckBox" name="checkBoxExtraText">
+                    <property name="toolTip">
+                     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Show text from dataprovider in label.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                    </property>
+                    <property name="text">
+                     <string>Extra Text</string>
+                    </property>
+                   </widget>
+                  </item>
                  </layout>
                 </widget>
                </item>
@@ -1707,12 +1717,28 @@
    <slot>setEnabled(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>594</x>
-     <y>383</y>
+     <x>637</x>
+     <y>381</y>
     </hint>
     <hint type="destinationlabel">
-     <x>692</x>
-     <y>382</y>
+     <x>816</x>
+     <y>381</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>checkBoxShowLabel</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>checkBoxExtraText</receiver>
+   <slot>setVisible(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>529</x>
+     <y>581</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>673</x>
+     <y>584</y>
     </hint>
    </hints>
   </connection>

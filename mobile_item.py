@@ -187,6 +187,8 @@ class MobileItem(QObject):
                                   data.get('roll', 0.0))
             self.marker.newHeading(data['course'])
             self.heading = data['course']
+        if 'text' in data:
+            self.marker.setText(data['text'])
 
     def hasUtmCoords(self, flags, data):
         if '+utm' in flags:
