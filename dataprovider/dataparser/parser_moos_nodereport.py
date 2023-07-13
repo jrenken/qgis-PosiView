@@ -18,18 +18,18 @@ from .parser import Parser
 try:
     from qgis.core import QgsMessageLog, Qgis
     log_error = True
-except:
+except ImportError:
     log_error = False
 
 name_mapping = {
     'name': ('id', str),
-    'time': ('time',float),
-    'lat': ('lat',float),
-    'lon': ('lon',float),
-    'dep': ('depth',float),
-    'hdg': ('heading',float),
-    'spd': ('velforw',float),
-    'mode': ('moos_mode',str),
+    'time': ('time', float),
+    'lat': ('lat', float),
+    'lon': ('lon', float),
+    'dep': ('depth', float),
+    'hdg': ('heading', float),
+    'spd': ('velforw', float),
+    'mode': ('moos_mode', str),
 }
 
 
@@ -59,16 +59,16 @@ class MoosNodeReportParser(Parser):
         # split string by separator (,)
         # easy way would be to use data.split(','), but this fails when the reports contains further comma
         # (see ALLSTOP=... in the test example at file end)
-        #for var in data.strip().split(','):
+        # for var in data.strip().split(','):
         for var in split_node_report(data.strip()):
             try:
                 name, value = var.split('=')
                 name = name.lower()
-                if name in name_mapping:                   
+                if name in name_mapping:
                     result[name_mapping[name][0]] = name_mapping[name][1](value)
                 else:
                     pass
-            except:
+            except Exception:
                 if log_error:
                     QgsMessageLog.logMessage(f"Unable to parse '{var}' from NODE_REPORT '{data}'", tag="PosiView", level=Qgis.Critical)
                 else:
