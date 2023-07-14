@@ -126,12 +126,12 @@
 <context>
     <name>MobileItem</name>
     <message>
-        <location filename="../mobile_item.py" line="282"/>
+        <location filename="../mobile_item.py" line="284"/>
         <source>PosiView Attention</source>
         <translation>PosiView Achtung</translation>
     </message>
     <message>
-        <location filename="../mobile_item.py" line="281"/>
+        <location filename="../mobile_item.py" line="283"/>
         <source>No fix for %s since more than %d seconds!</source>
         <translation>Keine Position für %s seit mehr als %d Sekunden!</translation>
     </message>
@@ -225,27 +225,27 @@
 <context>
     <name>PosiviewProperties</name>
     <message>
-        <location filename="../gui/posiview_properties.py" line="411"/>
+        <location filename="../gui/posiview_properties.py" line="414"/>
         <source>Vessel</source>
         <translation>Schiff</translation>
     </message>
     <message>
-        <location filename="../gui/posiview_properties.py" line="412"/>
+        <location filename="../gui/posiview_properties.py" line="415"/>
         <source>ROV</source>
         <translation>ROV</translation>
     </message>
     <message>
-        <location filename="../gui/posiview_properties.py" line="413"/>
+        <location filename="../gui/posiview_properties.py" line="416"/>
         <source>AUV</source>
         <translation>AUV</translation>
     </message>
     <message>
-        <location filename="../gui/posiview_properties.py" line="414"/>
+        <location filename="../gui/posiview_properties.py" line="417"/>
         <source>Arrow</source>
         <translation>Pfeil</translation>
     </message>
     <message>
-        <location filename="../gui/posiview_properties.py" line="403"/>
+        <location filename="../gui/posiview_properties.py" line="406"/>
         <source>Select Recorder Path</source>
         <translation>Recorder-Pfad wählen</translation>
     </message>
@@ -288,484 +288,494 @@
 <context>
     <name>PosiviewPropertiesBase</name>
     <message>
-        <location filename="../gui/ui_posiview_properties_base.py" line="719"/>
+        <location filename="../gui/ui_posiview_properties_base.py" line="723"/>
         <source>General</source>
         <translation>Allgemein</translation>
     </message>
     <message>
-        <location filename="../gui/ui_posiview_properties_base.py" line="755"/>
+        <location filename="../gui/ui_posiview_properties_base.py" line="759"/>
         <source>Position Provider</source>
         <translation>Datenquellen</translation>
     </message>
     <message>
-        <location filename="../gui/ui_posiview_properties_base.py" line="723"/>
+        <location filename="../gui/ui_posiview_properties_base.py" line="727"/>
         <source>Mobile/Vehicles</source>
         <translation>Fahrzeuge/Objekte</translation>
     </message>
     <message>
-        <location filename="../gui/ui_posiview_properties_base.py" line="725"/>
+        <location filename="../gui/ui_posiview_properties_base.py" line="729"/>
         <source>Mission Properties</source>
         <translation>Missions Eigenschaften</translation>
     </message>
     <message>
-        <location filename="../gui/ui_posiview_properties_base.py" line="726"/>
+        <location filename="../gui/ui_posiview_properties_base.py" line="730"/>
         <source>Cruise:</source>
         <translation>Reise:</translation>
     </message>
     <message>
-        <location filename="../gui/ui_posiview_properties_base.py" line="727"/>
+        <location filename="../gui/ui_posiview_properties_base.py" line="731"/>
         <source>ShipXXX</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../gui/ui_posiview_properties_base.py" line="728"/>
+        <location filename="../gui/ui_posiview_properties_base.py" line="732"/>
         <source>Station:</source>
         <translation>Station:</translation>
     </message>
     <message>
-        <location filename="../gui/ui_posiview_properties_base.py" line="729"/>
+        <location filename="../gui/ui_posiview_properties_base.py" line="733"/>
         <source>Dive:</source>
         <translation>Tauchgang:</translation>
     </message>
     <message>
-        <location filename="../gui/ui_posiview_properties_base.py" line="730"/>
+        <location filename="../gui/ui_posiview_properties_base.py" line="734"/>
         <source>DiveX</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../gui/ui_posiview_properties_base.py" line="731"/>
+        <location filename="../gui/ui_posiview_properties_base.py" line="735"/>
         <source>123456</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../gui/ui_posiview_properties_base.py" line="822"/>
+        <location filename="../gui/ui_posiview_properties_base.py" line="826"/>
         <source>...</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../gui/ui_posiview_properties_base.py" line="743"/>
+        <location filename="../gui/ui_posiview_properties_base.py" line="747"/>
         <source>Layer</source>
         <translation>Layer</translation>
     </message>
     <message>
-        <location filename="../gui/ui_posiview_properties_base.py" line="757"/>
+        <location filename="../gui/ui_posiview_properties_base.py" line="761"/>
         <source>Add a new data provider</source>
         <translation>Neue Datenquelle erzeugen</translation>
     </message>
     <message>
-        <location filename="../gui/ui_posiview_properties_base.py" line="758"/>
+        <location filename="../gui/ui_posiview_properties_base.py" line="762"/>
         <source>New Provider</source>
         <translation>Neue Datenquelle</translation>
     </message>
     <message>
-        <location filename="../gui/ui_posiview_properties_base.py" line="760"/>
+        <location filename="../gui/ui_posiview_properties_base.py" line="764"/>
         <source>Remove current provider</source>
         <translation>Lösche Datenquelle</translation>
     </message>
     <message>
-        <location filename="../gui/ui_posiview_properties_base.py" line="761"/>
+        <location filename="../gui/ui_posiview_properties_base.py" line="765"/>
         <source>Remove Provider</source>
         <translation>Lösche Datenquelle</translation>
     </message>
     <message>
-        <location filename="../gui/ui_posiview_properties_base.py" line="762"/>
+        <location filename="../gui/ui_posiview_properties_base.py" line="766"/>
         <source>Provider Properties</source>
         <translation>Datenquellen Eigenschaften</translation>
     </message>
     <message>
-        <location filename="../gui/ui_posiview_properties_base.py" line="797"/>
+        <location filename="../gui/ui_posiview_properties_base.py" line="801"/>
         <source>Name:</source>
         <translation>Name:</translation>
     </message>
     <message>
-        <location filename="../gui/ui_posiview_properties_base.py" line="763"/>
+        <location filename="../gui/ui_posiview_properties_base.py" line="767"/>
         <source>NONE</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../gui/ui_posiview_properties_base.py" line="768"/>
+        <location filename="../gui/ui_posiview_properties_base.py" line="772"/>
         <source>Host:</source>
         <translation>Host:</translation>
     </message>
     <message>
-        <location filename="../gui/ui_posiview_properties_base.py" line="771"/>
+        <location filename="../gui/ui_posiview_properties_base.py" line="775"/>
         <source>0.0.0.0</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../gui/ui_posiview_properties_base.py" line="773"/>
+        <location filename="../gui/ui_posiview_properties_base.py" line="777"/>
         <source>Port:</source>
         <translation>Schnittstelle:</translation>
     </message>
     <message>
-        <location filename="../gui/ui_posiview_properties_base.py" line="765"/>
+        <location filename="../gui/ui_posiview_properties_base.py" line="769"/>
         <source>Parser:</source>
         <translation>Parser:</translation>
     </message>
     <message>
-        <location filename="../gui/ui_posiview_properties_base.py" line="806"/>
+        <location filename="../gui/ui_posiview_properties_base.py" line="810"/>
         <source>Type:</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../gui/ui_posiview_properties_base.py" line="810"/>
+        <location filename="../gui/ui_posiview_properties_base.py" line="814"/>
         <source>Apply Properties</source>
         <translation>Eigenschaften anwenden</translation>
     </message>
     <message>
-        <location filename="../gui/ui_posiview_properties_base.py" line="786"/>
+        <location filename="../gui/ui_posiview_properties_base.py" line="790"/>
         <source>Mobiles</source>
         <translation>Fahrzeuge/Objekte</translation>
     </message>
     <message>
-        <location filename="../gui/ui_posiview_properties_base.py" line="788"/>
+        <location filename="../gui/ui_posiview_properties_base.py" line="792"/>
         <source>Add a new mobile</source>
         <translation>Neues Fahrzeug/Objekt erzeugen</translation>
     </message>
     <message>
-        <location filename="../gui/ui_posiview_properties_base.py" line="791"/>
+        <location filename="../gui/ui_posiview_properties_base.py" line="795"/>
         <source>Delete mobile</source>
         <translation>Fahrzeug/Objekt löschen</translation>
     </message>
     <message>
-        <location filename="../gui/ui_posiview_properties_base.py" line="793"/>
+        <location filename="../gui/ui_posiview_properties_base.py" line="797"/>
         <source>Mobile Properties</source>
         <translation>Fahrzeug/Objekt Eigenschaften</translation>
     </message>
     <message>
-        <location filename="../gui/ui_posiview_properties_base.py" line="815"/>
+        <location filename="../gui/ui_posiview_properties_base.py" line="819"/>
         <source>Data Provider:</source>
         <translation>Datenquelle:</translation>
     </message>
     <message>
-        <location filename="../gui/ui_posiview_properties_base.py" line="803"/>
+        <location filename="../gui/ui_posiview_properties_base.py" line="807"/>
         <source>Length,  Width [m]:</source>
         <translation>Länge, Breite [m]:</translation>
     </message>
     <message>
-        <location filename="../gui/ui_posiview_properties_base.py" line="816"/>
+        <location filename="../gui/ui_posiview_properties_base.py" line="820"/>
         <source>Color of Outline and Fill:</source>
         <translation>Farbe Kontur und Füllung:</translation>
     </message>
     <message>
-        <location filename="../gui/ui_posiview_properties_base.py" line="818"/>
+        <location filename="../gui/ui_posiview_properties_base.py" line="822"/>
         <source>Update data provider list</source>
         <translation>Datenquellen aktualisieren</translation>
     </message>
     <message>
-        <location filename="../gui/ui_posiview_properties_base.py" line="821"/>
+        <location filename="../gui/ui_posiview_properties_base.py" line="825"/>
         <source>Remove provider from list</source>
         <translation>Datenquelle entfernen</translation>
     </message>
     <message>
-        <location filename="../gui/ui_posiview_properties_base.py" line="809"/>
+        <location filename="../gui/ui_posiview_properties_base.py" line="813"/>
         <source>Track Length and Color:</source>
         <translation>Tracklänge und farbe:</translation>
     </message>
     <message>
-        <location filename="../gui/ui_posiview_properties_base.py" line="825"/>
+        <location filename="../gui/ui_posiview_properties_base.py" line="829"/>
         <source>BOX</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../gui/ui_posiview_properties_base.py" line="826"/>
+        <location filename="../gui/ui_posiview_properties_base.py" line="830"/>
         <source>CROSS</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../gui/ui_posiview_properties_base.py" line="827"/>
+        <location filename="../gui/ui_posiview_properties_base.py" line="831"/>
         <source>X</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../gui/ui_posiview_properties_base.py" line="828"/>
+        <location filename="../gui/ui_posiview_properties_base.py" line="832"/>
         <source>SHAPE</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../gui/ui_posiview_properties_base.py" line="802"/>
+        <location filename="../gui/ui_posiview_properties_base.py" line="806"/>
         <source>z-Value:</source>
         <translation>z-Wert:</translation>
     </message>
     <message>
-        <location filename="../gui/ui_posiview_properties_base.py" line="823"/>
+        <location filename="../gui/ui_posiview_properties_base.py" line="827"/>
         <source>Shape:</source>
         <translation>Kontur:</translation>
     </message>
     <message>
-        <location filename="../gui/ui_posiview_properties_base.py" line="794"/>
+        <location filename="../gui/ui_posiview_properties_base.py" line="798"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Shape of the mobile as a collection of points.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation>&amp;lt;html&amp;gt;&amp;lt;head/&amp;gt;&amp;lt;body&amp;gt;&amp;lt;p&amp;gt;Kontur des Fahrzeugs als ein Punksammlung&amp;lt;/p&amp;gt;&amp;lt;/body&amp;gt;&amp;lt;/html&amp;gt;</translation>
     </message>
     <message>
-        <location filename="../gui/ui_posiview_properties_base.py" line="795"/>
+        <location filename="../gui/ui_posiview_properties_base.py" line="799"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Enter the mobiles shape as a collection of points enclosed by brackets.&lt;/p&gt;&lt;p&gt;Mobile should be upright and the vertical size should be normalized to 1.0.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation>&amp;lt;html&amp;gt;&amp;lt;head/&amp;gt;&amp;lt;body&amp;gt;&amp;lt;p&amp;gt;Geben sie die Kontur als eine Ansammlung von in Klammern eingeschlossenen Punken an.&amp;lt;/p&amp;gt;&amp;lt;p&amp;gt;Die Kontur sollte aufrecht stehen und in der Größe vertikal und horizontal auf 1,0 normiert sein.&amp;lt;/p&amp;gt;&amp;lt;/body&amp;gt;&amp;lt;/html&amp;gt;</translation>
     </message>
     <message>
-        <location filename="../gui/ui_posiview_properties_base.py" line="835"/>
+        <location filename="../gui/ui_posiview_properties_base.py" line="841"/>
         <source>Load Configuration</source>
         <translation>Konfiguration Öffnen</translation>
     </message>
     <message>
-        <location filename="../gui/ui_posiview_properties_base.py" line="836"/>
+        <location filename="../gui/ui_posiview_properties_base.py" line="842"/>
         <source>Load a PosiView configuration</source>
         <translation>Posiview Konfiguration öffnen</translation>
     </message>
     <message>
-        <location filename="../gui/ui_posiview_properties_base.py" line="837"/>
+        <location filename="../gui/ui_posiview_properties_base.py" line="843"/>
         <source>Save Configuration</source>
         <translation>Konfiguration speichern</translation>
     </message>
     <message>
-        <location filename="../gui/ui_posiview_properties_base.py" line="838"/>
+        <location filename="../gui/ui_posiview_properties_base.py" line="844"/>
         <source>Save PosiView configuration</source>
         <translation>PosiView Konfiguration speichern</translation>
     </message>
     <message>
-        <location filename="../gui/ui_posiview_properties_base.py" line="715"/>
+        <location filename="../gui/ui_posiview_properties_base.py" line="719"/>
         <source>PosiView Properties</source>
         <translation>PosiView Eigenschaften</translation>
     </message>
     <message>
-        <location filename="../gui/ui_posiview_properties_base.py" line="732"/>
+        <location filename="../gui/ui_posiview_properties_base.py" line="736"/>
         <source>Project Configuration</source>
         <translation>Projekt Konfiguration</translation>
     </message>
     <message>
-        <location filename="../gui/ui_posiview_properties_base.py" line="740"/>
+        <location filename="../gui/ui_posiview_properties_base.py" line="744"/>
         <source>Select Logging Path</source>
         <translation>Pfad für Logdateien einstellen</translation>
     </message>
     <message>
-        <location filename="../gui/ui_posiview_properties_base.py" line="735"/>
+        <location filename="../gui/ui_posiview_properties_base.py" line="739"/>
         <source>Save PosiView project to file</source>
         <translation>PosiView Konfiguration speichern</translation>
     </message>
     <message>
-        <location filename="../gui/ui_posiview_properties_base.py" line="737"/>
+        <location filename="../gui/ui_posiview_properties_base.py" line="741"/>
         <source>Recorder</source>
         <translation>Recorder</translation>
     </message>
     <message>
-        <location filename="../gui/ui_posiview_properties_base.py" line="738"/>
+        <location filename="../gui/ui_posiview_properties_base.py" line="742"/>
         <source>Recorder path:</source>
         <translation>Recorder Pfad:</translation>
     </message>
     <message>
-        <location filename="../gui/ui_posiview_properties_base.py" line="742"/>
+        <location filename="../gui/ui_posiview_properties_base.py" line="746"/>
         <source>Always start recording</source>
         <translation>Aufnahme immer starten</translation>
     </message>
     <message>
-        <location filename="../gui/ui_posiview_properties_base.py" line="744"/>
+        <location filename="../gui/ui_posiview_properties_base.py" line="748"/>
         <source>Miscellaneous</source>
         <translation>Verschiedene Einstellungen</translation>
     </message>
     <message>
-        <location filename="../gui/ui_posiview_properties_base.py" line="824"/>
+        <location filename="../gui/ui_posiview_properties_base.py" line="828"/>
         <source> sec</source>
         <translation> Sek</translation>
     </message>
     <message>
-        <location filename="../gui/ui_posiview_properties_base.py" line="747"/>
+        <location filename="../gui/ui_posiview_properties_base.py" line="751"/>
         <source>Show UTC clock in guidance window</source>
         <translation>UTC Zeitanzeige im Guidance Fenster</translation>
     </message>
     <message>
-        <location filename="../gui/ui_posiview_properties_base.py" line="796"/>
+        <location filename="../gui/ui_posiview_properties_base.py" line="800"/>
         <source>Timeout, Notification Timeout:</source>
         <translation>Timeout, Benachrichtungs-Timeout:</translation>
     </message>
     <message>
-        <location filename="../gui/ui_posiview_properties_base.py" line="798"/>
+        <location filename="../gui/ui_posiview_properties_base.py" line="802"/>
         <source>Statusbar notification after n times timeout</source>
         <translation>Benachrichtigung nach n mal Timeout</translation>
     </message>
     <message>
-        <location filename="../gui/ui_posiview_properties_base.py" line="799"/>
+        <location filename="../gui/ui_posiview_properties_base.py" line="803"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;A notification is displayed in the messagebar if the a fix is missing for n multiples of the timeout.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation>&amp;lt;html&amp;gt;&amp;lt;head/&amp;gt;&amp;lt;body&amp;gt;&amp;lt;p&amp;gt;Es wird ein Benachrichtigung angezeigt, wenn für ein Vielfaches des Timeouts keine gültige Position ermittelt werden kann.&amp;lt;/p&amp;gt;&amp;lt;/body&amp;gt;&amp;lt;/html&amp;gt;</translation>
     </message>
     <message>
-        <location filename="../gui/ui_posiview_properties_base.py" line="800"/>
+        <location filename="../gui/ui_posiview_properties_base.py" line="804"/>
         <source> * Timeout</source>
         <translation> * Timeout</translation>
     </message>
     <message>
-        <location filename="../gui/ui_posiview_properties_base.py" line="805"/>
+        <location filename="../gui/ui_posiview_properties_base.py" line="809"/>
         <source>Marker Label:</source>
         <translation>Beschriftung:</translation>
     </message>
     <message>
-        <location filename="../gui/ui_posiview_properties_base.py" line="804"/>
+        <location filename="../gui/ui_posiview_properties_base.py" line="808"/>
         <source>Visible</source>
         <translation>Anzeigen</translation>
     </message>
     <message>
-        <location filename="../gui/ui_posiview_properties_base.py" line="808"/>
+        <location filename="../gui/ui_posiview_properties_base.py" line="812"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Distance between centerpoint of the shape and position reference increasing towards bow/top side.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation>&amp;lt;html&amp;gt;&amp;lt;head/&amp;gt;&amp;lt;body&amp;gt;&amp;lt;p&amp;gt;Entfernung vom Zentrum der Kontur zur Positionsreferenz in Richtung Bug/Oberseite&amp;lt;/p&amp;gt;&amp;lt;/body&amp;gt;&amp;lt;/html&amp;gt;</translation>
     </message>
     <message>
-        <location filename="../gui/ui_posiview_properties_base.py" line="812"/>
+        <location filename="../gui/ui_posiview_properties_base.py" line="816"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Distance between centerpoint of the shape and position reference increasing towards starboard/right side.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation>&amp;lt;html&amp;gt;&amp;lt;head/&amp;gt;&amp;lt;body&amp;gt;&amp;lt;p&amp;gt;Entfernung vom Zentrum der Kontur zur Positionsreferenz in Richtung Steuerbord/rechts&amp;lt;/p&amp;gt;&amp;lt;/body&amp;gt;&amp;lt;/html&amp;gt;</translation>
     </message>
     <message>
-        <location filename="../gui/ui_posiview_properties_base.py" line="749"/>
+        <location filename="../gui/ui_posiview_properties_base.py" line="753"/>
         <source>Decimal Degrees</source>
         <translation>Dezimalgrad</translation>
     </message>
     <message>
-        <location filename="../gui/ui_posiview_properties_base.py" line="750"/>
+        <location filename="../gui/ui_posiview_properties_base.py" line="754"/>
         <source>Degrees, Decimal Minutes</source>
         <translation>Grad, Dezimalminuten</translation>
     </message>
     <message>
-        <location filename="../gui/ui_posiview_properties_base.py" line="751"/>
+        <location filename="../gui/ui_posiview_properties_base.py" line="755"/>
         <source>Degrees, Minutes,  Decimal Seconds</source>
         <translation>Grad, Minuten, Dezimalsekunden</translation>
     </message>
     <message>
-        <location filename="../gui/ui_posiview_properties_base.py" line="752"/>
+        <location filename="../gui/ui_posiview_properties_base.py" line="756"/>
         <source>Suffix</source>
         <translation>Suffix</translation>
     </message>
     <message>
-        <location filename="../gui/ui_posiview_properties_base.py" line="748"/>
+        <location filename="../gui/ui_posiview_properties_base.py" line="752"/>
         <source>Default position format:</source>
         <translation>Vorgabepositionsformat:</translation>
     </message>
     <message>
-        <location filename="../gui/ui_posiview_properties_base.py" line="813"/>
+        <location filename="../gui/ui_posiview_properties_base.py" line="817"/>
         <source>Timeout Behavior:</source>
         <translation>Verhalten bei Timeout:</translation>
     </message>
     <message>
-        <location filename="../gui/ui_posiview_properties_base.py" line="814"/>
+        <location filename="../gui/ui_posiview_properties_base.py" line="818"/>
         <source>Fade Out</source>
         <translation>Ausblenden</translation>
     </message>
     <message>
-        <location filename="../gui/ui_posiview_properties_base.py" line="830"/>
+        <location filename="../gui/ui_posiview_properties_base.py" line="834"/>
         <source>Show Default Icon</source>
         <translation>Zeige Vorgabesymbol</translation>
     </message>
     <message>
-        <location filename="../gui/ui_posiview_properties_base.py" line="831"/>
+        <location filename="../gui/ui_posiview_properties_base.py" line="835"/>
         <source>Low scale presentation of shape objects:</source>
         <translation>Konturdarstellung bei kleinem Maßstab:</translation>
     </message>
     <message>
-        <location filename="../gui/ui_posiview_properties_base.py" line="832"/>
+        <location filename="../gui/ui_posiview_properties_base.py" line="836"/>
         <source>Filled</source>
         <translation>Gefüllt</translation>
     </message>
     <message>
-        <location filename="../gui/ui_posiview_properties_base.py" line="829"/>
+        <location filename="../gui/ui_posiview_properties_base.py" line="833"/>
         <source>Offset towards bow, starboard [m]:</source>
         <translation>Offset in Richtung Bug, Steuerbord [m]:</translation>
     </message>
     <message>
-        <location filename="../gui/ui_posiview_properties_base.py" line="801"/>
+        <location filename="../gui/ui_posiview_properties_base.py" line="805"/>
         <source>Provider, Filter:</source>
         <translation>Datenquelle, Filter:</translation>
     </message>
     <message>
-        <location filename="../gui/ui_posiview_properties_base.py" line="833"/>
+        <location filename="../gui/ui_posiview_properties_base.py" line="837"/>
         <source>none</source>
         <translation>keine</translation>
     </message>
     <message>
-        <location filename="../gui/ui_posiview_properties_base.py" line="745"/>
+        <location filename="../gui/ui_posiview_properties_base.py" line="749"/>
         <source>Duration of messagebar notifications:</source>
         <translation>Anzeigedauer für Benachrichtigungen:</translation>
     </message>
     <message>
-        <location filename="../gui/ui_posiview_properties_base.py" line="733"/>
+        <location filename="../gui/ui_posiview_properties_base.py" line="737"/>
         <source>Load a PosiView project configuration</source>
         <translation>Posiview Konfiguration öffnen</translation>
     </message>
     <message>
-        <location filename="../gui/ui_posiview_properties_base.py" line="770"/>
+        <location filename="../gui/ui_posiview_properties_base.py" line="774"/>
         <source>Reuse address</source>
         <translation>Lokale Adresse wiederverwenden</translation>
     </message>
     <message>
-        <location filename="../gui/ui_posiview_properties_base.py" line="834"/>
+        <location filename="../gui/ui_posiview_properties_base.py" line="838"/>
         <source>Advanced Filter:</source>
         <translation>Erweiterte Filter:</translation>
     </message>
     <message>
-        <location filename="../gui/ui_posiview_properties_base.py" line="772"/>
+        <location filename="../gui/ui_posiview_properties_base.py" line="776"/>
         <source>Parity:</source>
         <translation>Paritätsbit:</translation>
     </message>
     <message>
-        <location filename="../gui/ui_posiview_properties_base.py" line="774"/>
+        <location filename="../gui/ui_posiview_properties_base.py" line="778"/>
         <source>Baudrate:</source>
         <translation>Baudrate:</translation>
     </message>
     <message>
-        <location filename="../gui/ui_posiview_properties_base.py" line="775"/>
+        <location filename="../gui/ui_posiview_properties_base.py" line="779"/>
         <source>Databits:</source>
         <translation>Datenbits:</translation>
     </message>
     <message>
-        <location filename="../gui/ui_posiview_properties_base.py" line="783"/>
+        <location filename="../gui/ui_posiview_properties_base.py" line="787"/>
         <source>None</source>
         <translation>Keine</translation>
     </message>
     <message>
-        <location filename="../gui/ui_posiview_properties_base.py" line="777"/>
+        <location filename="../gui/ui_posiview_properties_base.py" line="781"/>
         <source>Even</source>
         <translation>Gerade</translation>
     </message>
     <message>
-        <location filename="../gui/ui_posiview_properties_base.py" line="778"/>
+        <location filename="../gui/ui_posiview_properties_base.py" line="782"/>
         <source>Odd</source>
         <translation>Ungerade</translation>
     </message>
     <message>
-        <location filename="../gui/ui_posiview_properties_base.py" line="779"/>
+        <location filename="../gui/ui_posiview_properties_base.py" line="783"/>
         <source>Space</source>
         <translation>Space</translation>
     </message>
     <message>
-        <location filename="../gui/ui_posiview_properties_base.py" line="780"/>
+        <location filename="../gui/ui_posiview_properties_base.py" line="784"/>
         <source>Mark</source>
         <translation>Mark</translation>
     </message>
     <message>
-        <location filename="../gui/ui_posiview_properties_base.py" line="781"/>
+        <location filename="../gui/ui_posiview_properties_base.py" line="785"/>
         <source>Stopbits:</source>
         <translation>Stopbits:</translation>
     </message>
     <message>
-        <location filename="../gui/ui_posiview_properties_base.py" line="782"/>
+        <location filename="../gui/ui_posiview_properties_base.py" line="786"/>
         <source>Flow Control:</source>
         <translation>Handshake:</translation>
     </message>
     <message>
-        <location filename="../gui/ui_posiview_properties_base.py" line="784"/>
+        <location filename="../gui/ui_posiview_properties_base.py" line="788"/>
         <source>Hardware (RTS/CTS)</source>
         <translation>Hardware (RTS/CTS)</translation>
     </message>
     <message>
-        <location filename="../gui/ui_posiview_properties_base.py" line="785"/>
+        <location filename="../gui/ui_posiview_properties_base.py" line="789"/>
         <source>Software (XON/XOFF)</source>
         <translation>Software (XON/XOFF)</translation>
     </message>
     <message>
-        <location filename="../gui/ui_posiview_properties_base.py" line="753"/>
+        <location filename="../gui/ui_posiview_properties_base.py" line="757"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;When enabled, the position display is shown in the tracking window and not in the status bar.&lt;/p&gt;&lt;p&gt;This allows a lower window width on narrow displays.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Wenn aktiviert, wird die Mauspositions im Trackingfenster und nicht in der Statuszeile angezeigt&lt;/p&gt;&lt;p&gt;Das ermöglicht eine geringere Fensterbreite bei schmalen Monitoren&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
+        <translation>&amp;lt;html&amp;gt;&amp;lt;head/&amp;gt;&amp;lt;body&amp;gt;&amp;lt;p&amp;gt;Wenn aktiviert, wird die Mauspositions im Trackingfenster und nicht in der Statuszeile angezeigt&amp;lt;/p&amp;gt;&amp;lt;p&amp;gt;Das ermöglicht eine geringere Fensterbreite bei schmalen Monitoren&amp;lt;/p&amp;gt;&amp;lt;/body&amp;gt;&amp;lt;/html&amp;gt;</translation>
     </message>
     <message>
-        <location filename="../gui/ui_posiview_properties_base.py" line="754"/>
+        <location filename="../gui/ui_posiview_properties_base.py" line="758"/>
         <source>Show position display in tracking window, not in the statusbar</source>
         <translation>Zeige Mausposition im Tackingfenster und nicht in der Statuszeile</translation>
+    </message>
+    <message>
+        <location filename="../gui/ui_posiview_properties_base.py" line="839"/>
+        <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Show text from dataprovider in label.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
+        <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Zeige von der Datenquelle generierten extra Text.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
+    </message>
+    <message>
+        <location filename="../gui/ui_posiview_properties_base.py" line="840"/>
+        <source>Extra Text</source>
+        <translation>Extra Text</translation>
     </message>
 </context>
 <context>
