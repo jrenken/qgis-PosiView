@@ -43,6 +43,9 @@ Filter id: <source>
 **GPS**
  https://www.gpsinformation.org/dale/nmea.htm
 
+Filter id: <talker>
+
+
 .. index:: Protocol; RANGER2
 
 **RANGER2**
@@ -98,6 +101,8 @@ Filter id: <sender>
 
 Filter id: <target>
 
+.. index:: Protocol; COMPASS
+
 **COMPASS**
 ::
 
@@ -111,6 +116,16 @@ Filter id: <target>
   $--HDT,heading,<true>*hh<CR><LF>
   $HCHDT,212.4,T*2C
 
+.. index:: Protocol; MOOS_NODEREPORT
+
+**MOOS_NODEREPORT**
+::
+    NAME=alpha,TYPE=UUV,TIME=1252348077.59,X=51.71,Y=-35.50,LAT=43.824981,LON=-70.329755,
+    SPD=2.00,HDG=118.85,YAW=118.84754,DEP=4.63,LENGTH=3.8,MODE=MODE@ACTIVE:LOITERING
+
+https://oceanai.mit.edu/ivpman/pmwiki/pmwiki.php?n=IvPTools.PNodeReporter
+ 
+ 
 .. Indices and tables
 
 ==================

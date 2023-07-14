@@ -29,10 +29,11 @@ Configuring a vehicle/object in depth
   #. Select the timeout behavior. If checked, the vehicle will be faded out if a timeout occures.
   #. Choose color and length of the track.
   #. Select wether to label the vehicle.
-  #. Choose a provider from the list. If a provider supplies multiple position messages like USBL systems do, enter a filter.
-     This could be the beacon id (USBL) or the MMSI (AIS) depending on the applied parser. 
-     Advanced filters allow more granular control over what data to process, e.g. ignoring the heading or displaying the course (COG) as heading.
-     Finally update the list.
+  #. If the label is active, extra text can be displayed in it. Text has to be provided by the data provider with the 'text' key.
+  #. Select a provider from the list. If a provider delivers multiple position reports, as USBL systems do, enter a filter.
+     This can be the beacon ID (USBL) or the MMSI (AIS), depending on the parser used.
+     Advanced filters allow more precise control over what data to process, such as ignoring the heading or displaying the course (COG) as a heading. 
+     Finally, update the list.
   #. Click  ``Apply Properties``
 
 ==================
