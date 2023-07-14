@@ -29,7 +29,7 @@ name_mapping = {
     'dep': ('depth', float),
     'hdg': ('heading', float),
     'spd': ('velforw', float),
-    'mode': ('text', lambda x: x.split('@')[1]),
+    'mode': ('text', lambda x: x.split('@')[1] if '@' in x else x)
 }
 
 
