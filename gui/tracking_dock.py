@@ -135,7 +135,7 @@ class TrackingDisplay(QToolBar):
         self.trackLengthAction = QAction(QIcon(':/plugins/PosiView/deletetrack.png'), 'Adjust &Visible Tracklength', self)
         self.addAction(self.trackLengthAction)
         self.trackLengthAction.triggered.connect(self.changeVisibleTrackLength)
-        self.visTrackIdx = 0
+        self.visTrackIdx = 1
         # self.trackVisibleAction = QAction(QIcon(':/plugins/PosiView/deletetrack.png'), 'Adjust visible Track &Length', self)
         # self.addAction(self.trackVisibleAction)
         # self.trackVisibleAction.triggered.connect(self.triggerTrackVisibility)

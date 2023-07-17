@@ -209,7 +209,10 @@ class PositionMarker(QgsMapCanvasItem):
         '''
         if ratio > 100:
             ratio = 100
-        self.trackLenVisible = len(self.track) * ratio // 100
+        if ratio == 100:
+            self.trackLenVisible = self.trackLen
+        else:
+            self.trackLenVisible = len(self.track) * ratio // 100
         print(ratio, len(self.track), self.trackLenVisible)
         visi = self.trackLenVisible if len(self.track) > self.trackLenVisible else len(self.track)
         for tp in islice(self.track, 0, len(self.track) - visi):
