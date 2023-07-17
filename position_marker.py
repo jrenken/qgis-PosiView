@@ -24,7 +24,8 @@ from qgis.PyQt.QtCore import QPointF, QRectF, QPoint, QLineF
 from qgis.PyQt.QtGui import QPainter, QBrush, QColor, QPen, QPolygonF
 from qgis.gui import QgsMapCanvasItem, QgsVertexMarker
 from qgis.core import QgsDistanceArea, QgsProject
-from _collections import deque
+from collections import deque
+from itertools import islice
 from math import fmod, pi
 
 
@@ -72,6 +73,7 @@ class PositionMarker(QgsMapCanvasItem):
         if self.type in ('CROSS', 'X'):
             self.penWidth = 5
         self.trackLen = int(params.get('trackLength', 100))
+        self.trackLenVisible = self.trackLen - 1 if self.trackLen else 0
         self.trackColor = self.getColor(params.get('trackColor', self.fillColor))
         self.track = deque()
         self.position = None
@@ -190,6 +192,8 @@ class PositionMarker(QgsMapCanvasItem):
                 self.canvas.scene().removeItem(tpr[0])
                 del(tpr)
             tp = self.newTrackPoint(self.position)
+            if len(self.track) > self.trackLenVisible:
+                (self.track[-self.trackLenVisible])[0].setVisible(False)
             self.track.append((tp, self.position))
 
     def setVisible(self, visible):
@@ -198,6 +202,20 @@ class PositionMarker(QgsMapCanvasItem):
         QgsMapCanvasItem.setVisible(self, visible)
         if self.showLabel:
             self.label.setVisible(visible)
+
+    def setTrackLengthVisible(self, ratio):
+        '''
+        limit the visibility of the track on <ratio> percent
+        '''
+        if ratio > 100:
+            ratio = 100
+        self.trackLenVisible = len(self.track) * ratio // 100
+        print(ratio, len(self.track), self.trackLenVisible)
+        visi = self.trackLenVisible if len(self.track) > self.trackLenVisible else len(self.track)
+        for tp in islice(self.track, 0, len(self.track) - visi):
+            tp[0].setVisible(False)
+        for tp in islice(self.track, len(self.track) - visi, None):
+            tp[0].setVisible(True)
 
     def deleteTrack(self):
         for tp in self.track:
