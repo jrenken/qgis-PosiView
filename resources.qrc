@@ -8,6 +8,7 @@
         <file alias="deletetrack.png">resources/deletetrack.png</file>
         <file alias="icon.png">resources/icon.png</file>
         <file alias="track_start.png">resources/track_start.png</file>
+        <file alias="track_len.png">resources/track_len.png</file>
         <file alias="measure.png">resources/measure.png</file>
         <file alias="track_stop.png">resources/track_stop.png</file>
         <file alias="preferences.png">resources/preferences.png</file>

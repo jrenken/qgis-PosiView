@@ -8,12 +8,13 @@ from builtins import str
 import os
 
 from qgis.PyQt import uic
-from qgis.PyQt.QtCore import Qt, QSettings, QSignalMapper, QMimeData, pyqtSignal
+from qgis.PyQt.QtCore import Qt, QSettings, QSignalMapper, QMimeData, pyqtSignal, QEvent, QPoint
 from qgis.PyQt.Qt import pyqtSlot, QSize
 from qgis.core import QgsPointXY, QgsCoordinateFormatter as cf
-from qgis.PyQt.QtGui import QIcon, QDrag, QGuiApplication
-from qgis.PyQt.QtWidgets import QAction, QLabel, QWidgetAction, QToolBar, QDockWidget, QToolButton, QDial, QSlider
+from qgis.PyQt.QtGui import QIcon, QDrag, QGuiApplication, QCursor
+from qgis.PyQt.QtWidgets import QAction, QLabel, QWidgetAction, QToolBar, QDockWidget, QToolButton, QWidget, QSlider, QVBoxLayout
 from time import gmtime, strftime
+import math
 
 
 FORM_CLASS, _ = uic.loadUiType(os.path.join(
@@ -75,10 +76,8 @@ class TrackingDock(QDockWidget, FORM_CLASS):
 class TrackingDisplay(QToolBar):
     '''
         Display the position of a mobile and add action for centering
-        the map on the vehicle and erasing the track
+        the map on the vehicle, adjusting visible track length and erasing the track
     '''
-
-    TRACK_LEN_RATIOS = [100, 50, 30, 20, 15, 10, 7, 4, 2, 1]
 
     def __init__(self, mobile, parent=None):
         super(TrackingDisplay, self).__init__(parent)
@@ -128,28 +127,13 @@ class TrackingDisplay(QToolBar):
         self.addAction(self.posLabelAction)
         self.centerAction = QAction(QIcon(':/plugins/PosiView/center.png'), "Center &Map", self)
         self.addAction(self.centerAction)
+        self.trackLengthAction = QAction(QIcon(':/plugins/PosiView/track_len.png'), 'Adjust &Visible Tracklength', self)
+        self.addAction(self.trackLengthAction)
+        self.trackLengthAction.triggered.connect(self.changeVisibleTrackLength)
         self.deleteTrackAction = QAction(QIcon(':/plugins/PosiView/deletetrack.png'), 'Delete &Track', self)
         self.addAction(self.deleteTrackAction)
         self.deleteTrackAction.triggered.connect(self.mobile.deleteTrack)
         self.centerAction.triggered.connect(self.mobile.centerOnMap)
-        self.trackLengthAction = QAction(QIcon(':/plugins/PosiView/deletetrack.png'), 'Adjust &Visible Tracklength', self)
-        self.addAction(self.trackLengthAction)
-        self.trackLengthAction.triggered.connect(self.changeVisibleTrackLength)
-        self.visTrackIdx = 1
-        # self.trackVisibleAction = QAction(QIcon(':/plugins/PosiView/deletetrack.png'), 'Adjust visible Track &Length', self)
-        # self.addAction(self.trackVisibleAction)
-        # self.trackVisibleAction.triggered.connect(self.triggerTrackVisibility)
-
-        # self.trackLengthSpinner = QDial(self)
-        # self.trackLengthSpinner.setMaximumSize(32, 32)
-        # self.trackLengthSpinner.setMaximum(100)
-        # self.trackLengthSpinner.setSliderPosition(self.mobile.marker.trackLengthVisible())
-        # self.trackLengthAction = self.addWidget(self.trackLengthSpinner)
-        # self.trackLengthAction.setDefaultWidget(self.trackLengthSpinner)
-        # # self.trackLengthAction.setEnabled(True)
-        # # self.addWidget(self.trackLengthSpinner)
-        # self.addAction(self.trackLengthAction)
-        # self.trackLengthSpinner.valueChanged.connect(self.changeVisibleTrackLength)
 
     @pyqtSlot(float, QgsPointXY, float, float)
     def onNewPosition(self, fix, pos, depth, altitude):
@@ -197,10 +181,11 @@ class TrackingDisplay(QToolBar):
             self.posLabel.setStyleSheet('background: white; font-size: 8pt; color: black;')
 
     def changeVisibleTrackLength(self, value):
-        self.mobile.marker.setTrackLengthVisible(self.TRACK_LEN_RATIOS[self.visTrackIdx])
-        self.visTrackIdx = (self.visTrackIdx + 1) % len(self.TRACK_LEN_RATIOS)
-        # self.mobile.marker.setTrackLengthVisible(self.trackLengthSpinner.sliderPosition())
-        # print("DialTurned", self.mobile.marker.trackLengthVisible())
+        tlen, vlen, _ = self.mobile.marker.trackLength()
+        self.w = TrackLenSlider(tlen, vlen)
+        self.w.valueChanged.connect(self.mobile.marker.setTrackLengthVisible)
+        self.w.show()
+        self.w.move(QCursor.pos() - QPoint(self.w.width() // 2, 20))
 
     def mousePressEvent(self, event):
         if event.button() == Qt.LeftButton:
@@ -246,3 +231,32 @@ class ProviderToolBar(QToolBar):
         action.triggered.connect(self.signalMapper.map)
         self.addAction(action)
         self.actions.append(action)
+
+
+class TrackLenSlider(QWidget):
+    '''
+    Widget for adjusting the track length
+    '''
+
+    valueChanged = pyqtSignal(int)
+
+    def __init__(self, maxtl, vistl, parent=None):
+        super(TrackLenSlider, self).__init__(parent)
+        self.layout = QVBoxLayout(self)
+        self.slider = QSlider(Qt.Vertical, self)
+        self.layout.addWidget(self.slider, 0, Qt.AlignCenter)
+        self.label = QLabel('0', self)
+        self.layout.addWidget(self.label, 0, Qt.AlignCenter)
+        self.slider.valueChanged['int'].connect(self.setNum)
+        self.slider.setMaximum(int(10 * math.log2(maxtl)))
+        self.slider.setValue(int(10 * math.log2(vistl)))
+        self.setAttribute(Qt.WA_DeleteOnClose)
+        self.setWindowFlags(Qt.Window | Qt.FramelessWindowHint)
+
+    def setNum(self, val):
+        nv = int(math.pow(2, val / 10))
+        self.label.setNum(nv)
+        self.valueChanged.emit(nv)
+
+    def leaveEvent(self, a0: QEvent) -> None:
+        self.close()

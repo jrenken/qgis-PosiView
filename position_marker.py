@@ -73,7 +73,7 @@ class PositionMarker(QgsMapCanvasItem):
         if self.type in ('CROSS', 'X'):
             self.penWidth = 5
         self.trackLen = int(params.get('trackLength', 100))
-        self.trackLenVisible = self.trackLen - 1 if self.trackLen else 0
+        self.trackLenVisible = self.trackLen
         self.trackColor = self.getColor(params.get('trackColor', self.fillColor))
         self.track = deque()
         self.position = None
@@ -196,6 +196,9 @@ class PositionMarker(QgsMapCanvasItem):
                 (self.track[-self.trackLenVisible])[0].setVisible(False)
             self.track.append((tp, self.position))
 
+    def trackLength(self):
+        return (self.trackLen, self.trackLenVisible, len(self.track))
+
     def setVisible(self, visible):
         for tp in self.track:
             tp[0].setVisible(visible)
@@ -203,17 +206,11 @@ class PositionMarker(QgsMapCanvasItem):
         if self.showLabel:
             self.label.setVisible(visible)
 
-    def setTrackLengthVisible(self, ratio):
+    def setTrackLengthVisible(self, nvis):
         '''
-        limit the visibility of the track on <ratio> percent
+        limit the visibility of the track
         '''
-        if ratio > 100:
-            ratio = 100
-        if ratio == 100:
-            self.trackLenVisible = self.trackLen
-        else:
-            self.trackLenVisible = len(self.track) * ratio // 100
-        print(ratio, len(self.track), self.trackLenVisible)
+        self.trackLenVisible = nvis if nvis <= self.trackLen else self.trackLen
         visi = self.trackLenVisible if len(self.track) > self.trackLenVisible else len(self.track)
         for tp in islice(self.track, 0, len(self.track) - visi):
             tp[0].setVisible(False)
