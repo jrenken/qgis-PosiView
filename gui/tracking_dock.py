@@ -250,7 +250,7 @@ class TrackLenSlider(QWidget):
         self.slider.valueChanged['int'].connect(self.setNum)
         self.logscale = 100 / math.log2(maxtl)
         self.slider.setMaximum(100)
-        self.slider.setValue(int(self.logscale * math.log2(vistl)))
+        self.slider.setValue(math.ceil(self.logscale * math.log2(vistl)))
         self.setAttribute(Qt.WA_DeleteOnClose)
         self.setWindowFlags(Qt.Window | Qt.FramelessWindowHint)
 
