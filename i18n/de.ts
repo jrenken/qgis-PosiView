@@ -765,7 +765,7 @@
     <message>
         <location filename="../gui/ui_posiview_properties_base.py" line="758"/>
         <source>Show position display in tracking window, not in the statusbar</source>
-        <translation>Zeige Mausposition im Tackingfenster und nicht in der Statuszeile</translation>
+        <translation>Zeige Mausposition im Trackingfenster und nicht in der Statuszeile</translation>
     </message>
     <message>
         <location filename="../gui/ui_posiview_properties_base.py" line="839"/>

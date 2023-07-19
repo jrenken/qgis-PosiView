@@ -72,7 +72,10 @@ Configuration
 
    .. index:: Vehicles; testing
 
-#. Apply changes and close dialog. Providers and vehicles will be shown in the tracking window.
+#. Apply the changes and close the dialogue. The data providers and vehicles are displayed in the tracking window.
+   The map can be centred on the vehicle. The track can be adjusted in the visible length or deleted completely.
+   The mouse position is displayed here or in the status bar depending on the setting.
+   
 
    .. index:: Tracking window
    
