@@ -106,7 +106,7 @@ class TrackingDisplay(QToolBar):
         self.nameLabelAction.setDefaultWidget(self.nameLabel)
         self.addAction(self.nameLabelAction)
 
-        self.enableAction = QAction("Enable Display", self)
+        self.enableAction = QAction(self.tr("Enable Display"), self)
         self.enableAction.setCheckable(True)
         self.enableAction.setChecked(True)
         icon = QIcon(':/plugins/PosiView/ledgrey.png')
@@ -125,12 +125,12 @@ class TrackingDisplay(QToolBar):
         self.posLabelAction = QWidgetAction(self)
         self.posLabelAction.setDefaultWidget(self.posLabel)
         self.addAction(self.posLabelAction)
-        self.centerAction = QAction(QIcon(':/plugins/PosiView/center.png'), "Center &Map", self)
+        self.centerAction = QAction(QIcon(':/plugins/PosiView/center.png'), self.tr("Center Map"), self)
         self.addAction(self.centerAction)
-        self.trackLengthAction = QAction(QIcon(':/plugins/PosiView/track_len.png'), 'Adjust &Visible Tracklength', self)
+        self.trackLengthAction = QAction(QIcon(':/plugins/PosiView/track_len.png'), self.tr('Adjust Visible Tracklength'), self)
         self.addAction(self.trackLengthAction)
         self.trackLengthAction.triggered.connect(self.changeVisibleTrackLength)
-        self.deleteTrackAction = QAction(QIcon(':/plugins/PosiView/deletetrack.png'), 'Delete &Track', self)
+        self.deleteTrackAction = QAction(QIcon(':/plugins/PosiView/deletetrack.png'), self.tr('Delete Track'), self)
         self.addAction(self.deleteTrackAction)
         self.deleteTrackAction.triggered.connect(self.mobile.deleteTrack)
         self.centerAction.triggered.connect(self.mobile.centerOnMap)
@@ -248,15 +248,16 @@ class TrackLenSlider(QWidget):
         self.label = QLabel('0', self)
         self.layout.addWidget(self.label, 0, Qt.AlignCenter)
         self.slider.valueChanged['int'].connect(self.setNum)
-        self.slider.setMaximum(int(10 * math.log2(maxtl)))
-        self.slider.setValue(int(10 * math.log2(vistl)))
+        self.logscale = 100 / math.log2(maxtl)
+        self.slider.setMaximum(100)
+        self.slider.setValue(int(self.logscale * math.log2(vistl)))
         self.setAttribute(Qt.WA_DeleteOnClose)
         self.setWindowFlags(Qt.Window | Qt.FramelessWindowHint)
 
     def setNum(self, val):
-        nv = int(math.pow(2, val / 10))
+        nv = int(math.pow(2, val / self.logscale))
         self.label.setNum(nv)
         self.valueChanged.emit(nv)
 
-    def leaveEvent(self, a0: QEvent) -> None:
+    def leaveEvent(self, event):
         self.close()

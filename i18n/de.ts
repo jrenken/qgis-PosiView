@@ -770,12 +770,35 @@
     <message>
         <location filename="../gui/ui_posiview_properties_base.py" line="839"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Show text from dataprovider in label.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Zeige von der Datenquelle generierten extra Text.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
+        <translation>&amp;lt;html&amp;gt;&amp;lt;head/&amp;gt;&amp;lt;body&amp;gt;&amp;lt;p&amp;gt;Zeige von der Datenquelle generierten extra Text.&amp;lt;/p&amp;gt;&amp;lt;/body&amp;gt;&amp;lt;/html&amp;gt;</translation>
     </message>
     <message>
         <location filename="../gui/ui_posiview_properties_base.py" line="840"/>
         <source>Extra Text</source>
         <translation>Extra Text</translation>
+    </message>
+</context>
+<context>
+    <name>TrackingDisplay</name>
+    <message>
+        <location filename="../gui/tracking_dock.py" line="109"/>
+        <source>Enable Display</source>
+        <translation>Objekt und Spur anzeigen</translation>
+    </message>
+    <message>
+        <location filename="../gui/tracking_dock.py" line="128"/>
+        <source>Center Map</source>
+        <translation>Karte auf das Objekt zentrieren</translation>
+    </message>
+    <message>
+        <location filename="../gui/tracking_dock.py" line="130"/>
+        <source>Adjust Visible Tracklength</source>
+        <translation>Sichtbare Spurlänge anpassen</translation>
+    </message>
+    <message>
+        <location filename="../gui/tracking_dock.py" line="133"/>
+        <source>Delete Track</source>
+        <translation>Spur löschen</translation>
     </message>
 </context>
 <context>
