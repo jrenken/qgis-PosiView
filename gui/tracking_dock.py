@@ -248,14 +248,18 @@ class TrackLenSlider(QWidget):
         self.label = QLabel('0', self)
         self.layout.addWidget(self.label, 0, Qt.AlignCenter)
         self.slider.valueChanged['int'].connect(self.setNum)
-        self.logscale = 100 / math.log2(maxtl)
-        self.slider.setMaximum(100)
-        self.slider.setValue(math.ceil(self.logscale * math.log2(vistl)))
+        try:
+            self.logscale = 100 / math.log2(maxtl)
+            self.slider.setMaximum(100)
+            self.slider.setValue(round(self.logscale * math.log2(vistl)))
+        except (ValueError, ZeroDivisionError):
+            self.logscale = 1e-6
+            self.setDisabled(True)
         self.setAttribute(Qt.WA_DeleteOnClose)
         self.setWindowFlags(Qt.Window | Qt.FramelessWindowHint)
 
     def setNum(self, val):
-        nv = int(math.pow(2, val / self.logscale))
+        nv = round(math.pow(2, val / self.logscale))
         self.label.setNum(nv)
         self.valueChanged.emit(nv)
 
