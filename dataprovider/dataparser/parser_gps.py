@@ -98,7 +98,7 @@ class GpsParser(Parser):
                           'speed': nmea.value(7) / 3.6,
                           'id': nmea[0][1:3]}
                 return dict((k, v) for k, v in result.items() if v is not None)
-            except ValueError:
+            except (TypeError, ValueError):
                 return {}
 
     def decodeHdt(self, data):
