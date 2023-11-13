@@ -94,9 +94,14 @@ class GpsParser(Parser):
         nmea = NmeaRecord(data)
         if nmea.valid:
             try:
-                result = {'course': nmea.value(1),
-                          'speed': nmea.value(7) / 3.6,
-                          'id': nmea[0][1:3]}
+                if nmea.value(7):
+                    result = {'course': nmea.value(1),
+                              'speed': nmea.value(7) / 3.6,
+                              'id': nmea[0][1:3]}
+                else:
+                    result = {'course': nmea.value(1),
+                              'speed': nmea.value(5) / 1.944,
+                              'id': nmea[0][1:3]}
                 return dict((k, v) for k, v in result.items() if v is not None)
             except ValueError:
                 return {}
