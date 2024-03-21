@@ -55,9 +55,9 @@ class MobileItem(QObject):
         self.extData = dict()
         self.coordinates = None
         self.position = None
-        self.heading = 0.0
-        self.depth = 0.0
-        self.altitude = 0.0
+        self.heading = -9999.9
+        self.depth = -9999.9
+        self.altitude = -9999.9
         self.lastFix = 0.0
         self.crsXform = QgsCoordinateTransform()
         self.crsXform.setSourceCrs(QgsCoordinateReferenceSystem('EPSG:4326'))
@@ -156,9 +156,9 @@ class MobileItem(QObject):
                     self.marker.setVisible(True)
                     self.timedOut = False
                 self.position = QgsPointXY(data['lon'], data['lat'])
-                self.heading = data.get('heading', -9999.9)
-                self.depth = data.get('depth', -9999.9)
-                self.altitude = data.get('altitude', -9999.9)
+                self.heading = data.get('heading', self.heading)
+                self.depth = data.get('depth', self.depth)
+                self.altitude = data.get('altitude', self.altitude)
                 try:
                     self.coordinates = self.crsXform.transform(self.position)
                     self.marker.setMapPosition(self.coordinates)
