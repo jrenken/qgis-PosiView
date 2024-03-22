@@ -13,7 +13,7 @@ name=PosiView
 about=Track multiple objects and vehicles and display them as shapes and points on the canvas
 description=PosiView tracks multiple mobile objects and vehicles and displays their position on the canvas
 qgisMinimumVersion=3.0
-version=1.3.0
+version=1.3.1
 author=Jens Renken (Marum, University of Bremen)
 email=renken@marum.de
 
@@ -22,14 +22,18 @@ email=renken@marum.de
 # Recommended items:
 
 # Uncomment the following line and add your changelog:
-changelog=1.3.0 (2023-07-20)
+changelog=1.3.1 (2024-03-22)
+    - decode knots in VTG record
+    - retain values (e.g. heading) provided by a seperate record
+    - bugfixes
+  1.3.0 (2023-07-20)
     - GUI optimizations in general and for narrow screens
     - GPS depth is always zero
     - visible track length is now adjustable
     - new parser for MOOS IvP node report
     - option to display additional text in the vehicle label
     - decoding of easting/northing data sources (experimental)
-    - bug fixes and API adjustments
+    - bugfixes and API adjustments
   1.2.4 (2022-02-22)
     - bugfix in AIS parser
   1.2.3 (2022-02-01)
