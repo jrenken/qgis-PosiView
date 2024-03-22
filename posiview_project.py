@@ -38,6 +38,7 @@ class PosiViewProject(object):
         self.missionInfo = {'cruise': 'CruiseXX', 'dive': 'DiveX', 'station' : '#xxx'}
         self.recorderPath = environ['HOME']
         self.autoRecord = False
+        self.prefixMission = False
         self.notifyDuration = 0
         self.showUtcClock = False
         self.narrowScreen = False
@@ -69,6 +70,7 @@ class PosiViewProject(object):
         props['Mission'] = self.missionInfo
         props['RecorderPath'] = self.recorderPath
         props['AutoRecord'] = self.autoRecord
+        props['PrefixMission'] = self.prefixMission
         props['NotifyDuration'] = self.notifyDuration
         props['ShowUtcClock'] = self.showUtcClock
         props['NarrowScreen'] = self.narrowScreen
@@ -97,6 +99,7 @@ class PosiViewProject(object):
         self.missionInfo = properties.get('Mission', {'cruise': 'CruiseXX', 'dive': 'DiveX', 'station' : '#xxx'})
         self.recorderPath = properties.get('RecorderPath', environ['HOME'])
         self.autoRecord = bool(properties.get('AutoRecord', False))
+        self.prefixMission = bool(properties.get('PrefixMission', False))
         self.notifyDuration = int(properties.get('NotifyDuration', 0))
         self.showUtcClock = properties.get('ShowUtcClock', False)
         self.narrowScreen = properties.get('NarrowScreen', False)
@@ -180,6 +183,7 @@ class PosiViewProject(object):
         properties['Mission']['station'] = s.value('Mission/Station', '#xxx')
         properties['RecorderPath'] = s.value('Recorder/Path', environ['HOME'])
         properties['AutoRecord'] = s.value('Recorder/AutoRecord', False, type=bool)
+        properties['PrefixMission'] = s.value('Recorder/PrefixMission', False, type=bool)
         properties['NotifyDuration'] = s.value('Misc/NotifyDuration', 0, type=int)
         properties['ShowUtcClock'] = s.value('Misc/ShowUtcClock', False, type=bool)
         properties['NarrowScreen'] = s.value('Misc/NarrowScreen', False, type=bool)
@@ -226,6 +230,7 @@ class PosiViewProject(object):
         s.setValue('Mission/Station', properties['Mission']['station'])
         s.setValue('Recorder/Path', properties['RecorderPath'])
         s.setValue('Recorder/AutoRecord', properties['AutoRecord'])
+        s.setValue('Recorder/PrefixMission', properties['PrefixMission'])
         s.setValue('Misc/NotifyDuration', properties['NotifyDuration'])
         s.setValue('Misc/ShowUtcClock', properties['ShowUtcClock'])
         s.setValue('Misc/NarrowScreen', properties['NarrowScreen'])

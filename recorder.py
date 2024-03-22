@@ -35,10 +35,19 @@ class Recorder(QObject):
         self.stopRecording()
         self.mobiles = mobiles
 
+    def setPrefix(self, prefix, mission):
+        if prefix:
+            try:
+                self.filePrefix = '{}_{}_'.format(mission['cruise'], mission['dive']).replace('/', '-')
+            except KeyError:
+                pass
+        else:
+            self.filePrefix = ''
+
     def openFile(self):
         dt = datetime.now(tz=timezone.utc)
         s = self.filePrefix + dt.strftime('%Y%m%d-%H%M%S') + '.csv'
-        self.fileName = os.path.join(self.path, self.filePrefix, s)
+        self.fileName = os.path.join(self.path, s)
         try:
             self.file = open(self.fileName, 'w')
             self.file.write(self.fileHeader())

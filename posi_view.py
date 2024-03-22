@@ -309,6 +309,7 @@ class PosiView(object):
             self.compass.setMobiles(self.project.mobileItems)
             self.tracking.setProviders(self.project.dataProviders)
             self.recorder = Recorder(self.project.recorderPath)
+            self.recorder.setPrefix(self.project.prefixMission, self.project.missionInfo)
             self.recorder.setMobiles(self.project.mobileItems)
             self.recorder.recordingStarted.connect(self.recordingStarted)
             self.tracking.show()
@@ -373,6 +374,7 @@ class PosiView(object):
             self.project.load(properties)
             self.project.store()
             self.recorder.path = self.project.recorderPath
+            self.recorder.setPrefix(self.project.prefixMission, self.project.missionInfo)
             self.tracking.setMobiles(self.project.mobileItems)
             self.guidance.setMobiles(self.project.mobileItems)
             self.compass.setMobiles(self.project.mobileItems)
