@@ -22,15 +22,16 @@
 from .datadevice import DataDevice
 from .udpdevice import UdpDevice
 from .tcpdevice import TcpDevice
+from .tcpserverdevice import TcpServerDevice
 
 try:
     from PyQt5 import QtSerialPort
     from .serialdevice import SerialDevice
-    DEVICE_TYPES = ('UDP', 'TCP', 'GPSD', 'SERIAL')
+    DEVICE_TYPES = ('UDP', 'TCP', 'GPSD', 'TCPSERVER', 'SERIAL')
 except ImportError:
-    DEVICE_TYPES = ('UDP', 'TCP', 'GPSD')
+    DEVICE_TYPES = ('UDP', 'TCP', 'GPSD', 'TCPSERVER')
 
-NETWORK_TYPES = ('UDP', 'TCP', 'GPSD')
+NETWORK_TYPES = ('UDP', 'TCP', 'GPSD', 'TCPSERVER')
 
 
 def createDataDevice(params={}, parent=None):
@@ -45,4 +46,6 @@ def createDataDevice(params={}, parent=None):
     elif deviceType == 'SERIAL':
         if 'SERIAL' in DEVICE_TYPES:
             return SerialDevice(params, parent)
+    elif deviceType == 'TCPSERVER':
+        return TcpServerDevice(params, parent)
     return DataDevice(params, parent)

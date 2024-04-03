@@ -26,13 +26,13 @@ class TcpDevice(DataDevice):
         self.port = int(params.get('Port', 2000))
         self.gpsdInit = bool(params.get('GpsdInit', False))
         self.iodevice.readyRead.connect(self.readyRead)
-        self.iodevice.error.connect(self.socketError)
+        self.iodevice.errorOccurred.connect(self.socketError)
         self.iodevice.connected.connect(self.socketConnected)
         self.iodevice.disconnected.connect(self.socketDisconnected)
 
     @pyqtSlot(QAbstractSocket.SocketError)
     def socketError(self, error):
-        if self.iodevice.state() != QAbstractSocket.BoundState:
+        if self.iodevice.state() != QAbstractSocket.ConnectedState:
             if self.reconnect > 0:
                 QTimer.singleShot(self.reconnect, self.onReconnectTimer)
 

@@ -63,6 +63,7 @@ PY_FILES = \
 	dataprovider/datadevice/datadevice.py \
 	dataprovider/datadevice/udpdevice.py \
 	dataprovider/datadevice/tcpdevice.py \
+	dataprovider/datadevice/tcpserverdevice.py \
 	dataprovider/datadevice/serialdevice.py \
 	dataprovider/dataparser/__init__.py \
 	dataprovider/dataparser/nmea.py \
