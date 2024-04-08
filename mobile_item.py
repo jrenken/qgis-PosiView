@@ -202,10 +202,9 @@ class MobileItem(QObject):
                         try:
                             bearing = QgsBearingUtils.bearingTrueNorth(self.crsXform.destinationCrs(), QgsProject.instance().transformContext(),
                                                              QgsPointXY(data['easting'], data['northing']))
-                            data['heading'] -= bearing
+                            data['heading'] = (data['heading'] - bearing) % 360.0
                         except QgsException:
                             pass
-                        print(bearing)
                     return True
                 except QgsCsException:
                     pass
