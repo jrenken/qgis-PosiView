@@ -7,7 +7,8 @@ from __future__ import absolute_import
 from builtins import str
 from qgis.PyQt.QtCore import QObject, pyqtSlot, QTimer, pyqtSignal
 from qgis.core import Qgis, QgsPointXY, QgsCoordinateTransform, \
-        QgsCoordinateReferenceSystem, QgsCsException
+        QgsCoordinateReferenceSystem, QgsCsException, \
+        QgsException, QgsBearingUtils, QgsProject
 from qgis.gui import QgsMessageBar
 from .position_marker import PositionMarker
 from qgis.PyQt.QtWidgets import QLabel
@@ -197,6 +198,14 @@ class MobileItem(QObject):
                     point = self.crsXform.transform(data['easting'], data['northing'], Qgis.TransformDirection.Reverse)
                     data['lat'] = point.y()
                     data['lon'] = point.x()
+                    if data['headtype'] == 'G' and 'heading' in data:
+                        try:
+                            bearing = QgsBearingUtils.bearingTrueNorth(self.crsXform.destinationCrs(), QgsProject.instance().transformContext(),
+                                                             QgsPointXY(data['easting'], data['northing']))
+                            data['heading'] -= bearing
+                        except QgsException:
+                            pass
+                        print(bearing)
                     return True
                 except QgsCsException:
                     pass

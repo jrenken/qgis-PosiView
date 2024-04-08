@@ -59,7 +59,8 @@ class Ranger2Parser(Parser):
                           'northing': nmea.value(5),
                           'depth': nmea.value(6),
                           'heading': nmea.value(7),
-                          'course': nmea.value(8)}
+                          'course': nmea.value(8),
+                          'headtype': nmea[9]}
                 t = datetime.now(tz=timezone.utc)
                 try:
                     dt = datetime(t.year, t.month, t.day,

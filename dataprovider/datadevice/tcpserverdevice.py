@@ -17,7 +17,6 @@ class TcpServerDevice(DataDevice):
     The connection is single threaded. It requires that the client closes the connection.
     '''
 
-
     def __init__(self, params={}, parent=None):
         '''
         Constructor
