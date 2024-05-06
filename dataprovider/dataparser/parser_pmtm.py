@@ -29,13 +29,16 @@ class PmtmParser(Parser):
         super(PmtmParser, self).__init__()
 
     def parse(self, data):
-        data_id = data[5:8]
-        if data_id == 'GPO':
-            return self.decodeGpo(data)
-        elif data_id == 'ATT':
-            return self.decodeAtt(data)
-        elif data_id == 'SPD':
-            return self.decodeSpd(data)
+        idx = data.find('$PMTM')
+        if idx != -1:
+            data = data[idx:]
+            data_id = data[5:8]
+            if data_id == 'GPO':
+                return self.decodeGpo(data)
+            elif data_id == 'ATT':
+                return self.decodeAtt(data)
+            elif data_id == 'SPD':
+                return self.decodeSpd(data)
 
     def decodeGpo(self, data):
         nmea = NmeaRecord(data)

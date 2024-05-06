@@ -23,7 +23,9 @@ class MiniPosParser(Parser):
         super(MiniPosParser, self).__init__()
 
     def parse(self, data):
-        if data.startswith('$PSAAS'):
+        idx = data.find('$PSAAS')
+        if idx != -1:
+            data = data[idx:]
             nmea = NmeaRecord(data)
             if nmea.valid:
                 try:

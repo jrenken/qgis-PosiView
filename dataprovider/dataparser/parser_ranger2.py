@@ -25,10 +25,13 @@ class Ranger2Parser(Parser):
         super(Ranger2Parser, self).__init__()
 
     def parse(self, data):
-        if data.startswith('$PSONLLD'):
-            return self.decodeLld(data)
-        elif data.startswith('$PSONALL'):
-            return self.decodeAll(data)
+        idx = data.find('$PSON')
+        if idx != -1:
+            data = data[idx:]
+            if data.startswith('$PSONLLD'):
+                return self.decodeLld(data)
+            elif data.startswith('$PSONALL'):
+                return self.decodeAll(data)
 
     def decodeLld(self, data):
         nmea = NmeaRecord(data)

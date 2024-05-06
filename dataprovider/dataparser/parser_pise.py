@@ -19,7 +19,9 @@ class PiseParser(Parser):
         super(PiseParser, self).__init__()
 
     def parse(self, data):
-        if data.startswith('$PISE'):
+        idx = data.find('$PISE')
+        if idx != -1:
+            data = data[idx:]
             nmea = NmeaRecord(data)
             if nmea.valid:
                 try:

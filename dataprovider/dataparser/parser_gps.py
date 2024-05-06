@@ -24,17 +24,20 @@ class GpsParser(Parser):
         super(GpsParser, self).__init__()
 
     def parse(self, data):
-        data_id = data[3:6]
-        if data_id == 'RMC':
-            return self.decodeRmc(data)
-        elif data_id == 'VTG':
-            return self.decodeVtg(data)
-        elif data_id == 'GLL':
-            return self.decodeGll(data)
-        elif data_id == 'GGA':
-            return self.decodeGga(data)
-        elif data_id == 'HDT':
-            return self.decodeHdt(data)
+        idx = data.find('$GP')
+        if idx != -1:
+            data = data[idx:]
+            data_id = data[3:6]
+            if data_id == 'RMC':
+                return self.decodeRmc(data)
+            elif data_id == 'VTG':
+                return self.decodeVtg(data)
+            elif data_id == 'GLL':
+                return self.decodeGll(data)
+            elif data_id == 'GGA':
+                return self.decodeGga(data)
+            elif data_id == 'HDT':
+                return self.decodeHdt(data)
 
     def decodeRmc(self, data):
         nmea = NmeaRecord(data)
