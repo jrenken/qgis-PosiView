@@ -31,12 +31,13 @@ class AisParser(Parser):
         self.fragmentcount = 0
 
     def parse(self, data):
-        start = data.find('!')
-        if start == -1 or len(data) < (start + 6):
+        try:
+            data = data[data.index('!'):]
+            if not data[3:6] in ('VDM', 'VDO'):
+                return {}
+        except ValueError:
             return {}
-        if not data[(start + 3):(start + 6)] in ('VDM', 'VDO'):
-            return {}
-        self.nmea = NmeaRecord(data[start:])
+        self.nmea = NmeaRecord(data)
         if self.nmea.valid:
             fcnt = self.nmea.value(1)
             frag = self.nmea.value(2)

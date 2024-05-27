@@ -24,6 +24,10 @@ class GpsParser(Parser):
         super(GpsParser, self).__init__()
 
     def parse(self, data):
+        try:
+            data = data[data.index('$'):]
+        except ValueError:
+            return {}
         data_id = data[3:6]
         if data_id == 'RMC':
             return self.decodeRmc(data)
