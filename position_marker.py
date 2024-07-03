@@ -190,7 +190,7 @@ class PositionMarker(QgsMapCanvasItem):
             if len(self.track) >= self.trackLen:
                 tpr = self.track.popleft()
                 self.canvas.scene().removeItem(tpr[0])
-                del(tpr)
+                del tpr
             tp = self.newTrackPoint(self.position)
             if len(self.track) > self.trackLenVisible:
                 (self.track[-self.trackLenVisible])[0].setVisible(False)

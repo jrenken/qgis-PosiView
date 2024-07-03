@@ -126,12 +126,12 @@
 <context>
     <name>MobileItem</name>
     <message>
-        <location filename="../mobile_item.py" line="284"/>
+        <location filename="../mobile_item.py" line="292"/>
         <source>PosiView Attention</source>
         <translation>PosiView Achtung</translation>
     </message>
     <message>
-        <location filename="../mobile_item.py" line="283"/>
+        <location filename="../mobile_item.py" line="291"/>
         <source>No fix for %s since more than %d seconds!</source>
         <translation>Keine Position für %s seit mehr als %d Sekunden!</translation>
     </message>

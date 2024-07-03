@@ -12,8 +12,8 @@
 name=PosiView
 about=Track multiple objects and vehicles and display them as shapes and points on the canvas
 description=PosiView tracks multiple mobile objects and vehicles and displays their position on the canvas
-qgisMinimumVersion=3.0
-version=1.3.1
+qgisMinimumVersion=3.4
+version=1.3.2
 author=Jens Renken (Marum, University of Bremen)
 email=renken@marum.de
 
@@ -22,7 +22,12 @@ email=renken@marum.de
 # Recommended items:
 
 # Uncomment the following line and add your changelog:
-changelog=1.3.1 (2024-03-22)
+changelog=1.3.2 (2024-07-03)
+    - GPS-parser: remove any preceding characters from the NMEA sentence
+    - UTM: transform vehicle grid heading to true heading 
+    - prefix the recorder filename with the mission name
+    - TCP server input device
+  1.3.1 (2024-03-22)
     - decode knots in VTG record
     - retain values (e.g. heading) provided by a seperate record
     - bugfixes

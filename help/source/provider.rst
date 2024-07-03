@@ -19,6 +19,7 @@ Configuring a provider in depth
      
      * UDP server socket
      * TCP client socket
+     * TCP server
      * GPSD client, a TCP client for gpsd
      * SERIAL port (requires python module PyQt5.QtSerialPort)
      
