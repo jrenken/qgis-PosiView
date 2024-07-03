@@ -88,7 +88,7 @@ UI_FILES = ui/guidance_dock_base.ui \
 
 COMPILED_UI_FILES = gui/ui_posiview_properties_base.py
 
-EXTRAS = resources/icon.png metadata.txt
+EXTRAS = resources/icon.png metadata.txt LICENSE
 
 COMPILED_RESOURCE_FILES = resources_rc.py
 
