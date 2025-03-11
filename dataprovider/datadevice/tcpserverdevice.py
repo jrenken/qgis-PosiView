@@ -6,8 +6,7 @@ Created on Apr 3, 2024
 
 from .datadevice import DataDevice
 from qgis.PyQt.QtNetwork import QTcpServer, QHostAddress, QTcpSocket, QAbstractSocket
-from qgis.PyQt.QtCore import pyqtSlot, QTimer
-from PyQt5.Qt import QTcpSocket
+from qgis.PyQt.QtCore import pyqtSlot, QTimer, qVersion
 
 
 class TcpServerDevice(DataDevice):
@@ -35,7 +34,10 @@ class TcpServerDevice(DataDevice):
         if self.server.hasPendingConnections():
             self.client = self.server.nextPendingConnection()
             self.client.readyRead.connect(self.readyRead)
-            self.client.errorOccurred.connect(self.socketError)
+            if qVersion() < '5.15':
+                self.client.error.connect(self.socketError)
+            else:
+                self.client.errorOccurred.connect(self.socketError)
             self.socketConnected()
             self.client.disconnected.connect(self.socketDisconnected)
 

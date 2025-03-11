@@ -6,7 +6,7 @@ Created on 03.07.2015
 from builtins import str
 from .datadevice import DataDevice
 from qgis.PyQt.QtNetwork import QTcpSocket, QAbstractSocket
-from qgis.PyQt.QtCore import pyqtSlot, QTimer
+from qgis.PyQt.QtCore import pyqtSlot, QTimer, qVersion
 
 
 class TcpDevice(DataDevice):
@@ -26,7 +26,10 @@ class TcpDevice(DataDevice):
         self.port = int(params.get('Port', 2000))
         self.gpsdInit = bool(params.get('GpsdInit', False))
         self.iodevice.readyRead.connect(self.readyRead)
-        self.iodevice.errorOccurred.connect(self.socketError)
+        if qVersion() < '5.15':
+            self.iodevice.error.connect(self.socketError)
+        else:
+            self.iodevice.errorOccurred.connect(self.socketError)
         self.iodevice.connected.connect(self.socketConnected)
         self.iodevice.disconnected.connect(self.socketDisconnected)
 
