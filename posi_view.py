@@ -23,8 +23,8 @@
 from __future__ import absolute_import
 from builtins import object
 from qgis.PyQt.QtCore import QObject, QSettings, QTranslator, qVersion, QCoreApplication, Qt, pyqtSlot, QSize
-from qgis.PyQt.QtWidgets import QAction, QWidget
-from qgis.PyQt.QtGui import QIcon
+from qgis.PyQt.QtWidgets import QWidget
+from qgis.PyQt.QtGui import QAction, QIcon
 # Initialize Qt resources from file resources.py
 from .resources_rc import *
 import os.path

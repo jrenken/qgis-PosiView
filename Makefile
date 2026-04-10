@@ -112,8 +112,7 @@ default: compile
 compile: $(COMPILED_RESOURCE_FILES) $(COMPILED_UI_FILES)
 
 %_rc.py : %.qrc $(RESOURCES_SRC)
-#	rcc -g python -o $*_rc.py  $<
-	rcc -g python $< | sed '0,/PySide6/s//qgis.PyQt/' > $*_rc.py  
+	rcc -g python $< | sed '0,/PySide[2-6]/s//qgis.PyQt/' > $*_rc.py
 
 %.qm : %.ts
 	$(LRELEASE) $<
