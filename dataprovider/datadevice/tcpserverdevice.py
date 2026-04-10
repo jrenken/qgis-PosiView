@@ -48,7 +48,7 @@ class TcpServerDevice(DataDevice):
                 QTimer.singleShot(self.reconnect, self.onReconnectTimer)
 
     def disconnectDevice(self):
-        if self.client.state() == QAbstractSocket.ConnectedState:
+        if self.client.state() == QAbstractSocket.SocketState.ConnectedState:
             self.client.disconnectFromHost()
             self.client.close()
         self.server.close()

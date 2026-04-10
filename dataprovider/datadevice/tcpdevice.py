@@ -32,7 +32,7 @@ class TcpDevice(DataDevice):
 
     @pyqtSlot(QAbstractSocket.SocketError)
     def socketError(self, error):
-        if self.iodevice.state() != QAbstractSocket.ConnectedState:
+        if self.iodevice.state() != QAbstractSocket.SocketState.ConnectedState:
             if self.reconnect > 0:
                 QTimer.singleShot(self.reconnect, self.onReconnectTimer)
 
@@ -40,7 +40,7 @@ class TcpDevice(DataDevice):
         self.iodevice.connectToHost(self.host, self.port)
 
     def disconnectDevice(self):
-        if self.iodevice.state() is QAbstractSocket.ConnectedState:
+        if self.iodevice.state() is QAbstractSocket.SocketState.ConnectedState:
             self.iodevice.disconnectFromHost()
 
     def readData(self):

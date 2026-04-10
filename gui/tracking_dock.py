@@ -110,7 +110,7 @@ class TrackingDisplay(QToolBar):
         self.enableAction.setCheckable(True)
         self.enableAction.setChecked(True)
         icon = QIcon(':/plugins/PosiView/ledgrey.png')
-        icon.addFile(':/plugins/PosiView/ledgreen.png', QSize(), QIcon.Normal, QIcon.On)
+        icon.addFile(':/plugins/PosiView/ledgreen.png', QSize(), QIcon.Mode.Normal, QIcon.State.On)
         self.enableAction.setIcon(icon)
         self.addAction(self.enableAction)
         self.enableAction.triggered.connect(self.onEnableClicked)
@@ -118,7 +118,7 @@ class TrackingDisplay(QToolBar):
 
         self.addSeparator()
         self.posLabel = QLabel("--:--:-- 0.000000, 0.000000")
-        self.posLabel.setAlignment(Qt.AlignHCenter | Qt.AlignVCenter)
+        self.posLabel.setAlignment(Qt.AlignmentFlag.AlignHCenter | Qt.AlignmentFlag.AlignVCenter)
         widths = (180, 196, 204, 180, 184, 200, 208, 184)
         self.posLabel.setMinimumSize(widths[self.format], 23)
         self.posLabel.setStyleSheet('background: red; font-size: 8pt; color: white;')
@@ -188,15 +188,15 @@ class TrackingDisplay(QToolBar):
         self.w.move(QCursor.pos() - QPoint(self.w.width() // 2, 20))
 
     def mousePressEvent(self, event):
-        if event.button() == Qt.LeftButton:
-            if event.modifiers() == Qt.ControlModifier:
+        if event.button() == Qt.MouseButton.LeftButton:
+            if event.modifiers() == Qt.KeyboardModifier.ControlModifier:
                 QGuiApplication.clipboard().setText(self.posText)
             else:
                 drag = QDrag(self)
                 mimeData = QMimeData()
                 mimeData.setText(self.posText)
                 drag.setMimeData(mimeData)
-                drag.exec_()
+                drag.exec()
 
     def releaseMobile(self):
         self.mobile = None
@@ -220,7 +220,7 @@ class ProviderToolBar(QToolBar):
 
     def createAction(self, provider):
         icon = QIcon(':/plugins/PosiView/ledgreen.png')
-        icon.addFile(':/plugins/PosiView/ledgrey.png', QSize(), QIcon.Disabled, QIcon.Off)
+        icon.addFile(':/plugins/PosiView/ledgrey.png', QSize(), QIcon.Mode.Disabled, QIcon.State.Off)
         action = QAction(icon, provider.name, None)
         button = QToolButton()
         button.setDefaultAction(action)
@@ -244,9 +244,9 @@ class TrackLenSlider(QWidget):
         super(TrackLenSlider, self).__init__(parent)
         self.layout = QVBoxLayout(self)
         self.slider = QSlider(Qt.Vertical, self)
-        self.layout.addWidget(self.slider, 0, Qt.AlignCenter)
+        self.layout.addWidget(self.slider, 0, Qt.AlignmentFlag.AlignCenter)
         self.label = QLabel('0', self)
-        self.layout.addWidget(self.label, 0, Qt.AlignCenter)
+        self.layout.addWidget(self.label, 0, Qt.AlignmentFlag.AlignCenter)
         self.slider.valueChanged['int'].connect(self.setNum)
         try:
             self.logscale = 100 / math.log2(maxtl)

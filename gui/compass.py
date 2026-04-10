@@ -29,7 +29,7 @@ class CompassWidget(QWidget):
         painter = QPainter()
         painter.begin(self)
         painter.setRenderHint(QPainter.RenderHint.Antialiasing)
-        painter.fillRect(event.rect(), self.palette().brush(QPalette.Window))
+        painter.fillRect(event.rect(), self.palette().brush(QPalette.ColorRole.Window))
         self.drawMarkings(painter)
         self.drawNeedle(painter)
         self.drawNeedle2(painter)
@@ -47,13 +47,13 @@ class CompassWidget(QWidget):
         metrics = QFontMetricsF(font)
 
         painter.setFont(font)
-        painter.setPen(self.palette().color(QPalette.Shadow))
+        painter.setPen(self.palette().color(QPalette.ColorRole.Shadow))
 
         i = 0
         while i < 360:
             if i % 45 == 0:
                 painter.drawLine(0, -40, 0, -50)
-                painter.drawText(int(-metrics.width(self._pointText[i]) / 2), -52,
+                painter.drawText(int(-metrics.boundingRect(self._pointText[i]).width() / 2), -52,
                                  self._pointText[i])
             else:
                 painter.drawLine(0, -45, 0, -50)
@@ -72,14 +72,14 @@ class CompassWidget(QWidget):
         painter.scale(scale, scale)
 
         painter.setPen(QPen(Qt.NoPen))
-#         painter.setBrush(self.palette().brush(QPalette.Shadow))
+#         painter.setBrush(self.palette().brush(QPalette.ColorRole.Shadow))
 #
 #         painter.drawPolygon(
 #             QPolygon([QPoint(-10, 0), QPoint(0, -45), QPoint(10, 0),
 #                       QPoint(0, 45), QPoint(-10, 0)])
 #             )
 
-        painter.setBrush(self.palette().brush(QPalette.Highlight))
+        painter.setBrush(self.palette().brush(QPalette.ColorRole.Highlight))
 
         painter.drawPolygon(
             QPolygon([QPoint(-5, -25), QPoint(0, -45), QPoint(5, -25),
@@ -99,14 +99,14 @@ class CompassWidget(QWidget):
         painter.scale(scale, scale)
 
         painter.setPen(QPen(Qt.NoPen))
-#         painter.setBrush(self.palette().brush(QPalette.Dark))
+#         painter.setBrush(self.palette().brush(QPalette.ColorRole.Dark))
 #
 #         painter.drawPolygon(
 #             QPolygon([QPoint(-7, 0), QPoint(0, -25), QPoint(7, 0),
 #                       QPoint(0, 25), QPoint(-7, 0)])
 #             )
 
-        painter.setBrush(self.palette().brush(QPalette.Foreground))
+        painter.setBrush(self.palette().brush(QPalette.ColorRole.Foreground))
 
         painter.drawPolygon(
             QPolygon([QPoint(-5, -10), QPoint(0, -25), QPoint(5, -10),
@@ -172,4 +172,4 @@ if __name__ == "__main__":
     window.setLayout(layout)
 
     window.show()
-    sys.exit(app.exec_())
+    sys.exit(app.exec())

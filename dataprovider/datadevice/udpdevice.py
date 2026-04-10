@@ -36,7 +36,7 @@ class UdpDevice(DataDevice):
         else:
             ha = QHostAddress(self.host)
             if self.reuse:
-                result = self.iodevice.bind(ha, self.port, QAbstractSocket.ReuseAddressHint)
+                result = self.iodevice.bind(ha, self.port, QAbstractSocket.BindFlag.ReuseAddressHint)
             else:
                 result = self.iodevice.bind(ha, self.port)
             if result and ha.isMulticast():
@@ -48,7 +48,7 @@ class UdpDevice(DataDevice):
             self.deviceConnected.emit(True)
 
     def disconnectDevice(self):
-        if self.iodevice.state() is QAbstractSocket.BoundState:
+        if self.iodevice.state() is QAbstractSocket.SocketState.BoundState:
             self.iodevice.disconnectFromHost()
             self.deviceDisconnected.emit(True)
 

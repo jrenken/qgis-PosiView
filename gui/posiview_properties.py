@@ -103,7 +103,7 @@ class PosiviewProperties(QgsOptionsDialogBase, Ui_PosiviewPropertiesBase):
     @pyqtSlot(QAbstractButton, name='on_buttonBox_clicked')
     def onButtonBoxClicked(self, button):
         role = self.buttonBox.buttonRole(button)
-        if role == QDialogButtonBox.ApplyRole or role == QDialogButtonBox.AcceptRole:
+        if role == QDialogButtonBox.ButtonRole.ApplyRole or role == QDialogButtonBox.ButtonRole.AcceptRole:
             self.updateGeneralData()
             self.applyChanges.emit(self.projectProperties)
 
@@ -149,7 +149,7 @@ class PosiviewProperties(QgsOptionsDialogBase, Ui_PosiviewPropertiesBase):
         self.mobileListModel.insertRow(self.mobileListModel.rowCount())
         index = self.mobileListModel.index(self.mobileListModel.rowCount() - 1)
         self.lineEditMobileName.setText('NewMobile')
-        self.mobileListModel.setData(index, 'NewMobile', Qt.DisplayRole)
+        self.mobileListModel.setData(index, 'NewMobile', Qt.ItemDataRole.DisplayRole)
         self.mMobileListView.setCurrentIndex(index)
         self.applyMobile()
 
@@ -185,7 +185,7 @@ class PosiviewProperties(QgsOptionsDialogBase, Ui_PosiviewPropertiesBase):
             provs = dict()
             for r in range(self.mobileProviderModel.rowCount()):
                 try:
-                    fil = self.mobileProviderModel.item(r, 1).data(Qt.DisplayRole)
+                    fil = self.mobileProviderModel.item(r, 1).data(Qt.ItemDataRole.DisplayRole)
                     try:
                         fil = int(fil)
                     except (TypeError, ValueError):
@@ -196,24 +196,24 @@ class PosiviewProperties(QgsOptionsDialogBase, Ui_PosiviewPropertiesBase):
 
                 try:
                     flags = list()
-                    flgs = self.mobileProviderModel.item(r, 2).data(Qt.DisplayRole).split(', ')
+                    flgs = self.mobileProviderModel.item(r, 2).data(Qt.ItemDataRole.DisplayRole).split(', ')
                     for k, v in self.PROVIDER_FLAGS.items():
                         if v in flgs:
                             flags.append(k)
                 except AttributeError:
                     pass
 
-                provs[self.mobileProviderModel.item(r, 0).data(Qt.DisplayRole)] = {'id': fil, 'flags': flags}
+                provs[self.mobileProviderModel.item(r, 0).data(Qt.ItemDataRole.DisplayRole)] = {'id': fil, 'flags': flags}
 
             mobile['provider'] = provs
-            currName = self.mobileListModel.data(index, Qt.DisplayRole)
+            currName = self.mobileListModel.data(index, Qt.ItemDataRole.DisplayRole)
             if not currName == mobile['Name']:
                 del self.projectProperties['Mobiles'][currName]
-                self.mobileListModel.setData(index, mobile['Name'], Qt.DisplayRole)
+                self.mobileListModel.setData(index, mobile['Name'], Qt.ItemDataRole.DisplayRole)
             self.projectProperties['Mobiles'][mobile['Name']] = mobile
 
     def populateMobileWidgets(self, index):
-        mobile = self.projectProperties['Mobiles'][self.mobileListModel.data(index, Qt.DisplayRole)]
+        mobile = self.projectProperties['Mobiles'][self.mobileListModel.data(index, Qt.ItemDataRole.DisplayRole)]
         self.lineEditMobileName.setText(mobile.get('Name'))
         self.comboBoxMobileType.setCurrentIndex(self.comboBoxMobileType.findText(mobile.setdefault('type', 'BOX').upper()))
         if mobile['type'] == 'SHAPE':
@@ -268,7 +268,7 @@ class PosiviewProperties(QgsOptionsDialogBase, Ui_PosiviewPropertiesBase):
     def removeMobile(self):
         idx = self.mMobileListView.currentIndex()
         if idx.isValid():
-            self.projectProperties['Mobiles'].pop(self.mobileListModel.data(idx, Qt.DisplayRole))
+            self.projectProperties['Mobiles'].pop(self.mobileListModel.data(idx, Qt.ItemDataRole.DisplayRole))
             self.mobileListModel.removeRows(idx.row(), 1)
             idx = self.mMobileListView.currentIndex()
             if idx.isValid():
@@ -278,9 +278,9 @@ class PosiviewProperties(QgsOptionsDialogBase, Ui_PosiviewPropertiesBase):
     def pupulateMobileProviderWidgets(self, idx):
         if idx.isValid():
             try:
-                self.comboBoxProviders.setCurrentText(self.mobileProviderModel.item(idx.row(), 0).data(Qt.DisplayRole))
-                self.lineEditProviderFilter.setText(self.mobileProviderModel.item(idx.row(), 1).data(Qt.DisplayRole))
-                flgs = self.mobileProviderModel.item(idx.row(), 2).data(Qt.DisplayRole)
+                self.comboBoxProviders.setCurrentText(self.mobileProviderModel.item(idx.row(), 0).data(Qt.ItemDataRole.DisplayRole))
+                self.lineEditProviderFilter.setText(self.mobileProviderModel.item(idx.row(), 1).data(Qt.ItemDataRole.DisplayRole))
+                flgs = self.mobileProviderModel.item(idx.row(), 2).data(Qt.ItemDataRole.DisplayRole)
                 self.comboBoxProviderFlags.deselectAllOptions()
                 if flgs:
                     self.comboBoxProviderFlags.setCheckedItems(flgs.split(', '))
@@ -329,10 +329,10 @@ class PosiviewProperties(QgsOptionsDialogBase, Ui_PosiviewPropertiesBase):
                 provider['Stopbits'] = self.comboBoxStopbits.currentIndex() + 1
                 provider['FlowControl'] = self.comboBoxFlow.currentIndex()
             provider['Parser'] = self.comboBoxParser.currentText()
-            currName = self.providerListModel.data(index, Qt.DisplayRole)
+            currName = self.providerListModel.data(index, Qt.ItemDataRole.DisplayRole)
             if not currName == provider['Name']:
                 del self.projectProperties['Provider'][currName]
-                self.providerListModel.setData(index, provider['Name'], Qt.DisplayRole)
+                self.providerListModel.setData(index, provider['Name'], Qt.ItemDataRole.DisplayRole)
             self.projectProperties['Provider'][provider['Name']] = provider
 
     @pyqtSlot(QModelIndex, name='on_mDataProviderListView_clicked')
@@ -343,7 +343,7 @@ class PosiviewProperties(QgsOptionsDialogBase, Ui_PosiviewPropertiesBase):
             self.populateDataProviderWidgets(index)
 
     def populateDataProviderWidgets(self, index):
-        provider = self.projectProperties['Provider'][self.providerListModel.data(index, Qt.DisplayRole)]
+        provider = self.projectProperties['Provider'][self.providerListModel.data(index, Qt.ItemDataRole.DisplayRole)]
         self.lineEditProviderName.setText(provider.get('Name'))
         self.comboBoxProviderType.setCurrentIndex(self.comboBoxProviderType.findText(provider.setdefault('DataDeviceType', 'UDP').upper()))
         if provider['DataDeviceType'] in NETWORK_TYPES:
@@ -366,7 +366,7 @@ class PosiviewProperties(QgsOptionsDialogBase, Ui_PosiviewPropertiesBase):
         self.providerListModel.insertRow(self.providerListModel.rowCount())
         index = self.providerListModel.index(self.providerListModel.rowCount() - 1)
         self.lineEditProviderName.setText('NewDataProvider')
-        self.providerListModel.setData(index, 'NewDataProvider', Qt.DisplayRole)
+        self.providerListModel.setData(index, 'NewDataProvider', Qt.ItemDataRole.DisplayRole)
         self.mDataProviderListView.setCurrentIndex(index)
         self.applyDataProvider()
 
@@ -374,7 +374,7 @@ class PosiviewProperties(QgsOptionsDialogBase, Ui_PosiviewPropertiesBase):
     def removeDataProvider(self):
         idx = self.mDataProviderListView.currentIndex()
         if idx.isValid():
-            self.projectProperties['Provider'].pop(self.providerListModel.data(idx, Qt.DisplayRole))
+            self.projectProperties['Provider'].pop(self.providerListModel.data(idx, Qt.ItemDataRole.DisplayRole))
             self.providerListModel.removeRows(idx.row(), 1)
             idx = self.mDataProviderListView.currentIndex()
             if idx.isValid():
@@ -416,7 +416,7 @@ class PosiviewProperties(QgsOptionsDialogBase, Ui_PosiviewPropertiesBase):
         rovAction = menu.addAction(self.tr('ROV'))
         auvAction = menu.addAction(self.tr('AUV'))
         arrowAction = menu.addAction(self.tr('Arrow'))
-        selectedAction = menu.exec_(self.lineEditMobileShape.mapToGlobal(pos))
+        selectedAction = menu.exec(self.lineEditMobileShape.mapToGlobal(pos))
         if selectedAction == vesselAction:
             self.lineEditMobileShape.setText(u'((0, -0.5), (0.5, -0.3), (0.5, 0.5), (-0.5, 0.5), (-0.5, -0.3))')
         elif selectedAction == rovAction:

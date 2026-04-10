@@ -151,7 +151,7 @@ class PosiViewProject(object):
 
     def read(self, iniFile=None):
         if iniFile is not None:
-            s = QSettings(iniFile, QSettings.IniFormat)
+            s = QSettings(iniFile, QSettings.Format.IniFormat)
         else:
             s = QSettings()
         properties = dict()
@@ -193,7 +193,7 @@ class PosiViewProject(object):
 
     def store(self, iniFile=None, properties=None):
         if iniFile is not None:
-            s = QSettings(iniFile, QSettings.IniFormat)
+            s = QSettings(iniFile, QSettings.Format.IniFormat)
         else:
             s = QSettings()
 

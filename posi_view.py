@@ -232,7 +232,7 @@ class PosiView(object):
             parent=self.iface.mainWindow())
 
         icon = trackingAction.icon()
-        icon.addFile(os.path.join(iconPath, 'track_stop.png'), QSize(), QIcon.Normal, QIcon.On)
+        icon.addFile(os.path.join(iconPath, 'track_stop.png'), QSize(), QIcon.Mode.Normal, QIcon.State.On)
         trackingAction.setIcon(icon)
 
         recordAction = self.add_action(
@@ -247,7 +247,7 @@ class PosiView(object):
             parent=self.iface.mainWindow())
 
         icon = recordAction.icon()
-        icon.addFile(os.path.join(iconPath, 'record-stop.png'), QSize(), QIcon.Normal, QIcon.On)
+        icon.addFile(os.path.join(iconPath, 'record-stop.png'), QSize(), QIcon.Mode.Normal, QIcon.State.On)
         recordAction.setIcon(icon)
 
         configAction = self.add_action(
@@ -388,7 +388,7 @@ class PosiView(object):
         '''
         propDlg = PosiviewProperties(self.project, self.iface.mainWindow())
         propDlg.applyChanges.connect(self.onApplyConfigChanges)
-        propDlg.exec_()
+        propDlg.exec()
 
 #    @pyqtSlot(str)
     def dumpProvider(self, name):
