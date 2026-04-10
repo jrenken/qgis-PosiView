@@ -9,11 +9,10 @@ from builtins import range
 import os
 import sys
 from qgis.PyQt import uic
-from qgis.PyQt.QtCore import Qt, QCoreApplication, pyqtSlot, QModelIndex, pyqtSignal, QUrl, QStringListModel
+from qgis.PyQt.QtCore import Qt, QCoreApplication, pyqtSlot, QModelIndex, pyqtSignal, QUrl, QStringListModel, QPoint
 from qgis.PyQt.QtGui import QStandardItem, QColor, QStandardItemModel, QDesktopServices
 from qgis.PyQt.QtWidgets import QFileDialog, QAbstractButton, QDialogButtonBox, QMenu
 from qgis.gui import QgsOptionsDialogBase
-from qgis.PyQt.Qt import QPoint
 from PosiView.dataprovider.dataparser import PARSERS
 from PosiView.dataprovider.datadevice import DEVICE_TYPES, NETWORK_TYPES
 from PosiView.gui.ui_posiview_properties_base import Ui_PosiviewPropertiesBase

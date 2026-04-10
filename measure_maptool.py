@@ -4,9 +4,8 @@ Created on Apr 4, 2018
 
 @author: jrenken
 '''
-from qgis.PyQt.QtCore import pyqtSlot
+from qgis.PyQt.QtCore import pyqtSlot, Qt
 from qgis.gui import QgsMapToolEmitPoint, QgsRubberBand
-from qgis.PyQt.Qt import Qt
 from qgis.core import QgsGeometry, QgsDistanceArea, QgsProject, QgsPoint
 from qgis.PyQt.QtWidgets import QToolTip
 from math import pi
@@ -33,7 +32,7 @@ class MeasureMapTool(QgsMapToolEmitPoint):
 
         self.rubberBand = QgsRubberBand(self.canvas)
         self.rubberBand.setZValue(1e6)
-        self.rubberBand.setColor(Qt.red)
+        self.rubberBand.setColor(Qt.GlobalColor.red)
         self.rubberBand.setWidth(1)
         self.reset()
 

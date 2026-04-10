@@ -105,14 +105,15 @@ PLUGIN_UPLOAD = $(c)/plugin_upload.py
 
 RESOURCE_SRC=$(shell grep '^ *<file' resources.qrc | sed 's@</file>@@g;s/.*>//g' | tr '\n' ' ')
 
-QGISDIR=.local/share/QGIS/QGIS3/profiles/default
+QGISDIR=.local/share/QGIS/QGIS4/profiles/default
 
 default: compile
 
 compile: $(COMPILED_RESOURCE_FILES) $(COMPILED_UI_FILES)
 
 %_rc.py : %.qrc $(RESOURCES_SRC)
-	pyrcc5 -o $*_rc.py  $<
+#	rcc -g python -o $*_rc.py  $<
+	rcc -g python $< | sed '0,/PySide6/s//qgis.PyQt/' > $*_rc.py  
 
 %.qm : %.ts
 	$(LRELEASE) $<

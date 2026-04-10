@@ -25,10 +25,10 @@
     <item>
      <widget class="QFrame" name="frameUtcClock">
       <property name="frameShape">
-       <enum>QFrame::StyledPanel</enum>
+       <enum>QFrame::Shape::StyledPanel</enum>
       </property>
       <property name="frameShadow">
-       <enum>QFrame::Raised</enum>
+       <enum>QFrame::Shadow::Raised</enum>
       </property>
       <layout class="QHBoxLayout" name="horizontalLayout_5" stretch="1,4">
        <item>
@@ -37,7 +37,7 @@
           <string>UTC</string>
          </property>
          <property name="alignment">
-          <set>Qt::AlignCenter</set>
+          <set>Qt::AlignmentFlag::AlignCenter</set>
          </property>
         </widget>
        </item>
@@ -47,7 +47,7 @@
           <string>--:--:--</string>
          </property>
          <property name="alignment">
-          <set>Qt::AlignCenter</set>
+          <set>Qt::AlignmentFlag::AlignCenter</set>
          </property>
         </widget>
        </item>
@@ -59,10 +59,10 @@
       <item>
        <widget class="QFrame" name="frame">
         <property name="frameShape">
-         <enum>QFrame::StyledPanel</enum>
+         <enum>QFrame::Shape::StyledPanel</enum>
         </property>
         <property name="frameShadow">
-         <enum>QFrame::Raised</enum>
+         <enum>QFrame::Shadow::Raised</enum>
         </property>
         <layout class="QVBoxLayout" name="verticalLayout_4">
          <item>
@@ -90,7 +90,7 @@
             <string>Latitude</string>
            </property>
            <property name="alignment">
-            <set>Qt::AlignCenter</set>
+            <set>Qt::AlignmentFlag::AlignCenter</set>
            </property>
           </widget>
          </item>
@@ -100,7 +100,7 @@
             <string>Longitude</string>
            </property>
            <property name="alignment">
-            <set>Qt::AlignCenter</set>
+            <set>Qt::AlignmentFlag::AlignCenter</set>
            </property>
           </widget>
          </item>
@@ -110,7 +110,7 @@
             <string>Heading</string>
            </property>
            <property name="alignment">
-            <set>Qt::AlignCenter</set>
+            <set>Qt::AlignmentFlag::AlignCenter</set>
            </property>
           </widget>
          </item>
@@ -120,7 +120,7 @@
             <string>Depth</string>
            </property>
            <property name="alignment">
-            <set>Qt::AlignCenter</set>
+            <set>Qt::AlignmentFlag::AlignCenter</set>
            </property>
           </widget>
          </item>
@@ -141,24 +141,21 @@
            <property name="maxCount">
             <number>100</number>
            </property>
-           <property name="sizeAdjustPolicy">
-            <enum>QComboBox::AdjustToMinimumContentsLength</enum>
-           </property>
           </widget>
          </item>
          <item>
           <widget class="QLabel" name="labelSourceLat">
            <property name="frameShape">
-            <enum>QFrame::Panel</enum>
+            <enum>QFrame::Shape::Panel</enum>
            </property>
            <property name="frameShadow">
-            <enum>QFrame::Raised</enum>
+            <enum>QFrame::Shadow::Raised</enum>
            </property>
            <property name="text">
             <string>---</string>
            </property>
            <property name="alignment">
-            <set>Qt::AlignCenter</set>
+            <set>Qt::AlignmentFlag::AlignCenter</set>
            </property>
            <property name="margin">
             <number>5</number>
@@ -168,16 +165,16 @@
          <item>
           <widget class="QLabel" name="labelSourceLon">
            <property name="frameShape">
-            <enum>QFrame::Panel</enum>
+            <enum>QFrame::Shape::Panel</enum>
            </property>
            <property name="frameShadow">
-            <enum>QFrame::Raised</enum>
+            <enum>QFrame::Shadow::Raised</enum>
            </property>
            <property name="text">
             <string>---</string>
            </property>
            <property name="alignment">
-            <set>Qt::AlignCenter</set>
+            <set>Qt::AlignmentFlag::AlignCenter</set>
            </property>
            <property name="margin">
             <number>5</number>
@@ -187,16 +184,16 @@
          <item>
           <widget class="QLabel" name="labelSourceHeading">
            <property name="frameShape">
-            <enum>QFrame::Panel</enum>
+            <enum>QFrame::Shape::Panel</enum>
            </property>
            <property name="frameShadow">
-            <enum>QFrame::Raised</enum>
+            <enum>QFrame::Shadow::Raised</enum>
            </property>
            <property name="text">
             <string>---</string>
            </property>
            <property name="alignment">
-            <set>Qt::AlignCenter</set>
+            <set>Qt::AlignmentFlag::AlignCenter</set>
            </property>
            <property name="margin">
             <number>5</number>
@@ -206,16 +203,16 @@
          <item>
           <widget class="QLabel" name="labelSourceDepth">
            <property name="frameShape">
-            <enum>QFrame::Panel</enum>
+            <enum>QFrame::Shape::Panel</enum>
            </property>
            <property name="frameShadow">
-            <enum>QFrame::Raised</enum>
+            <enum>QFrame::Shadow::Raised</enum>
            </property>
            <property name="text">
             <string>---</string>
            </property>
            <property name="alignment">
-            <set>Qt::AlignCenter</set>
+            <set>Qt::AlignmentFlag::AlignCenter</set>
            </property>
            <property name="margin">
             <number>5</number>
@@ -234,7 +231,7 @@
          <string>Target</string>
         </property>
         <property name="alignment">
-         <set>Qt::AlignCenter</set>
+         <set>Qt::AlignmentFlag::AlignCenter</set>
         </property>
         <layout class="QVBoxLayout" name="verticalLayout_3" stretch="1,0,0,0,0">
          <item>
@@ -242,24 +239,21 @@
            <property name="maxCount">
             <number>100</number>
            </property>
-           <property name="sizeAdjustPolicy">
-            <enum>QComboBox::AdjustToMinimumContentsLength</enum>
-           </property>
           </widget>
          </item>
          <item>
           <widget class="QLabel" name="labelTargetLat">
            <property name="frameShape">
-            <enum>QFrame::Panel</enum>
+            <enum>QFrame::Shape::Panel</enum>
            </property>
            <property name="frameShadow">
-            <enum>QFrame::Raised</enum>
+            <enum>QFrame::Shadow::Raised</enum>
            </property>
            <property name="text">
             <string>---</string>
            </property>
            <property name="alignment">
-            <set>Qt::AlignCenter</set>
+            <set>Qt::AlignmentFlag::AlignCenter</set>
            </property>
            <property name="margin">
             <number>5</number>
@@ -269,16 +263,16 @@
          <item>
           <widget class="QLabel" name="labelTargetLon">
            <property name="frameShape">
-            <enum>QFrame::Panel</enum>
+            <enum>QFrame::Shape::Panel</enum>
            </property>
            <property name="frameShadow">
-            <enum>QFrame::Raised</enum>
+            <enum>QFrame::Shadow::Raised</enum>
            </property>
            <property name="text">
             <string>---</string>
            </property>
            <property name="alignment">
-            <set>Qt::AlignCenter</set>
+            <set>Qt::AlignmentFlag::AlignCenter</set>
            </property>
            <property name="margin">
             <number>5</number>
@@ -288,16 +282,16 @@
          <item>
           <widget class="QLabel" name="labelTargetHeading">
            <property name="frameShape">
-            <enum>QFrame::Panel</enum>
+            <enum>QFrame::Shape::Panel</enum>
            </property>
            <property name="frameShadow">
-            <enum>QFrame::Raised</enum>
+            <enum>QFrame::Shadow::Raised</enum>
            </property>
            <property name="text">
             <string>---</string>
            </property>
            <property name="alignment">
-            <set>Qt::AlignCenter</set>
+            <set>Qt::AlignmentFlag::AlignCenter</set>
            </property>
            <property name="margin">
             <number>5</number>
@@ -307,16 +301,16 @@
          <item>
           <widget class="QLabel" name="labelTargetDepth">
            <property name="frameShape">
-            <enum>QFrame::Panel</enum>
+            <enum>QFrame::Shape::Panel</enum>
            </property>
            <property name="frameShadow">
-            <enum>QFrame::Raised</enum>
+            <enum>QFrame::Shadow::Raised</enum>
            </property>
            <property name="text">
             <string>---</string>
            </property>
            <property name="alignment">
-            <set>Qt::AlignCenter</set>
+            <set>Qt::AlignmentFlag::AlignCenter</set>
            </property>
            <property name="margin">
             <number>5</number>
@@ -331,10 +325,10 @@
     <item>
      <widget class="QFrame" name="frame_2">
       <property name="frameShape">
-       <enum>QFrame::StyledPanel</enum>
+       <enum>QFrame::Shape::StyledPanel</enum>
       </property>
       <property name="frameShadow">
-       <enum>QFrame::Raised</enum>
+       <enum>QFrame::Shadow::Raised</enum>
       </property>
       <layout class="QHBoxLayout" name="horizontalLayout_2">
        <item>
@@ -343,7 +337,7 @@
           <string>Bearing (&amp;deg;)</string>
          </property>
          <property name="textFormat">
-          <enum>Qt::RichText</enum>
+          <enum>Qt::TextFormat::RichText</enum>
          </property>
         </widget>
        </item>
@@ -353,7 +347,7 @@
           <string>---</string>
          </property>
          <property name="alignment">
-          <set>Qt::AlignCenter</set>
+          <set>Qt::AlignmentFlag::AlignCenter</set>
          </property>
         </widget>
        </item>
@@ -363,10 +357,10 @@
     <item>
      <widget class="QFrame" name="frame_3">
       <property name="frameShape">
-       <enum>QFrame::StyledPanel</enum>
+       <enum>QFrame::Shape::StyledPanel</enum>
       </property>
       <property name="frameShadow">
-       <enum>QFrame::Raised</enum>
+       <enum>QFrame::Shadow::Raised</enum>
       </property>
       <layout class="QHBoxLayout" name="horizontalLayout_3">
        <item>
@@ -379,13 +373,13 @@
        <item>
         <widget class="QLabel" name="labelDistance">
          <property name="frameShape">
-          <enum>QFrame::NoFrame</enum>
+          <enum>QFrame::Shape::NoFrame</enum>
          </property>
          <property name="text">
           <string>---</string>
          </property>
          <property name="alignment">
-          <set>Qt::AlignCenter</set>
+          <set>Qt::AlignmentFlag::AlignCenter</set>
          </property>
         </widget>
        </item>
@@ -395,10 +389,10 @@
     <item>
      <widget class="QFrame" name="frame_4">
       <property name="frameShape">
-       <enum>QFrame::StyledPanel</enum>
+       <enum>QFrame::Shape::StyledPanel</enum>
       </property>
       <property name="frameShadow">
-       <enum>QFrame::Raised</enum>
+       <enum>QFrame::Shadow::Raised</enum>
       </property>
       <layout class="QHBoxLayout" name="horizontalLayout_4">
        <item>
@@ -411,13 +405,13 @@
        <item>
         <widget class="QLabel" name="labelVertDistance">
          <property name="frameShape">
-          <enum>QFrame::NoFrame</enum>
+          <enum>QFrame::Shape::NoFrame</enum>
          </property>
          <property name="text">
           <string>---</string>
          </property>
          <property name="alignment">
-          <set>Qt::AlignCenter</set>
+          <set>Qt::AlignmentFlag::AlignCenter</set>
          </property>
         </widget>
        </item>

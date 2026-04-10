@@ -7,7 +7,7 @@ from qgis.PyQt.QtWidgets import QWidget, QHBoxLayout, QToolButton, QLineEdit
 from qgis.core import QgsCoordinateReferenceSystem, QgsCoordinateTransform, QgsCsException
 from qgis.core import QgsPointXY, QgsProject
 from qgis.core import QgsCoordinateFormatter as cf
-from qgis.PyQt.Qt import pyqtSlot, pyqtSignal
+from qgis.PyQt.QtCore import pyqtSlot, pyqtSignal
 from qgis.PyQt.QtCore import Qt, QSettings
 from qgis.PyQt.QtGui import QFontMetrics
 
@@ -45,7 +45,7 @@ class PositionDisplay(QWidget):
 
         self.label = QLineEdit('---  ---')
         self.label.setReadOnly(True)
-        self.label.setAlignment(Qt.AlignHCenter)
+        self.label.setAlignment(Qt.AlignmentFlag.AlignHCenter)
         fnt = self.label.font()
         fnt.setBold(True)
         self.label.setFont(fnt)

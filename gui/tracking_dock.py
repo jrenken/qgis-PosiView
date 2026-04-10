@@ -9,7 +9,7 @@ import os
 
 from qgis.PyQt import uic
 from qgis.PyQt.QtCore import Qt, QSettings, QSignalMapper, QMimeData, pyqtSignal, QEvent, QPoint
-from qgis.PyQt.Qt import pyqtSlot, QSize
+from qgis.PyQt.QtCore import pyqtSlot, QSize
 from qgis.core import QgsPointXY, QgsCoordinateFormatter as cf
 from qgis.PyQt.QtGui import QIcon, QDrag, QGuiApplication, QCursor
 from qgis.PyQt.QtWidgets import QAction, QLabel, QWidgetAction, QToolBar, QDockWidget, QToolButton, QWidget, QSlider, QVBoxLayout
@@ -215,8 +215,8 @@ class ProviderToolBar(QToolBar):
         self.setMovable(True)
         self.setFloatable(True)
         self.actions = []
-        self.setToolButtonStyle(Qt.ToolButtonTextUnderIcon)
-        self.signalMapper.mapped['QString'].connect(self.triggered)
+        self.setToolButtonStyle(Qt.ToolButtonStyle.ToolButtonTextUnderIcon)
+        self.signalMapper.mappedString.connect(self.triggered)
 
     def createAction(self, provider):
         icon = QIcon(':/plugins/PosiView/ledgreen.png')

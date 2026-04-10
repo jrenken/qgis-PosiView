@@ -79,13 +79,13 @@ class PosiView(object):
         self.project = PosiViewProject(self.iface)
 
         self.tracking = TrackingDock()
-        self.iface.addDockWidget(Qt.LeftDockWidgetArea, self.tracking)
+        self.iface.addDockWidget(Qt.DockWidgetArea.LeftDockWidgetArea, self.tracking)
         self.tracking.providerToolbar.triggered.connect(self.dumpProvider)
         self.guidance = GuidanceDock()
-        self.iface.addDockWidget(Qt.LeftDockWidgetArea, self.guidance)
+        self.iface.addDockWidget(Qt.DockWidgetArea.LeftDockWidgetArea, self.guidance)
         self.guidanceVisible = False
         self.compass = CompassDock()
-        self.iface.addDockWidget(Qt.LeftDockWidgetArea, self.compass)
+        self.iface.addDockWidget(Qt.DockWidgetArea.LeftDockWidgetArea, self.compass)
         self.compassVisible = False
         self.providerDump = None
         self.positionDisplay = PositionDisplay(self.iface)

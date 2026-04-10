@@ -7,7 +7,6 @@ Created on Apr 3, 2024
 from .datadevice import DataDevice
 from qgis.PyQt.QtNetwork import QTcpServer, QHostAddress, QTcpSocket, QAbstractSocket
 from qgis.PyQt.QtCore import pyqtSlot, QTimer
-from PyQt5.Qt import QTcpSocket
 
 
 class TcpServerDevice(DataDevice):

@@ -28,7 +28,7 @@ class CompassWidget(QWidget):
             return
         painter = QPainter()
         painter.begin(self)
-        painter.setRenderHint(QPainter.Antialiasing)
+        painter.setRenderHint(QPainter.RenderHint.Antialiasing)
         painter.fillRect(event.rect(), self.palette().brush(QPalette.Window))
         self.drawMarkings(painter)
         self.drawNeedle(painter)
@@ -152,7 +152,7 @@ class CompassWidget(QWidget):
 
 
 if __name__ == "__main__":
-    from qgis.PyQt.Qt import QApplication
+    from qgis.PyQt.QtCore import QApplication
 
     app = QApplication(sys.argv)
 
