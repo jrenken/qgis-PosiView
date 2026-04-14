@@ -24,7 +24,7 @@ class DataProviderDump(QDialog, FORM_CLASS):
         '''
         super(DataProviderDump, self).__init__(parent)
         self.setupUi(self)
-        self.setAttribute(Qt.WA_DeleteOnClose, True)
+        self.setAttribute(Qt.WidgetAttribute.WA_DeleteOnClose, True)
 
     def subscribeProvider(self, provider):
         self.labelProviderName.setText(provider.name)

@@ -4,11 +4,12 @@ Created on Apr 4, 2018
 
 @author: jrenken
 '''
+
+from math import pi
 from qgis.PyQt.QtCore import pyqtSlot, Qt
 from qgis.gui import QgsMapToolEmitPoint, QgsRubberBand
 from qgis.core import QgsGeometry, QgsDistanceArea, QgsProject, QgsPoint
 from qgis.PyQt.QtWidgets import QToolTip
-from math import pi
 from qgis.PyQt.QtGui import QGuiApplication
 
 
@@ -26,7 +27,7 @@ class MeasureMapTool(QgsMapToolEmitPoint):
         super(MeasureMapTool, self).__init__(self.canvas)
         self.canvas.destinationCrsChanged.connect(self.onCrsChange)
         self.distArea = QgsDistanceArea()
-        self.distArea.setEllipsoid(u'WGS84')
+        self.distArea.setEllipsoid('WGS84')
         self.onCrsChange()
         self.posText = ''
 
@@ -45,7 +46,7 @@ class MeasureMapTool(QgsMapToolEmitPoint):
 
     def canvasReleaseEvent(self, e):
         self.startPoint = None
-        if e.modifiers() == Qt.ControlModifier:
+        if e.modifiers() == Qt.KeyboardModifier.ControlModifier:
             QGuiApplication.clipboard().setText(self.posText)
         self.reset()
 
@@ -65,7 +66,7 @@ class MeasureMapTool(QgsMapToolEmitPoint):
             bearing = self.distArea.bearing(self.startPoint, self.endPoint) * 180 / pi
             if bearing < 0:
                 bearing += 360.0
-            text = u'{:.1f} m; {:.1f}\u00b0'.format(dist, bearing)
+            text = '{:.1f} m; {:.1f}\u00b0'.format(dist, bearing)
             QToolTip.showText(self.canvas.mapToGlobal(e.pos()), text, self.canvas)
 
     def activate(self):

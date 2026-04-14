@@ -4,6 +4,7 @@ Created on 05.06.2015
 
 @author: jrenken
 '''
+
 from __future__ import absolute_import
 from builtins import str
 from builtins import range
@@ -12,16 +13,15 @@ from os import environ
 from qgis.PyQt.QtCore import QSettings, QCoreApplication
 from .mobile_item import MobileItem
 from .dataprovider.data_provider import DataProvider
-from qgis.gui import QgsMessageBar
 from qgis.core import Qgis
 
 
-class PosiViewProject(object):
+class PosiViewProject():
     '''PosiView project holds all the provider and mobile items
        and manages the configuration
     '''
 
-    def __init__(self, iface, params={}):
+    def __init__(self, iface):
         '''
         Constructor
         :param iface: An interface instance that will be passed to this class
@@ -33,9 +33,9 @@ class PosiViewProject(object):
         '''
 
         self.iface = iface
-        self.dataProviders = dict()
-        self.mobileItems = dict()
-        self.missionInfo = {'cruise': 'CruiseXX', 'dive': 'DiveX', 'station' : '#xxx'}
+        self.dataProviders = {}
+        self.mobileItems = {}
+        self.missionInfo = {'cruise': 'CruiseXX', 'dive': 'DiveX', 'station': '#xxx'}
         self.recorderPath = environ['HOME']
         self.autoRecord = False
         self.prefixMission = False
@@ -44,7 +44,7 @@ class PosiViewProject(object):
         self.narrowScreen = False
         self.defaultFormat = 5
         self.trackingStarted = False
-        self.trackCache = dict()
+        self.trackCache = {}
 
     def startTracking(self):
         if not self.trackingStarted:
@@ -66,7 +66,7 @@ class PosiViewProject(object):
                 item.subscribePositionProvider(self.dataProviders[key], item.dataProvider[key])
 
     def properties(self):
-        props = dict()
+        props = {}
         props['Mission'] = self.missionInfo
         props['RecorderPath'] = self.recorderPath
         props['AutoRecord'] = self.autoRecord
@@ -75,12 +75,12 @@ class PosiViewProject(object):
         props['ShowUtcClock'] = self.showUtcClock
         props['NarrowScreen'] = self.narrowScreen
         props['DefaultFormat'] = self.defaultFormat
-        m = dict()
+        m = {}
         for k in self.mobileItems:
             p = self.mobileItems[k].properties()
             m[p['Name']] = p
         props['Mobiles'] = m
-        pr = dict()
+        pr = {}
         for k in self.dataProviders:
             p = self.dataProviders[k].properties()
             pr[p['Name']] = p
@@ -93,10 +93,9 @@ class PosiViewProject(object):
         self.load(properties)
         if tracking:
             self.startTracking()
-        pass
 
     def load(self, properties):
-        self.missionInfo = properties.get('Mission', {'cruise': 'CruiseXX', 'dive': 'DiveX', 'station' : '#xxx'})
+        self.missionInfo = properties.get('Mission', {'cruise': 'CruiseXX', 'dive': 'DiveX', 'station': '#xxx'})
         self.recorderPath = properties.get('RecorderPath', environ['HOME'])
         self.autoRecord = bool(properties.get('AutoRecord', False))
         self.prefixMission = bool(properties.get('PrefixMission', False))
@@ -124,8 +123,8 @@ class PosiViewProject(object):
                 try:
                     m.subscribePositionProvider(self.dataProviders[k1], m.dataProvider[k1])
                 except KeyError:
-                    self.iface.messageBar().pushMessage(self.tr(u'Error'),
-                            self.tr(u"Can't subscribe dataprovider: ") + k1 + self.tr(u' for ') + m.name,
+                    self.iface.messageBar().pushMessage(self.tr('Error'),
+                            self.tr("Can't subscribe dataprovider: ") + k1 + self.tr(' for ') + m.name,
                             level=Qgis.Critical, duration=5)
         self.trackCache.clear()
 
@@ -154,30 +153,30 @@ class PosiViewProject(object):
             s = QSettings(iniFile, QSettings.Format.IniFormat)
         else:
             s = QSettings()
-        properties = dict()
-        properties['Mobiles'] = dict()
+        properties = {}
+        properties['Mobiles'] = {}
         s.beginGroup('PosiView')
         count = s.beginReadArray('Mobiles')
         for i in range(count):
             s.setArrayIndex(i)
-            mobile = dict()
+            mobile = {}
             for k in s.childKeys():
                 mobile[k] = self.convertToBestType(s.value(k))
             mobile['Name'] = s.value('Name', 'Mobile_{:d}'.format(i), type=str)
             properties['Mobiles'][mobile['Name']] = mobile
         s.endArray()
 
-        properties['Provider'] = dict()
+        properties['Provider'] = {}
         count = s.beginReadArray('DataProvider')
         for i in range(count):
             s.setArrayIndex(i)
-            provider = dict()
+            provider = {}
             for k in s.childKeys():
                 provider[k] = self.convertToBestType(s.value(k))
             provider['Name'] = s.value('Name', 'Provider_{:d}'.format(i), type=str)
             properties['Provider'][provider['Name']] = provider
         s.endArray()
-        properties['Mission'] = dict()
+        properties['Mission'] = {}
         properties['Mission']['cruise'] = s.value('Mission/Cruise', 'CruiseXX')
         properties['Mission']['dive'] = s.value('Mission/Dive', 'DiveX')
         properties['Mission']['station'] = s.value('Mission/Station', '#xxx')

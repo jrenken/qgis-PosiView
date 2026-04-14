@@ -23,13 +23,13 @@ class Recorder(QObject):
         self.path = path
         self.filePrefix = ''
         self.mobiles = None
-        self.interval = 1000
+        self.interval = interval
         self.timer = QTimer()
         self.timer.timeout.connect(self.takeSnapshot)
         self.fileName = ''
         self.file = None
         self.lineCount = 0
-        self.maxLines = 10000
+        self.maxLines = maxLines
 
     def setMobiles(self, mobiles):
         self.stopRecording()

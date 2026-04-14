@@ -3,12 +3,6 @@ Created on 25.04.2016
 
 @author: jrenken
 '''
-from __future__ import print_function
-from __future__ import absolute_import
-from builtins import str
-from builtins import map
-from builtins import range
-from builtins import object
 
 from datetime import datetime, timezone
 from .parser import Parser

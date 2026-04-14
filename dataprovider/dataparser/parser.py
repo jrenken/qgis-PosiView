@@ -3,10 +3,9 @@ Created on 03.06.2015
 
 @author: jrenken
 '''
-from builtins import object
 
 
-class Parser(object):
+class Parser():
     '''
     Base class for sentence parser
     '''

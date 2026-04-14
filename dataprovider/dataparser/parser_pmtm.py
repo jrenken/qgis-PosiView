@@ -3,7 +3,6 @@ Created on 22.06.2015
 
 @author: jrenken
 '''
-from __future__ import absolute_import
 
 from datetime import datetime, timezone
 from .nmea import NmeaRecord
@@ -22,6 +21,7 @@ class PmtmParser(Parser):
     Speed:                     $PMTMSPD,HROV,<forward_speed><port_speed><up_speed>
                                $PMMTSPD,HROV,0.4,0.6,0.3*6F
     '''
+
     def __init__(self):
         '''
         Constructor

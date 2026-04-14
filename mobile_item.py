@@ -10,9 +10,9 @@ from qgis.core import Qgis, QgsPointXY, QgsCoordinateTransform, \
         QgsCoordinateReferenceSystem, QgsCsException, \
         QgsException, QgsBearingUtils, QgsProject
 from qgis.gui import QgsMessageBar
-from .position_marker import PositionMarker
 from qgis.PyQt.QtWidgets import QLabel
 from qgis.PyQt.QtGui import QMovie
+from .position_marker import PositionMarker
 
 FILTER_FLAGS = ('-head', '-pos', '+course', '+utm')
 
@@ -51,9 +51,9 @@ class MobileItem(QObject):
                 'MobileItem_' + str(MobileItem.mobileItemCount))
         self.marker = PositionMarker(self.canvas, params)
         self.marker.setToolTip(self.name)
-        self.dataProvider = params.get('provider', dict())
-        self.messageFilter = dict()
-        self.extData = dict()
+        self.dataProvider = params.get('provider', {})
+        self.messageFilter = {}
+        self.extData = {}
         self.coordinates = None
         self.position = None
         self.heading = -9999.9
@@ -288,8 +288,8 @@ class MobileItem(QObject):
         if self.notifyCount:
             self.timeoutCount += 1
             if self.timeoutCount == self.notifyCount:
-                msg = self.tr(u'No fix for %s since more than %d seconds!') % (self.name, self.timeoutTime * self.timeoutCount / 1000)
-                w = self.iface.messageBar().createMessage(self.tr(u'PosiView Attention'), msg)
+                msg = self.tr('No fix for %s since more than %d seconds!') % (self.name, self.timeoutTime * self.timeoutCount / 1000)
+                w = self.iface.messageBar().createMessage(self.tr('PosiView Attention'), msg)
                 label = QLabel(w)
                 m = QMovie(':/plugins/PosiView/hand.gif')
                 m.setSpeed(75)

@@ -20,13 +20,14 @@
  *                                                                         *
  ***************************************************************************/
 """
+
+from collections import deque
+from itertools import islice
+from math import fmod, pi
 from qgis.PyQt.QtCore import QPointF, QRectF, QPoint, QLineF
 from qgis.PyQt.QtGui import QPainter, QBrush, QColor, QPen, QPolygonF
 from qgis.gui import QgsMapCanvasItem, QgsVertexMarker
 from qgis.core import QgsDistanceArea, QgsProject
-from collections import deque
-from itertools import islice
-from math import fmod, pi
 
 
 class PositionMarker(QgsMapCanvasItem):
@@ -102,10 +103,10 @@ class PositionMarker(QgsMapCanvasItem):
                 'fillColor': self.fillColor.rgba(),
                 'penWidth': self.penWidth,
                 'trackLength': self.trackLen,
-                'trackColor' : self.trackColor.rgba(),
+                'trackColor': self.trackColor.rgba(),
                 'zValue': self.zValue(),
                 'showLabel': self.showLabel,
-                'showExtraText' : self.showText}
+                'showExtraText': self.showText}
 
     def setMapPosition(self, pos):
         if self.position != pos:
@@ -240,7 +241,7 @@ class PositionMarker(QgsMapCanvasItem):
         pen = QPen(self.color)
         pen.setWidth(self.penWidth)
         painter.setPen(pen)
-        painter.setRenderHint(QPainter.Antialiasing, True)
+        painter.setRenderHint(QPainter.RenderHint.Antialiasing, True)
         if self.type == 'CROSS':
             painter.drawLine(QLineF(-s, 0, s, 0))
             painter.drawLine(QLineF(0, -s, 0, s))

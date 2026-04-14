@@ -3,10 +3,9 @@ Created on Jan 28, 2019
 
 @author: jrenken
 '''
-from __future__ import absolute_import
 
-from .parser import Parser
 from datetime import datetime, timezone
+from .parser import Parser
 
 
 class TargetPosParser(Parser):

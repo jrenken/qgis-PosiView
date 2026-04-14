@@ -3,7 +3,6 @@ Created on 12.06.2015
 
 @author: jrenken
 '''
-from __future__ import absolute_import
 
 from datetime import datetime, timezone
 from .parser import Parser

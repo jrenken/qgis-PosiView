@@ -6,13 +6,13 @@ Created on Dec 13, 2019
 
 from .datadevice import DataDevice
 from qgis.PyQt.QtCore import QObject, QTimer, QIODevice, pyqtSlot, pyqtSignal
-from PyQt5.QtSerialPort import QSerialPort
+from qgis.PyQt.QtSerialPort import QSerialPort
 
 
 class SerialDevice(DataDevice):
     '''
     Implementation of a Serial Device
-    Requires PyQt5 QtSerialPort module
+    Requires PyQt QtSerialPort module
     '''
 
     readyRead = pyqtSignal()
@@ -25,11 +25,11 @@ class SerialDevice(DataDevice):
         self.iodevice = QSerialPort()
         self.reconnect = int(params.get('Reconnect', 1000))
         self.serialPort = params.get('SerialPort', None)
-        self.baudrate = int(params.get('Baudrate', QSerialPort.Baud9600))
-        self.databits = int(params.get('Databits', QSerialPort.Data8))
-        self.parity = int(params.get('Parity', QSerialPort.NoParity))
-        self.stopbits = int(params.get('Stopbits', QSerialPort.OneStop))
-        self.flowControl = int(params.get('FlowControl', QSerialPort.NoFlowControl))
+        self.baudrate = int(params.get('Baudrate', QSerialPort.BaudRate.Baud9600))
+        self.databits = int(params.get('Databits', QSerialPort.DataBits.Data8))
+        self.parity = int(params.get('Parity', QSerialPort.Parity.NoParity))
+        self.stopbits = int(params.get('Stopbits', QSerialPort.StopBits.OneStop))
+        self.flowControl = int(params.get('FlowControl', QSerialPort.FlowControl.NoFlowControl))
         self.iodevice.readyRead.connect(self.readyRead)
         self.buffer = bytearray()
 

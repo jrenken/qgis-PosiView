@@ -25,7 +25,7 @@ from .tcpdevice import TcpDevice
 from .tcpserverdevice import TcpServerDevice
 
 try:
-    from PyQt5 import QtSerialPort
+    from qgis.PyQt import QtSerialPort
     from .serialdevice import SerialDevice
     DEVICE_TYPES = ('UDP', 'TCP', 'GPSD', 'TCPSERVER', 'SERIAL')
 except ImportError:

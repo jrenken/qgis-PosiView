@@ -3,10 +3,10 @@ Created on 09.10.2020
 
 @author: jrenken
 '''
-from __future__ import absolute_import
+
+import re
 from .parser import Parser
 from .nmea import NmeaRecord
-import re
 
 
 class CompassParser(Parser):

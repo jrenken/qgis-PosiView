@@ -63,7 +63,7 @@ class CompassDock(QDockWidget, FORM_CLASS):
         if m in self.mobiles:
             self.comboBoxTarget.setCurrentIndex(self.comboBoxTarget.findText(m))
 
-    @pyqtSlot(str, name='on_comboBoxSource_currentIndexChanged')
+    @pyqtSlot(str, name='on_comboBoxSource_currentTextChanged')
     def sourceChanged(self, mob):
         if self.source is not None:
             try:
@@ -80,7 +80,7 @@ class CompassDock(QDockWidget, FORM_CLASS):
             self.source = None
         self.resetSource()
 
-    @pyqtSlot(str, name='on_comboBoxTarget_currentIndexChanged')
+    @pyqtSlot(str, name='on_comboBoxTarget_currentTextChanged')
     def targetChanged(self, mob):
         if self.target is not None:
             try:

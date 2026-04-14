@@ -3,9 +3,10 @@ Created on 29.01.2015
 
 @author: jrenken
 '''
-from builtins import str
 
 import os
+import math
+from time import gmtime, strftime
 
 from qgis.PyQt import uic
 from qgis.PyQt.QtCore import Qt, QSettings, QSignalMapper, QMimeData, pyqtSignal, QEvent, QPoint
@@ -13,9 +14,6 @@ from qgis.PyQt.QtCore import pyqtSlot, QSize
 from qgis.core import QgsPointXY, QgsCoordinateFormatter as cf
 from qgis.PyQt.QtGui import QIcon, QDrag, QGuiApplication, QCursor
 from qgis.PyQt.QtWidgets import QAction, QLabel, QWidgetAction, QToolBar, QDockWidget, QToolButton, QWidget, QSlider, QVBoxLayout
-from time import gmtime, strftime
-import math
-
 
 FORM_CLASS, _ = uic.loadUiType(os.path.join(
     os.path.split(os.path.dirname(__file__))[0], 'ui', 'tracking_dock_base.ui'))
@@ -243,7 +241,7 @@ class TrackLenSlider(QWidget):
     def __init__(self, maxtl, vistl, parent=None):
         super(TrackLenSlider, self).__init__(parent)
         self.layout = QVBoxLayout(self)
-        self.slider = QSlider(Qt.Vertical, self)
+        self.slider = QSlider(Qt.Orientation.Vertical, self)
         self.layout.addWidget(self.slider, 0, Qt.AlignmentFlag.AlignCenter)
         self.label = QLabel('0', self)
         self.layout.addWidget(self.label, 0, Qt.AlignmentFlag.AlignCenter)
@@ -255,8 +253,8 @@ class TrackLenSlider(QWidget):
         except (ValueError, ZeroDivisionError):
             self.logscale = 1e-6
             self.setDisabled(True)
-        self.setAttribute(Qt.WA_DeleteOnClose)
-        self.setWindowFlags(Qt.Window | Qt.FramelessWindowHint)
+        self.setAttribute(Qt.WidgetAttribute.WA_DeleteOnClose)
+        self.setWindowFlags(Qt.WindowType.Window | Qt.WindowType.FramelessWindowHint)
 
     def setNum(self, val):
         nv = round(math.pow(2, val / self.logscale))

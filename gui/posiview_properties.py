@@ -3,13 +3,10 @@ Created on 30.01.2015
 
 @author: jrenken
 '''
-from builtins import str
-from builtins import range
 
 import os
 import sys
-from qgis.PyQt import uic
-from qgis.PyQt.QtCore import Qt, QCoreApplication, pyqtSlot, QModelIndex, pyqtSignal, QUrl, QStringListModel, QPoint
+from qgis.PyQt.QtCore import Qt, pyqtSlot, QModelIndex, pyqtSignal, QUrl, QStringListModel, QPoint
 from qgis.PyQt.QtGui import QStandardItem, QColor, QStandardItemModel, QDesktopServices
 from qgis.PyQt.QtWidgets import QFileDialog, QAbstractButton, QDialogButtonBox, QMenu
 from qgis.gui import QgsOptionsDialogBase
@@ -114,7 +111,7 @@ class PosiviewProperties(QgsOptionsDialogBase, Ui_PosiviewPropertiesBase):
         fn, __ = QFileDialog.getSaveFileName(None, 'Save PosiView configuration', '', 'Configuration (*.ini *.conf)')
         if fn:
             if not os.path.splitext(fn)[1]:
-                fn += u'.conf'
+                fn += '.conf'
             self.project.store(fn)
 
     @pyqtSlot(name='on_actionLoadConfiguration_triggered')
@@ -133,7 +130,7 @@ class PosiviewProperties(QgsOptionsDialogBase, Ui_PosiviewPropertiesBase):
         if index.isValid():
             self.populateMobileWidgets(index)
 
-    @pyqtSlot(str, name='on_comboBoxMobileType_currentIndexChanged')
+    @pyqtSlot(str, name='on_comboBoxMobileType_currentTextChanged')
     def mobileTypeChanged(self, mType):
         if mType == 'SHAPE':
             self.lineEditMobileShape.setEnabled(True)
@@ -157,7 +154,7 @@ class PosiviewProperties(QgsOptionsDialogBase, Ui_PosiviewPropertiesBase):
     def applyMobile(self):
         index = self.mMobileListView.currentIndex()
         if index.isValid() and not self.lineEditMobileName.text() == '':
-            mobile = dict()
+            mobile = {}
             mobile['Name'] = self.lineEditMobileName.text()
             mobile['type'] = self.comboBoxMobileType.currentText()
             try:
@@ -182,7 +179,7 @@ class PosiviewProperties(QgsOptionsDialogBase, Ui_PosiviewPropertiesBase):
             mobile['trackColor'] = self.mColorButtonMobileTrackColor.color().rgba()
             mobile['showLabel'] = self.checkBoxShowLabel.isChecked()
             mobile['showExtraText'] = self.checkBoxExtraText.isChecked()
-            provs = dict()
+            provs = {}
             for r in range(self.mobileProviderModel.rowCount()):
                 try:
                     fil = self.mobileProviderModel.item(r, 1).data(Qt.ItemDataRole.DisplayRole)
@@ -195,7 +192,7 @@ class PosiviewProperties(QgsOptionsDialogBase, Ui_PosiviewPropertiesBase):
                     fil = None
 
                 try:
-                    flags = list()
+                    flags = []
                     flgs = self.mobileProviderModel.item(r, 2).data(Qt.ItemDataRole.DisplayRole).split(', ')
                     for k, v in self.PROVIDER_FLAGS.items():
                         if v in flgs:
@@ -253,7 +250,7 @@ class PosiviewProperties(QgsOptionsDialogBase, Ui_PosiviewPropertiesBase):
                     try:
                         val = QStandardItem(str(v['id']))
                     except TypeError:
-                        val = QStandardItem(str(v))         # for compatibility reasons
+                        val = QStandardItem(str(v))  # for compatibility reasons
                     self.mobileProviderModel.setItem(r, 1, val)
                     s = ', '.join([self.PROVIDER_FLAGS[i] for i in v['flags']])
                     flags = QStandardItem(s)
@@ -296,7 +293,7 @@ class PosiviewProperties(QgsOptionsDialogBase, Ui_PosiviewPropertiesBase):
         if self.lineEditProviderFilter.text() != '':
             fil = self.lineEditProviderFilter.text()
         flags = ', '.join(self.comboBoxProviderFlags.checkedItems())
-        items = self.mobileProviderModel.findItems(prov, Qt.MatchExactly, 0)
+        items = self.mobileProviderModel.findItems(prov, Qt.MatchFlag.MatchExactly, 0)
         if items:
             for item in items:
                 self.mobileProviderModel.setItem(item.row(), 1, QStandardItem(fil))
@@ -314,7 +311,7 @@ class PosiviewProperties(QgsOptionsDialogBase, Ui_PosiviewPropertiesBase):
     def applyDataProvider(self):
         index = self.mDataProviderListView.currentIndex()
         if index.isValid() and not self.lineEditProviderName.text() == '':
-            provider = dict()
+            provider = {}
             provider['Name'] = self.lineEditProviderName.text()
             provider['DataDeviceType'] = self.comboBoxProviderType.currentText()
             if provider['DataDeviceType'] in NETWORK_TYPES:
@@ -351,7 +348,7 @@ class PosiviewProperties(QgsOptionsDialogBase, Ui_PosiviewPropertiesBase):
             self.lineEditProviderHostName.setText(provider.setdefault('Host', '0.0.0.0'))
             self.spinBoxProviderPort.setValue(int(provider.setdefault('Port', 2000)))
             self.checkBoxReuseAddr.setChecked(provider.setdefault('ReuseAddr', False))
-        elif provider['DataDeviceType'] == 'SERIAL' and 'PyQt5.QtSerialPort' in sys.modules:
+        elif provider['DataDeviceType'] == 'SERIAL' and 'qgis.PyQt.QtSerialPort' in sys.modules:
             self.stackedWidgetDataDevice.setCurrentIndex(1)
             self.comboBoxSerialPort.setCurrentText(provider.setdefault('SerialPort', ''))
             self.comboBoxBaudRate.setCurrentText(str(provider.setdefault('Baudrate', '9600')))
@@ -380,7 +377,7 @@ class PosiviewProperties(QgsOptionsDialogBase, Ui_PosiviewPropertiesBase):
             if idx.isValid():
                 self.populateDataProviderWidgets(idx)
 
-    @pyqtSlot(str, name='on_comboBoxProviderType_currentIndexChanged')
+    @pyqtSlot(str, name='on_comboBoxProviderType_currentTextChanged')
     def setProviderType(self, pType):
         if pType == 'UDP':
             self.checkBoxReuseAddr.show()
@@ -388,7 +385,7 @@ class PosiviewProperties(QgsOptionsDialogBase, Ui_PosiviewPropertiesBase):
             self.checkBoxReuseAddr.hide()
         if pType == 'SERIAL':
             try:
-                from PyQt5.QtSerialPort import QSerialPortInfo
+                from qgis.PyQt.QtSerialPort import QSerialPortInfo
                 ports = QSerialPortInfo.availablePorts()
                 cport = self.comboBoxSerialPort.currentText()
                 self.comboBoxSerialPort.clear()
@@ -418,14 +415,14 @@ class PosiviewProperties(QgsOptionsDialogBase, Ui_PosiviewPropertiesBase):
         arrowAction = menu.addAction(self.tr('Arrow'))
         selectedAction = menu.exec(self.lineEditMobileShape.mapToGlobal(pos))
         if selectedAction == vesselAction:
-            self.lineEditMobileShape.setText(u'((0, -0.5), (0.5, -0.3), (0.5, 0.5), (-0.5, 0.5), (-0.5, -0.3))')
+            self.lineEditMobileShape.setText('((0, -0.5), (0.5, -0.3), (0.5, 0.5), (-0.5, 0.5), (-0.5, -0.3))')
         elif selectedAction == rovAction:
-            self.lineEditMobileShape.setText(u'((0.3, -0.5), (0.5, -0.3), (0.5, 0.5), (-0.5, 0.5), (-0.5, -0.3), (-0.3, -0.5))')
+            self.lineEditMobileShape.setText('((0.3, -0.5), (0.5, -0.3), (0.5, 0.5), (-0.5, 0.5), (-0.5, -0.3), (-0.3, -0.5))')
         elif selectedAction == auvAction:
-            self.lineEditMobileShape.setText(u'((0, -0.5), (0.4, -0.3), (0.5, -0.3), (0.5, -0.2), (0.4, -0.2), (0.4, 0.3), (0.5, 0.3), (0.5, 0.4), (0.4, 0.4), (0.0, 0.5), \
+            self.lineEditMobileShape.setText('((0, -0.5), (0.4, -0.3), (0.5, -0.3), (0.5, -0.2), (0.4, -0.2), (0.4, 0.3), (0.5, 0.3), (0.5, 0.4), (0.4, 0.4), (0.0, 0.5), \
              (-0.4, 0.4), (-0.5, 0.4), (-0.5, 0.3), (-0.4, 0.3), (-0.4, -0.2), (-0.5, -0.2), (-0.5, -0.3), (-0.4, -0.3))')
         elif selectedAction == arrowAction:
-            self.lineEditMobileShape.setText(u'((0, -0.5), (0.5, 0.5), (0, 0), (-0.5, 0.5))')
+            self.lineEditMobileShape.setText('((0, -0.5), (0.5, 0.5), (0, 0), (-0.5, 0.5))')
 
     @pyqtSlot(name='on_buttonBox_helpRequested')
     def showHelp(self):

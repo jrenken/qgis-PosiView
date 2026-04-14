@@ -71,7 +71,7 @@ class CompassWidget(QWidget):
                     (self.height() - self._margins) / 120.0)
         painter.scale(scale, scale)
 
-        painter.setPen(QPen(Qt.NoPen))
+        painter.setPen(QPen(Qt.PenStyle.NoPen))
 #         painter.setBrush(self.palette().brush(QPalette.ColorRole.Shadow))
 #
 #         painter.drawPolygon(
@@ -98,7 +98,7 @@ class CompassWidget(QWidget):
                     (self.height() - self._margins) / 120.0)
         painter.scale(scale, scale)
 
-        painter.setPen(QPen(Qt.NoPen))
+        painter.setPen(QPen(Qt.PenStyle.NoPen))
 #         painter.setBrush(self.palette().brush(QPalette.ColorRole.Dark))
 #
 #         painter.drawPolygon(

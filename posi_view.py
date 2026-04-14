@@ -20,14 +20,14 @@
  *                                                                         *
  ***************************************************************************/
 """
-from __future__ import absolute_import
+
+import os.path
 from builtins import object
 from qgis.PyQt.QtCore import QObject, QSettings, QTranslator, qVersion, QCoreApplication, Qt, pyqtSlot, QSize
 from qgis.PyQt.QtWidgets import QWidget
 from qgis.PyQt.QtGui import QAction, QIcon
 # Initialize Qt resources from file resources.py
 from .resources_rc import *
-import os.path
 from .posiview_project import PosiViewProject
 from .gui.tracking_dock import TrackingDock
 from .gui.guidance_dock import GuidanceDock
@@ -72,10 +72,10 @@ class PosiView(object):
 
         # Declare instance attributes
         self.actions = {}
-        self.menu = self.tr(u'&PosiView')
+        self.menu = self.tr('&PosiView')
         # TODO: We are going to let the user set this up in a future iteration
-        self.toolbar = self.iface.addToolBar(u'PosiView')
-        self.toolbar.setObjectName(u'PosiView')
+        self.toolbar = self.iface.addToolBar('PosiView')
+        self.toolbar.setObjectName('PosiView')
         self.project = PosiViewProject(self.iface)
 
         self.tracking = TrackingDock()
@@ -212,23 +212,23 @@ class PosiView(object):
 
         iconPath = ':/plugins/PosiView'
         loadAction = self.add_action(
-            u'loadAction',
+            'loadAction',
             os.path.join(iconPath, 'icon.png'),
-            text=self.tr(u'&Enable PosiView'),
+            text=self.tr('&Enable PosiView'),
             callback=self.run,
-            status_tip=self.tr(u'Enable PosiView'),
+            status_tip=self.tr('Enable PosiView'),
             checkable_flag=True,
             parent=self.iface.mainWindow())
 
         trackingAction = self.add_action(
-            u'trackingAction',
+            'trackingAction',
             os.path.join(iconPath, 'track_start.png'),
-            text=self.tr(u'&Start/stop tracking'),
+            text=self.tr('&Start/stop tracking'),
             callback=self.startStopTracking,
             toggle_flag=True,
             visible_flag=False,
             checkable_flag=True,
-            status_tip=self.tr(u'Start/stop tracking'),
+            status_tip=self.tr('Start/stop tracking'),
             parent=self.iface.mainWindow())
 
         icon = trackingAction.icon()
@@ -236,14 +236,14 @@ class PosiView(object):
         trackingAction.setIcon(icon)
 
         recordAction = self.add_action(
-            u'recordAction',
+            'recordAction',
             os.path.join(iconPath, 'record.png'),
-            text=self.tr(u'Start/stop &recording'),
+            text=self.tr('Start/stop &recording'),
             callback=self.startStopRecording,
             toggle_flag=True,
             visible_flag=False,
             checkable_flag=True,
-            status_tip=self.tr(u'Start/stop recording'),
+            status_tip=self.tr('Start/stop recording'),
             parent=self.iface.mainWindow())
 
         icon = recordAction.icon()
@@ -251,22 +251,22 @@ class PosiView(object):
         recordAction.setIcon(icon)
 
         configAction = self.add_action(
-            u'configAction',
+            'configAction',
             os.path.join(iconPath, 'preferences.png'),
-            text=self.tr(u'&Configure PosiView'),
+            text=self.tr('&Configure PosiView'),
             callback=self.configure,
             visible_flag=False,
-            status_tip=self.tr(u'Configure PosiView'),
+            status_tip=self.tr('Configure PosiView'),
             parent=self.iface.mainWindow())
 
         measureAction = self.add_action(
-            u'measureAction',
+            'measureAction',
             os.path.join(iconPath, 'measure.png'),
-            text=self.tr(u'&Measure Distance and Azimuth'),
+            text=self.tr('&Measure Distance and Azimuth'),
             callback=self.measure,
             visible_flag=False,
             checkable_flag=True,
-            status_tip=self.tr(u'&Measure Distance and Azimuth'),
+            status_tip=self.tr('&Measure Distance and Azimuth'),
             parent=self.iface.mainWindow())
         if self.iface.actionPan():
             measureAction.setActionGroup(self.iface.actionPan().actionGroup())
@@ -289,7 +289,7 @@ class PosiView(object):
         self.tracking.removeWidget(self.positionDisplay)
         for _, action in self.actions.items():
             self.iface.removePluginMenu(
-                self.tr(u'&PosiView'),
+                self.tr('&PosiView'),
                 action)
             self.iface.removeToolBarIcon(action)
         del self.toolbar
@@ -424,12 +424,12 @@ class PosiView(object):
         :type name: str
         '''
         if success:
-            self.iface.messageBar().pushMessage(self.tr(u'PosiView Recorder'),
-                    self.tr(u'Recording started: ') + fileName,
+            self.iface.messageBar().pushMessage(self.tr('PosiView Recorder'),
+                    self.tr('Recording started: ') + fileName,
                     level=Qgis.Info, duration=20)
         else:
-            self.iface.messageBar().pushMessage(self.tr(u'PosiView Recorder'),
-                    self.tr(u'Start recording failed: ') + fileName,
+            self.iface.messageBar().pushMessage(self.tr('PosiView Recorder'),
+                    self.tr('Start recording failed: ') + fileName,
                     level=Qgis.Critical, duration=20)
             self.actions['recordAction'].setChecked(False)
 

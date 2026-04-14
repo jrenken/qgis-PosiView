@@ -3,14 +3,15 @@ Created on 30.01.2015
 
 @author: jrenken
 '''
+
 import os
+from math import pi
+from datetime import datetime, timezone
 from qgis.PyQt import uic
 from qgis.PyQt.QtCore import pyqtSlot, QSettings
 from qgis.core import QgsPointXY, QgsDistanceArea, QgsProject, QgsCoordinateReferenceSystem
 from qgis.core import QgsCoordinateFormatter as cf, QgsMapLayer, QgsWkbTypes
 from qgis.PyQt.QtWidgets import QDockWidget
-from datetime import datetime, timezone
-from math import pi
 from .compass import CompassWidget
 
 FORM_CLASS, _ = uic.loadUiType(os.path.join(
@@ -35,7 +36,7 @@ class GuidanceDock(QDockWidget, FORM_CLASS):
         self.verticalLayout.addWidget(self.compass)
         self.verticalLayout.setStretch(5, 8)
         self.distArea = QgsDistanceArea()
-        self.distArea.setEllipsoid(u'WGS84')
+        self.distArea.setEllipsoid('WGS84')
         self.distArea.setSourceCrs(QgsCoordinateReferenceSystem('EPSG:4326'), QgsProject.instance().transformContext())
         self.fontSize = 11
         self.source = None
@@ -116,7 +117,7 @@ class GuidanceDock(QDockWidget, FORM_CLASS):
                     cf.formatY(pos.y(), cf.FormatDegreesMinutesSeconds, 2,
                              cf.FlagDegreesUseStringSuffix))
 
-    @pyqtSlot(str, name='on_comboBoxSource_currentIndexChanged')
+    @pyqtSlot(str, name='on_comboBoxSource_currentTextChanged')
     def sourceChanged(self, mob):
         if self.source is not None:
             try:
@@ -142,7 +143,7 @@ class GuidanceDock(QDockWidget, FORM_CLASS):
                     self.resetSource()
                     self.onNewSourcePosition(None, pos, -9999, -9999)
 
-    @pyqtSlot(str, name='on_comboBoxTarget_currentIndexChanged')
+    @pyqtSlot(str, name='on_comboBoxTarget_currentTextChanged')
     def targetChanged(self, mob):
         if self.target is not None:
             try:
