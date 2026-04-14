@@ -3,7 +3,7 @@ Created on 31.07.2015
 
 @author: jrenken
 '''
-from __future__ import absolute_import
+
 from .parser import Parser
 from .nmea import NmeaRecord
 
