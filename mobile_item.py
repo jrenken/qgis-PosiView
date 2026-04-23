@@ -11,6 +11,7 @@ from qgis.core import Qgis, QgsPointXY, QgsCoordinateTransform, \
         QgsException, QgsBearingUtils, QgsProject
 from qgis.gui import QgsMessageBar
 from .position_marker import PositionMarker
+from .track_layer import TrackLayer
 from qgis.PyQt.QtWidgets import QLabel
 from qgis.PyQt.QtGui import QMovie
 
@@ -27,7 +28,7 @@ class MobileItem(QObject):
     mobileItemCount = 0
 
     newPosition = pyqtSignal(float, QgsPointXY, float, float)
-    newAttitude = pyqtSignal(float, float, float)   # heading, pitch, roll
+    newAttitude = pyqtSignal(float, float, float)  # heading, pitch, roll
     timeout = pyqtSignal()
 
     def __init__(self, iface, params={}, parent=None):
@@ -77,6 +78,9 @@ class MobileItem(QObject):
         self.notifyDuration = int(params.get('NotifyDuration', 0))
         self.timedOut = False
         self.enabled = True
+        self.trackLayer = TrackLayer(self.name)
+        self.newPosition.connect(self.trackLayer.onNewPosition)
+        self.newAttitude.connect(self.trackLayer.onNewAttitude)
 
     def removeFromCanvas(self):
         '''
@@ -90,12 +94,12 @@ class MobileItem(QObject):
         :returns: Items properties
         :rtype: dict
         '''
-        d = {'Name' : self.name,
+        d = {'Name': self.name,
              'timeout': self.timeoutTime,
              'nofixNotify': self.notifyCount,
              'fadeOut': self.fadeOut,
              'enabled': self.enabled,
-             'provider' : self.dataProvider}
+             'provider': self.dataProvider}
         d.update(self.marker.properties())
         return d
 
@@ -211,7 +215,7 @@ class MobileItem(QObject):
         return False
 
     @pyqtSlot(float)
-    def onScaleChange(self, ):
+    def onScaleChange(self,):
         '''
         Slot called when the map is zoomed
         :param scale: New scale
@@ -229,7 +233,7 @@ class MobileItem(QObject):
         self.marker.updatePosition()
 
     @pyqtSlot(float)
-    def onMagnificationChanged(self, ):
+    def onMagnificationChanged(self,):
         '''
         Slot called when the map magnification has changed
         :param scale: New scale
