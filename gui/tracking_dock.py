@@ -3,19 +3,18 @@ Created on 29.01.2015
 
 @author: jrenken
 '''
-from builtins import str
 
 import os
+import math
+from time import gmtime, strftime
 
 from qgis.PyQt import uic
-from qgis.PyQt.QtCore import Qt, QSettings, QSignalMapper, QMimeData, pyqtSignal, QEvent, QPoint
+from qgis.PyQt.QtCore import Qt, QSettings, QSignalMapper, QMimeData, pyqtSignal, QPoint
 from qgis.PyQt.Qt import pyqtSlot, QSize
 from qgis.core import QgsPointXY, QgsCoordinateFormatter as cf
 from qgis.PyQt.QtGui import QIcon, QDrag, QGuiApplication, QCursor
-from qgis.PyQt.QtWidgets import QAction, QLabel, QWidgetAction, QToolBar, QDockWidget, QToolButton, QWidget, QSlider, QVBoxLayout
-from time import gmtime, strftime
-import math
-
+from qgis.PyQt.QtWidgets import QAction, QLabel, QWidgetAction, QToolBar, QDockWidget
+from qgis.PyQt.QtWidgets import QToolButton, QWidget, QSlider, QVBoxLayout, QMessageBox
 
 FORM_CLASS, _ = uic.loadUiType(os.path.join(
     os.path.split(os.path.dirname(__file__))[0], 'ui', 'tracking_dock_base.ui'))
@@ -132,7 +131,7 @@ class TrackingDisplay(QToolBar):
         self.trackLengthAction.triggered.connect(self.changeVisibleTrackLength)
         self.deleteTrackAction = QAction(QIcon(':/plugins/PosiView/deletetrack.png'), self.tr('Delete Track'), self)
         self.addAction(self.deleteTrackAction)
-        self.deleteTrackAction.triggered.connect(self.mobile.deleteTrack)
+        self.deleteTrackAction.triggered.connect(self.onDeleteTrack)  # self.mobile.deleteTrack)
         self.centerAction.triggered.connect(self.mobile.centerOnMap)
 
     @pyqtSlot(float, QgsPointXY, float, float)
@@ -179,6 +178,13 @@ class TrackingDisplay(QToolBar):
             self.posLabel.setStyleSheet('background: red; font-size: 8pt; color: white;')
         else:
             self.posLabel.setStyleSheet('background: white; font-size: 8pt; color: black;')
+
+    @pyqtSlot()
+    def onDeleteTrack(self):
+        res = QMessageBox.question(self, self.tr('Delete Track'), self.tr('Delete all trackpoints of ') + self.mobile.name + '?',
+                                   defaultButton=QMessageBox.NoButton)
+        if res == QMessageBox.Yes:
+            self.mobile.deleteTrack()
 
     def changeVisibleTrackLength(self, value):
         tlen, vlen, _ = self.mobile.marker.trackLength()
