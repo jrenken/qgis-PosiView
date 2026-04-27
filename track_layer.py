@@ -4,9 +4,9 @@ Created on Apr 20, 2026
 @author: jrenken
 '''
 
-from qgis.PyQt.QtCore import QObject, pyqtSlot
+from qgis.PyQt.QtCore import QObject, pyqtSlot, QDateTime, Qt
 from qgis.core import QgsVectorLayer, QgsVectorDataProvider, QgsProject, Qgis, QgsPointXY, QgsGeometry
-from qgis.core import QgsFeature, QgsMapLayer
+from qgis.core import QgsFeature
 
 
 class TrackLayer(QObject):
@@ -25,15 +25,16 @@ class TrackLayer(QObject):
         self.hpr_attitude = [0.0, 0.0, 0.0]
 
     def getLayer(self, name:str): 
-        lrs = QgsProject.instance().mapLayersByName(name)
+        lname = name + '_Track'
+        lrs = QgsProject.instance().mapLayersByName(lname)
         if lrs:
             for l in lrs:
                 if isinstance(l, QgsVectorLayer) and l.geometryType() == Qgis.GeometryType.Point:
                     if l.dataProvider().capabilities() & QgsVectorDataProvider.AddAttributes:
                         return l
         else:
-            uri = 'Point?crs=EPSG:4326&field=depth:integer(10,0)&field=altitude:double(10,1)&field=heading:integer(10,0)'
-            lr = QgsVectorLayer(uri, name, 'memory')
+            uri = 'Point?crs=EPSG:4326&field=fix:datetime(0,0)&field=depth:integer(10,0)&field=altitude:double(10,1)&field=heading:integer(10,0)'
+            lr = QgsVectorLayer(uri, lname, 'memory')
             if lr.isValid():
                 QgsProject.instance().addMapLayer(lr)
             else:
@@ -47,15 +48,17 @@ class TrackLayer(QObject):
         feat = QgsFeature(self.layer.fields())
             # feat.initAttributes(self.attributeCount)
         feat.setGeometry(QgsGeometry.fromPointXY(pos))
+        feat.setAttribute('fix', QDateTime.fromMSecsSinceEpoch(int(fix * 1e3), Qt.UTC))
         feat.setAttribute('depth', int(depth))
         feat.setAttribute('altitude', altitude)
         feat.setAttribute('heading', int(self.hpr_attitude[0]))
         # feat.setAttribute('description', description)
         # feat.setAttribute('class', category)
         # feat.setAttribute('timestamp', timestamp)
-        (res, _) = self.layer.dataProvider().addFeatures([feat])
+        res = self.layer.dataProvider().addFeature(feat)
         if res:
             self.layer.updateExtents()
+            self.layer.triggerRepaint()
         return res
 
     @pyqtSlot(float, float, float)

@@ -78,9 +78,11 @@ class MobileItem(QObject):
         self.notifyDuration = int(params.get('NotifyDuration', 0))
         self.timedOut = False
         self.enabled = True
-        self.trackLayer = TrackLayer(self.name)
-        self.newPosition.connect(self.trackLayer.onNewPosition)
-        self.newAttitude.connect(self.trackLayer.onNewAttitude)
+        self.recordTrack = params.get('recordTrack', False)
+        if self.recordTrack:
+            self.trackLayer = TrackLayer(self.name)
+            self.newPosition.connect(self.trackLayer.onNewPosition)
+            self.newAttitude.connect(self.trackLayer.onNewAttitude)
 
     def removeFromCanvas(self):
         '''
@@ -99,7 +101,8 @@ class MobileItem(QObject):
              'nofixNotify': self.notifyCount,
              'fadeOut': self.fadeOut,
              'enabled': self.enabled,
-             'provider': self.dataProvider}
+             'provider': self.dataProvider,
+             'recordTrack': self.recordTrack}
         d.update(self.marker.properties())
         return d
 

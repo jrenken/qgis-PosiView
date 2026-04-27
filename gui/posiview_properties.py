@@ -183,6 +183,7 @@ class PosiviewProperties(QgsOptionsDialogBase, Ui_PosiviewPropertiesBase):
             mobile['trackColor'] = self.mColorButtonMobileTrackColor.color().rgba()
             mobile['showLabel'] = self.checkBoxShowLabel.isChecked()
             mobile['showExtraText'] = self.checkBoxExtraText.isChecked()
+            mobile['recordTrack'] = self.checkBoxRecordTrack.isChecked()
             provs = dict()
             for r in range(self.mobileProviderModel.rowCount()):
                 try:
@@ -244,6 +245,7 @@ class PosiviewProperties(QgsOptionsDialogBase, Ui_PosiviewPropertiesBase):
         self.checkBoxShowLabel.setChecked(mobile.get('showLabel', False))
         self.checkBoxExtraText.setVisible(self.checkBoxShowLabel.isChecked())
         self.checkBoxExtraText.setChecked(mobile.get('showExtraText', False))
+        self.checkBoxRecordTrack.setChecked(mobile.get('recordTrack', False))
         r = 0
         self.mobileProviderModel.removeRows(0, self.mobileProviderModel.rowCount())
         if 'provider' in mobile:
@@ -254,7 +256,7 @@ class PosiviewProperties(QgsOptionsDialogBase, Ui_PosiviewPropertiesBase):
                     try:
                         val = QStandardItem(str(v['id']))
                     except TypeError:
-                        val = QStandardItem(str(v))         # for compatibility reasons
+                        val = QStandardItem(str(v))  # for compatibility reasons
                     self.mobileProviderModel.setItem(r, 1, val)
                     s = ', '.join([self.PROVIDER_FLAGS[i] for i in v['flags']])
                     flags = QStandardItem(s)
