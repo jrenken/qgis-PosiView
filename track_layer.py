@@ -14,7 +14,7 @@ class TrackLayer(QObject):
     Handler for a pointlayer for recording the track of a vehicle
     '''
 
-    def __init__(self, name:str, parent=None):
+    def __init__(self, name:str, auto_repaint=False, parent=None):
         '''
         Constructor
         '''
@@ -23,6 +23,7 @@ class TrackLayer(QObject):
         self.layer = self.getLayer(name)
         QgsProject.instance().layersWillBeRemoved.connect(self.onLayersWillBeRemoved)
         self.hpr_attitude = [0.0, 0.0, 0.0]
+        self.repaint = auto_repaint
 
     def getLayer(self, name:str): 
         lname = name + '_Track'
@@ -52,14 +53,11 @@ class TrackLayer(QObject):
         feat.setAttribute('depth', int(depth))
         feat.setAttribute('altitude', altitude)
         feat.setAttribute('heading', int(self.hpr_attitude[0]))
-        # feat.setAttribute('description', description)
-        # feat.setAttribute('class', category)
-        # feat.setAttribute('timestamp', timestamp)
         res = self.layer.dataProvider().addFeature(feat)
         if res:
             self.layer.updateExtents()
-            self.layer.triggerRepaint()
-        return res
+            if self.repaint:
+                self.layer.triggerRepaint()
 
     @pyqtSlot(float, float, float)
     def onNewAttitude(self, heading, pitch, roll):

@@ -184,6 +184,7 @@ class PosiviewProperties(QgsOptionsDialogBase, Ui_PosiviewPropertiesBase):
             mobile['showLabel'] = self.checkBoxShowLabel.isChecked()
             mobile['showExtraText'] = self.checkBoxExtraText.isChecked()
             mobile['recordTrack'] = self.checkBoxRecordTrack.isChecked()
+            mobile['recordTrackRepaint'] = self.checkBoxRecordTrackRepaint.isChecked()
             provs = dict()
             for r in range(self.mobileProviderModel.rowCount()):
                 try:
@@ -246,6 +247,7 @@ class PosiviewProperties(QgsOptionsDialogBase, Ui_PosiviewPropertiesBase):
         self.checkBoxExtraText.setVisible(self.checkBoxShowLabel.isChecked())
         self.checkBoxExtraText.setChecked(mobile.get('showExtraText', False))
         self.checkBoxRecordTrack.setChecked(mobile.get('recordTrack', False))
+        self.checkBoxRecordTrackRepaint.setChecked(mobile.get('recordTrackRepaint', False))
         r = 0
         self.mobileProviderModel.removeRows(0, self.mobileProviderModel.rowCount())
         if 'provider' in mobile:

@@ -1600,6 +1600,16 @@
                     </property>
                    </widget>
                   </item>
+                  <item row="12" column="2">
+                   <widget class="QCheckBox" name="checkBoxRecordTrackRepaint">
+                    <property name="enabled">
+                     <bool>false</bool>
+                    </property>
+                    <property name="text">
+                     <string>Repaint</string>
+                    </property>
+                   </widget>
+                  </item>
                  </layout>
                 </widget>
                </item>
@@ -1738,12 +1748,12 @@
    <slot>setEnabled(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>637</x>
-     <y>381</y>
+     <x>704</x>
+     <y>378</y>
     </hint>
     <hint type="destinationlabel">
-     <x>816</x>
-     <y>381</y>
+     <x>952</x>
+     <y>378</y>
     </hint>
    </hints>
   </connection>
@@ -1758,8 +1768,24 @@
      <y>581</y>
     </hint>
     <hint type="destinationlabel">
-     <x>673</x>
-     <y>584</y>
+     <x>952</x>
+     <y>603</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>checkBoxRecordTrack</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>checkBoxRecordTrackRepaint</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>661</x>
+     <y>620</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>729</x>
+     <y>621</y>
     </hint>
    </hints>
   </connection>

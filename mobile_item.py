@@ -79,8 +79,9 @@ class MobileItem(QObject):
         self.timedOut = False
         self.enabled = True
         self.recordTrack = params.get('recordTrack', False)
+        self.recordTrackRepaint = params.get('recordTrackRepaint', False)
         if self.recordTrack:
-            self.trackLayer = TrackLayer(self.name)
+            self.trackLayer = TrackLayer(self.name, self.recordTrackRepaint)
             self.newPosition.connect(self.trackLayer.onNewPosition)
             self.newAttitude.connect(self.trackLayer.onNewAttitude)
 
@@ -102,7 +103,8 @@ class MobileItem(QObject):
              'fadeOut': self.fadeOut,
              'enabled': self.enabled,
              'provider': self.dataProvider,
-             'recordTrack': self.recordTrack}
+             'recordTrack': self.recordTrack,
+             'recordTrackRepaint': self.recordTrackRepaint}
         d.update(self.marker.properties())
         return d
 
