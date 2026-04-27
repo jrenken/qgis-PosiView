@@ -4,15 +4,20 @@ Created on Apr 20, 2026
 @author: jrenken
 '''
 
-from qgis.PyQt.QtCore import QObject, pyqtSlot, QDateTime, Qt
+from qgis.PyQt.QtCore import QObject, pyqtSlot, QDateTime, Qt, QVariant
 from qgis.core import QgsVectorLayer, QgsVectorDataProvider, QgsProject, Qgis, QgsPointXY, QgsGeometry
-from qgis.core import QgsFeature
+from qgis.core import QgsFeature, QgsField
 
 
 class TrackLayer(QObject):
     '''
     Handler for a pointlayer for recording the track of a vehicle
     '''
+
+    FIELD_TYPES = {'fix': QVariant.DateTime,
+                   'depth': QVariant.Int,
+                   'altitude': QVariant.Double,
+                   'heading': QVariant.Int }
 
     def __init__(self, name: str, auto_repaint=False, parent=None):
         '''
@@ -32,6 +37,11 @@ class TrackLayer(QObject):
             for lr in lrs:
                 if isinstance(lr, QgsVectorLayer) and lr.geometryType() == Qgis.GeometryType.Point:
                     if lr.dataProvider().capabilities() & QgsVectorDataProvider.AddAttributes:
+                        field_names = [field.name() for field in lr.fields()]
+                        for field in self.FIELD_TYPES:
+                            if field not in field_names:
+                                lr.dataProvider().addAttributes([QgsField(field, self.FIELD_TYPES[field])])
+                                lr.updateFields()
                         return lr
         else:
             uri = 'Point?crs=EPSG:4326&field=fix:datetime(0,0)&field=depth:integer(10,0)&field=altitude:double(10,1)&field=heading:integer(10,0)'
