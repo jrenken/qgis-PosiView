@@ -53,7 +53,9 @@ class MobileItem(QObject):
                 'MobileItem_' + str(MobileItem.mobileItemCount))
         self.markers = {'main': PositionMarker(self.canvas, params)}
         self.markers['main'].setToolTip(self.name)
-        self.markers['lasso'] = LassoMarker(self.canvas, QgsPointXY(454456.08, 3546167.34), QgsPointXY(454523.14, 3546052.86))
+        if self.name == 'Merian':
+            self.markers['lasso'] = LassoMarker(self.canvas, QgsPointXY(454724.78, 3546222.77), QgsPointXY(454795.64, 3546163.14))
+            self.markers['eilasso'] = LassoMarker(self.canvas, QgsPointXY(454724.78, 3546222.77), QgsPointXY(454739.44, 3546161.68))
         self.dataProvider = params.get('provider', dict())
         self.messageFilter = dict()
         self.extData = dict()
@@ -237,7 +239,6 @@ class MobileItem(QObject):
         :param scale: New scale
         :type scale: float
         '''
-        print('updateScale')
         for m in self.markers.values():
             m.updatePosition()
         # self.lm.updateSize()

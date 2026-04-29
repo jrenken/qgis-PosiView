@@ -129,7 +129,6 @@ class PositionMarker(QgsMapCanvasItem):
             self.label.resetPosition()
 
     def updatePosition(self):
-        print('update')
         if self.position:
             self.prepareGeometryChange()
             self.updateSize()

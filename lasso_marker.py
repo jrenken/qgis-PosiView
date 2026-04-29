@@ -50,15 +50,12 @@ class LassoMarker(QgsMapCanvasItem):
     def updateSize(self):
         if self.distance and self.bearing:
             self.prepareGeometryChange()
-            print(self.distance, self.bearing)
             s = self.canvas.mapSettings()
             f = s.outputDpi() / 0.0254 / s.scale()
             rad = f * self.radius
-            print(rad)
-            ep = QPointF((self.distance * f - rad) * cos(self.bearing), (self.distance * f - rad) * sin(self.bearing))
-            cp = QPointF((self.distance * f) * cos(self.bearing), (self.distance * f) * sin(self.bearing))
+            ep = QPointF((self.distance * f - rad) * sin(self.bearing), -(self.distance * f - rad) * cos(-self.bearing))
+            cp = QPointF((self.distance * f) * sin(self.bearing), -(self.distance * f) * cos(self.bearing))
             self.paintCoords = [ep, cp, rad]
-            print(self.paintCoords)
             r1 = QRectF(QPointF(0.0, 0.0), cp)
             r2 = QRectF(cp.x() - rad, cp.y() - rad, 2 * rad, 2 * rad)
             self.bounds = r1.united(r2)
@@ -107,11 +104,8 @@ class LassoMarker(QgsMapCanvasItem):
             return
         
         pen = QPen(Qt.red)
+        pen.setStyle(Qt.DashDotLine)
         painter.setPen(pen)
         painter.drawLine(QPointF(0.0, 0.0), self.paintCoords[0])
         painter.drawEllipse(self.paintCoords[1], self.paintCoords[2], self.paintCoords[2])
-        # painter.drawLine(self.toCanvasCoordinates(self.srcPos), self.toCanvasCoordinates(self.targetPos))
-        # rad = self.radius * self.canvas.scale()
-        # print(self.canvas.scale())
-        # painter.drawEllipse(self.toCanvasCoordinates(self.targetPos), 100, 100)
        
