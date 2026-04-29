@@ -1,0 +1,117 @@
+# -*- coding: utf-8 -*-
+'''
+Created on Apr 28, 2026
+
+@author: jrenken
+'''
+
+from math import sin, cos, degrees
+from qgis.PyQt.QtCore import pyqtSlot, Qt, QRectF, QPointF
+from qgis.PyQt.QtGui import QPen
+from qgis.core import (
+    QgsPointXY,
+    QgsProject,
+    QgsDistanceArea,
+    QgsCsException
+    )
+from qgis.gui import QgsMapCanvasItem
+
+
+class LassoMarker(QgsMapCanvasItem):
+    '''
+    
+    '''
+    
+    def __init__(self, canvas, src: QgsPointXY, target: QgsPointXY, params={}):
+        super().__init__(canvas)
+        self.canvas = canvas
+        self.position = None
+        self.targetPos = target
+        self.distance = None
+        self.bearing = None
+        self.radius = 30.0
+        self.bounds = QRectF()
+        self.distArea = QgsDistanceArea()
+        self.distArea.setEllipsoid(u'WGS84')
+        s = self.canvas.mapSettings()
+        self.distArea.setSourceCrs(s.destinationCrs(), QgsProject.instance().transformContext())
+        try:
+            self.distance = self.distArea.measureLine(src, self.targetPos)
+            self.bearing = self.distArea.bearing(src, self.targetPos)
+        except QgsCsException:
+            self.distance = None
+            self.bearing = None
+        self.paintCoords = None
+        self.updateSize()
+
+    def properties(self):
+        return {}
+
+    def updateSize(self):
+        if self.distance and self.bearing:
+            self.prepareGeometryChange()
+            print(self.distance, self.bearing)
+            s = self.canvas.mapSettings()
+            f = s.outputDpi() / 0.0254 / s.scale()
+            rad = f * self.radius
+            print(rad)
+            ep = QPointF((self.distance * f - rad) * cos(self.bearing), (self.distance * f - rad) * sin(self.bearing))
+            cp = QPointF((self.distance * f) * cos(self.bearing), (self.distance * f) * sin(self.bearing))
+            self.paintCoords = [ep, cp, rad]
+            print(self.paintCoords)
+            r1 = QRectF(QPointF(0.0, 0.0), cp)
+            r2 = QRectF(cp.x() - rad, cp.y() - rad, 2 * rad, 2 * rad)
+            self.bounds = r1.united(r2)
+            if self.position:
+                self.setPos(self.toCanvasCoordinates(self.position))
+
+    def updateMapMagnification(self):
+        self.updatePosition()
+
+    def updatePosition(self):
+        self.updateSize()
+        
+    def boundingRect(self):
+        return self.bounds
+
+    def setRadius(self, radius):
+        self.radius = radius
+        self.updateSize()
+
+    def setTargetPos(self, pos: QgsPointXY):
+        self.targetPos = pos
+        self.updateSize()
+
+    def setMapPosition(self, pos: QgsPointXY):
+        self.position = pos
+        self.setPos(self.toCanvasCoordinates(self.position))
+        self.update()
+
+    def resetPosition(self):
+        self.position = None
+
+    def newHeading(self, heading):
+        pass
+    
+    def setTrack(self, _):
+        pass
+    
+    def deleteTrack(self):
+        pass
+    
+    def removeFromCanvas(self):
+        self.canvas.scene().removeItem(self)
+
+    def paint(self, painter, option, widget):
+        if not self.paintCoords or not self.position:
+            return
+        
+        pen = QPen(Qt.red)
+        painter.setPen(pen)
+        painter.drawLine(QPointF(0.0, 0.0), self.paintCoords[0])
+        painter.drawEllipse(self.paintCoords[1], self.paintCoords[2], self.paintCoords[2])
+        # painter.drawLine(self.toCanvasCoordinates(self.srcPos), self.toCanvasCoordinates(self.targetPos))
+        # rad = self.radius * self.canvas.scale()
+        # print(self.canvas.scale())
+        # painter.drawEllipse(self.toCanvasCoordinates(self.targetPos), 100, 100)
+       
