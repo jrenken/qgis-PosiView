@@ -3,13 +3,18 @@ Created on 05.06.2015
 
 @author: jrenken
 '''
-from __future__ import absolute_import
-from builtins import str
+
 from qgis.PyQt.QtCore import QObject, pyqtSlot, QTimer, pyqtSignal
-from qgis.core import Qgis, QgsPointXY, QgsCoordinateTransform, \
-        QgsCoordinateReferenceSystem, QgsCsException, \
-        QgsException, QgsBearingUtils, QgsProject
-from qgis.gui import QgsMessageBar
+from qgis.core import (
+    Qgis,
+    QgsPointXY,
+    QgsCoordinateTransform,
+    QgsCoordinateReferenceSystem,
+    QgsCsException,
+    QgsException,
+    QgsBearingUtils,
+    QgsProject)
+from qgis.gui import QgsMapCanvasItem
 from qgis.PyQt.QtWidgets import QLabel
 from qgis.PyQt.QtGui import QMovie
 from .position_marker import PositionMarker
@@ -53,9 +58,9 @@ class MobileItem(QObject):
                 'MobileItem_' + str(MobileItem.mobileItemCount))
         self.markers = {'main': PositionMarker(self.canvas, params)}
         self.markers['main'].setToolTip(self.name)
-        if self.name == 'Merian':
-            self.markers['lasso'] = LassoMarker(self.canvas, QgsPointXY(454724.78, 3546222.77), QgsPointXY(454795.64, 3546163.14))
-            self.markers['eilasso'] = LassoMarker(self.canvas, QgsPointXY(454724.78, 3546222.77), QgsPointXY(454739.44, 3546161.68))
+        # if self.name == 'Merian':
+        #     self.markers['lasso'] = LassoMarker(self.canvas, QgsPointXY(454724.78, 3546222.77), QgsPointXY(454795.64, 3546163.14))
+        #     self.markers['eilasso'] = LassoMarker(self.canvas, QgsPointXY(454724.78, 3546222.77), QgsPointXY(454739.44, 3546161.68))
         self.dataProvider = params.get('provider', dict())
         self.messageFilter = dict()
         self.extData = dict()
@@ -343,3 +348,16 @@ class MobileItem(QObject):
     def applyTrack(self, track):
         for m in self.markers.values():
             m.setTrack(track)
+
+    def addExtraMarker(self, key: str, marker: QgsMapCanvasItem):
+        print('add Lasso')
+        if not isinstance(marker, QgsMapCanvasItem):
+            return
+        if key in self.markers:
+            self.markers[key].removeFromCanvas()
+        self.markers[key] = marker
+
+    def deleteExtraMarker(self, key: str):
+        if key in self.markers and key != 'main':
+            self.markers[key].removeFromCanvas();
+            del self.markers[key]

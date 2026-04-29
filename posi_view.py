@@ -20,14 +20,15 @@
  *                                                                         *
  ***************************************************************************/
 """
-from __future__ import absolute_import
+
+import os.path
 from builtins import object
 from qgis.PyQt.QtCore import QObject, QSettings, QTranslator, qVersion, QCoreApplication, Qt, pyqtSlot, QSize
 from qgis.PyQt.QtWidgets import QAction, QWidget
 from qgis.PyQt.QtGui import QIcon
+from qgis.core import Qgis
 # Initialize Qt resources from file resources.py
 from .resources_rc import *
-import os.path
 from .posiview_project import PosiViewProject
 from .gui.tracking_dock import TrackingDock
 from .gui.guidance_dock import GuidanceDock
@@ -35,8 +36,8 @@ from .gui.compass_dock import CompassDock
 from .gui.posiview_properties import PosiviewProperties
 from .gui.dataprovider_dump import DataProviderDump
 from .gui.position_display import PositionDisplay
+from .gui.following_dialog import FollowingDialog
 from .recorder import Recorder
-from qgis.core import Qgis
 
 from .measure_maptool import MeasureMapTool
 
@@ -93,6 +94,7 @@ class PosiView(object):
         iface.initializationCompleted.connect(self.postInitialize)
         self.mapTool = MeasureMapTool(self.iface.mapCanvas())
         self.positionDisplay.exportPosition.connect(self.mapTool.positionUpdate)
+        self.followingDlg = FollowingDialog(self.iface)
 
     # noinspection PyMethodMayBeStatic
     def tr(self, message):
@@ -268,6 +270,17 @@ class PosiView(object):
             checkable_flag=True,
             status_tip=self.tr(u'&Measure Distance and Azimuth'),
             parent=self.iface.mainWindow())
+
+        followAction = self.add_action(
+            u'followAction',
+            os.path.join(iconPath, 'measure.png'),
+            text=self.tr(u'&Set and display following lasso'),
+            callback=self.following,
+            visible_flag=False,
+            checkable_flag=False,
+            status_tip=self.tr(u'Set and display following lasso'),
+            parent=self.iface.mainWindow())
+
         if self.iface.actionPan():
             measureAction.setActionGroup(self.iface.actionPan().actionGroup())
 
@@ -275,7 +288,8 @@ class PosiView(object):
         loadAction.toggled.connect(configAction.setVisible)
         loadAction.toggled.connect(recordAction.setVisible)
         loadAction.toggled.connect(measureAction.setVisible)
-
+        loadAction.toggled.connect(followAction.setVisible)
+        
     def unload(self):
         """Removes the plugin menu item and icon from QGIS GUI.
            Unloads and removes also the project.
@@ -312,6 +326,7 @@ class PosiView(object):
             self.recorder.setPrefix(self.project.prefixMission, self.project.missionInfo)
             self.recorder.setMobiles(self.project.mobileItems)
             self.recorder.recordingStarted.connect(self.recordingStarted)
+            self.followingDlg.setMobiles(self.project.mobileItems)
             self.tracking.show()
             if self.guidanceVisible:
                 self.guidance.show()
@@ -451,3 +466,7 @@ class PosiView(object):
         '''
         if checked:
             self.iface.mapCanvas().setMapTool(self.mapTool)
+
+    def following(self, checked=False):
+        self.followingDlg.show()
+
