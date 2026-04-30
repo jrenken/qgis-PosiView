@@ -187,9 +187,9 @@ class TrackingDisplay(QToolBar):
             self.mobile.deleteTrack()
 
     def changeVisibleTrackLength(self, value):
-        tlen, vlen, _ = self.mobile.marker.trackLength()
+        tlen, vlen, _ = self.mobile.markers['main'].trackLength()
         self.w = TrackLenSlider(tlen, vlen)
-        self.w.valueChanged.connect(self.mobile.marker.setTrackLengthVisible)
+        self.w.valueChanged.connect(self.mobile.markers['main'].setTrackLengthVisible)
         self.w.show()
         self.w.move(QCursor.pos() - QPoint(self.w.width() // 2, 20))
 

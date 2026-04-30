@@ -37,6 +37,8 @@ from .gui.posiview_properties import PosiviewProperties
 from .gui.dataprovider_dump import DataProviderDump
 from .gui.position_display import PositionDisplay
 from .gui.following_dialog import FollowingDialog
+from .gui.lasso_dock import LassoDock
+
 from .recorder import Recorder
 
 from .measure_maptool import MeasureMapTool
@@ -95,6 +97,9 @@ class PosiView(object):
         self.mapTool = MeasureMapTool(self.iface.mapCanvas())
         self.positionDisplay.exportPosition.connect(self.mapTool.positionUpdate)
         self.followingDlg = FollowingDialog(self.iface)
+        self.lassoDock = LassoDock()
+        self.lassoVisible = False
+        self.iface.addDockWidget(Qt.LeftDockWidgetArea, self.lassoDock)
 
     # noinspection PyMethodMayBeStatic
     def tr(self, message):
@@ -328,10 +333,13 @@ class PosiView(object):
             self.recorder.recordingStarted.connect(self.recordingStarted)
             self.followingDlg.setMobiles(self.project.mobileItems)
             self.tracking.show()
+            self.lassoDock.triggered.connect(self.followingDlg.setLasso)
             if self.guidanceVisible:
                 self.guidance.show()
             if self.compassVisible:
                 self.compass.show()
+            if self.lassoVisible:
+                self.lassoDock.show()
             if self.project.narrowScreen:
                 self.tracking.addWidget(self.positionDisplay)
             else:
@@ -345,6 +353,8 @@ class PosiView(object):
             self.tracking.removeProviders()
             self.tracking.hide()
             self.guidanceVisible = self.guidance.isVisible()
+            self.lassoVisible = self.lassoDock.isVisible()
+            self.lassoDock.hide()
             self.guidance.hide()
             try:
                 self.iface.currentLayerChanged.disconnect(self.guidance.onActiveLayerChanged)
@@ -458,6 +468,7 @@ class PosiView(object):
         self.tracking.hide()
         self.guidance.hide()
         self.compass.hide()
+        self.lassoDock.hide()
 
 #     @pyqtSlot(bool)
     def measure(self, checked=False):

@@ -34,7 +34,7 @@ class FollowingDialog(QDialog, FORM_CLASS):
         
         self.comboBoxRadius.insertItems(0, ['10', '20', '25', '30', '50', '75', '100', '125', '150'])
         self.comboBoxRadius.setCurrentIndex(4)
-        self.labelInfo.setText('Click on the canvas to select a target position')
+        self.labelInfo.setText('Click on the canvas or select a target vehicle')
         self.iface = iface
         self.mapTool = QgsMapToolEmitPoint(self.iface.mapCanvas())
         self.mapTool.canvasClicked.connect(self.mouseClicked)
@@ -49,14 +49,23 @@ class FollowingDialog(QDialog, FORM_CLASS):
     def setMobiles(self, mobiles):
         # self.reset()
         self.mobiles = mobiles
+        s = QSettings()
         self.comboBoxSource.blockSignals(True)
         self.comboBoxSource.clear()
         self.comboBoxSource.addItems(sorted(mobiles.keys()))
         self.comboBoxSource.setCurrentIndex(0)
-        s = QSettings()
         m = s.value('PosiView/Following/Source')
         if m in self.mobiles:
             self.comboBoxSource.setCurrentIndex(self.comboBoxSource.findText(m))
+        self.comboBoxSource.blockSignals(False)
+        self.comboBoxTarget.blockSignals(True)
+        self.comboBoxTarget.clear()
+        self.comboBoxTarget.addItems(['--'] + sorted(mobiles.keys()))
+        self.comboBoxTarget.setCurrentIndex(0)
+        m = s.value('PosiView/Following/Target')
+        if m in self.mobiles:
+            self.comboBoxTarget.setCurrentIndex(self.comboBoxTarget.findText(m))
+        self.comboBoxTarget.blockSignals(False)
 
     @pyqtSlot(QgsPointXY, Qt.MouseButton)
     def mouseClicked(self, pos, button):
@@ -66,15 +75,21 @@ class FollowingDialog(QDialog, FORM_CLASS):
             try:
                 mob = self.comboBoxSource.currentText()
                 if self.mobiles[mob].coordinates:
-                    dist = self.distArea.measureLine(self.mobiles[mob].coordinates, pos)
-                    bearing = math.degrees(self.distArea.bearing(self.mobiles[mob].coordinates, pos))
-                    self.labelInfo.setText(f'Distance: {dist:.1f}, Bearing: {bearing:.1f}')
+                    self.anyPosChanged(self.mobiles[mob].coordinates, pos)
                 else:
                     raise ValueError
             except (KeyError, ValueError):
                 self.statusBar.showMessage(self.tr("Need a vehicle with valid position"), 1500);
                 pass
-            
+
+    def anyPosChanged(self, src: QgsPointXY, trg: QgsPointXY):
+        if src and trg:
+            dist = self.distArea.measureLine(src, trg)
+            bearing = math.degrees(self.distArea.bearing(src, trg))
+            self.labelInfo.setText(f'Distance: {dist:.1f}, Bearing: {bearing:.1f}')
+        else:
+            raise ValueError
+                    
     @pyqtSlot()
     def onCrsChange(self):
         '''
@@ -88,23 +103,40 @@ class FollowingDialog(QDialog, FORM_CLASS):
         if mt != self.mapTool:
             self.prevMapTool = self.iface.mapCanvas().mapTool()
         self.iface.mapCanvas().setMapTool(self.mapTool)
+        if self.comboBoxSource.currentIndex() > -1 and self.comboBoxTarget.currentIndex() > 0:
+            try:
+                mobs = self.mobiles[self.comboBoxSource.currentText()] 
+                mobt = self.mobiles[self.comboBoxTarget.currentText()]
+                self.anyPosChanged(mobs.coordinates, mobt.coordinates)
+            except (KeyError, ValueError):
+                pass
             
     def closeEvent(self, _):
         if self.prevMapTool:
             self.iface.mapCanvas().setMapTool(self.prevMapTool)
             
     @pyqtSlot(name='on_pushButtonAddLasso_clicked')
-    def addLasso(self):
+    def addLasso(self, radius=0):
         try:
-            mob = self.mobiles[self.comboBoxSource.currentText()]
+            mobs = self.mobiles[self.comboBoxSource.currentText()]
         except:
-            return
-        if self.clickPos and mob.coordinates:
+            self.statusBar.showMessage(self.tr("Need valid source vehicle"), 1500);
+        try:
+            mobt = self.mobiles[self.comboBoxTarget.currentText()]
+            self.clickPos = mobt.coordinates
+        except KeyError:
+            pass
+        
+        if radius > 0:
+            rad = radius
+        else:
+            rad = int(self.comboBoxRadius.currentText())
+        if self.clickPos and mobs.coordinates:
             lm = LassoMarker(self.iface.mapCanvas(), 
-                             src=mob.coordinates, 
+                             src=mobs.coordinates, 
                              target=self.clickPos, 
-                             radius=int(self.comboBoxRadius.currentText()))
-            mob.addExtraMarker('lasso', lm)
+                             radius=rad)
+            mobs.addExtraMarker('lasso', lm)
             self.close()
         else:
             self.statusBar.showMessage(self.tr("Need distance and bearing"), 1500);
@@ -118,3 +150,36 @@ class FollowingDialog(QDialog, FORM_CLASS):
         mob.deleteExtraMarker('lasso')
         self.close()
             
+    @pyqtSlot(str, name='on_comboBoxSource_currentTextChanged')
+    def changeSource(self, txt):
+        if txt:
+            s = QSettings()
+            s.setValue('PosiView/Following/Source', txt)
+            try:
+                m1 = self.mobiles[txt]
+                m2 = self.mobiles[self.comboBoxTarget.currentText()]
+                self.anyPosChanged(m1.coordinates, m2.coordinates)
+            except (KeyError, ValueError):
+                self.statusBar.showMessage(self.tr("Need vehicles with valid positions"), 1500);
+                
+
+    @pyqtSlot(str, name='on_comboBoxTarget_currentTextChanged')
+    def changeTarget(self, txt):
+        if txt:
+            s = QSettings()
+            s.setValue('PosiView/Following/Target', txt)
+            try:
+                m1 = self.mobiles[self.comboBoxSource.currentText()]
+                m2 = self.mobiles[txt]
+                self.anyPosChanged(m1.coordinates, m2.coordinates)
+            except (KeyError, ValueError):
+                self.statusBar.showMessage(self.tr("Need vehicles with valid positions"), 1500);
+    
+    @pyqtSlot(int)
+    def setLasso(self, rad):
+        if rad < 0:
+            self.removeLasso()
+        else:
+            self.addLasso(rad)
+            
+        
