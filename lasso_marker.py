@@ -5,8 +5,8 @@ Created on Apr 28, 2026
 @author: jrenken
 '''
 
-from math import sin, cos, degrees
-from qgis.PyQt.QtCore import pyqtSlot, Qt, QRectF, QPointF
+from math import sin, cos
+from qgis.PyQt.QtCore import Qt, QRectF, QPointF
 from qgis.PyQt.QtGui import QPen
 from qgis.core import (
     QgsPointXY,
@@ -22,14 +22,14 @@ class LassoMarker(QgsMapCanvasItem):
     
     '''
     
-    def __init__(self, canvas, src: QgsPointXY, target: QgsPointXY, params={}):
+    def __init__(self, canvas, src: QgsPointXY, target: QgsPointXY, radius=30.0, params={}):
         super().__init__(canvas)
         self.canvas = canvas
         self.position = None
         self.targetPos = target
         self.distance = None
         self.bearing = None
-        self.radius = 30.0
+        self.radius = radius
         self.bounds = QRectF()
         self.distArea = QgsDistanceArea()
         self.distArea.setEllipsoid(u'WGS84')

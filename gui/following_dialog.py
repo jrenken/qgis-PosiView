@@ -8,7 +8,7 @@ import os
 import math
 from qgis.PyQt import QtGui, uic
 from qgis.PyQt.QtCore import pyqtSlot, QSettings, Qt
-from qgis.PyQt.QtWidgets import QDialog, QAbstractButton
+from qgis.PyQt.QtWidgets import QDialog, QAbstractButton, QStatusBar, QLabel, QFrame
 from qgis.gui import QgsMapToolEmitPoint
 from qgis.core import QgsPointXY, QgsDistanceArea, QgsProject
 from ..lasso_marker import LassoMarker
@@ -28,6 +28,13 @@ class FollowingDialog(QDialog, FORM_CLASS):
         '''
         super(FollowingDialog, self).__init__(parent)
         self.setupUi(self)
+        self.statusBar = QStatusBar()
+        self.statusBar.setStyleSheet('background: lightgray;')
+        self.gridLayout.addWidget(self.statusBar, 10, 0, 1, -1)
+        
+        self.comboBoxRadius.insertItems(0, ['10', '20', '25', '30', '50', '75', '100', '125', '150'])
+        self.comboBoxRadius.setCurrentIndex(4)
+        self.labelInfo.setText('Click on the canvas to select a target position')
         self.iface = iface
         self.mapTool = QgsMapToolEmitPoint(self.iface.mapCanvas())
         self.mapTool.canvasClicked.connect(self.mouseClicked)
@@ -38,13 +45,14 @@ class FollowingDialog(QDialog, FORM_CLASS):
         self.onCrsChange()
         self.clickPos = None
 
+
     def setMobiles(self, mobiles):
         # self.reset()
         self.mobiles = mobiles
         self.comboBoxSource.blockSignals(True)
         self.comboBoxSource.clear()
         self.comboBoxSource.addItems(sorted(mobiles.keys()))
-        self.comboBoxSource.setCurrentIndex(-1)
+        self.comboBoxSource.setCurrentIndex(0)
         s = QSettings()
         m = s.value('PosiView/Following/Source')
         if m in self.mobiles:
@@ -54,13 +62,18 @@ class FollowingDialog(QDialog, FORM_CLASS):
     def mouseClicked(self, pos, button):
         if button == Qt.LeftButton:
             self.show()
-            print(pos, self.mobiles['Merian'].coordinates)
             self.clickPos = pos
-            if self.mobiles['Merian'].coordinates:
-                dist = self.distArea.measureLine(self.mobiles['Merian'].coordinates, pos)
-                bearing = math.degrees(self.distArea.bearing(self.mobiles['Merian'].coordinates, pos))
-                self.labelInfo.setText(f'Distance: {dist:.1f}, Bearing: {bearing:.1f}')
-                print(dist, bearing)
+            try:
+                mob = self.comboBoxSource.currentText()
+                if self.mobiles[mob].coordinates:
+                    dist = self.distArea.measureLine(self.mobiles[mob].coordinates, pos)
+                    bearing = math.degrees(self.distArea.bearing(self.mobiles[mob].coordinates, pos))
+                    self.labelInfo.setText(f'Distance: {dist:.1f}, Bearing: {bearing:.1f}')
+                else:
+                    raise ValueError
+            except (KeyError, ValueError):
+                self.statusBar.showMessage(self.tr("Need a vehicle with valid position"), 1500);
+                pass
             
     @pyqtSlot()
     def onCrsChange(self):
@@ -71,26 +84,37 @@ class FollowingDialog(QDialog, FORM_CLASS):
         self.distArea.setSourceCrs(crsDst, QgsProject.instance().transformContext())
 
     def showEvent(self, _):
-        print('show')
         mt = self.iface.mapCanvas().mapTool()
         if mt != self.mapTool:
             self.prevMapTool = self.iface.mapCanvas().mapTool()
         self.iface.mapCanvas().setMapTool(self.mapTool)
             
     def closeEvent(self, _):
-        print('close')
         if self.prevMapTool:
             self.iface.mapCanvas().setMapTool(self.prevMapTool)
             
     @pyqtSlot(name='on_pushButtonAddLasso_clicked')
     def addLasso(self):
-        print('clicked add')
-        if self.clickPos and self.mobiles['Merian'].coordinates:
-            lm = LassoMarker(self.iface.mapCanvas(), self.mobiles['Merian'].coordinates, self.clickPos)
-            self.mobiles['Merian'].addExtraMarker('lasso', lm)
+        try:
+            mob = self.mobiles[self.comboBoxSource.currentText()]
+        except:
+            return
+        if self.clickPos and mob.coordinates:
+            lm = LassoMarker(self.iface.mapCanvas(), 
+                             src=mob.coordinates, 
+                             target=self.clickPos, 
+                             radius=int(self.comboBoxRadius.currentText()))
+            mob.addExtraMarker('lasso', lm)
+            self.close()
+        else:
+            self.statusBar.showMessage(self.tr("Need distance and bearing"), 1500);
 
     @pyqtSlot(name='on_pushButtonRemoveLasso_clicked')
     def removeLasso(self):
-        print('clicked remove')
-        self.mobiles['Merian'].deleteExtraMarker('lasso')
+        try:
+            mob = self.mobiles[self.comboBoxSource.currentText()]
+        except KeyError:
+            return
+        mob.deleteExtraMarker('lasso')
+        self.close()
             

@@ -273,7 +273,7 @@ class PosiView(object):
 
         followAction = self.add_action(
             u'followAction',
-            os.path.join(iconPath, 'measure.png'),
+            os.path.join(iconPath, 'lasso.png'),
             text=self.tr(u'&Set and display following lasso'),
             callback=self.following,
             visible_flag=False,

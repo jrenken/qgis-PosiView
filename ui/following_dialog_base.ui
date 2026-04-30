@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Dialog</string>
+   <string>Select Lasso</string>
   </property>
   <layout class="QGridLayout" name="gridLayout">
    <item row="3" column="1">
@@ -22,7 +22,11 @@
     </widget>
    </item>
    <item row="0" column="1">
-    <widget class="QComboBox" name="comboBoxSource"/>
+    <widget class="QComboBox" name="comboBoxSource">
+     <property name="currentIndex">
+      <number>-1</number>
+     </property>
+    </widget>
    </item>
    <item row="1" column="0">
     <widget class="QLabel" name="label_2">
@@ -38,22 +42,6 @@
      </property>
     </widget>
    </item>
-   <item row="1" column="1">
-    <widget class="QSpinBox" name="spinBoxRadius">
-     <property name="suffix">
-      <string> m</string>
-     </property>
-     <property name="maximum">
-      <number>999</number>
-     </property>
-     <property name="singleStep">
-      <number>5</number>
-     </property>
-     <property name="value">
-      <number>50</number>
-     </property>
-    </widget>
-   </item>
    <item row="2" column="0" colspan="2">
     <widget class="QLabel" name="labelInfo">
      <property name="frameShape">
@@ -63,7 +51,7 @@
       <enum>QFrame::Sunken</enum>
      </property>
      <property name="text">
-      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Click on the canvas to select a target position&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+      <string>Click on the canvas to select a target position</string>
      </property>
      <property name="alignment">
       <set>Qt::AlignCenter</set>
@@ -96,6 +84,9 @@
       </size>
      </property>
     </spacer>
+   </item>
+   <item row="1" column="1">
+    <widget class="QComboBox" name="comboBoxRadius"/>
    </item>
   </layout>
  </widget>
