@@ -6,7 +6,8 @@ Created on Apr 5, 2024
 
 import os
 import math
-from qgis.PyQt import QtGui, uic
+from qgis.PyQt import uic
+from qgis.PyQt.QtGui import QColor
 from qgis.PyQt.QtCore import pyqtSlot, QSettings, Qt
 from qgis.PyQt.QtWidgets import QDialog, QAbstractButton, QStatusBar, QLabel, QFrame
 from qgis.gui import QgsMapToolEmitPoint
@@ -44,6 +45,7 @@ class FollowingDialog(QDialog, FORM_CLASS):
         self.distArea.setEllipsoid(u'WGS84')
         self.onCrsChange()
         self.clickPos = None
+        self.lassoColor = Qt.red
 
     def setMobiles(self, mobiles):
         # self.reset()
@@ -133,7 +135,8 @@ class FollowingDialog(QDialog, FORM_CLASS):
             lm = LassoMarker(self.iface.mapCanvas(),
                              src=mobs.coordinates,
                              target=self.clickPos,
-                             radius=rad)
+                             radius=rad,
+                             color=self.lassoColor)
             mobs.addExtraMarker('lasso', lm)
             self.close()
         else:
@@ -179,3 +182,5 @@ class FollowingDialog(QDialog, FORM_CLASS):
         else:
             self.addLasso(rad)
         
+    def setLassoColor(self, color: QColor):
+        self.lassoColor = color

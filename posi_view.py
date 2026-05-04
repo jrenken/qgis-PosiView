@@ -25,7 +25,7 @@ import os.path
 from builtins import object
 from qgis.PyQt.QtCore import QObject, QSettings, QTranslator, qVersion, QCoreApplication, Qt, pyqtSlot, QSize
 from qgis.PyQt.QtWidgets import QAction, QWidget
-from qgis.PyQt.QtGui import QIcon
+from qgis.PyQt.QtGui import QIcon, QColor
 from qgis.core import Qgis
 # Initialize Qt resources from file resources.py
 from .resources_rc import *
@@ -483,6 +483,7 @@ class PosiView(object):
     def setupLassoTool(self):
         if self.project.enableLasso:
             self.followingDlg.setMobiles(self.project.mobileItems)
+            self.followingDlg.setLassoColor(QColor.fromRgba(int(self.project.lassoColor)))
             self.actions['followAction'].setVisible(True)
             self.lassoDock.setRadii(self.project.lassoRadii)
             self.lassoDock.triggered.connect(self.followingDlg.setLasso)

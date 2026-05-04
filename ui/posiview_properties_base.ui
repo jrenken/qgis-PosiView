@@ -1859,7 +1859,7 @@
   </connection>
   <connection>
    <sender>checkBoxFollowing</sender>
-   <signal>clicked(bool)</signal>
+   <signal>toggled(bool)</signal>
    <receiver>colorButtonLasso</receiver>
    <slot>setVisible(bool)</slot>
    <hints>
@@ -1875,7 +1875,7 @@
   </connection>
   <connection>
    <sender>checkBoxFollowing</sender>
-   <signal>clicked(bool)</signal>
+   <signal>toggled(bool)</signal>
    <receiver>comboBoxLassoRadii</receiver>
    <slot>setVisible(bool)</slot>
    <hints>

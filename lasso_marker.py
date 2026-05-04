@@ -22,7 +22,7 @@ class LassoMarker(QgsMapCanvasItem):
     
     '''
     
-    def __init__(self, canvas, src: QgsPointXY, target: QgsPointXY, radius=30.0, params={}):
+    def __init__(self, canvas, src: QgsPointXY, target: QgsPointXY, radius=30.0, color=Qt.red, params={}):
         super().__init__(canvas)
         self.canvas = canvas
         self.position = None
@@ -30,6 +30,7 @@ class LassoMarker(QgsMapCanvasItem):
         self.distance = None
         self.bearing = None
         self.radius = radius
+        self.color = color
         self.bounds = QRectF()
         self.distArea = QgsDistanceArea()
         self.distArea.setEllipsoid(u'WGS84')
@@ -103,7 +104,8 @@ class LassoMarker(QgsMapCanvasItem):
         if not self.paintCoords or not self.position:
             return
         
-        pen = QPen(Qt.red)
+        pen = QPen(self.color)
+        pen.setWidth(1)
         pen.setStyle(Qt.DashDotLine)
         painter.setPen(pen)
         painter.drawLine(QPointF(0.0, 0.0), self.paintCoords[0])
