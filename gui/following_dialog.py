@@ -34,7 +34,7 @@ class FollowingDialog(QDialog, FORM_CLASS):
         
         self.comboBoxRadius.insertItems(0, ['10', '20', '25', '30', '50', '75', '100', '125', '150'])
         self.comboBoxRadius.setCurrentIndex(4)
-        self.labelInfo.setText('Click on the canvas or select a target vehicle')
+        self.labelInfo.setText(self.tr('Click on the canvas or select a target vehicle'))
         self.iface = iface
         self.mapTool = QgsMapToolEmitPoint(self.iface.mapCanvas())
         self.mapTool.canvasClicked.connect(self.mouseClicked)
@@ -44,7 +44,6 @@ class FollowingDialog(QDialog, FORM_CLASS):
         self.distArea.setEllipsoid(u'WGS84')
         self.onCrsChange()
         self.clickPos = None
-
 
     def setMobiles(self, mobiles):
         # self.reset()
@@ -70,7 +69,6 @@ class FollowingDialog(QDialog, FORM_CLASS):
     @pyqtSlot(QgsPointXY, Qt.MouseButton)
     def mouseClicked(self, pos, button):
         if button == Qt.LeftButton:
-            self.show()
             self.clickPos = pos
             try:
                 mob = self.comboBoxSource.currentText()
@@ -79,14 +77,14 @@ class FollowingDialog(QDialog, FORM_CLASS):
                 else:
                     raise ValueError
             except (KeyError, ValueError):
-                self.statusBar.showMessage(self.tr("Need a vehicle with valid position"), 1500);
+                self.statusBar.showMessage(self.tr('Need a vehicle with valid position'), 1500);
                 pass
 
     def anyPosChanged(self, src: QgsPointXY, trg: QgsPointXY):
         if src and trg:
             dist = self.distArea.measureLine(src, trg)
             bearing = math.degrees(self.distArea.bearing(src, trg))
-            self.labelInfo.setText(f'Distance: {dist:.1f}, Bearing: {bearing:.1f}')
+            self.labelInfo.setText(self.tr('Distance: {:.1f}, Bearing: {:.1f}').format(dist, bearing))
         else:
             raise ValueError
                     
@@ -119,27 +117,27 @@ class FollowingDialog(QDialog, FORM_CLASS):
     def addLasso(self, radius=0):
         try:
             mobs = self.mobiles[self.comboBoxSource.currentText()]
-        except:
-            self.statusBar.showMessage(self.tr("Need valid source vehicle"), 1500);
+        except KeyError:
+            self.statusBar.showMessage(self.tr('Need valid source vehicle'), 1500);
+            return
         try:
             mobt = self.mobiles[self.comboBoxTarget.currentText()]
             self.clickPos = mobt.coordinates
         except KeyError:
             pass
-        
         if radius > 0:
             rad = radius
         else:
             rad = int(self.comboBoxRadius.currentText())
         if self.clickPos and mobs.coordinates:
-            lm = LassoMarker(self.iface.mapCanvas(), 
-                             src=mobs.coordinates, 
-                             target=self.clickPos, 
+            lm = LassoMarker(self.iface.mapCanvas(),
+                             src=mobs.coordinates,
+                             target=self.clickPos,
                              radius=rad)
             mobs.addExtraMarker('lasso', lm)
             self.close()
         else:
-            self.statusBar.showMessage(self.tr("Need distance and bearing"), 1500);
+            self.statusBar.showMessage(self.tr('Need distance and bearing'), 1500);
 
     @pyqtSlot(name='on_pushButtonRemoveLasso_clicked')
     def removeLasso(self):
@@ -161,7 +159,6 @@ class FollowingDialog(QDialog, FORM_CLASS):
                 self.anyPosChanged(m1.coordinates, m2.coordinates)
             except (KeyError, ValueError):
                 self.statusBar.showMessage(self.tr("Need vehicles with valid positions"), 1500);
-                
 
     @pyqtSlot(str, name='on_comboBoxTarget_currentTextChanged')
     def changeTarget(self, txt):
@@ -181,5 +178,4 @@ class FollowingDialog(QDialog, FORM_CLASS):
             self.removeLasso()
         else:
             self.addLasso(rad)
-            
         
