@@ -306,7 +306,7 @@ class PosiView(object):
         self.positionDisplay.hide()
         self.iface.statusBarIface().removeWidget(self.positionDisplay)
         self.tracking.removeWidget(self.positionDisplay)
-        for _, action in self.actions.items():
+        for action in self.actions.values():
             self.iface.removePluginMenu(
                 self.tr(u'&PosiView'),
                 action)
@@ -331,15 +331,20 @@ class PosiView(object):
             self.recorder.setPrefix(self.project.prefixMission, self.project.missionInfo)
             self.recorder.setMobiles(self.project.mobileItems)
             self.recorder.recordingStarted.connect(self.recordingStarted)
-            self.followingDlg.setMobiles(self.project.mobileItems)
             self.tracking.show()
-            self.lassoDock.triggered.connect(self.followingDlg.setLasso)
+            if self.project.enableLasso:
+                self.followingDlg.setMobiles(self.project.mobileItems)
+                self.actions['followAction'].setVisible(True)
+                self.lassoDock.triggered.connect(self.followingDlg.setLasso)
+                if self.lassoVisible:
+                    self.lassoDock.show()
+            else:
+                self.actions['followAction'].setVisible(False)
+                self.lassoDock.hide()
             if self.guidanceVisible:
                 self.guidance.show()
             if self.compassVisible:
                 self.compass.show()
-            if self.lassoVisible:
-                self.lassoDock.show()
             if self.project.narrowScreen:
                 self.tracking.addWidget(self.positionDisplay)
             else:
@@ -362,6 +367,7 @@ class PosiView(object):
                 pass
             self.compassVisible = self.compass.isVisible()
             self.compass.hide()
+            self.actions['followAction'].setVisible(False)
             self.project.unload()
             self.positionDisplay.hide()
             self.iface.statusBarIface().removeWidget(self.positionDisplay)

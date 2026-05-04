@@ -35,13 +35,14 @@ class PosiViewProject(object):
         self.iface = iface
         self.dataProviders = dict()
         self.mobileItems = dict()
-        self.missionInfo = {'cruise': 'CruiseXX', 'dive': 'DiveX', 'station' : '#xxx'}
+        self.missionInfo = {'cruise': 'CruiseXX', 'dive': 'DiveX', 'station': '#xxx'}
         self.recorderPath = environ['HOME']
         self.autoRecord = False
         self.prefixMission = False
         self.notifyDuration = 0
         self.showUtcClock = False
         self.narrowScreen = False
+        self.enableLasso = False
         self.defaultFormat = 5
         self.trackingStarted = False
         self.trackCache = dict()
@@ -74,6 +75,7 @@ class PosiViewProject(object):
         props['NotifyDuration'] = self.notifyDuration
         props['ShowUtcClock'] = self.showUtcClock
         props['NarrowScreen'] = self.narrowScreen
+        props['EnableLasso'] = self.enableLasso
         props['DefaultFormat'] = self.defaultFormat
         m = dict()
         for k in self.mobileItems:
@@ -96,13 +98,14 @@ class PosiViewProject(object):
         pass
 
     def load(self, properties):
-        self.missionInfo = properties.get('Mission', {'cruise': 'CruiseXX', 'dive': 'DiveX', 'station' : '#xxx'})
+        self.missionInfo = properties.get('Mission', {'cruise': 'CruiseXX', 'dive': 'DiveX', 'station': '#xxx'})
         self.recorderPath = properties.get('RecorderPath', environ['HOME'])
         self.autoRecord = bool(properties.get('AutoRecord', False))
         self.prefixMission = bool(properties.get('PrefixMission', False))
         self.notifyDuration = int(properties.get('NotifyDuration', 0))
         self.showUtcClock = properties.get('ShowUtcClock', False)
         self.narrowScreen = properties.get('NarrowScreen', False)
+        self.enableLasso = properties.get('EnableLasso')
         self.defaultFormat = properties.get('DefaultFormat', False)
 
         pr = properties['Provider']
@@ -187,6 +190,7 @@ class PosiViewProject(object):
         properties['NotifyDuration'] = s.value('Misc/NotifyDuration', 0, type=int)
         properties['ShowUtcClock'] = s.value('Misc/ShowUtcClock', False, type=bool)
         properties['NarrowScreen'] = s.value('Misc/NarrowScreen', False, type=bool)
+        properties['EnableLasso'] = s.value('Misc/EnableLasso', False, type=bool)
         properties['DefaultFormat'] = s.value('Misc/DefaultFormat', 5, type=int)
         s.endGroup()
         return properties
@@ -234,6 +238,7 @@ class PosiViewProject(object):
         s.setValue('Misc/NotifyDuration', properties['NotifyDuration'])
         s.setValue('Misc/ShowUtcClock', properties['ShowUtcClock'])
         s.setValue('Misc/NarrowScreen', properties['NarrowScreen'])
+        s.setValue('Misc/EnableLasso', properties['EnableLasso'])
         s.setValue('Misc/DefaultFormat', properties['DefaultFormat'])
         s.endGroup()
 
