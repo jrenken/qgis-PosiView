@@ -32,7 +32,7 @@ class FollowingDialog(QDialog, FORM_CLASS):
         self.statusBar.setStyleSheet('background: lightgray;')
         self.gridLayout.addWidget(self.statusBar, 10, 0, 1, -1)
         
-        self.comboBoxRadius.insertItems(0, ['10', '20', '25', '30', '50', '75', '100', '125', '150'])
+        self.comboBoxRadius.insertItems(0, ['10', '20', '30', '50', '75', '100', '125', '150'])
         self.comboBoxRadius.setCurrentIndex(4)
         self.labelInfo.setText(self.tr('Click on the canvas or select a target vehicle'))
         self.iface = iface

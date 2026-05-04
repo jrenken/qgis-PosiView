@@ -45,6 +45,7 @@ class PosiviewProperties(QgsOptionsDialogBase, Ui_PosiviewPropertiesBase):
         self.restoreOptionsBaseUi()
         self.comboBoxParser.addItems(PARSERS)
         self.comboBoxProviderType.addItems(DEVICE_TYPES)
+        self.comboBoxLassoRadii.addItems(['10m', '20m', '30m', '50m', '75m', '100m', '125m', '150m'])
         self.project = project
         self.projectProperties = project.properties()
         self.mToolButtonLoad.setDefaultAction(self.actionLoadConfiguration)
@@ -79,6 +80,7 @@ class PosiviewProperties(QgsOptionsDialogBase, Ui_PosiviewPropertiesBase):
         self.checkBoxUtcClock.setChecked(properties['ShowUtcClock'])
         self.checkBoxNarrowScreen.setChecked(properties['NarrowScreen'])
         self.checkBoxFollowing.setChecked(properties['EnableLasso'])
+        self.comboBoxLassoRadii.setCheckedItems(properties['LassoRadii'])
         self.checkBoxWithSuffix.setChecked(properties['DefaultFormat'] & 4)
         self.comboBoxDefaultPositionFormat.setCurrentIndex((properties['DefaultFormat']) & 3)
 
@@ -93,6 +95,7 @@ class PosiviewProperties(QgsOptionsDialogBase, Ui_PosiviewPropertiesBase):
         self.projectProperties['ShowUtcClock'] = self.checkBoxUtcClock.isChecked()
         self.projectProperties['NarrowScreen'] = self.checkBoxNarrowScreen.isChecked()
         self.projectProperties['EnableLasso'] = self.checkBoxFollowing.isChecked()
+        self.projectProperties['LassoRadii'] = self.comboBoxLassoRadii.checkedItems()
         self.projectProperties['DefaultFormat'] = self.comboBoxDefaultPositionFormat.currentIndex()
         if self.checkBoxWithSuffix.isChecked():
             self.projectProperties['DefaultFormat'] |= 4

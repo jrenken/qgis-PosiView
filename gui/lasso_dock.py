@@ -26,19 +26,35 @@ class LassoDock(QDockWidget, FORM_CLASS):
         '''
         super(LassoDock, self).__init__(parent)
         self.setupUi(self)
+        self.buttons = [
+            self.pushButtonLasso1,
+            self.pushButtonLasso2,
+            self.pushButtonLasso3,
+            self.pushButtonLasso4] 
+
+    def setRadii(self, rad=[]):
+        for but in self.buttons:
+            but.hide()
+        for rad, but in zip(rad, self.buttons):
+            but.setText(rad)
+            but.setVisible(True)
 
     @pyqtSlot(name='on_pushButtonLassoOff_clicked')
     def lassoOff(self):
         self.triggered.emit(-1)
 
-    @pyqtSlot(name='on_pushButtonLasso10_clicked')
-    def lasso10m(self):
-        self.triggered.emit(10)
+    @pyqtSlot(name='on_pushButtonLasso1_clicked')
+    def lasso1(self):
+        self.triggered.emit(int(self.pushButtonLasso1.text()[:-1]))
 
-    @pyqtSlot(name='on_pushButtonLasso30_clicked')
-    def lasso30m(self):
-        self.triggered.emit(30)
+    @pyqtSlot(name='on_pushButtonLasso2_clicked')
+    def lasso2(self):
+        self.triggered.emit(int(self.pushButtonLasso2.text()[:-1]))
 
-    @pyqtSlot(name='on_pushButtonLasso50_clicked')
-    def lasso50m(self):
-        self.triggered.emit(50)
+    @pyqtSlot(name='on_pushButtonLasso3_clicked')
+    def lasso3(self):
+        self.triggered.emit(int(self.pushButtonLasso3.text()[:-1]))
+
+    @pyqtSlot(name='on_pushButtonLasso4_clicked')
+    def lasso4(self):
+        self.triggered.emit(int(self.pushButtonLasso4.text()[:-1]))

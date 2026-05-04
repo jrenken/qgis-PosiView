@@ -357,20 +357,6 @@
                   <string>Miscellaneous</string>
                  </property>
                  <layout class="QGridLayout" name="gridLayout_9">
-                  <item row="1" column="0">
-                   <widget class="QCheckBox" name="checkBoxUtcClock">
-                    <property name="text">
-                     <string>Show UTC clock in guidance window</string>
-                    </property>
-                   </widget>
-                  </item>
-                  <item row="4" column="0">
-                   <widget class="QLabel" name="label_23">
-                    <property name="text">
-                     <string>Default position format:</string>
-                    </property>
-                   </widget>
-                  </item>
                   <item row="0" column="0">
                    <widget class="QLabel" name="label_21">
                     <property name="text">
@@ -388,6 +374,98 @@
                     </property>
                     <property name="singleStep">
                      <number>10</number>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="1" column="0">
+                   <widget class="QCheckBox" name="checkBoxUtcClock">
+                    <property name="text">
+                     <string>Show UTC clock in guidance window</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="2" column="0" colspan="2">
+                   <widget class="QCheckBox" name="checkBoxNarrowScreen">
+                    <property name="toolTip">
+                     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;When enabled, the position display is shown in the tracking window and not in the status bar.&lt;/p&gt;&lt;p&gt;This allows a lower window width on narrow displays.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                    </property>
+                    <property name="text">
+                     <string>Show position display in tracking window, not in the statusbar</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="3" column="0">
+                   <widget class="QCheckBox" name="checkBoxFollowing">
+                    <property name="text">
+                     <string>Enable Following Tool (Lasso)</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="3" column="1">
+                   <layout class="QHBoxLayout" name="horizontalLayout_7">
+                    <item>
+                     <widget class="QgsColorButton" name="colorButtonLasso">
+                      <property name="sizePolicy">
+                       <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                        <horstretch>0</horstretch>
+                        <verstretch>0</verstretch>
+                       </sizepolicy>
+                      </property>
+                     </widget>
+                    </item>
+                    <item>
+                     <widget class="QgsCheckableComboBox" name="comboBoxLassoRadii">
+                      <property name="defaultText">
+                       <string>Select Radius</string>
+                      </property>
+                      <item>
+                       <property name="text">
+                        <string>10m</string>
+                       </property>
+                      </item>
+                      <item>
+                       <property name="text">
+                        <string>20m</string>
+                       </property>
+                      </item>
+                      <item>
+                       <property name="text">
+                        <string>30m</string>
+                       </property>
+                      </item>
+                      <item>
+                       <property name="text">
+                        <string>50m</string>
+                       </property>
+                      </item>
+                      <item>
+                       <property name="text">
+                        <string>75m</string>
+                       </property>
+                      </item>
+                      <item>
+                       <property name="text">
+                        <string>100m</string>
+                       </property>
+                      </item>
+                      <item>
+                       <property name="text">
+                        <string>125m</string>
+                       </property>
+                      </item>
+                      <item>
+                       <property name="text">
+                        <string>150m</string>
+                       </property>
+                      </item>
+                     </widget>
+                    </item>
+                   </layout>
+                  </item>
+                  <item row="4" column="0">
+                   <widget class="QLabel" name="label_23">
+                    <property name="text">
+                     <string>Default position format:</string>
                     </property>
                    </widget>
                   </item>
@@ -426,23 +504,6 @@
                      </widget>
                     </item>
                    </layout>
-                  </item>
-                  <item row="2" column="0" colspan="2">
-                   <widget class="QCheckBox" name="checkBoxNarrowScreen">
-                    <property name="toolTip">
-                     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;When enabled, the position display is shown in the tracking window and not in the status bar.&lt;/p&gt;&lt;p&gt;This allows a lower window width on narrow displays.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-                    </property>
-                    <property name="text">
-                     <string>Show position display in tracking window, not in the statusbar</string>
-                    </property>
-                   </widget>
-                  </item>
-                  <item row="3" column="0">
-                   <widget class="QCheckBox" name="checkBoxFollowing">
-                    <property name="text">
-                     <string>Enable Following Tool (Lasso)</string>
-                    </property>
-                   </widget>
                   </item>
                  </layout>
                 </widget>
@@ -1755,12 +1816,12 @@
    <slot>setEnabled(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>704</x>
-     <y>378</y>
+     <x>271</x>
+     <y>170</y>
     </hint>
     <hint type="destinationlabel">
-     <x>952</x>
-     <y>378</y>
+     <x>271</x>
+     <y>170</y>
     </hint>
    </hints>
   </connection>
@@ -1771,12 +1832,12 @@
    <slot>setVisible(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>529</x>
-     <y>581</y>
+     <x>271</x>
+     <y>170</y>
     </hint>
     <hint type="destinationlabel">
-     <x>952</x>
-     <y>603</y>
+     <x>271</x>
+     <y>170</y>
     </hint>
    </hints>
   </connection>
@@ -1787,12 +1848,44 @@
    <slot>setEnabled(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>661</x>
-     <y>620</y>
+     <x>271</x>
+     <y>170</y>
     </hint>
     <hint type="destinationlabel">
-     <x>729</x>
-     <y>621</y>
+     <x>271</x>
+     <y>170</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>checkBoxFollowing</sender>
+   <signal>clicked(bool)</signal>
+   <receiver>colorButtonLasso</receiver>
+   <slot>setVisible(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>375</x>
+     <y>534</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>580</x>
+     <y>529</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>checkBoxFollowing</sender>
+   <signal>clicked(bool)</signal>
+   <receiver>comboBoxLassoRadii</receiver>
+   <slot>setVisible(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>539</x>
+     <y>526</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>790</x>
+     <y>530</y>
     </hint>
    </hints>
   </connection>

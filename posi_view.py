@@ -331,16 +331,8 @@ class PosiView(object):
             self.recorder.setPrefix(self.project.prefixMission, self.project.missionInfo)
             self.recorder.setMobiles(self.project.mobileItems)
             self.recorder.recordingStarted.connect(self.recordingStarted)
+            self.setupLassoTool()
             self.tracking.show()
-            if self.project.enableLasso:
-                self.followingDlg.setMobiles(self.project.mobileItems)
-                self.actions['followAction'].setVisible(True)
-                self.lassoDock.triggered.connect(self.followingDlg.setLasso)
-                if self.lassoVisible:
-                    self.lassoDock.show()
-            else:
-                self.actions['followAction'].setVisible(False)
-                self.lassoDock.hide()
             if self.guidanceVisible:
                 self.guidance.show()
             if self.compassVisible:
@@ -413,6 +405,7 @@ class PosiView(object):
             self.recorder.setMobiles(self.project.mobileItems)
             self.actions['trackingAction'].setChecked(track)
             self.actions['recordAction'].setChecked(record)
+            self.setupLassoTool()
 
     def configure(self):
         '''Execute the configuration dialogue and apply properties if accepted
@@ -486,4 +479,16 @@ class PosiView(object):
 
     def following(self, checked=False):
         self.followingDlg.show()
+
+    def setupLassoTool(self):
+        if self.project.enableLasso:
+            self.followingDlg.setMobiles(self.project.mobileItems)
+            self.actions['followAction'].setVisible(True)
+            self.lassoDock.setRadii(self.project.lassoRadii)
+            self.lassoDock.triggered.connect(self.followingDlg.setLasso)
+            if self.lassoVisible:
+                self.lassoDock.show()
+        else:
+            self.actions['followAction'].setVisible(False)
+            self.lassoDock.hide()
 

@@ -42,23 +42,30 @@
      </spacer>
     </item>
     <item>
-     <widget class="QPushButton" name="pushButtonLasso10">
+     <widget class="QPushButton" name="pushButtonLasso1">
       <property name="text">
        <string>10m</string>
       </property>
      </widget>
     </item>
     <item>
-     <widget class="QPushButton" name="pushButtonLasso30">
+     <widget class="QPushButton" name="pushButtonLasso2">
       <property name="text">
        <string>30m</string>
       </property>
      </widget>
     </item>
     <item>
-     <widget class="QPushButton" name="pushButtonLasso50">
+     <widget class="QPushButton" name="pushButtonLasso3">
       <property name="text">
        <string>50m</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QPushButton" name="pushButtonLasso4">
+      <property name="text">
+       <string>100m</string>
       </property>
      </widget>
     </item>

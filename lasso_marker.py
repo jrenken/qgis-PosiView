@@ -88,7 +88,7 @@ class LassoMarker(QgsMapCanvasItem):
         self.position = None
 
     def newHeading(self, heading):
-        pass
+        self.setRotation(self.canvas.rotation())
     
     def setTrack(self, _):
         pass
