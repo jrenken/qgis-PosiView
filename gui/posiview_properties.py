@@ -46,6 +46,7 @@ class PosiviewProperties(QgsOptionsDialogBase, Ui_PosiviewPropertiesBase):
         self.comboBoxParser.addItems(PARSERS)
         self.comboBoxProviderType.addItems(DEVICE_TYPES)
         self.comboBoxLassoRadii.addItems(['10m', '20m', '30m', '50m', '75m', '100m', '125m', '150m'])
+        self.project = project
         self.projectProperties = project.properties()
         self.mToolButtonLoad.setDefaultAction(self.actionLoadConfiguration)
         self.mToolButtonSave.setDefaultAction(self.actionSaveConfiguration)
