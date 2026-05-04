@@ -415,6 +415,12 @@
                     </item>
                     <item>
                      <widget class="QgsCheckableComboBox" name="comboBoxLassoRadii">
+                      <property name="toolTip">
+                       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Select the radii for Quick Lasso (max. 4)&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                      </property>
+                      <property name="currentText">
+                       <string>Select Radii</string>
+                      </property>
                       <property name="defaultText">
                        <string>Select Radius</string>
                       </property>

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>DockWidgetLasso</class>
- <widget class="QDockWidget" name="DockWidgetLasso">
+ <class>DockWidgetLassoBase</class>
+ <widget class="QDockWidget" name="DockWidgetLassoBase">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -44,28 +44,28 @@
     <item>
      <widget class="QPushButton" name="pushButtonLasso1">
       <property name="text">
-       <string>10m</string>
+       <string notr="true">10m</string>
       </property>
      </widget>
     </item>
     <item>
      <widget class="QPushButton" name="pushButtonLasso2">
       <property name="text">
-       <string>30m</string>
+       <string notr="true">30m</string>
       </property>
      </widget>
     </item>
     <item>
      <widget class="QPushButton" name="pushButtonLasso3">
       <property name="text">
-       <string>50m</string>
+       <string notr="true">50m</string>
       </property>
      </widget>
     </item>
     <item>
      <widget class="QPushButton" name="pushButtonLasso4">
       <property name="text">
-       <string>100m</string>
+       <string notr="true">100m</string>
       </property>
      </widget>
     </item>
