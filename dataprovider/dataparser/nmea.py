@@ -64,10 +64,16 @@ class NmeaRecord(object):
         :returns: Converted value or default value.
         :rtype: float
         """
-        try:
-            return float(self.__getitem__(key))
-        except ValueError:
+        f = self.__getitem__(key)
+        if not f:
             return defaultValue
+        try:
+            return int(f)
+        except ValueError:
+            try:
+                return float(f)
+            except ValueError:
+                return defaultValue
 
     def fromDDM(self, val, hem=0, defaultValue=None):
         """ Read latitude or longitude in the typical NMEA format and return it as float
