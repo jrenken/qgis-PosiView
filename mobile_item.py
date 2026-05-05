@@ -350,7 +350,6 @@ class MobileItem(QObject):
             m.setTrack(track)
 
     def addExtraMarker(self, key: str, marker: QgsMapCanvasItem):
-        print('add Lasso')
         if not isinstance(marker, QgsMapCanvasItem):
             return
         if key in self.markers:

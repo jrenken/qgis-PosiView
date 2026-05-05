@@ -342,16 +342,6 @@
                 </widget>
                </item>
                <item>
-                <widget class="QgsCollapsibleGroupBox" name="groupBox_6">
-                 <property name="enabled">
-                  <bool>false</bool>
-                 </property>
-                 <property name="title">
-                  <string>Layer</string>
-                 </property>
-                </widget>
-               </item>
-               <item>
                 <widget class="QgsCollapsibleGroupBox" name="mGroupBox">
                  <property name="title">
                   <string>Miscellaneous</string>
@@ -419,7 +409,7 @@
                        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Select the radii for Quick Lasso (max. 4)&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                       </property>
                       <property name="currentText">
-                       <string>Select Radii</string>
+                       <string>Select Radius</string>
                       </property>
                       <property name="defaultText">
                        <string>Select Radius</string>
