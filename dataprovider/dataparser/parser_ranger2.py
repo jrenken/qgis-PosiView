@@ -44,7 +44,7 @@ class Ranger2Parser(Parser):
                          int(nmea[1][0:2]),
                          int(nmea[1][2:4]),
                          int(nmea[1][4:6]),
-                         int(float(nmea[1][6:]) * 1e6) if '.' in nmea[3] else 0,
+                         int(float(nmea[1][6:]) * 1e6) if '.' in nmea[1] else 0,
                          tzinfo=timezone.utc)
                 except ValueError:
                     dt = t

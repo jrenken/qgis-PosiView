@@ -38,7 +38,7 @@ class IxUsblParser(Parser):
                                    int(nmea[2][0:2]),
                                    int(nmea[2][2:4]),
                                    int(nmea[2][4:6]),
-                                   int(float(nmea[2][6:]) * 1e6) if '.' in nmea[3] else 0,
+                                   int(float(nmea[2][6:]) * 1e6) if '.' in nmea[2] else 0,
                                    tzinfo=timezone.utc)
                 except ValueError:
                     dt = datetime.now(tz=timezone.utc)
