@@ -21,7 +21,7 @@ class LassoMarker(QgsMapCanvasItem):
     '''
     Display a Lasso on the Canvas
     '''
-    
+
     def __init__(self, canvas, src: QgsPointXY, target: QgsPointXY, radius=30.0, color=Qt.red, params={}):
         super().__init__(canvas)
         self.canvas = canvas
@@ -71,7 +71,7 @@ class LassoMarker(QgsMapCanvasItem):
 
     def updatePosition(self):
         self.updateSize()
-        
+
     def boundingRect(self):
         return self.bounds
 
@@ -93,13 +93,13 @@ class LassoMarker(QgsMapCanvasItem):
 
     def newHeading(self, heading):
         self.setRotation(self.canvas.rotation())
-    
+
     def setTrack(self, _):
         pass
-    
+
     def deleteTrack(self):
         pass
-    
+
     def removeFromCanvas(self):
         self.canvas.scene().removeItem(self)
 
@@ -112,4 +112,3 @@ class LassoMarker(QgsMapCanvasItem):
         painter.setPen(pen)
         painter.drawLine(QPointF(0.0, 0.0), self.paintCoords[0])
         painter.drawEllipse(self.paintCoords[1], self.paintCoords[2], self.paintCoords[2])
-       

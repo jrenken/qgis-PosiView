@@ -32,7 +32,6 @@ class FollowingDialog(QDialog, FORM_CLASS):
         self.statusBar = QStatusBar()
         self.statusBar.setStyleSheet('background: lightgray;')
         self.gridLayout.addWidget(self.statusBar, 10, 0, 1, -1)
-        
         self.comboBoxRadius.insertItems(0, ['10', '20', '30', '50', '75', '100', '125', '150'])
         self.comboBoxRadius.setCurrentIndex(4)
         self.labelInfo.setText(self.tr('Click on the canvas or select a target vehicle'))
@@ -79,7 +78,7 @@ class FollowingDialog(QDialog, FORM_CLASS):
                 else:
                     raise ValueError
             except (KeyError, ValueError):
-                self.statusBar.showMessage(self.tr('Need a vehicle with valid position'), 1500);
+                self.statusBar.showMessage(self.tr('Need a vehicle with valid position'), 1500)
                 pass
 
     def anyPosChanged(self, src: QgsPointXY, trg: QgsPointXY):
@@ -89,7 +88,7 @@ class FollowingDialog(QDialog, FORM_CLASS):
             self.labelInfo.setText(self.tr('Distance: {:.1f}, Bearing: {:.1f}').format(dist, bearing))
         else:
             raise ValueError
-                    
+
     @pyqtSlot()
     def onCrsChange(self):
         '''
@@ -105,22 +104,22 @@ class FollowingDialog(QDialog, FORM_CLASS):
         self.iface.mapCanvas().setMapTool(self.mapTool)
         if self.comboBoxSource.currentIndex() > -1 and self.comboBoxTarget.currentIndex() > 0:
             try:
-                mobs = self.mobiles[self.comboBoxSource.currentText()] 
+                mobs = self.mobiles[self.comboBoxSource.currentText()]
                 mobt = self.mobiles[self.comboBoxTarget.currentText()]
                 self.anyPosChanged(mobs.coordinates, mobt.coordinates)
             except (KeyError, ValueError):
                 pass
-            
+
     def closeEvent(self, _):
         if self.prevMapTool:
             self.iface.mapCanvas().setMapTool(self.prevMapTool)
-            
+
     @pyqtSlot(name='on_pushButtonAddLasso_clicked')
     def addLasso(self, radius=0):
         try:
             mobs = self.mobiles[self.comboBoxSource.currentText()]
         except KeyError:
-            self.statusBar.showMessage(self.tr('Need valid source vehicle'), 1500);
+            self.statusBar.showMessage(self.tr('Need valid source vehicle'), 1500)
             return
         try:
             mobt = self.mobiles[self.comboBoxTarget.currentText()]
@@ -140,7 +139,7 @@ class FollowingDialog(QDialog, FORM_CLASS):
             mobs.addExtraMarker('lasso', lm)
             self.close()
         else:
-            self.statusBar.showMessage(self.tr('Need distance and bearing'), 1500);
+            self.statusBar.showMessage(self.tr('Need distance and bearing'), 1500)
 
     @pyqtSlot(name='on_pushButtonRemoveLasso_clicked')
     def removeLasso(self):
@@ -150,7 +149,7 @@ class FollowingDialog(QDialog, FORM_CLASS):
             return
         mob.deleteExtraMarker('lasso')
         self.close()
-            
+
     @pyqtSlot(str, name='on_comboBoxSource_currentTextChanged')
     def changeSource(self, txt):
         if txt:
@@ -161,7 +160,7 @@ class FollowingDialog(QDialog, FORM_CLASS):
                 m2 = self.mobiles[self.comboBoxTarget.currentText()]
                 self.anyPosChanged(m1.coordinates, m2.coordinates)
             except (KeyError, ValueError):
-                self.statusBar.showMessage(self.tr("Need vehicles with valid positions"), 1500);
+                self.statusBar.showMessage(self.tr("Need vehicles with valid positions"), 1500)
 
     @pyqtSlot(str, name='on_comboBoxTarget_currentTextChanged')
     def changeTarget(self, txt):
@@ -173,14 +172,14 @@ class FollowingDialog(QDialog, FORM_CLASS):
                 m2 = self.mobiles[txt]
                 self.anyPosChanged(m1.coordinates, m2.coordinates)
             except (KeyError, ValueError):
-                self.statusBar.showMessage(self.tr("Need vehicles with valid positions"), 1500);
-    
+                self.statusBar.showMessage(self.tr("Need vehicles with valid positions"), 1500)
+
     @pyqtSlot(int)
     def setLasso(self, rad):
         if rad < 0:
             self.removeLasso()
         else:
             self.addLasso(rad)
-        
+
     def setLassoColor(self, color: QColor):
         self.lassoColor = color

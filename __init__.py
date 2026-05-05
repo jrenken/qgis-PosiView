@@ -24,8 +24,8 @@
 """
 
 __author__ = 'Jens Renken'
-__date__ = 'June 2015'
-__copyright__ = '(C) 2015, Marum, Jens Renken'
+__date__ = 'June 2026'
+__copyright__ = '(C) 2026, Marum, Jens Renken'
 
 
 # noinspection PyPep8Naming

@@ -17,7 +17,7 @@ class TrackLayer(QObject):
     FIELD_TYPES = {'fix': QVariant.DateTime,
                    'depth': QVariant.Int,
                    'altitude': QVariant.Double,
-                   'heading': QVariant.Int }
+                   'heading': QVariant.Int}
 
     def __init__(self, name: str, auto_repaint=False, parent=None):
         '''

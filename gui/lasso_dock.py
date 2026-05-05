@@ -30,7 +30,7 @@ class LassoDock(QDockWidget, FORM_CLASS):
             self.pushButtonLasso1,
             self.pushButtonLasso2,
             self.pushButtonLasso3,
-            self.pushButtonLasso4] 
+            self.pushButtonLasso4]
 
     def setRadii(self, rad=[]):
         for but in self.buttons:

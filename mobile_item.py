@@ -58,9 +58,6 @@ class MobileItem(QObject):
                 'MobileItem_' + str(MobileItem.mobileItemCount))
         self.markers = {'main': PositionMarker(self.canvas, params)}
         self.markers['main'].setToolTip(self.name)
-        # if self.name == 'Merian':
-        #     self.markers['lasso'] = LassoMarker(self.canvas, QgsPointXY(454724.78, 3546222.77), QgsPointXY(454795.64, 3546163.14))
-        #     self.markers['eilasso'] = LassoMarker(self.canvas, QgsPointXY(454724.78, 3546222.77), QgsPointXY(454739.44, 3546161.68))
         self.dataProvider = params.get('provider', dict())
         self.messageFilter = dict()
         self.extData = dict()
@@ -98,9 +95,8 @@ class MobileItem(QObject):
         '''
         Remove the item and its track from the canvas
         '''
-        for m in self.markers.values(): 
+        for m in self.markers.values():
             m.removeFromCanvas()
-        # self.lm.removeFromCanvas()
 
     def properties(self):
         '''
@@ -284,7 +280,6 @@ class MobileItem(QObject):
         for m in self.markers.values():
             m.setVisible(self.enabled)
             m.resetPosition()
-        # self.marker.resetPosition()
         self.extData.clear()
         if self.enabled:
             self.timer.start(self.timeoutTime)
@@ -358,5 +353,5 @@ class MobileItem(QObject):
 
     def deleteExtraMarker(self, key: str):
         if key in self.markers and key != 'main':
-            self.markers[key].removeFromCanvas();
+            self.markers[key].removeFromCanvas()
             del self.markers[key]

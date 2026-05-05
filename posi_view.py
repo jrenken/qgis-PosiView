@@ -38,9 +38,7 @@ from .gui.dataprovider_dump import DataProviderDump
 from .gui.position_display import PositionDisplay
 from .gui.following_dialog import FollowingDialog
 from .gui.lasso_dock import LassoDock
-
 from .recorder import Recorder
-
 from .measure_maptool import MeasureMapTool
 
 
@@ -294,7 +292,7 @@ class PosiView(object):
         loadAction.toggled.connect(recordAction.setVisible)
         loadAction.toggled.connect(measureAction.setVisible)
         loadAction.toggled.connect(followAction.setVisible)
-        
+
     def unload(self):
         """Removes the plugin menu item and icon from QGIS GUI.
            Unloads and removes also the project.
@@ -492,4 +490,3 @@ class PosiView(object):
         else:
             self.actions['followAction'].setVisible(False)
             self.lassoDock.hide()
-
