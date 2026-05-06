@@ -4,38 +4,34 @@
 Configuring a vehicle/object in depth
 =====================================
 
-**Configuration dialog**
-
-  Go to the Mobiles/Vehicles tab.
+**Go to the Mobiles/Vehicles tab.**
 
   .. image:: _static/config_vehicles.png
       :align: center
 
   .. index:: Vehicles; in depth
 
-  #. Create a new vehicle  by clicking the ``+``-Button.
-  #. Enter a unique name.
-  #. Select an appearance, which can be BOX, CROSS, X or a shape.
-  #. If a shape is used, select the outline as Python array of points in the form ((x1, y1), (x2, y2), ..., (xn, yn)).
-     Right mouse click offers a selection of predefined shapes. The size of the shape should be normalised to (1, 1). A heading of zero points upwards.
-  #. Enter the real world size of the vehicle.
-  #. The vehicle is not scaled at small map scales so that it remains visible. To make this clear, the shape can be replaced by a default icon. 
-  #. If the position reference point is not the center (0, 0) of the shape, enter the offsets towards bow and starboard.
-  #. The Z-value defines the drawing order on the canvas. Vehicles with higher values are drawn on top.
-  #. Select colors for outline and fill brush. Transparency can be applied.
-  #. Select the timeout for incoming position messages. 
-     The corresponding panel in the tracking dock turns red when a timeout occurs.
-     A notification message is triggered if notification timeout is set.
-  #. Select the timeout behavior. If checked, the vehicle will be faded out when a timeout occurs.
-  #. Select the color and length of the track.
-  #. Select wether the vehicle should be labeled.
-  #. If the label is enabled, extra text can be shown. Text must be provided by the data provider using the 'text' key.
-  #. Select whether a layer should be used to store the position. If so, a memory layer will be created or, if already available, assigned.
-  #. Select ‘Repaint’ if the layer is to be updated after each point is added. But be careful: this increases the processing power required.
-  #. Select a provider from the list. If a provider supplies multiple position reports, as is the case with USBL systems, enter a filter.
-     Depending on the parser used, this can be the Beacon ID (USBL) or the MMSI (AIS).
-     Advanced filters allow for more precise control over the data to be processed, e.g. ignoring the course or displaying the course (COG) as the heading.
-     Finally, refresh the list.
+  #. Click the + button to create a new vehicle.
+  #. Enter a unique name for the vehicle.
+  #. Choose an appearance type: BOX, CROSS, X, or a custom shape.
+  #. If using a custom shape, define its outline as a Python array of points in the format: ((x1, y1), (x2, y2), …, (xn, yn)).
+     Right-click to select from predefined shapes. The shape should be normalized to (1, 1) in size, with a heading of 0° pointing upward.
+  #. Enter the vehicle’s real-world size.
+  #. To ensure visibility, the vehicle is not scaled down at small map scales. Instead, it may be replaced with a default icon for clarity.
+  #. If the reference point is not the center (0, 0) of the shape, specify the offsets toward the bow and starboard.
+  #. The Z-value determines the drawing order on the canvas. Vehicles with higher Z-values appear on top.
+  #. Select colors for the outline and fill. Adjust transparency as needed.
+  #. Set a timeout duration for incoming position messages. If a timeout occurs, the corresponding panel in the tracking dock turns red.
+     If a notification timeout is set, a notification message will be triggered.
+  #. Select the timeout behavior. If enabled, the vehicle will fade out when a timeout occurs.
+  #. Choose the color and length of the track.
+  #. Enable or disable the vehicle label.
+  #. If enabled, additional text can be displayed (provided by the data source using the ``text`` key).
+  #. Choose whether to store positions in a layer. If selected, a memory layer will be created (or assigned if one already exists).
+  #. Enable ``Repaint`` to update the layer after each new point is added. **Warning**: This increases processing load.
+  #. Select a provider from the list. If the provider supplies multiple position reports (e.g., USBL systems), apply a filter (e.g., Beacon ID for USBL or MMSI for AIS).
+     Advanced filters allow finer control (e.g., ignoring course, displaying COG as heading or processing easting/northing positions).
+     Click Refresh List to update available providers.
   #. Click on ``Apply Properties``
 
 ==================

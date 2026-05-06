@@ -6,7 +6,8 @@ Protocol description of available sentences
 
 .. index:: Protocol; IX_BLUE
  
-**IX_BLUE**
+IX_BLUE
+-------
 ::
 
   $PTSAG,#NNNNN,hhmmss.sss,jj,mm,aaaa,BBB,DDMM.MMMM,H,DDDMM.MMMM,D,A,MMMM.M,A, MMMM.M*hh<CR><LF>
@@ -22,7 +23,8 @@ Filter id: <beacon>
 
 .. index:: Protocol; PISE
 
-**PISE**
+PISE
+----
 ::
 
   $PISE,AUV,49.234567,-122.543211,20030716,122554,1,0000,074,0048,02.3*7d
@@ -32,7 +34,8 @@ Filter id: <source>
 
 .. index:: Protocol; MINIPOS
 
-**MINIPOS**
+MINIPOS
+-------
 ::
 
   $PSAAS,101301.06,5832.74,N,01458.52,E,176.3,4.3,4.8,1.20,-1.00,-0.30*54<CR><LF>
@@ -40,7 +43,8 @@ Filter id: <source>
  
 .. index:: Protocol; GPS
  
-**GPS**
+GPS
+---
  https://www.gpsinformation.org/dale/nmea.htm
 
 Filter id: <talker>
@@ -48,7 +52,8 @@ Filter id: <talker>
 
 .. index:: Protocol; RANGER2
 
-**RANGER2**
+Sonardyne RANGER2
+-----------------
 ::
 
   $PSONLLD,153005.253,24,A,50.02495,8.873323,425.3,,,,,,,,*3e<CR><LF>
@@ -66,7 +71,8 @@ Using the position of this sentence requires a suitable CRS with the matching UT
  
 .. index:: Protocol; CP16
 
-**CP16**
+CP16
+----
 ::
 
   $PCI,<depth meter>,<depth feet>,<heading>,<CP data>,<pitch>,<roll><CR><LF>
@@ -74,12 +80,14 @@ Using the position of this sentence requires a suitable CRS with the matching UT
 
 .. index:: Protocol; AIS
 
-**AIS**
+AIS
+---
  http://catb.org/gpsd/AIVDM.html
  
 .. index:: Protocol; MARUM
  
-**MARUM**
+MARUM
+-----
 ::
 
   $PMTMGPO,HROV,020718,092343.92,-53.1234567,-152.1234567,P,0234.5,018.2,270*3B<CR><LF>
@@ -93,7 +101,8 @@ Using the position of this sentence requires a suitable CRS with the matching UT
 
 Filter id: <sender>
 
-**TARGET_POS**
+TARGET_POS
+----------
 ::
 
   <target>,<latitude>,<longitude>[,<depth>,<altitude>,<heading>]<CR><LF>
@@ -103,7 +112,8 @@ Filter id: <target>
 
 .. index:: Protocol; COMPASS
 
-**COMPASS**
+COMPASS
+-------
 ::
 
   $C<heading>P<pitch>R<roll>[optional key/value pairs]<CR><LF>
@@ -118,8 +128,10 @@ Filter id: <target>
 
 .. index:: Protocol; MOOS_NODEREPORT
 
-**MOOS_NODEREPORT**
+MOOS_NODEREPORT
+---------------
 ::
+
     NAME=alpha,TYPE=UUV,TIME=1252348077.59,X=51.71,Y=-35.50,LAT=43.824981,LON=-70.329755,
     SPD=2.00,HDG=118.85,YAW=118.84754,DEP=4.63,LENGTH=3.8,MODE=MODE@ACTIVE:LOITERING
 
