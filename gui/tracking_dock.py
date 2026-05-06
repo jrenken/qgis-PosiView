@@ -9,12 +9,33 @@ import math
 from time import gmtime, strftime
 
 from qgis.PyQt import uic
-from qgis.PyQt.QtCore import Qt, QSettings, QSignalMapper, QMimeData, pyqtSignal, QPoint
+from qgis.PyQt.QtCore import (
+    Qt,
+    QSettings,
+    QSignalMapper,
+    QMimeData,
+    pyqtSignal,
+    QPoint)
 from qgis.PyQt.Qt import pyqtSlot, QSize
 from qgis.core import QgsPointXY, QgsCoordinateFormatter as cf
-from qgis.PyQt.QtGui import QIcon, QDrag, QGuiApplication, QCursor
-from qgis.PyQt.QtWidgets import QAction, QLabel, QWidgetAction, QToolBar, QDockWidget
-from qgis.PyQt.QtWidgets import QToolButton, QWidget, QSlider, QVBoxLayout, QMessageBox
+from qgis.PyQt.QtGui import (
+    QIcon,
+    QDrag,
+    QGuiApplication,
+    QCursor,
+    QFontMetrics,
+    QFont)
+from qgis.PyQt.QtWidgets import (
+    QAction,
+    QLabel,
+    QWidgetAction,
+    QToolBar,
+    QDockWidget,
+    QToolButton,
+    QWidget,
+    QSlider,
+    QVBoxLayout,
+    QMessageBox)
 
 FORM_CLASS, _ = uic.loadUiType(os.path.join(
     os.path.split(os.path.dirname(__file__))[0], 'ui', 'tracking_dock_base.ui'))
@@ -78,6 +99,13 @@ class TrackingDisplay(QToolBar):
         the map on the vehicle, adjusting visible track length and erasing the track
     '''
 
+    PATTERNS = [
+        '00:00:00   00.000000°N  000.000000°W',
+        '00:00:00   00°00.0000"N  000°00.0000"W',
+        '00:00:00   00°00"00.00"N  000°00"00.00"W',
+        '00:00:00   00°00"00.00"N  000°00"00.00"W',
+        ]
+
     def __init__(self, mobile, parent=None):
         super(TrackingDisplay, self).__init__(parent)
         self.setMovable(True)
@@ -118,9 +146,10 @@ class TrackingDisplay(QToolBar):
         self.addSeparator()
         self.posLabel = QLabel("--:--:-- 0.000000, 0.000000")
         self.posLabel.setAlignment(Qt.AlignHCenter | Qt.AlignVCenter)
-        widths = (180, 196, 204, 180, 184, 200, 208, 184)
-        self.posLabel.setMinimumSize(widths[self.format], 23)
         self.posLabel.setStyleSheet('background: red; font-size: 8pt; color: white;')
+        fm = QFontMetrics(QFont(self.posLabel.font().key(), 8))
+        minWidth = fm.size(Qt.TextSingleLine, self.PATTERNS[self.format]).width()
+        self.posLabel.setMinimumSize(minWidth, 23)        
         self.posLabelAction = QWidgetAction(self)
         self.posLabelAction.setDefaultWidget(self.posLabel)
         self.addAction(self.posLabelAction)
