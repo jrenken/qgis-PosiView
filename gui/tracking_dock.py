@@ -149,7 +149,7 @@ class TrackingDisplay(QToolBar):
         self.posLabel.setStyleSheet('background: red; font-size: 8pt; color: white;')
         fm = QFontMetrics(QFont(self.posLabel.font().key(), 8))
         minWidth = fm.size(Qt.TextSingleLine, self.PATTERNS[self.format]).width()
-        self.posLabel.setMinimumSize(minWidth, 23)        
+        self.posLabel.setMinimumSize(minWidth, 23)
         self.posLabelAction = QWidgetAction(self)
         self.posLabelAction.setDefaultWidget(self.posLabel)
         self.addAction(self.posLabelAction)
