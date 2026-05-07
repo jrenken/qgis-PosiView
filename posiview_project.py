@@ -4,16 +4,11 @@ Created on 05.06.2015
 
 @author: jrenken
 '''
-from __future__ import absolute_import
-from builtins import str
-from builtins import range
-from builtins import object
 from os import environ
 from qgis.PyQt.QtCore import QSettings, QCoreApplication, Qt
+from qgis.core import Qgis
 from .mobile_item import MobileItem
 from .dataprovider.data_provider import DataProvider
-from qgis.gui import QgsMessageBar
-from qgis.core import Qgis
 
 
 class PosiViewProject(object):

@@ -3,8 +3,6 @@ Created on 03.06.2015
 
 @author: jrenken
 '''
-from __future__ import absolute_import
-from builtins import str
 from qgis.PyQt.Qt import QObject
 from qgis.PyQt.QtCore import pyqtSignal, pyqtSlot
 from . import dataparser

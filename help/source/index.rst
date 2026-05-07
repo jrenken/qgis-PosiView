@@ -14,7 +14,6 @@ PosiView multi vehicle/object tracking tool
    :glob:
    :hidden:
    
-   index
    provider
    protocol
    vehicle
