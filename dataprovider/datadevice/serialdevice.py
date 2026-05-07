@@ -4,9 +4,9 @@ Created on Dec 13, 2019
 @author: jrenken
 '''
 
-from .datadevice import DataDevice
-from qgis.PyQt.QtCore import QObject, QTimer, QIODevice, pyqtSlot, pyqtSignal
+from qgis.PyQt.QtCore import QTimer, QIODevice, pyqtSignal
 from qgis.PyQt.QtSerialPort import QSerialPort
+from .datadevice import DataDevice
 
 
 class SerialDevice(DataDevice):

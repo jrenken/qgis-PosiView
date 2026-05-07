@@ -4,7 +4,7 @@ Created on Apr 20, 2026
 @author: jrenken
 '''
 
-from qgis.PyQt.QtCore import QObject, pyqtSlot, QDateTime, Qt, QVariant
+from qgis.PyQt.QtCore import QObject, pyqtSlot, QDateTime, Qt, QVariant, QTimeZone
 from qgis.core import QgsVectorLayer, QgsVectorDataProvider, QgsProject, Qgis, QgsPointXY, QgsGeometry
 from qgis.core import QgsFeature, QgsField
 
@@ -59,7 +59,7 @@ class TrackLayer(QObject):
         feat = QgsFeature(self.layer.fields())
         # feat.initAttributes(self.attributeCount)
         feat.setGeometry(QgsGeometry.fromPointXY(pos))
-        feat.setAttribute('fix', QDateTime.fromMSecsSinceEpoch(int(fix * 1e3), Qt.UTC))
+        feat.setAttribute('fix', QDateTime.fromMSecsSinceEpoch(int(fix * 1e3), Qt.TimeSpec.UTC))
         feat.setAttribute('depth', int(depth))
         feat.setAttribute('altitude', altitude)
         feat.setAttribute('heading', int(self.hpr_attitude[0]))

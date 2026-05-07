@@ -7,7 +7,7 @@ Created on Apr 28, 2026
 
 from math import sin, cos, hypot, atan2
 from qgis.PyQt.QtCore import Qt, QRectF, QPointF
-from qgis.PyQt.QtGui import QPen
+from qgis.PyQt.QtGui import QPen, QColorConstants
 from qgis.core import (
     QgsPointXY,
     QgsProject,
@@ -22,7 +22,7 @@ class LassoMarker(QgsMapCanvasItem):
     Display a Lasso on the Canvas
     '''
 
-    def __init__(self, canvas, src: QgsPointXY, target: QgsPointXY, radius=30.0, color=Qt.red, params={}):
+    def __init__(self, canvas, src: QgsPointXY, target: QgsPointXY, radius=30.0, color=QColorConstants.Red, params={}):
         super().__init__(canvas)
         self.canvas = canvas
         self.position = src
@@ -108,7 +108,7 @@ class LassoMarker(QgsMapCanvasItem):
             return
         pen = QPen(self.color)
         pen.setWidth(1)
-        pen.setStyle(Qt.DashDotLine)
+        pen.setStyle(Qt.PenStyle.DashDotLine)
         painter.setPen(pen)
         painter.drawLine(QPointF(0.0, 0.0), self.paintCoords[0])
         painter.drawEllipse(self.paintCoords[1], self.paintCoords[2], self.paintCoords[2])

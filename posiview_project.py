@@ -5,15 +5,12 @@ Created on 05.06.2015
 @author: jrenken
 '''
 
-from __future__ import absolute_import
-from builtins import str
-from builtins import range
-from builtins import object
 from os import environ
-from qgis.PyQt.QtCore import QSettings, QCoreApplication, Qt
+from qgis.core import Qgis
+from qgis.PyQt.QtCore import QSettings, QCoreApplication
+from qgis.PyQt.QtGui import QColorConstants
 from .mobile_item import MobileItem
 from .dataprovider.data_provider import DataProvider
-from qgis.core import Qgis
 
 
 class PosiViewProject():
@@ -44,7 +41,7 @@ class PosiViewProject():
         self.narrowScreen = False
         self.enableLasso = False
         self.lassoRadii = []
-        self.lassoColor = Qt.red
+        self.lassoColor = "red"
         self.defaultFormat = 5
         self.trackingStarted = False
         self.trackCache = {}
@@ -110,7 +107,7 @@ class PosiViewProject():
         self.narrowScreen = properties.get('NarrowScreen', False)
         self.enableLasso = properties.get('EnableLasso', False)
         self.lassoRadii = properties.get('LassoRadii', [])
-        self.lassoColor = properties.get('LassoColor', Qt.red)
+        self.lassoColor = properties.get('LassoColor', QColorConstants.Red)
         self.defaultFormat = properties.get('DefaultFormat', False)
 
         pr = properties['Provider']
@@ -197,7 +194,7 @@ class PosiViewProject():
         properties['NarrowScreen'] = s.value('Misc/NarrowScreen', False, type=bool)
         properties['EnableLasso'] = s.value('Misc/Lasso/Enable', False, type=bool)
         properties['LassoRadii'] = s.value('Misc/Lasso/Radii', [])
-        properties['LassoColor'] = s.value('Misc/Lasso/Color', Qt.red)
+        properties['LassoColor'] = s.value('Misc/Lasso/Color', "red")
         properties['DefaultFormat'] = s.value('Misc/DefaultFormat', 5, type=int)
         s.endGroup()
         return properties

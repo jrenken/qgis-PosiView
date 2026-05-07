@@ -4,9 +4,9 @@ Created on 04.06.2015
 @author: jrenken
 '''
 
-from .datadevice import DataDevice
 from qgis.PyQt.QtNetwork import QUdpSocket, QHostAddress, QAbstractSocket
 from qgis.PyQt.QtCore import pyqtSignal, QTimer
+from .datadevice import DataDevice
 
 
 class UdpDevice(DataDevice):

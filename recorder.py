@@ -3,9 +3,10 @@ Created on 13.07.2015
 
 @author: jrenken
 '''
-from qgis.PyQt.QtCore import QObject, QTimer, pyqtSlot, pyqtSignal
+
 import os
 from datetime import datetime, timezone
+from qgis.PyQt.QtCore import QObject, QTimer, pyqtSlot, pyqtSignal
 
 
 class Recorder(QObject):

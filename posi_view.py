@@ -97,7 +97,7 @@ class PosiView(object):
         self.followingDlg = FollowingDialog(self.iface)
         self.lassoDock = LassoDock()
         self.lassoVisible = False
-        self.iface.addDockWidget(Qt.LeftDockWidgetArea, self.lassoDock)
+        self.iface.addDockWidget(Qt.DockWidgetArea.LeftDockWidgetArea, self.lassoDock)
 
     # noinspection PyMethodMayBeStatic
     def tr(self, message):

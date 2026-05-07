@@ -7,7 +7,7 @@ Created on Apr 5, 2024
 import os
 import math
 from qgis.PyQt import uic
-from qgis.PyQt.QtGui import QColor
+from qgis.PyQt.QtGui import QColor, QColorConstants
 from qgis.PyQt.QtCore import pyqtSlot, QSettings, Qt
 from qgis.PyQt.QtWidgets import QDialog, QAbstractButton, QStatusBar, QLabel, QFrame
 from qgis.gui import QgsMapToolEmitPoint
@@ -44,7 +44,7 @@ class FollowingDialog(QDialog, FORM_CLASS):
         self.distArea.setEllipsoid(u'WGS84')
         self.onCrsChange()
         self.clickPos = None
-        self.lassoColor = Qt.red
+        self.lassoColor = QColorConstants.Red
 
     def setMobiles(self, mobiles):
         # self.reset()
@@ -69,7 +69,7 @@ class FollowingDialog(QDialog, FORM_CLASS):
 
     @pyqtSlot(QgsPointXY, Qt.MouseButton)
     def mouseClicked(self, pos, button):
-        if button == Qt.LeftButton:
+        if button == Qt.MouseButton.LeftButton:
             self.clickPos = pos
             try:
                 mob = self.comboBoxSource.currentText()

@@ -15,8 +15,9 @@ from qgis.PyQt.QtCore import (
     QSignalMapper,
     QMimeData,
     pyqtSignal,
-    QPoint)
-from qgis.PyQt.Qt import pyqtSlot, QSize
+    QPoint,
+    QSize,
+    pyqtSlot)
 from qgis.core import QgsPointXY, QgsCoordinateFormatter as cf
 from qgis.PyQt.QtGui import (
     QIcon,
@@ -148,7 +149,7 @@ class TrackingDisplay(QToolBar):
         self.posLabel.setAlignment(Qt.AlignmentFlag.AlignHCenter | Qt.AlignmentFlag.AlignVCenter)
         self.posLabel.setStyleSheet('background: red; font-size: 8pt; color: white;')
         fm = QFontMetrics(QFont(self.posLabel.font().key(), 8))
-        minWidth = fm.size(Qt.TextSingleLine, self.PATTERNS[self.format]).width()
+        minWidth = fm.size(Qt.TextFlag.TextSingleLine, self.PATTERNS[self.format]).width()
         self.posLabel.setMinimumSize(minWidth, 23)
         self.posLabelAction = QWidgetAction(self)
         self.posLabelAction.setDefaultWidget(self.posLabel)
@@ -211,11 +212,11 @@ class TrackingDisplay(QToolBar):
     @pyqtSlot()
     def onDeleteTrack(self):
         res = QMessageBox.question(self, self.tr('Delete Track'), self.tr('Delete all trackpoints of ') + self.mobile.name + '?',
-                                   defaultButton=QMessageBox.NoButton)
-        if res == QMessageBox.Yes:
+                                   defaultButton=QMessageBox.StandardButton.NoButton)
+        if res == QMessageBox.StandardButton.Yes:
             self.mobile.deleteTrack()
 
-    def changeVisibleTrackLength(self, value):
+    def changeVisibleTrackLength(self):
         tlen, vlen, _ = self.mobile.markers['main'].trackLength()
         self.w = TrackLenSlider(tlen, vlen)
         self.w.valueChanged.connect(self.mobile.markers['main'].setTrackLengthVisible)

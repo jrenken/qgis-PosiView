@@ -4,9 +4,9 @@ Created on Apr 3, 2024
 @author: jrenken
 '''
 
-from .datadevice import DataDevice
 from qgis.PyQt.QtNetwork import QTcpServer, QHostAddress, QTcpSocket, QAbstractSocket
 from qgis.PyQt.QtCore import pyqtSlot, QTimer
+from .datadevice import DataDevice
 
 
 class TcpServerDevice(DataDevice):
