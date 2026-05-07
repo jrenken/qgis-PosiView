@@ -17,6 +17,7 @@
         <file alias="record-stop.png">resources/record-stop.png</file>
         <file alias="sensor.png">resources/sextant.png</file>
         <file alias="refresh.png">resources/refresh.png</file>
+        <file alias="lasso.png">resources/lasso.png</file>
         <file alias="hand.gif">resources/hand.gif</file>
     </qresource>
 </RCC>

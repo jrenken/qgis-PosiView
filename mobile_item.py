@@ -3,16 +3,23 @@ Created on 05.06.2015
 
 @author: jrenken
 '''
-from __future__ import absolute_import
-from builtins import str
+
 from qgis.PyQt.QtCore import QObject, pyqtSlot, QTimer, pyqtSignal
-from qgis.core import Qgis, QgsPointXY, QgsCoordinateTransform, \
-        QgsCoordinateReferenceSystem, QgsCsException, \
-        QgsException, QgsBearingUtils, QgsProject
-from qgis.gui import QgsMessageBar
+from qgis.core import (
+    Qgis,
+    QgsPointXY,
+    QgsCoordinateTransform,
+    QgsCoordinateReferenceSystem,
+    QgsCsException,
+    QgsException,
+    QgsBearingUtils,
+    QgsProject)
+from qgis.gui import QgsMapCanvasItem
 from qgis.PyQt.QtWidgets import QLabel
 from qgis.PyQt.QtGui import QMovie
 from .position_marker import PositionMarker
+from .track_layer import TrackLayer
+from .lasso_marker import LassoMarker
 
 FILTER_FLAGS = ('-head', '-pos', '+course', '+utm')
 
@@ -27,7 +34,7 @@ class MobileItem(QObject):
     mobileItemCount = 0
 
     newPosition = pyqtSignal(float, QgsPointXY, float, float)
-    newAttitude = pyqtSignal(float, float, float)   # heading, pitch, roll
+    newAttitude = pyqtSignal(float, float, float)  # heading, pitch, roll
     timeout = pyqtSignal()
 
     def __init__(self, iface, params={}, parent=None):
@@ -49,8 +56,8 @@ class MobileItem(QObject):
         MobileItem.mobileItemCount += 1
         self.name = params.setdefault('Name',
                 'MobileItem_' + str(MobileItem.mobileItemCount))
-        self.marker = PositionMarker(self.canvas, params)
-        self.marker.setToolTip(self.name)
+        self.markers = {'main': PositionMarker(self.canvas, params)}
+        self.markers['main'].setToolTip(self.name)
         self.dataProvider = params.get('provider', {})
         self.messageFilter = {}
         self.extData = {}
@@ -77,12 +84,19 @@ class MobileItem(QObject):
         self.notifyDuration = int(params.get('NotifyDuration', 0))
         self.timedOut = False
         self.enabled = True
+        self.recordTrack = params.get('recordTrack', False)
+        self.recordTrackRepaint = params.get('recordTrackRepaint', False)
+        if self.recordTrack:
+            self.trackLayer = TrackLayer(self.name, self.recordTrackRepaint)
+            self.newPosition.connect(self.trackLayer.onNewPosition)
+            self.newAttitude.connect(self.trackLayer.onNewAttitude)
 
     def removeFromCanvas(self):
         '''
         Remove the item and its track from the canvas
         '''
-        self.marker.removeFromCanvas()
+        for m in self.markers.values():
+            m.removeFromCanvas()
 
     def properties(self):
         '''
@@ -90,13 +104,16 @@ class MobileItem(QObject):
         :returns: Items properties
         :rtype: dict
         '''
-        d = {'Name' : self.name,
+        d = {'Name': self.name,
              'timeout': self.timeoutTime,
              'nofixNotify': self.notifyCount,
              'fadeOut': self.fadeOut,
              'enabled': self.enabled,
-             'provider' : self.dataProvider}
-        d.update(self.marker.properties())
+             'provider': self.dataProvider,
+             'recordTrack': self.recordTrack,
+             'recordTrackRepaint': self.recordTrackRepaint}
+        for m in self.markers.values():
+            d.update(m.properties())
         return d
 
     def subscribePositionProvider(self, provider, filterId=None):
@@ -154,7 +171,8 @@ class MobileItem(QObject):
 
             if ('lat' in data and 'lon' in data) or self.hasUtmCoords(flags, data):
                 if self.fadeOut and self.timedOut:
-                    self.marker.setVisible(True)
+                    for m in self.markers.values():
+                        m.setVisible(True)
                     self.timedOut = False
                 self.position = QgsPointXY(data['lon'], data['lat'])
                 self.heading = data.get('heading', self.heading)
@@ -162,7 +180,9 @@ class MobileItem(QObject):
                 self.altitude = data.get('altitude', self.altitude)
                 try:
                     self.coordinates = self.crsXform.transform(self.position)
-                    self.marker.setMapPosition(self.coordinates)
+                    for m in self.markers.values():
+                        m.setMapPosition(self.coordinates)
+                    # self.lm.setMapPosition(self.coordinates)
                     if 'time' in data:
                         self.lastFix = data['time']
                         self.newPosition.emit(self.lastFix, self.position,
@@ -181,15 +201,18 @@ class MobileItem(QObject):
         if 'heading' in data and '-head' not in flags:
             self.newAttitude.emit(data['heading'], data.get('pitch', 0.0),
                                   data.get('roll', 0.0))
-            self.marker.newHeading(data['heading'])
+            for m in self.markers.values():
+                m.newHeading(data['heading'])
             self.heading = data['heading']
         elif 'course' in data and '+course' in flags:
             self.newAttitude.emit(data['course'], data.get('pitch', 0.0),
                                   data.get('roll', 0.0))
-            self.marker.newHeading(data['course'])
+            for m in self.markers.values():
+                m.newHeading(data['course'])
             self.heading = data['course']
         if 'text' in data:
-            self.marker.setText(data['text'])
+            for m in self.markers.values():
+                m.newHeading(data['text'])
 
     def hasUtmCoords(self, flags, data):
         if '+utm' in flags:
@@ -211,13 +234,15 @@ class MobileItem(QObject):
         return False
 
     @pyqtSlot(float)
-    def onScaleChange(self, ):
+    def onScaleChange(self,):
         '''
         Slot called when the map is zoomed
         :param scale: New scale
         :type scale: float
         '''
-        self.marker.updatePosition()
+        for m in self.markers.values():
+            m.updatePosition()
+        # self.lm.updateSize()
 
     @pyqtSlot()
     def onCrsChange(self):
@@ -226,16 +251,21 @@ class MobileItem(QObject):
         '''
         crsDst = self.canvas.mapSettings().destinationCrs()
         self.crsXform.setDestinationCrs(crsDst)
-        self.marker.updatePosition()
+        for m in self.markers.values():
+            m.updatePosition()
+        # self.marker.updatePosition()
+        # self.lm.updateSize()
 
     @pyqtSlot(float)
-    def onMagnificationChanged(self, ):
+    def onMagnificationChanged(self,):
         '''
         Slot called when the map magnification has changed
         :param scale: New scale
         :type scale: float
         '''
-        self.marker.updateMapMagnification()
+        for m in self.markers.values():
+            m.updateMapMagnification()
+        # self.marker.updateMapMagnification()
 
     @pyqtSlot(bool)
     def setEnabled(self, enabled):
@@ -245,8 +275,11 @@ class MobileItem(QObject):
         :type enabled: bool
         '''
         self.enabled = enabled
-        self.marker.setVisible(self.enabled)
-        self.marker.resetPosition()
+        # self.marker.setVisible(self.enabled)
+        # self.lm.setVisible(self.enabled)
+        for m in self.markers.values():
+            m.setVisible(self.enabled)
+            m.resetPosition()
         self.extData.clear()
         if self.enabled:
             self.timer.start(self.timeoutTime)
@@ -259,7 +292,8 @@ class MobileItem(QObject):
         '''
         Delete the track all points
         '''
-        self.marker.deleteTrack()
+        for m in self.markers.values():
+            m.deleteTrack()
 
     @pyqtSlot()
     def centerOnMap(self):
@@ -283,7 +317,8 @@ class MobileItem(QObject):
     @pyqtSlot()
     def notifyTimeout(self):
         if self.fadeOut and not self.timedOut:
-            self.marker.setVisible(False)
+            for m in self.markers.values():
+                m.setVisible(False)
             self.timedOut = True
         if self.notifyCount:
             self.timeoutCount += 1
@@ -300,8 +335,23 @@ class MobileItem(QObject):
                 self.iface.messageBar().pushWidget(w, level=Qgis.Critical, duration=self.notifyDuration)
 
     def getTrack(self):
-        tr = [e[1] for e in self.marker.track]
-        return tr
+        for m in self.markers.values():
+            if hasattr(m, 'track'):
+                tr = [e[1] for e in m.track]
+                return tr
 
     def applyTrack(self, track):
-        self.marker.setTrack(track)
+        for m in self.markers.values():
+            m.setTrack(track)
+
+    def addExtraMarker(self, key: str, marker: QgsMapCanvasItem):
+        if not isinstance(marker, QgsMapCanvasItem):
+            return
+        if key in self.markers:
+            self.markers[key].removeFromCanvas()
+        self.markers[key] = marker
+
+    def deleteExtraMarker(self, key: str):
+        if key in self.markers and key != 'main':
+            self.markers[key].removeFromCanvas()
+            del self.markers[key]

@@ -52,7 +52,7 @@ class GpsParser(Parser):
                                         minute=int(nmea[1][2:4]), second=int(nmea[1][4:6]))
                 except ValueError:
                     dt = datetime.now(tz=timezone.utc)
-                result['time'] = (dt - datetime(1970, 1, 1, tzinfo=timezone.utc)).total_seconds()
+                result['time'] = dt.timestamp()
                 return dict((k, v) for k, v in result.items() if v is not None)
             except ValueError:
                 return {}
@@ -69,7 +69,7 @@ class GpsParser(Parser):
                                         minute=int(nmea[5][2:4]), second=int(nmea[5][4:6]))
                 except ValueError:
                     dt = datetime.now(timezone.utc)
-                result['time'] = (dt - datetime(1970, 1, 1, tzinfo=timezone.utc)).total_seconds()
+                result['time'] = dt.timestamp()
                 return dict((k, v) for k, v in result.items() if v is not None)
             except ValueError:
                 return {}
@@ -88,7 +88,7 @@ class GpsParser(Parser):
                                         minute=int(nmea[1][2:4]), second=int(nmea[1][4:6]))
                 except ValueError:
                     dt = datetime.now(timezone.utc)
-                result['time'] = (dt - datetime(1970, 1, 1, tzinfo=timezone.utc)).total_seconds()
+                result['time'] = dt.timestamp()
                 return dict((k, v) for k, v in result.items() if v is not None)
             except ValueError:
                 return {}

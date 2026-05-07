@@ -21,9 +21,9 @@
  ***************************************************************************/
 """
 
+from math import fmod, pi
 from collections import deque
 from itertools import islice
-from math import fmod, pi
 from qgis.PyQt.QtCore import QPointF, QRectF, QPoint, QLineF
 from qgis.PyQt.QtGui import QPainter, QBrush, QColor, QPen, QPolygonF
 from qgis.gui import QgsMapCanvasItem, QgsVertexMarker

@@ -36,11 +36,13 @@ class PosiviewProperties(QgsOptionsDialogBase, Ui_PosiviewPropertiesBase):
             self.PROVIDER_FLAGS[FILTER_FLAGS[2]] = self.tr('course as heading')
             self.PROVIDER_FLAGS[FILTER_FLAGS[3]] = self.tr('decode easting/northing')
         self.comboBoxProviderFlags.addItems(list(self.PROVIDER_FLAGS.values()))
-        self.groupBox_6.hide()
+        self.colorButtonLasso.hide()
+        self.comboBoxLassoRadii.hide()
         self.initOptionsBase(False)
         self.restoreOptionsBaseUi()
         self.comboBoxParser.addItems(PARSERS)
         self.comboBoxProviderType.addItems(DEVICE_TYPES)
+        self.comboBoxLassoRadii.addItems(['10m', '20m', '30m', '50m', '75m', '100m', '125m', '150m'])
         self.project = project
         self.projectProperties = project.properties()
         self.mToolButtonLoad.setDefaultAction(self.actionLoadConfiguration)
@@ -74,6 +76,9 @@ class PosiviewProperties(QgsOptionsDialogBase, Ui_PosiviewPropertiesBase):
         self.spinBoxNotifyDuration.setValue(properties['NotifyDuration'])
         self.checkBoxUtcClock.setChecked(properties['ShowUtcClock'])
         self.checkBoxNarrowScreen.setChecked(properties['NarrowScreen'])
+        self.checkBoxFollowing.setChecked(properties['EnableLasso'])
+        self.comboBoxLassoRadii.setCheckedItems(properties['LassoRadii'])
+        self.colorButtonLasso.setColor(self.getColor(properties['LassoColor']))
         self.checkBoxWithSuffix.setChecked(properties['DefaultFormat'] & 4)
         self.comboBoxDefaultPositionFormat.setCurrentIndex((properties['DefaultFormat']) & 3)
 
@@ -87,6 +92,9 @@ class PosiviewProperties(QgsOptionsDialogBase, Ui_PosiviewPropertiesBase):
         self.projectProperties['NotifyDuration'] = self.spinBoxNotifyDuration.value()
         self.projectProperties['ShowUtcClock'] = self.checkBoxUtcClock.isChecked()
         self.projectProperties['NarrowScreen'] = self.checkBoxNarrowScreen.isChecked()
+        self.projectProperties['EnableLasso'] = self.checkBoxFollowing.isChecked()
+        self.projectProperties['LassoRadii'] = self.comboBoxLassoRadii.checkedItems()
+        self.projectProperties['LassoColor'] = self.colorButtonLasso.color().rgba()
         self.projectProperties['DefaultFormat'] = self.comboBoxDefaultPositionFormat.currentIndex()
         if self.checkBoxWithSuffix.isChecked():
             self.projectProperties['DefaultFormat'] |= 4
@@ -179,7 +187,9 @@ class PosiviewProperties(QgsOptionsDialogBase, Ui_PosiviewPropertiesBase):
             mobile['trackColor'] = self.mColorButtonMobileTrackColor.color().rgba()
             mobile['showLabel'] = self.checkBoxShowLabel.isChecked()
             mobile['showExtraText'] = self.checkBoxExtraText.isChecked()
-            provs = {}
+            mobile['recordTrack'] = self.checkBoxRecordTrack.isChecked()
+            mobile['recordTrackRepaint'] = self.checkBoxRecordTrackRepaint.isChecked()
+            provs = dict()
             for r in range(self.mobileProviderModel.rowCount()):
                 try:
                     fil = self.mobileProviderModel.item(r, 1).data(Qt.ItemDataRole.DisplayRole)
@@ -240,6 +250,8 @@ class PosiviewProperties(QgsOptionsDialogBase, Ui_PosiviewPropertiesBase):
         self.checkBoxShowLabel.setChecked(mobile.get('showLabel', False))
         self.checkBoxExtraText.setVisible(self.checkBoxShowLabel.isChecked())
         self.checkBoxExtraText.setChecked(mobile.get('showExtraText', False))
+        self.checkBoxRecordTrack.setChecked(mobile.get('recordTrack', False))
+        self.checkBoxRecordTrackRepaint.setChecked(mobile.get('recordTrackRepaint', False))
         r = 0
         self.mobileProviderModel.removeRows(0, self.mobileProviderModel.rowCount())
         if 'provider' in mobile:

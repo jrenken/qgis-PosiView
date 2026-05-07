@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>847</width>
-    <height>850</height>
+    <width>983</width>
+    <height>898</height>
    </rect>
   </property>
   <property name="minimumSize">
@@ -191,8 +191,8 @@
                <rect>
                 <x>0</x>
                 <y>0</y>
-                <width>675</width>
-                <height>800</height>
+                <width>811</width>
+                <height>848</height>
                </rect>
               </property>
               <layout class="QVBoxLayout" name="verticalLayout_13">
@@ -342,16 +342,6 @@
                 </widget>
                </item>
                <item>
-                <widget class="QgsCollapsibleGroupBox" name="groupBox_6">
-                 <property name="enabled">
-                  <bool>false</bool>
-                 </property>
-                 <property name="title">
-                  <string>Layer</string>
-                 </property>
-                </widget>
-               </item>
-               <item>
                 <widget class="QgsCollapsibleGroupBox" name="mGroupBox">
                  <property name="title">
                   <string>Miscellaneous</string>
@@ -384,14 +374,98 @@
                     </property>
                    </widget>
                   </item>
+                  <item row="2" column="0" colspan="2">
+                   <widget class="QCheckBox" name="checkBoxNarrowScreen">
+                    <property name="toolTip">
+                     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;When enabled, the position display is shown in the tracking window and not in the status bar.&lt;/p&gt;&lt;p&gt;This allows a lower window width on narrow displays.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                    </property>
+                    <property name="text">
+                     <string>Show position display in tracking window, not in the statusbar</string>
+                    </property>
+                   </widget>
+                  </item>
                   <item row="3" column="0">
+                   <widget class="QCheckBox" name="checkBoxFollowing">
+                    <property name="text">
+                     <string>Enable Following Tool (Lasso)</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="3" column="1">
+                   <layout class="QHBoxLayout" name="horizontalLayout_7">
+                    <item>
+                     <widget class="QgsColorButton" name="colorButtonLasso">
+                      <property name="sizePolicy">
+                       <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                        <horstretch>0</horstretch>
+                        <verstretch>0</verstretch>
+                       </sizepolicy>
+                      </property>
+                     </widget>
+                    </item>
+                    <item>
+                     <widget class="QgsCheckableComboBox" name="comboBoxLassoRadii">
+                      <property name="toolTip">
+                       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Select the radii for Quick Lasso (max. 4)&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                      </property>
+                      <property name="currentText">
+                       <string>10m</string>
+                      </property>
+                      <property name="defaultText" stdset="0">
+                       <string>Select Radius</string>
+                      </property>
+                      <item>
+                       <property name="text">
+                        <string>10m</string>
+                       </property>
+                      </item>
+                      <item>
+                       <property name="text">
+                        <string>20m</string>
+                       </property>
+                      </item>
+                      <item>
+                       <property name="text">
+                        <string>30m</string>
+                       </property>
+                      </item>
+                      <item>
+                       <property name="text">
+                        <string>50m</string>
+                       </property>
+                      </item>
+                      <item>
+                       <property name="text">
+                        <string>75m</string>
+                       </property>
+                      </item>
+                      <item>
+                       <property name="text">
+                        <string>100m</string>
+                       </property>
+                      </item>
+                      <item>
+                       <property name="text">
+                        <string>125m</string>
+                       </property>
+                      </item>
+                      <item>
+                       <property name="text">
+                        <string>150m</string>
+                       </property>
+                      </item>
+                     </widget>
+                    </item>
+                   </layout>
+                  </item>
+                  <item row="4" column="0">
                    <widget class="QLabel" name="label_23">
                     <property name="text">
                      <string>Default position format:</string>
                     </property>
                    </widget>
                   </item>
-                  <item row="3" column="1">
+                  <item row="4" column="1">
                    <layout class="QHBoxLayout" name="horizontalLayout_8">
                     <item>
                      <widget class="QComboBox" name="comboBoxDefaultPositionFormat">
@@ -426,16 +500,6 @@
                      </widget>
                     </item>
                    </layout>
-                  </item>
-                  <item row="2" column="0" colspan="2">
-                   <widget class="QCheckBox" name="checkBoxNarrowScreen">
-                    <property name="toolTip">
-                     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;When enabled, the position display is shown in the tracking window and not in the status bar.&lt;/p&gt;&lt;p&gt;This allows a lower window width on narrow displays.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-                    </property>
-                    <property name="text">
-                     <string>Show position display in tracking window, not in the statusbar</string>
-                    </property>
-                   </widget>
                   </item>
                  </layout>
                 </widget>
@@ -985,7 +1049,7 @@
                 <x>0</x>
                 <y>0</y>
                 <width>615</width>
-                <height>755</height>
+                <height>784</height>
                </rect>
               </property>
               <layout class="QVBoxLayout" name="verticalLayout_4">
@@ -1093,50 +1157,31 @@
                   <bool>false</bool>
                  </property>
                  <layout class="QGridLayout" name="gridLayout_3" columnstretch="0,1,1">
-                  <item row="3" column="2">
-                   <widget class="QDoubleSpinBox" name="doubleSpinBoxMobileWidth">
-                    <property name="minimum">
-                     <double>0.010000000000000</double>
-                    </property>
-                   </widget>
-                  </item>
-                  <item row="2" column="1" colspan="2">
-                   <widget class="QLineEdit" name="lineEditMobileShape">
-                    <property name="enabled">
-                     <bool>false</bool>
-                    </property>
-                    <property name="contextMenuPolicy">
-                     <enum>Qt::ContextMenuPolicy::CustomContextMenu</enum>
-                    </property>
-                    <property name="toolTip">
-                     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Shape of the mobile as a collection of points.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-                    </property>
-                    <property name="whatsThis">
-                     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Enter the mobiles shape as a collection of points enclosed by brackets.&lt;/p&gt;&lt;p&gt;Mobile should be upright and the vertical size should be normalized to 1.0.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-                    </property>
-                   </widget>
-                  </item>
-                  <item row="16" column="0" colspan="3">
-                   <widget class="QFrame" name="frame_2">
-                    <property name="frameShape">
-                     <enum>QFrame::Shape::HLine</enum>
-                    </property>
-                    <property name="frameShadow">
-                     <enum>QFrame::Shadow::Sunken</enum>
-                    </property>
-                   </widget>
-                  </item>
-                  <item row="8" column="0">
-                   <widget class="QLabel" name="label_9">
+                  <item row="19" column="2">
+                   <widget class="QPushButton" name="pushButtonApplyMobile">
                     <property name="text">
-                     <string>Timeout, Notification Timeout:</string>
+                     <string>Apply Properties</string>
+                    </property>
+                    <property name="icon">
+                     <iconset>
+                      <normaloff>:/plugins/PosiView/refresh.png</normaloff>:/plugins/PosiView/refresh.png</iconset>
                     </property>
                    </widget>
                   </item>
-                  <item row="0" column="0">
-                   <widget class="QLabel" name="label_5">
+                  <item row="10" column="1">
+                   <widget class="QSpinBox" name="spinBoxTrackLength">
+                    <property name="maximum">
+                     <number>100000</number>
+                    </property>
+                    <property name="singleStep">
+                     <number>10</number>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="9" column="0">
+                   <widget class="QLabel" name="label_24">
                     <property name="text">
-                     <string>Name:</string>
+                     <string>Timeout Behavior:</string>
                     </property>
                    </widget>
                   </item>
@@ -1153,86 +1198,6 @@
                     </property>
                    </widget>
                   </item>
-                  <item row="10" column="1">
-                   <widget class="QSpinBox" name="spinBoxTrackLength">
-                    <property name="maximum">
-                     <number>100000</number>
-                    </property>
-                    <property name="singleStep">
-                     <number>10</number>
-                    </property>
-                   </widget>
-                  </item>
-                  <item row="13" column="0">
-                   <widget class="QLabel" name="label_14">
-                    <property name="text">
-                     <string>Provider, Filter:</string>
-                    </property>
-                   </widget>
-                  </item>
-                  <item row="6" column="0">
-                   <widget class="QLabel" name="label_8">
-                    <property name="text">
-                     <string>z-Value:</string>
-                    </property>
-                   </widget>
-                  </item>
-                  <item row="3" column="0">
-                   <widget class="QLabel" name="label_7">
-                    <property name="text">
-                     <string>Length,  Width [m]:</string>
-                    </property>
-                   </widget>
-                  </item>
-                  <item row="7" column="2">
-                   <widget class="QgsColorButton" name="mColorButtonMobileFillColor">
-                    <property name="sizePolicy">
-                     <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-                      <horstretch>0</horstretch>
-                      <verstretch>0</verstretch>
-                     </sizepolicy>
-                    </property>
-                    <property name="minimumSize">
-                     <size>
-                      <width>24</width>
-                      <height>25</height>
-                     </size>
-                    </property>
-                    <property name="allowOpacity" stdset="0">
-                     <bool>true</bool>
-                    </property>
-                    <property name="allowAlpha" stdset="0">
-                     <bool>true</bool>
-                    </property>
-                   </widget>
-                  </item>
-                  <item row="11" column="1">
-                   <widget class="QCheckBox" name="checkBoxShowLabel">
-                    <property name="text">
-                     <string>Visible</string>
-                    </property>
-                   </widget>
-                  </item>
-                  <item row="12" column="0" colspan="3">
-                   <widget class="QFrame" name="frame">
-                    <property name="frameShape">
-                     <enum>QFrame::Shape::HLine</enum>
-                    </property>
-                    <property name="frameShadow">
-                     <enum>QFrame::Shadow::Sunken</enum>
-                    </property>
-                   </widget>
-                  </item>
-                  <item row="0" column="1" colspan="2">
-                   <widget class="QLineEdit" name="lineEditMobileName"/>
-                  </item>
-                  <item row="11" column="0">
-                   <widget class="QLabel" name="label_4">
-                    <property name="text">
-                     <string>Marker Label:</string>
-                    </property>
-                   </widget>
-                  </item>
                   <item row="1" column="0">
                    <widget class="QLabel" name="label_6">
                     <property name="text">
@@ -1240,60 +1205,17 @@
                     </property>
                    </widget>
                   </item>
-                  <item row="5" column="1">
-                   <widget class="QDoubleSpinBox" name="doubleSpinBoxXOffset">
-                    <property name="enabled">
-                     <bool>false</bool>
-                    </property>
-                    <property name="toolTip">
-                     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Distance between centerpoint of the shape and position reference increasing towards bow/top side.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-                    </property>
-                    <property name="whatsThis">
-                     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Distance between centerpoint of the shape and position reference increasing towards bow/top side.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-                    </property>
-                    <property name="minimum">
-                     <double>-1000.000000000000000</double>
-                    </property>
-                    <property name="maximum">
-                     <double>1000.000000000000000</double>
-                    </property>
-                   </widget>
-                  </item>
-                  <item row="13" column="2">
-                   <widget class="QLineEdit" name="lineEditProviderFilter">
-                    <property name="sizePolicy">
-                     <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
-                      <horstretch>0</horstretch>
-                      <verstretch>0</verstretch>
-                     </sizepolicy>
-                    </property>
-                   </widget>
-                  </item>
-                  <item row="3" column="1">
-                   <widget class="QDoubleSpinBox" name="doubleSpinBoxMobileLength">
-                    <property name="minimum">
-                     <double>0.010000000000000</double>
-                    </property>
-                    <property name="maximum">
-                     <double>999.990000000000009</double>
-                    </property>
-                   </widget>
-                  </item>
-                  <item row="10" column="0">
-                   <widget class="QLabel" name="label_11">
+                  <item row="8" column="0">
+                   <widget class="QLabel" name="label_9">
                     <property name="text">
-                     <string>Track Length and Color:</string>
+                     <string>Timeout, Notification Timeout:</string>
                     </property>
                    </widget>
                   </item>
-                  <item row="17" column="2">
-                   <widget class="QPushButton" name="pushButtonApplyMobile">
+                  <item row="16" column="0">
+                   <widget class="QLabel" name="label_26">
                     <property name="text">
-                     <string>Apply Properties</string>
-                    </property>
-                    <property name="icon">
-                     <iconset>
-                      <normaloff>:/plugins/PosiView/refresh.png</normaloff>:/plugins/PosiView/refresh.png</iconset>
+                     <string>Advanced Filter:</string>
                     </property>
                    </widget>
                   </item>
@@ -1319,6 +1241,90 @@
                     </property>
                    </widget>
                   </item>
+                  <item row="15" column="2">
+                   <widget class="QLineEdit" name="lineEditProviderFilter">
+                    <property name="sizePolicy">
+                     <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+                      <horstretch>0</horstretch>
+                      <verstretch>0</verstretch>
+                     </sizepolicy>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="15" column="1">
+                   <widget class="QComboBox" name="comboBoxProviders"/>
+                  </item>
+                  <item row="18" column="0" colspan="3">
+                   <widget class="QFrame" name="frame_2">
+                    <property name="frameShape">
+                     <enum>QFrame::Shape::HLine</enum>
+                    </property>
+                    <property name="frameShadow">
+                     <enum>QFrame::Shadow::Sunken</enum>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="3" column="0">
+                   <widget class="QLabel" name="label_7">
+                    <property name="text">
+                     <string>Length,  Width [m]:</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="14" column="0" colspan="3">
+                   <widget class="QFrame" name="frame">
+                    <property name="frameShape">
+                     <enum>QFrame::Shape::HLine</enum>
+                    </property>
+                    <property name="frameShadow">
+                     <enum>QFrame::Shadow::Sunken</enum>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="4" column="0">
+                   <widget class="QLabel" name="label_25">
+                    <property name="text">
+                     <string>Low scale presentation of shape objects:</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="0" column="0">
+                   <widget class="QLabel" name="label_5">
+                    <property name="text">
+                     <string>Name:</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="10" column="0">
+                   <widget class="QLabel" name="label_11">
+                    <property name="text">
+                     <string>Track Length and Color:</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="16" column="1" colspan="2">
+                   <widget class="QgsCheckableComboBox" name="comboBoxProviderFlags">
+                    <property name="layoutDirection">
+                     <enum>Qt::LayoutDirection::LeftToRight</enum>
+                    </property>
+                    <property name="defaultText" stdset="0">
+                     <string>none</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="4" column="2">
+                   <widget class="QCheckBox" name="checkBoxDefIconFilled">
+                    <property name="enabled">
+                     <bool>false</bool>
+                    </property>
+                    <property name="text">
+                     <string>Filled</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="0" column="1" colspan="2">
+                   <widget class="QLineEdit" name="lineEditMobileName"/>
+                  </item>
                   <item row="5" column="2">
                    <widget class="QDoubleSpinBox" name="doubleSpinBoxYOffset">
                     <property name="enabled">
@@ -1338,6 +1344,166 @@
                     </property>
                    </widget>
                   </item>
+                  <item row="5" column="0">
+                   <widget class="QLabel" name="label_22">
+                    <property name="text">
+                     <string>Offset towards bow, starboard [m]:</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="12" column="0">
+                   <widget class="QLabel" name="label_33">
+                    <property name="text">
+                     <string>Record to Track Layer</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="11" column="1">
+                   <widget class="QCheckBox" name="checkBoxShowLabel">
+                    <property name="text">
+                     <string>Visible</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="11" column="0">
+                   <widget class="QLabel" name="label_4">
+                    <property name="text">
+                     <string>Marker Label:</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="8" column="1">
+                   <widget class="QSpinBox" name="spinBoxMobileTimeout">
+                    <property name="suffix">
+                     <string> sec</string>
+                    </property>
+                    <property name="maximum">
+                     <number>3600</number>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="15" column="0">
+                   <widget class="QLabel" name="label_14">
+                    <property name="text">
+                     <string>Provider, Filter:</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="17" column="0">
+                   <widget class="QLabel" name="label_12">
+                    <property name="text">
+                     <string>Data Provider:</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="2" column="1" colspan="2">
+                   <widget class="QLineEdit" name="lineEditMobileShape">
+                    <property name="enabled">
+                     <bool>false</bool>
+                    </property>
+                    <property name="contextMenuPolicy">
+                     <enum>Qt::ContextMenuPolicy::CustomContextMenu</enum>
+                    </property>
+                    <property name="toolTip">
+                     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Shape of the mobile as a collection of points.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                    </property>
+                    <property name="whatsThis">
+                     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Enter the mobiles shape as a collection of points enclosed by brackets.&lt;/p&gt;&lt;p&gt;Mobile should be upright and the vertical size should be normalized to 1.0.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="7" column="2">
+                   <widget class="QgsColorButton" name="mColorButtonMobileFillColor">
+                    <property name="sizePolicy">
+                     <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                      <horstretch>0</horstretch>
+                      <verstretch>0</verstretch>
+                     </sizepolicy>
+                    </property>
+                    <property name="minimumSize">
+                     <size>
+                      <width>24</width>
+                      <height>25</height>
+                     </size>
+                    </property>
+                    <property name="allowOpacity" stdset="0">
+                     <bool>true</bool>
+                    </property>
+                    <property name="allowAlpha" stdset="0">
+                     <bool>true</bool>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="4" column="1">
+                   <widget class="QCheckBox" name="checkBoxDefaultIcon">
+                    <property name="text">
+                     <string>Show Default Icon</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="3" column="1">
+                   <widget class="QDoubleSpinBox" name="doubleSpinBoxMobileLength">
+                    <property name="minimum">
+                     <double>0.010000000000000</double>
+                    </property>
+                    <property name="maximum">
+                     <double>999.990000000000009</double>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="1" column="1" colspan="2">
+                   <widget class="QComboBox" name="comboBoxMobileType">
+                    <property name="currentIndex">
+                     <number>0</number>
+                    </property>
+                    <item>
+                     <property name="text">
+                      <string>BOX</string>
+                     </property>
+                    </item>
+                    <item>
+                     <property name="text">
+                      <string>CROSS</string>
+                     </property>
+                    </item>
+                    <item>
+                     <property name="text">
+                      <string>X</string>
+                     </property>
+                    </item>
+                    <item>
+                     <property name="text">
+                      <string>SHAPE</string>
+                     </property>
+                    </item>
+                   </widget>
+                  </item>
+                  <item row="5" column="1">
+                   <widget class="QDoubleSpinBox" name="doubleSpinBoxXOffset">
+                    <property name="enabled">
+                     <bool>false</bool>
+                    </property>
+                    <property name="toolTip">
+                     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Distance between centerpoint of the shape and position reference increasing towards bow/top side.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                    </property>
+                    <property name="whatsThis">
+                     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Distance between centerpoint of the shape and position reference increasing towards bow/top side.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                    </property>
+                    <property name="minimum">
+                     <double>-1000.000000000000000</double>
+                    </property>
+                    <property name="maximum">
+                     <double>1000.000000000000000</double>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="2" column="0">
+                   <widget class="QLabel" name="label_13">
+                    <property name="text">
+                     <string>Shape:</string>
+                    </property>
+                   </widget>
+                  </item>
                   <item row="10" column="2">
                    <widget class="QgsColorButton" name="mColorButtonMobileTrackColor">
                     <property name="sizePolicy">
@@ -1354,35 +1520,7 @@
                     </property>
                    </widget>
                   </item>
-                  <item row="9" column="0">
-                   <widget class="QLabel" name="label_24">
-                    <property name="text">
-                     <string>Timeout Behavior:</string>
-                    </property>
-                   </widget>
-                  </item>
-                  <item row="9" column="1">
-                   <widget class="QCheckBox" name="checkBoxFadeOut">
-                    <property name="text">
-                     <string>Fade Out</string>
-                    </property>
-                   </widget>
-                  </item>
-                  <item row="15" column="0">
-                   <widget class="QLabel" name="label_12">
-                    <property name="text">
-                     <string>Data Provider:</string>
-                    </property>
-                   </widget>
-                  </item>
-                  <item row="7" column="0">
-                   <widget class="QLabel" name="label_10">
-                    <property name="text">
-                     <string>Color of Outline and Fill:</string>
-                    </property>
-                   </widget>
-                  </item>
-                  <item row="15" column="1" colspan="2">
+                  <item row="17" column="1" colspan="2">
                    <layout class="QHBoxLayout" name="horizontalLayout_5">
                     <item>
                      <widget class="QTableView" name="mMobileProviderTableView">
@@ -1471,13 +1609,6 @@
                     </item>
                    </layout>
                   </item>
-                  <item row="2" column="0">
-                   <widget class="QLabel" name="label_13">
-                    <property name="text">
-                     <string>Shape:</string>
-                    </property>
-                   </widget>
-                  </item>
                   <item row="6" column="1">
                    <widget class="QSpinBox" name="spinBoxZValue">
                     <property name="maximum">
@@ -1488,94 +1619,6 @@
                     </property>
                    </widget>
                   </item>
-                  <item row="8" column="1">
-                   <widget class="QSpinBox" name="spinBoxMobileTimeout">
-                    <property name="suffix">
-                     <string> sec</string>
-                    </property>
-                    <property name="maximum">
-                     <number>3600</number>
-                    </property>
-                   </widget>
-                  </item>
-                  <item row="1" column="1" colspan="2">
-                   <widget class="QComboBox" name="comboBoxMobileType">
-                    <property name="currentIndex">
-                     <number>0</number>
-                    </property>
-                    <item>
-                     <property name="text">
-                      <string>BOX</string>
-                     </property>
-                    </item>
-                    <item>
-                     <property name="text">
-                      <string>CROSS</string>
-                     </property>
-                    </item>
-                    <item>
-                     <property name="text">
-                      <string>X</string>
-                     </property>
-                    </item>
-                    <item>
-                     <property name="text">
-                      <string>SHAPE</string>
-                     </property>
-                    </item>
-                   </widget>
-                  </item>
-                  <item row="13" column="1">
-                   <widget class="QComboBox" name="comboBoxProviders"/>
-                  </item>
-                  <item row="5" column="0">
-                   <widget class="QLabel" name="label_22">
-                    <property name="text">
-                     <string>Offset towards bow, starboard [m]:</string>
-                    </property>
-                   </widget>
-                  </item>
-                  <item row="4" column="1">
-                   <widget class="QCheckBox" name="checkBoxDefaultIcon">
-                    <property name="text">
-                     <string>Show Default Icon</string>
-                    </property>
-                   </widget>
-                  </item>
-                  <item row="4" column="0">
-                   <widget class="QLabel" name="label_25">
-                    <property name="text">
-                     <string>Low scale presentation of shape objects:</string>
-                    </property>
-                   </widget>
-                  </item>
-                  <item row="4" column="2">
-                   <widget class="QCheckBox" name="checkBoxDefIconFilled">
-                    <property name="enabled">
-                     <bool>false</bool>
-                    </property>
-                    <property name="text">
-                     <string>Filled</string>
-                    </property>
-                   </widget>
-                  </item>
-                  <item row="14" column="1" colspan="2">
-                   <widget class="QgsCheckableComboBox" name="comboBoxProviderFlags">
-                    <property name="layoutDirection">
-                     <enum>Qt::LayoutDirection::LeftToRight</enum>
-                    </property>
-                    <property name="defaultText" stdset="0">
-                     <string>none</string>
-                    </property>
-                   </widget>
-                  </item>
-                  <item row="14" column="0">
-                   <widget class="QLabel" name="label_26">
-                    <property name="text">
-                     <string>Advanced Filter:</string>
-                    </property>
-                   </widget>
-                  </item>
                   <item row="11" column="2">
                    <widget class="QCheckBox" name="checkBoxExtraText">
                     <property name="toolTip">
@@ -1583,6 +1626,51 @@
                     </property>
                     <property name="text">
                      <string>Extra Text</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="7" column="0">
+                   <widget class="QLabel" name="label_10">
+                    <property name="text">
+                     <string>Color of Outline and Fill:</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="9" column="1">
+                   <widget class="QCheckBox" name="checkBoxFadeOut">
+                    <property name="text">
+                     <string>Fade Out</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="6" column="0">
+                   <widget class="QLabel" name="label_8">
+                    <property name="text">
+                     <string>z-Value:</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="3" column="2">
+                   <widget class="QDoubleSpinBox" name="doubleSpinBoxMobileWidth">
+                    <property name="minimum">
+                     <double>0.010000000000000</double>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="12" column="1">
+                   <widget class="QCheckBox" name="checkBoxRecordTrack">
+                    <property name="text">
+                     <string>Enable</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="12" column="2">
+                   <widget class="QCheckBox" name="checkBoxRecordTrackRepaint">
+                    <property name="enabled">
+                     <bool>false</bool>
+                    </property>
+                    <property name="text">
+                     <string>Repaint</string>
                     </property>
                    </widget>
                   </item>
@@ -1724,12 +1812,12 @@
    <slot>setEnabled(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>637</x>
-     <y>381</y>
+     <x>271</x>
+     <y>170</y>
     </hint>
     <hint type="destinationlabel">
-     <x>816</x>
-     <y>381</y>
+     <x>271</x>
+     <y>170</y>
     </hint>
    </hints>
   </connection>
@@ -1740,12 +1828,60 @@
    <slot>setVisible(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>529</x>
-     <y>581</y>
+     <x>271</x>
+     <y>170</y>
     </hint>
     <hint type="destinationlabel">
-     <x>673</x>
-     <y>584</y>
+     <x>271</x>
+     <y>170</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>checkBoxRecordTrack</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>checkBoxRecordTrackRepaint</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>271</x>
+     <y>170</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>271</x>
+     <y>170</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>checkBoxFollowing</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>colorButtonLasso</receiver>
+   <slot>setVisible(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>375</x>
+     <y>534</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>580</x>
+     <y>529</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>checkBoxFollowing</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>comboBoxLassoRadii</receiver>
+   <slot>setVisible(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>539</x>
+     <y>526</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>790</x>
+     <y>530</y>
     </hint>
    </hints>
   </connection>

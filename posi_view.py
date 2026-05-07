@@ -25,7 +25,8 @@ import os.path
 from builtins import object
 from qgis.PyQt.QtCore import QObject, QSettings, QTranslator, qVersion, QCoreApplication, Qt, pyqtSlot, QSize
 from qgis.PyQt.QtWidgets import QWidget
-from qgis.PyQt.QtGui import QAction, QIcon
+from qgis.PyQt.QtGui import QAction, QIcon, QColor
+from qgis.core import Qgis
 # Initialize Qt resources from file resources.py
 from .resources_rc import *
 from .posiview_project import PosiViewProject
@@ -35,9 +36,9 @@ from .gui.compass_dock import CompassDock
 from .gui.posiview_properties import PosiviewProperties
 from .gui.dataprovider_dump import DataProviderDump
 from .gui.position_display import PositionDisplay
+from .gui.following_dialog import FollowingDialog
+from .gui.lasso_dock import LassoDock
 from .recorder import Recorder
-from qgis.core import Qgis
-
 from .measure_maptool import MeasureMapTool
 
 
@@ -93,6 +94,10 @@ class PosiView(object):
         iface.initializationCompleted.connect(self.postInitialize)
         self.mapTool = MeasureMapTool(self.iface.mapCanvas())
         self.positionDisplay.exportPosition.connect(self.mapTool.positionUpdate)
+        self.followingDlg = FollowingDialog(self.iface)
+        self.lassoDock = LassoDock()
+        self.lassoVisible = False
+        self.iface.addDockWidget(Qt.LeftDockWidgetArea, self.lassoDock)
 
     # noinspection PyMethodMayBeStatic
     def tr(self, message):
@@ -268,6 +273,17 @@ class PosiView(object):
             checkable_flag=True,
             status_tip=self.tr('&Measure Distance and Azimuth'),
             parent=self.iface.mainWindow())
+
+        followAction = self.add_action(
+            u'followAction',
+            os.path.join(iconPath, 'lasso.png'),
+            text=self.tr(u'&Set and display following lasso'),
+            callback=self.following,
+            visible_flag=False,
+            checkable_flag=False,
+            status_tip=self.tr(u'Set and display following lasso'),
+            parent=self.iface.mainWindow())
+
         if self.iface.actionPan():
             measureAction.setActionGroup(self.iface.actionPan().actionGroup())
 
@@ -275,6 +291,7 @@ class PosiView(object):
         loadAction.toggled.connect(configAction.setVisible)
         loadAction.toggled.connect(recordAction.setVisible)
         loadAction.toggled.connect(measureAction.setVisible)
+        loadAction.toggled.connect(followAction.setVisible)
 
     def unload(self):
         """Removes the plugin menu item and icon from QGIS GUI.
@@ -287,7 +304,7 @@ class PosiView(object):
         self.positionDisplay.hide()
         self.iface.statusBarIface().removeWidget(self.positionDisplay)
         self.tracking.removeWidget(self.positionDisplay)
-        for _, action in self.actions.items():
+        for action in self.actions.values():
             self.iface.removePluginMenu(
                 self.tr('&PosiView'),
                 action)
@@ -312,6 +329,7 @@ class PosiView(object):
             self.recorder.setPrefix(self.project.prefixMission, self.project.missionInfo)
             self.recorder.setMobiles(self.project.mobileItems)
             self.recorder.recordingStarted.connect(self.recordingStarted)
+            self.setupLassoTool()
             self.tracking.show()
             if self.guidanceVisible:
                 self.guidance.show()
@@ -330,6 +348,8 @@ class PosiView(object):
             self.tracking.removeProviders()
             self.tracking.hide()
             self.guidanceVisible = self.guidance.isVisible()
+            self.lassoVisible = self.lassoDock.isVisible()
+            self.lassoDock.hide()
             self.guidance.hide()
             try:
                 self.iface.currentLayerChanged.disconnect(self.guidance.onActiveLayerChanged)
@@ -337,6 +357,7 @@ class PosiView(object):
                 pass
             self.compassVisible = self.compass.isVisible()
             self.compass.hide()
+            self.actions['followAction'].setVisible(False)
             self.project.unload()
             self.positionDisplay.hide()
             self.iface.statusBarIface().removeWidget(self.positionDisplay)
@@ -382,6 +403,7 @@ class PosiView(object):
             self.recorder.setMobiles(self.project.mobileItems)
             self.actions['trackingAction'].setChecked(track)
             self.actions['recordAction'].setChecked(record)
+            self.setupLassoTool()
 
     def configure(self):
         '''Execute the configuration dialogue and apply properties if accepted
@@ -443,6 +465,7 @@ class PosiView(object):
         self.tracking.hide()
         self.guidance.hide()
         self.compass.hide()
+        self.lassoDock.hide()
 
 #     @pyqtSlot(bool)
     def measure(self, checked=False):
@@ -451,3 +474,19 @@ class PosiView(object):
         '''
         if checked:
             self.iface.mapCanvas().setMapTool(self.mapTool)
+
+    def following(self, checked=False):
+        self.followingDlg.show()
+
+    def setupLassoTool(self):
+        if self.project.enableLasso:
+            self.followingDlg.setMobiles(self.project.mobileItems)
+            self.followingDlg.setLassoColor(QColor.fromRgba(int(self.project.lassoColor)))
+            self.actions['followAction'].setVisible(True)
+            self.lassoDock.setRadii(self.project.lassoRadii)
+            self.lassoDock.triggered.connect(self.followingDlg.setLasso)
+            if self.lassoVisible:
+                self.lassoDock.show()
+        else:
+            self.actions['followAction'].setVisible(False)
+            self.lassoDock.hide()

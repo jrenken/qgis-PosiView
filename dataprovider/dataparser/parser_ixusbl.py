@@ -34,11 +34,14 @@ class IxUsblParser(Parser):
                           'lon': nmea.fromDDM(9, 10), 'depth': nmea.value(12)}
                 try:
                     dt = datetime(int(nmea[5]), int(nmea[4]), int(nmea[3]),
-                                   int(nmea[2][0:2]), int(nmea[2][2:4]),
-                                   int(nmea[2][4:6]), int(nmea[2][7:]) * 1000, tzinfo=timezone.utc)
+                                   int(nmea[2][0:2]),
+                                   int(nmea[2][2:4]),
+                                   int(nmea[2][4:6]),
+                                   int(float(nmea[2][6:]) * 1e6) if '.' in nmea[2] else 0,
+                                   tzinfo=timezone.utc)
                 except ValueError:
                     dt = datetime.now(tz=timezone.utc)
-                result['time'] = (dt - datetime(1970, 1, 1, tzinfo=timezone.utc)).total_seconds()
+                result['time'] = dt.timestamp()
                 return dict((k, v) for k, v in result.items() if v is not None)
             except ValueError:
                 return {}

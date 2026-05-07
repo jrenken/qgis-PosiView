@@ -49,6 +49,8 @@ PY_FILES = \
 	mobile_item.py \
 	measure_maptool.py \
 	recorder.py \
+	track_layer.py \
+	lasso_marker.py \
 	gui/__init__.py \
 	gui/posiview_properties.py \
 	gui/tracking_dock.py \
@@ -57,6 +59,8 @@ PY_FILES = \
 	gui/dataprovider_dump.py \
 	gui/position_display.py \
 	gui/compass.py \
+	gui/following_dialog.py \
+	gui/lasso_dock.py \
 	dataprovider/__init__.py \
 	dataprovider/data_provider.py \
 	dataprovider/datadevice/__init__.py \
@@ -84,7 +88,9 @@ PY_FILES = \
 UI_FILES = ui/guidance_dock_base.ui \
 		ui/tracking_dock_base.ui \
 		ui/compass_dock_base.ui \
-		ui/dataprovider_dump_base.ui
+		ui/dataprovider_dump_base.ui \
+		ui/following_dialog_base.ui \
+		ui/lasso_dock_base.ui
 
 COMPILED_UI_FILES = gui/ui_posiview_properties_base.py
 

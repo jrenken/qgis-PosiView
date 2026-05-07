@@ -40,11 +40,14 @@ class Ranger2Parser(Parser):
                 t = datetime.now(tz=timezone.utc)
                 try:
                     dt = datetime(t.year, t.month, t.day,
-                         int(nmea[1][0:2]), int(nmea[1][2:4]),
-                         int(nmea[1][4:6]), int(nmea[1][7:]) * 100, tzinfo=timezone.utc)
+                         int(nmea[1][0:2]),
+                         int(nmea[1][2:4]),
+                         int(nmea[1][4:6]),
+                         int(float(nmea[1][6:]) * 1e6) if '.' in nmea[1] else 0,
+                         tzinfo=timezone.utc)
                 except ValueError:
                     dt = t
-                result['time'] = (dt - datetime(1970, 1, 1, tzinfo=timezone.utc)).total_seconds()
+                result['time'] = dt.timestamp()
                 return dict((k, v) for k, v in result.items() if v is not None)
             except ValueError:
                 return {}
@@ -63,11 +66,14 @@ class Ranger2Parser(Parser):
                 t = datetime.now(tz=timezone.utc)
                 try:
                     dt = datetime(t.year, t.month, t.day,
-                         int(nmea[3][0:2]), int(nmea[3][2:4]),
-                         int(nmea[3][4:6]), int(nmea[3][7:]) * 100, tzinfo=timezone.utc)
+                         int(nmea[3][0:2]),
+                         int(nmea[3][2:4]),
+                         int(nmea[3][4:6]),
+                         int(float(nmea[3][6:]) * 1e6) if '.' in nmea[3] else 0,
+                         tzinfo=timezone.utc)
                 except ValueError:
                     dt = t
-                result['time'] = (dt - datetime(1970, 1, 1, tzinfo=timezone.utc)).total_seconds()
+                result['time'] = dt.timestamp()
                 return dict((k, v) for k, v in result.items() if v is not None)
             except ValueError:
                 return {}

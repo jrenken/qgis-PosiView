@@ -52,11 +52,14 @@ class PmtmParser(Parser):
                     year = int(nmea[2][-2:]) + 2000
                     dt = datetime(year, int(nmea[2][-4:-2]),
                                   int(nmea[2][:-4]),
-                                  int(nmea[3][0:2]), int(nmea[3][2:4]),
-                                  int(nmea[3][4:6]), tzinfo=timezone.utc)
+                                  int(nmea[3][0:2]),
+                                  int(nmea[3][2:4]),
+                                  int(nmea[3][4:6]),
+                                  int(float(nmea[3][6:]) * 1e6) if '.' in nmea[3] else 0,
+                                  tzinfo=timezone.utc)
                 except ValueError:
                     dt = datetime.now(tz=timezone.utc)
-                result['time'] = (dt - datetime(1970, 1, 1, tzinfo=timezone.utc)).total_seconds()
+                result['time'] = dt.timestamp()
                 return dict((k, v) for k, v in result.items() if v is not None)
             except ValueError:
                 return {}

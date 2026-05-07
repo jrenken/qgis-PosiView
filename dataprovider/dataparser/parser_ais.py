@@ -72,7 +72,7 @@ class AisParser(Parser):
             dt = datetime.now(tz=timezone.utc)
             if sec < 60:
                 dt.replace(second=sec)
-            result['time'] = (dt - datetime(1970, 1, 1, tzinfo=timezone.utc)).total_seconds()
+            result['time'] = dt.timestamp()
             head = binPayload.getInt(*bs['head'])
             if head == 511:
                 head = 0.1 * float(binPayload.getInt(*bs['cog']))

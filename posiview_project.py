@@ -10,7 +10,7 @@ from builtins import str
 from builtins import range
 from builtins import object
 from os import environ
-from qgis.PyQt.QtCore import QSettings, QCoreApplication
+from qgis.PyQt.QtCore import QSettings, QCoreApplication, Qt
 from .mobile_item import MobileItem
 from .dataprovider.data_provider import DataProvider
 from qgis.core import Qgis
@@ -42,6 +42,9 @@ class PosiViewProject():
         self.notifyDuration = 0
         self.showUtcClock = False
         self.narrowScreen = False
+        self.enableLasso = False
+        self.lassoRadii = []
+        self.lassoColor = Qt.red
         self.defaultFormat = 5
         self.trackingStarted = False
         self.trackCache = {}
@@ -74,6 +77,9 @@ class PosiViewProject():
         props['NotifyDuration'] = self.notifyDuration
         props['ShowUtcClock'] = self.showUtcClock
         props['NarrowScreen'] = self.narrowScreen
+        props['EnableLasso'] = self.enableLasso
+        props['LassoRadii'] = self.lassoRadii
+        props['LassoColor'] = self.lassoColor
         props['DefaultFormat'] = self.defaultFormat
         m = {}
         for k in self.mobileItems:
@@ -102,6 +108,9 @@ class PosiViewProject():
         self.notifyDuration = int(properties.get('NotifyDuration', 0))
         self.showUtcClock = properties.get('ShowUtcClock', False)
         self.narrowScreen = properties.get('NarrowScreen', False)
+        self.enableLasso = properties.get('EnableLasso', False)
+        self.lassoRadii = properties.get('LassoRadii', [])
+        self.lassoColor = properties.get('LassoColor', Qt.red)
         self.defaultFormat = properties.get('DefaultFormat', False)
 
         pr = properties['Provider']
@@ -186,6 +195,9 @@ class PosiViewProject():
         properties['NotifyDuration'] = s.value('Misc/NotifyDuration', 0, type=int)
         properties['ShowUtcClock'] = s.value('Misc/ShowUtcClock', False, type=bool)
         properties['NarrowScreen'] = s.value('Misc/NarrowScreen', False, type=bool)
+        properties['EnableLasso'] = s.value('Misc/Lasso/Enable', False, type=bool)
+        properties['LassoRadii'] = s.value('Misc/Lasso/Radii', [])
+        properties['LassoColor'] = s.value('Misc/Lasso/Color', Qt.red)
         properties['DefaultFormat'] = s.value('Misc/DefaultFormat', 5, type=int)
         s.endGroup()
         return properties
@@ -233,6 +245,9 @@ class PosiViewProject():
         s.setValue('Misc/NotifyDuration', properties['NotifyDuration'])
         s.setValue('Misc/ShowUtcClock', properties['ShowUtcClock'])
         s.setValue('Misc/NarrowScreen', properties['NarrowScreen'])
+        s.setValue('Misc/Lasso/Enable', properties['EnableLasso'])
+        s.setValue('Misc/Lasso/Radii', properties['LassoRadii'])
+        s.setValue('Misc/Lasso/Color', properties['LassoColor'])
         s.setValue('Misc/DefaultFormat', properties['DefaultFormat'])
         s.endGroup()
 
