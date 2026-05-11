@@ -3,12 +3,6 @@ Created on 25.04.2016
 
 @author: jrenken
 '''
-from __future__ import print_function
-from __future__ import absolute_import
-from builtins import str
-from builtins import map
-from builtins import range
-from builtins import object
 
 from datetime import datetime, timezone
 from .parser import Parser
@@ -95,6 +89,8 @@ class BitVector(object):
     Helper class for handling AIS binary payload data
     '''
 
+    SIX_BIT_CHARS = "@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_ !\"#$%&'()*+,-./0123456789:;<=>?"
+
     def __init__(self, val=0, size=0):
         '''
         constructor
@@ -104,19 +100,16 @@ class BitVector(object):
         :type size: int
         '''
         self.vector = []
-        if type(val) is str:
+        if isinstance(val, str):
             for c in val:
                 self.append6Bit(c)
         elif type(val) in (int, int) and size:
             self.extend(val, size)
 
     def extend(self, val, size):
-        if size:
-            if size > 32:
-                raise ValueError('Too many bits. Maximum is 32')
-            fmt = '{0:0%ib}' % size
-            lst = list(map(int, fmt.format(val)))
-            self.vector.extend(lst)
+        if size > 0:
+            snippet = [(val >> i) & 1 for i in range(size - 1, -1, -1)]
+            self.vector.extend(snippet)
 
     def append6Bit(self, ch):
         ''' return s the 6 bit binary value of a hex decoded bit field as used in AIS sentences
@@ -135,6 +128,9 @@ class BitVector(object):
     def __str__(self):
         return str(self.vector)
 
+    def __repr__(self):
+        return str(self.vector)
+
     def getInt(self, start, size, signed=False):
         '''
         get integer value from a slice
@@ -146,20 +142,42 @@ class BitVector(object):
         :type signed: bool
         :return the int value
         '''
-        if size > 32:
-            raise ValueError("Maximum size is 32 bit")
-        if start + size > len(self.vector):
-            raise KeyError("Size extends vector size")
+        if start > len(self.vector):
+            return 0
 
-        mask = (int(1) << size)
+        if start + size > len(self.vector):
+            size = len(self.vector) - start
+
+        mask = 1 << size
         if self.vector[start] and signed:
-            result = ~int(0)
+            result = -1
         else:
             result = mask - 1
         for i in range(start, start + size):
             mask >>= 1
             if not self.vector[i]:
                 result &= ~mask
+        return result
+
+    def getText(self, start, size, bpc=6) -> str:
+        '''
+        get text from a slice. Uses the 6bit decoding.
+
+        :param start: start bit number
+        :type start: int
+        :param size: number of characters
+        :type size: int
+        :param bpc: true if result is a signe int
+        :type signed: bool
+        :return the int value
+        '''
+        result = ''
+        for st in range(start, size * bpc, bpc):
+            c = self.get_int(st, bpc)
+            if c < 64:
+                result += self.SIX_BIT_CHARS[c]
+            else:
+                result += chr(c)
         return result
 
 
