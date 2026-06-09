@@ -3,14 +3,7 @@ Created on 30.06.2023
 
 @author: Torsten Pfuetzenreuter
 '''
-from __future__ import print_function
-from __future__ import absolute_import
-from builtins import str
-from builtins import map
-from builtins import range
-from builtins import object
 
-from datetime import datetime, timezone
 import re
 from .parser import Parser
 

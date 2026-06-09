@@ -9,7 +9,7 @@ import math
 from qgis.PyQt import uic
 from qgis.PyQt.QtGui import QColor
 from qgis.PyQt.QtCore import pyqtSlot, QSettings, Qt
-from qgis.PyQt.QtWidgets import QDialog, QAbstractButton, QStatusBar, QLabel, QFrame
+from qgis.PyQt.QtWidgets import QDialog, QStatusBar
 from qgis.gui import QgsMapToolEmitPoint
 from qgis.core import QgsPointXY, QgsDistanceArea, QgsProject
 from ..lasso_marker import LassoMarker

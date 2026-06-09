@@ -5,7 +5,7 @@ Created on Apr 30, 2026
 '''
 
 import os
-from qgis.PyQt import QtGui, uic
+from qgis.PyQt import uic
 from qgis.PyQt.QtCore import pyqtSignal, pyqtSlot
 from qgis.PyQt.QtWidgets import QDockWidget
 

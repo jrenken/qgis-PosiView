@@ -160,6 +160,7 @@ deploy: compile doc transcompile
 	cp -vf $(EXTRAS) $(HOME)/$(QGISDIR)/python/plugins/$(PLUGINNAME)
 	cp -vfr --parents i18n $(HOME)/$(QGISDIR)/python/plugins/$(PLUGINNAME)
 	cp -vfr $(HELP) $(HOME)/$(QGISDIR)/python/plugins/$(PLUGINNAME)/help
+	rm $(HOME)/$(QGISDIR)/python/plugins/$(PLUGINNAME)/help/.buildinfo*
 
 # The dclean target removes compiled python files from plugin directory
 # also deletes any .git entry

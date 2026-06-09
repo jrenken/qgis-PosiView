@@ -83,8 +83,7 @@ class CompassWidget(QWidget):
 
         painter.drawPolygon(
             QPolygon([QPoint(-5, -25), QPoint(0, -45), QPoint(5, -25),
-                      QPoint(0, -30), QPoint(-5, -25)])
-            )
+                      QPoint(0, -30), QPoint(-5, -25)]))
 
         painter.restore()
 
@@ -110,8 +109,7 @@ class CompassWidget(QWidget):
 
         painter.drawPolygon(
             QPolygon([QPoint(-5, -10), QPoint(0, -25), QPoint(5, -10),
-                      QPoint(0, -13), QPoint(-5, -10)])
-            )
+                      QPoint(0, -13), QPoint(-5, -10)]))
 
         painter.restore()
 
@@ -130,6 +128,7 @@ class CompassWidget(QWidget):
             self._angle = angle
             self.angleChanged.emit(angle)
             self.update()
+
     angle = pyqtProperty(float, angle, setAngle)
 
     @pyqtSlot(float)
@@ -138,6 +137,7 @@ class CompassWidget(QWidget):
             self._angle2 = angle
             self.angle2Changed.emit(angle)
             self.update()
+
     angle2 = pyqtProperty(float, angle2, setAngle2)
 
     def reset(self, no=None):

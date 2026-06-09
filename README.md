@@ -1,27 +1,24 @@
 # PosiView Plugin
 
-PosiView tracks multiple vehicles and moving objects reporting
-their position via USBL, GPS or other navigation devices.
-
+PosiView is a plugin that allows you to track multiple vehicles and objects.
 
 ## Features
 
-The Plugin reads usually NMEA formatted data from USBL or other navigation devices
-and displays the object as scaled symbol on the canvas.
+The plugin processes position and orientation data, typically provided in NMEA-0183 format by devices such as GPS, USBL systems, or other sensors, and displays the object as scaled symbol on the canvas. The connection to these devices is established via data providers, which link to network sockets (UDP/TCP) or serial interfaces.
 
 Additionally the positions are displayed in several docked windows.
 
-The main intention of this plugin is to turn QGIS into a navigation software
-for underwater devices.
+The main intention of this plugin is to turn QGIS into navigation software
+for underwater equipment.
 
 ## Installation
 
-### via git
+#### via git
 
 * Clone the repository
 * Execute "make deploy"
 
-### via repo server
+#### via repo server
 
 * Go to plugin manager and install PosiView
 
@@ -32,12 +29,13 @@ for underwater devices.
 * Create one or more dataprovider and select a suitable parser
 * Create one or more mobiles/vehicles and assign the corresponding dataprovider
 * Start tracking
-* In the guidance dock select the vehicles to see distance and heading
+* In the guidance dock select the vehicles to see distance and bearing
 
-## Future extensions
+## Features
 
 * Datalogging
-* Logging events/targets on a seperate (gpx-)layer
+* Writing the track data to point layers
+* Following tool
 
 
 ## License
@@ -46,7 +44,7 @@ for underwater devices.
     PosiView tracks multiple vehicles and movable objects reporting
     their position via USBL, GPS or other navigation devices.
 
-    Copyright (C) 2015-2018 MARUM - Center for Marine Environmental Sciences
+    Copyright (C) 2015-2026 MARUM - Center for Marine Environmental Sciences, University of Bremen
 
     PosiView Plugin is free software: you can redistribute it and/or
     modify it under the terms of the GNU General Public License as published by

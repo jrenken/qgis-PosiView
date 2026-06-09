@@ -104,7 +104,7 @@ class TrackingDisplay(QToolBar):
         '00:00:00   00°00.0000"N  000°00.0000"W',
         '00:00:00   00°00"00.00"N  000°00"00.00"W',
         '00:00:00   00°00"00.00"N  000°00"00.00"W',
-        ]
+    ]
 
     def __init__(self, mobile, parent=None):
         super(TrackingDisplay, self).__init__(parent)

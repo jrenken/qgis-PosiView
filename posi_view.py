@@ -23,8 +23,8 @@
 
 import os.path
 from builtins import object
-from qgis.PyQt.QtCore import QObject, QSettings, QTranslator, qVersion, QCoreApplication, Qt, pyqtSlot, QSize
-from qgis.PyQt.QtWidgets import QAction, QWidget
+from qgis.PyQt.QtCore import QSettings, QTranslator, qVersion, QCoreApplication, Qt, QSize
+from qgis.PyQt.QtWidgets import QAction
 from qgis.PyQt.QtGui import QIcon, QColor
 from qgis.core import Qgis
 # Initialize Qt resources from file resources.py
@@ -447,12 +447,12 @@ class PosiView(object):
         '''
         if success:
             self.iface.messageBar().pushMessage(self.tr(u'PosiView Recorder'),
-                    self.tr(u'Recording started: ') + fileName,
-                    level=Qgis.Info, duration=20)
+                                                self.tr(u'Recording started: ') + fileName,
+                                                level=Qgis.Info, duration=20)
         else:
             self.iface.messageBar().pushMessage(self.tr(u'PosiView Recorder'),
-                    self.tr(u'Start recording failed: ') + fileName,
-                    level=Qgis.Critical, duration=20)
+                                                self.tr(u'Start recording failed: ') + fileName,
+                                                level=Qgis.Critical, duration=20)
             self.actions['recordAction'].setChecked(False)
 
 #     @pyqtSlot()

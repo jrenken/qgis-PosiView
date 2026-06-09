@@ -3,7 +3,6 @@ Created on 03.07.2015
 
 @author: jrenken
 '''
-from builtins import str
 from .datadevice import DataDevice
 from qgis.PyQt.QtNetwork import QTcpSocket, QAbstractSocket
 from qgis.PyQt.QtCore import pyqtSlot, QTimer, qVersion

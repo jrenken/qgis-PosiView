@@ -23,7 +23,7 @@ class TargetPosParser(Parser):
             fields = data.split(',')
             dt = datetime.now(tz=timezone.utc)
             result = {'id': fields[0], 'lat': float(fields[1]), 'lon': float(fields[2]),
-                     'time': dt.timestamp()}
+                      'time': dt.timestamp()}
             if len(fields) > 3:
                 result['depth'] = self.getOptValue(fields, 3)
                 result['altitude'] = self.getOptValue(fields, 4)

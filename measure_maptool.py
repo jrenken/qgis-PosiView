@@ -60,7 +60,7 @@ class MeasureMapTool(QgsMapToolEmitPoint):
                 QgsPoint(self.endPoint)
             ]),
             None
-            )
+        )
         if self.startPoint != self.endPoint:
             dist = self.distArea.measureLine(self.startPoint, self.endPoint)
             bearing = self.distArea.bearing(self.startPoint, self.endPoint) * 180 / pi

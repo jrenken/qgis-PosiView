@@ -4,7 +4,9 @@ Created on 05.06.2015
 
 @author: jrenken
 '''
+
 from os import environ
+from ast import literal_eval
 from qgis.PyQt.QtCore import QSettings, QCoreApplication, Qt
 from qgis.core import Qgis
 from .mobile_item import MobileItem
@@ -129,8 +131,8 @@ class PosiViewProject(object):
                     m.subscribePositionProvider(self.dataProviders[k1], m.dataProvider[k1])
                 except KeyError:
                     self.iface.messageBar().pushMessage(self.tr(u'Error'),
-                            self.tr(u"Can't subscribe dataprovider: ") + k1 + self.tr(u' for ') + m.name,
-                            level=Qgis.Critical, duration=5)
+                                                        self.tr(u"Can't subscribe dataprovider: ") + k1 + self.tr(u' for ') + m.name,
+                                                        level=Qgis.Critical, duration=5)
         self.trackCache.clear()
 
     def unload(self):
@@ -149,7 +151,7 @@ class PosiViewProject(object):
                 return float(val)
             except ValueError:
                 try:
-                    return eval(val)
+                    return literal_eval(val)
                 except Exception:
                     return val
 
