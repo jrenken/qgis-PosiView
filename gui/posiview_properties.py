@@ -83,7 +83,7 @@ class PosiviewProperties(QgsOptionsDialogBase, Ui_PosiviewPropertiesBase):
         self.checkBoxWithSuffix.setChecked(properties['DefaultFormat'] & 4)
         self.comboBoxDefaultPositionFormat.setCurrentIndex((properties['DefaultFormat']) & 3)
 
-    def updateGenLeralData(self):
+    def updateGeneralData(self):
         self.projectProperties['Mission']['cruise'] = self.lineEditCruise.text()
         self.projectProperties['Mission']['dive'] = self.lineEditDive.text()
         self.projectProperties['Mission']['station'] = self.lineEditStation.text()

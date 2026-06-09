@@ -194,7 +194,7 @@ class PosiViewProject():
         properties['ShowUtcClock'] = s.value('Misc/ShowUtcClock', False, type=bool)
         properties['NarrowScreen'] = s.value('Misc/NarrowScreen', False, type=bool)
         properties['EnableLasso'] = s.value('Misc/Lasso/Enable', False, type=bool)
-        properties['LassoRadii'] = s.value('Misc/Lasso/Radii', [])
+        properties['LassoRadii'] = s.value('Misc/Lasso/Radii', [], type=list)
         properties['LassoColor'] = s.value('Misc/Lasso/Color', "red")
         properties['DefaultFormat'] = s.value('Misc/DefaultFormat', 5, type=int)
         s.endGroup()
