@@ -13,7 +13,7 @@ from qgis.core import (
     QgsProject,
     QgsDistanceArea,
     QgsCsException
-    )
+)
 from qgis.gui import QgsMapCanvasItem
 
 

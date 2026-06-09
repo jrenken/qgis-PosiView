@@ -1,10 +1,13 @@
 PosiView Plugin (c)  for QGIS					
-(c) Copyright 2015-2018 MARUM - Center for Marine Environmental Sciences
+(c) Copyright 2015-20125 MARUM - Center for Marine Environmental Sciences, University of Bremen
 Author: Jens Renken
 Email: renken@marum.de		
 	
-PosiView tracks multiple vehicles and movable objects reporting
-their position via USBL, GPS or other navigation devices.
+PosiView is a plugin that allows you to track multiple vehicles and objects.
+It processes position and orientation data, typically provided in NMEA-0183 format
+by devices such as GPS, USBL systems, or other sensors.
+The connection to these devices is established via data providers,
+which link to network sockets (UDP/TCP) or serial interfaces.
 
 PosiView Plugin is licensed under the terms of GNU GPL 2		
 This program is free software; you can redistribute it and/or modify	

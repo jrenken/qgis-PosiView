@@ -6,6 +6,7 @@ Created on 30.01.2015
 
 import os
 import sys
+import ast
 from qgis.PyQt.QtCore import Qt, pyqtSlot, QModelIndex, pyqtSignal, QUrl, QStringListModel, QPoint
 from qgis.PyQt.QtGui import QStandardItem, QColor, QStandardItemModel, QDesktopServices
 from qgis.PyQt.QtWidgets import QFileDialog, QAbstractButton, QDialogButtonBox, QMenu
@@ -82,7 +83,7 @@ class PosiviewProperties(QgsOptionsDialogBase, Ui_PosiviewPropertiesBase):
         self.checkBoxWithSuffix.setChecked(properties['DefaultFormat'] & 4)
         self.comboBoxDefaultPositionFormat.setCurrentIndex((properties['DefaultFormat']) & 3)
 
-    def updateGeneralData(self):
+    def updateGenLeralData(self):
         self.projectProperties['Mission']['cruise'] = self.lineEditCruise.text()
         self.projectProperties['Mission']['dive'] = self.lineEditDive.text()
         self.projectProperties['Mission']['station'] = self.lineEditStation.text()
@@ -166,10 +167,10 @@ class PosiviewProperties(QgsOptionsDialogBase, Ui_PosiviewPropertiesBase):
             mobile['Name'] = self.lineEditMobileName.text()
             mobile['type'] = self.comboBoxMobileType.currentText()
             try:
-                t = eval(self.lineEditMobileShape.text())
+                t = ast.literal_eval(self.lineEditMobileShape.text())
                 if t.__class__ is tuple or t.__class__ is dict:
                     mobile['shape'] = t
-            except SyntaxError:
+            except (ValueError, TypeError, SyntaxError, MemoryError and RecursionError):
                 mobile['shape'] = ((0.0, -0.5), (0.3, 0.5), (0.0, 0.2), (-0.5, 0.5))
             mobile['length'] = self.doubleSpinBoxMobileLength.value()
             mobile['width'] = self.doubleSpinBoxMobileWidth.value()
@@ -357,7 +358,7 @@ class PosiviewProperties(QgsOptionsDialogBase, Ui_PosiviewPropertiesBase):
         self.comboBoxProviderType.setCurrentIndex(self.comboBoxProviderType.findText(provider.setdefault('DataDeviceType', 'UDP').upper()))
         if provider['DataDeviceType'] in NETWORK_TYPES:
             self.stackedWidgetDataDevice.setCurrentIndex(0)
-            self.lineEditProviderHostName.setText(provider.setdefault('Host', '0.0.0.0'))
+            self.lineEditProviderHostName.setText(provider.setdefault('Host', '127.0.0.1'))
             self.spinBoxProviderPort.setValue(int(provider.setdefault('Port', 2000)))
             self.checkBoxReuseAddr.setChecked(provider.setdefault('ReuseAddr', False))
         elif provider['DataDeviceType'] == 'SERIAL' and 'qgis.PyQt.QtSerialPort' in sys.modules:

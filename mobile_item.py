@@ -19,7 +19,6 @@ from qgis.PyQt.QtWidgets import QLabel
 from qgis.PyQt.QtGui import QMovie
 from .position_marker import PositionMarker
 from .track_layer import TrackLayer
-from .lasso_marker import LassoMarker
 
 FILTER_FLAGS = ('-head', '-pos', '+course', '+utm')
 
@@ -55,7 +54,7 @@ class MobileItem(QObject):
         self.canvas = iface.mapCanvas()
         MobileItem.mobileItemCount += 1
         self.name = params.setdefault('Name',
-                'MobileItem_' + str(MobileItem.mobileItemCount))
+                                      'MobileItem_' + str(MobileItem.mobileItemCount))
         self.markers = {'main': PositionMarker(self.canvas, params)}
         self.markers['main'].setToolTip(self.name)
         self.dataProvider = params.get('provider', {})
@@ -224,7 +223,7 @@ class MobileItem(QObject):
                     if data['headtype'] == 'G' and 'heading' in data:
                         try:
                             bearing = QgsBearingUtils.bearingTrueNorth(self.crsXform.destinationCrs(), QgsProject.instance().transformContext(),
-                                                             QgsPointXY(data['easting'], data['northing']))
+                                                                       QgsPointXY(data['easting'], data['northing']))
                             data['heading'] = (data['heading'] - bearing) % 360.0
                         except QgsException:
                             pass

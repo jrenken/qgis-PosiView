@@ -83,8 +83,7 @@ class CompassWidget(QWidget):
 
         painter.drawPolygon(
             QPolygon([QPoint(-5, -25), QPoint(0, -45), QPoint(5, -25),
-                      QPoint(0, -30), QPoint(-5, -25)])
-            )
+                      QPoint(0, -30), QPoint(-5, -25)]))
 
         painter.restore()
 
@@ -110,8 +109,7 @@ class CompassWidget(QWidget):
 
         painter.drawPolygon(
             QPolygon([QPoint(-5, -10), QPoint(0, -25), QPoint(5, -10),
-                      QPoint(0, -13), QPoint(-5, -10)])
-            )
+                      QPoint(0, -13), QPoint(-5, -10)]))
 
         painter.restore()
 

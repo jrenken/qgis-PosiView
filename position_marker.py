@@ -302,8 +302,8 @@ class MarkerLabel(QgsMapCanvasItem):
         self.extraText = ''
         self.LABEL_DISTANCE = 50
         self.labelDistance = params.get('labelDistance', self.LABEL_DISTANCE)
-        self.labelRect = QRectF(self.canvas.fontMetrics().boundingRect(
-                self.label)).translated(QPointF(self.labelDistance, -self.labelDistance / 2))
+        self.labelRect = QRectF(self.canvas.fontMetrics().boundingRect(self.label)).translated(
+            QPointF(self.labelDistance, -self.labelDistance / 2))
         self.labelRect.setBottomLeft(QPointF(0, 0))
         self.color = self.getColor(params.get('color', 'black'))
         self.position = None
@@ -315,8 +315,8 @@ class MarkerLabel(QgsMapCanvasItem):
             self.updateBoundingRect()
 
     def updateBoundingRect(self):
-        self.labelRect = QRectF(self.canvas.fontMetrics().boundingRect(
-                self.label + self.extraText)).translated(QPointF(self.labelDistance, -self.labelDistance / 2))
+        self.labelRect = QRectF(self.canvas.fontMetrics().boundingRect(self.label + self.extraText)).translated(
+            QPointF(self.labelDistance, -self.labelDistance / 2))
         self.labelRect.setBottomLeft(QPointF(0, 0))
 
     def boundingRect(self):

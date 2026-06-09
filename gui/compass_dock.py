@@ -5,11 +5,10 @@ Created on Oct 23, 2018
 '''
 
 import os
-from qgis.PyQt import QtGui, uic
+from qgis.PyQt import uic
 from qgis.PyQt.QtCore import pyqtSlot, QSettings
 from qgis.PyQt.QtWidgets import QDockWidget
 from .compass import CompassWidget
-
 
 FORM_CLASS, _ = uic.loadUiType(os.path.join(
     os.path.split(os.path.dirname(__file__))[0], 'ui', 'compass_dock_base.ui'))
@@ -40,7 +39,6 @@ class CompassDock(QDockWidget, FORM_CLASS):
         self.target = None
         self.srcHeading = 0.0
         self.trgHeading = 0.0
-        s = QSettings()
 
     def setMobiles(self, mobiles):
         self.reset()

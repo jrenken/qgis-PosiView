@@ -6,9 +6,10 @@ Created on 05.06.2015
 '''
 
 from os import environ
-from qgis.core import Qgis
+from ast import literal_eval
 from qgis.PyQt.QtCore import QSettings, QCoreApplication
 from qgis.PyQt.QtGui import QColorConstants
+from qgis.core import Qgis
 from .mobile_item import MobileItem
 from .dataprovider.data_provider import DataProvider
 
@@ -129,9 +130,9 @@ class PosiViewProject():
                 try:
                     m.subscribePositionProvider(self.dataProviders[k1], m.dataProvider[k1])
                 except KeyError:
-                    self.iface.messageBar().pushMessage(self.tr('Error'),
-                            self.tr("Can't subscribe dataprovider: ") + k1 + self.tr(' for ') + m.name,
-                            level=Qgis.Critical, duration=5)
+                    self.iface.messageBar().pushMessage(self.tr(u'Error'),
+                                                        self.tr(u"Can't subscribe dataprovider: ") + k1 + self.tr(u' for ') + m.name,
+                                                        level=Qgis.Critical, duration=5)
         self.trackCache.clear()
 
     def unload(self):
@@ -150,7 +151,7 @@ class PosiViewProject():
                 return float(val)
             except ValueError:
                 try:
-                    return eval(val)
+                    return literal_eval(val)
                 except Exception:
                     return val
 

@@ -49,7 +49,8 @@ class GpsParser(Parser):
                           'id': nmea[0][1:3]}
                 try:
                     dt = datetime.now(tz=timezone.utc).replace(hour=int(nmea[1][0:2]),
-                                        minute=int(nmea[1][2:4]), second=int(nmea[1][4:6]))
+                                                               minute=int(nmea[1][2:4]),
+                                                               second=int(nmea[1][4:6]))
                 except ValueError:
                     dt = datetime.now(tz=timezone.utc)
                 result['time'] = dt.timestamp()
@@ -66,7 +67,8 @@ class GpsParser(Parser):
                           'id': nmea[0][1:3]}
                 try:
                     dt = datetime.now(timezone.utc).replace(hour=int(nmea[5][0:2]),
-                                        minute=int(nmea[5][2:4]), second=int(nmea[5][4:6]))
+                                                            minute=int(nmea[5][2:4]),
+                                                            second=int(nmea[5][4:6]))
                 except ValueError:
                     dt = datetime.now(timezone.utc)
                 result['time'] = dt.timestamp()
@@ -85,7 +87,8 @@ class GpsParser(Parser):
                           'id': nmea[0][1:3]}
                 try:
                     dt = datetime.now(timezone.utc).replace(hour=int(nmea[1][0:2]),
-                                        minute=int(nmea[1][2:4]), second=int(nmea[1][4:6]))
+                                                            minute=int(nmea[1][2:4]),
+                                                            second=int(nmea[1][4:6]))
                 except ValueError:
                     dt = datetime.now(timezone.utc)
                 result['time'] = dt.timestamp()

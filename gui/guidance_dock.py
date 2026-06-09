@@ -103,19 +103,19 @@ class GuidanceDock(QDockWidget, FORM_CLASS):
     def posToStr(self, pos):
         if self.format == 0:
             return (cf.formatX(pos.x(), cf.FormatDecimalDegrees, 6,
-                             cf.FormatFlag(0)),
+                               cf.FormatFlag(0)),
                     cf.formatY(pos.y(), cf.FormatDecimalDegrees, 6,
-                             cf.FormatFlag(0)))
+                               cf.FormatFlag(0)))
         if self.format == 1:
             return (cf.formatX(pos.x(), cf.FormatDegreesMinutes, 4,
-                             cf.FlagDegreesUseStringSuffix),
+                               cf.FlagDegreesUseStringSuffix),
                     cf.formatY(pos.y(), cf.FormatDegreesMinutes, 4,
-                             cf.FlagDegreesUseStringSuffix))
+                               cf.FlagDegreesUseStringSuffix))
         if self.format == 2:
             return (cf.formatX(pos.x(), cf.FormatDegreesMinutesSeconds, 2,
-                             cf.FlagDegreesUseStringSuffix),
+                               cf.FlagDegreesUseStringSuffix),
                     cf.formatY(pos.y(), cf.FormatDegreesMinutesSeconds, 2,
-                             cf.FlagDegreesUseStringSuffix))
+                               cf.FlagDegreesUseStringSuffix))
 
     @pyqtSlot(str, name='on_comboBoxSource_currentTextChanged')
     def sourceChanged(self, mob):
