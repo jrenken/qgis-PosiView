@@ -15,9 +15,6 @@ class PiseParser(Parser):
                 <false>,<heading>,<depth>,<speed>*<checksum>
     '''
 
-    def __init__(self):
-        super(PiseParser, self).__init__()
-
     def parse(self, data):
         if data.startswith('$PISE'):
             nmea = NmeaRecord(data)
@@ -41,4 +38,5 @@ class PiseParser(Parser):
                     result['time'] = dt.timestamp()
                     return dict((k, v) for k, v in result.items() if v is not None)
                 except ValueError:
-                    return {}
+                    pass
+        return {}

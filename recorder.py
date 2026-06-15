@@ -20,7 +20,7 @@ class Recorder(QObject):
         '''
         Constructor
         '''
-        super(Recorder, self).__init__(parent)
+        super().__init__(parent)
         self.path = path
         self.filePrefix = ''
         self.mobiles = None
@@ -50,7 +50,7 @@ class Recorder(QObject):
         s = self.filePrefix + dt.strftime('%Y%m%d-%H%M%S') + '.csv'
         self.fileName = os.path.join(self.path, s)
         try:
-            self.file = open(self.fileName, 'w')
+            self.file = open(self.fileName, 'w', encoding='utf-8')
             self.file.write(self.fileHeader())
             self.lineCount = 0
             self.recordingStarted.emit(self.fileName, True)

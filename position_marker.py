@@ -80,7 +80,7 @@ class PositionMarker(QgsMapCanvasItem):
         self.position = None
         self.heading = 0
         self.northAlign = 0.0
-        super(PositionMarker, self).__init__(canvas)
+        super().__init__(canvas)
         self.setZValue(int(params.get('zValue', 100)))
         self.distArea = QgsDistanceArea()
         self.distArea.setEllipsoid(u'WGS84')
@@ -233,7 +233,7 @@ class PositionMarker(QgsMapCanvasItem):
         if self.showLabel and self.showText:
             self.label.setExtraText(text)
 
-    def paint(self, painter, xxx, xxx2):
+    def paint(self, painter, _, __):
         if not self.position:
             return
 
@@ -307,7 +307,7 @@ class MarkerLabel(QgsMapCanvasItem):
         self.labelRect.setBottomLeft(QPointF(0, 0))
         self.color = self.getColor(params.get('color', 'black'))
         self.position = None
-        super(MarkerLabel, self).__init__(canvas)
+        super().__init__(canvas)
 
     def setExtraText(self, text):
         if self.extraText[2:] != text:
@@ -322,7 +322,7 @@ class MarkerLabel(QgsMapCanvasItem):
     def boundingRect(self):
         return self.labelRect
 
-    def paint(self, painter, xxx, xxx2):
+    def paint(self, painter, _, __):
         if not self.position:
             return
         pen = QPen(self.color)

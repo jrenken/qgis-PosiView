@@ -24,7 +24,7 @@ class MeasureMapTool(QgsMapToolEmitPoint):
         Constructor
         '''
         self.canvas = canvas
-        super(MeasureMapTool, self).__init__(self.canvas)
+        super().__init__(self.canvas)
         self.canvas.destinationCrsChanged.connect(self.onCrsChange)
         self.distArea = QgsDistanceArea()
         self.distArea.setEllipsoid('WGS84')
@@ -35,6 +35,7 @@ class MeasureMapTool(QgsMapToolEmitPoint):
         self.rubberBand.setZValue(1e6)
         self.rubberBand.setColor(Qt.GlobalColor.red)
         self.rubberBand.setWidth(1)
+        self.startPoint = self.endPoint = None
         self.reset()
 
     def reset(self):
@@ -71,11 +72,11 @@ class MeasureMapTool(QgsMapToolEmitPoint):
 
     def activate(self):
         self.reset()
-        super(MeasureMapTool, self).activate()
+        super().activate()
 
     def deactivate(self):
         self.reset()
-        super(MeasureMapTool, self).deactivate()
+        super().deactivate()
 
     @pyqtSlot()
     def onCrsChange(self):

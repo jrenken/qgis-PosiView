@@ -22,7 +22,7 @@ class DataProviderDump(QDialog, FORM_CLASS):
         '''
         Constructor
         '''
-        super(DataProviderDump, self).__init__(parent)
+        super().__init__(parent)
         self.setupUi(self)
         self.setAttribute(Qt.WidgetAttribute.WA_DeleteOnClose, True)
 

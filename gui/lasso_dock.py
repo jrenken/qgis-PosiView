@@ -24,7 +24,7 @@ class LassoDock(QDockWidget, FORM_CLASS):
         '''
         Constructor
         '''
-        super(LassoDock, self).__init__(parent)
+        super().__init__(parent)
         self.setupUi(self)
         self.buttons = [
             self.pushButtonLasso1,
@@ -35,8 +35,8 @@ class LassoDock(QDockWidget, FORM_CLASS):
     def setRadii(self, rad=[]):
         for but in self.buttons:
             but.hide()
-        for rad, but in zip(rad, self.buttons):
-            but.setText(rad)
+        for radi, but in zip(rad, self.buttons):
+            but.setText(radi)
             but.setVisible(True)
 
     @pyqtSlot(name='on_pushButtonLassoOff_clicked')

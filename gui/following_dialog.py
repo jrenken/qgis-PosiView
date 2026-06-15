@@ -27,7 +27,7 @@ class FollowingDialog(QDialog, FORM_CLASS):
         '''
         Constructor
         '''
-        super(FollowingDialog, self).__init__(parent)
+        super().__init__(parent)
         self.setupUi(self)
         self.statusBar = QStatusBar()
         self.statusBar.setStyleSheet('background: lightgray;')
@@ -44,6 +44,7 @@ class FollowingDialog(QDialog, FORM_CLASS):
         self.distArea.setEllipsoid(u'WGS84')
         self.onCrsChange()
         self.clickPos = None
+        self.mobiles = []
         self.lassoColor = QColorConstants.Red
 
     def setMobiles(self, mobiles):
@@ -79,7 +80,6 @@ class FollowingDialog(QDialog, FORM_CLASS):
                     raise ValueError
             except (KeyError, ValueError):
                 self.statusBar.showMessage(self.tr('Need a vehicle with valid position'), 1500)
-                pass
 
     def anyPosChanged(self, src: QgsPointXY, trg: QgsPointXY):
         if src and trg:

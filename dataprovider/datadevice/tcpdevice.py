@@ -18,7 +18,7 @@ class TcpDevice(DataDevice):
         '''
         Constructor
         '''
-        super(TcpDevice, self).__init__(params, parent)
+        super().__init__(params, parent)
 
         self.iodevice = QTcpSocket()
         self.reconnect = int(params.get('Reconnect', 1000))
@@ -34,7 +34,7 @@ class TcpDevice(DataDevice):
         self.iodevice.disconnected.connect(self.socketDisconnected)
 
     @pyqtSlot(QAbstractSocket.SocketError)
-    def socketError(self, error):
+    def socketError(self, _):
         if self.iodevice.state() != QAbstractSocket.SocketState.ConnectedState:
             if self.reconnect > 0:
                 QTimer.singleShot(self.reconnect, self.onReconnectTimer)

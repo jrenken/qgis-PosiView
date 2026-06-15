@@ -38,14 +38,14 @@ def createDataDevice(params={}, parent=None):
     deviceType = params.get('DataDeviceType', 'UDP').upper()
     if deviceType == 'UDP':
         return UdpDevice(params, parent)
-    elif deviceType == 'TCP':
+    if deviceType == 'TCP':
         return TcpDevice(params, parent)
-    elif deviceType == 'GPSD':
+    if deviceType == 'GPSD':
         params['GpsdInit'] = True
         return TcpDevice(params, parent)
-    elif deviceType == 'SERIAL':
+    if deviceType == 'SERIAL':
         if 'SERIAL' in DEVICE_TYPES:
             return SerialDevice(params, parent)
-    elif deviceType == 'TCPSERVER':
+    if deviceType == 'TCPSERVER':
         return TcpServerDevice(params, parent)
     return DataDevice(params, parent)

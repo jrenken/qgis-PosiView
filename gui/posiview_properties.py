@@ -109,7 +109,7 @@ class PosiviewProperties(QgsOptionsDialogBase, Ui_PosiviewPropertiesBase):
     @pyqtSlot(QAbstractButton, name='on_buttonBox_clicked')
     def onButtonBoxClicked(self, button):
         role = self.buttonBox.buttonRole(button)
-        if role == QDialogButtonBox.ButtonRole.ApplyRole or role == QDialogButtonBox.ButtonRole.AcceptRole:
+        if role in (QDialogButtonBox.ButtonRole.ApplyRole, QDialogButtonBox.ButtonRole.AcceptRole):
             self.updateGeneralData()
             self.applyChanges.emit(self.projectProperties)
 
@@ -117,7 +117,7 @@ class PosiviewProperties(QgsOptionsDialogBase, Ui_PosiviewPropertiesBase):
     def onActionSaveConfigurationTriggered(self):
         ''' Save the current configuration
         '''
-        fn, __ = QFileDialog.getSaveFileName(None, 'Save PosiView configuration', '', 'Configuration (*.ini *.conf)')
+        fn, _ = QFileDialog.getSaveFileName(None, 'Save PosiView configuration', '', 'Configuration (*.ini *.conf)')
         if fn:
             if not os.path.splitext(fn)[1]:
                 fn += '.conf'
@@ -127,7 +127,7 @@ class PosiviewProperties(QgsOptionsDialogBase, Ui_PosiviewPropertiesBase):
     def onActionLoadConfigurationTriggered(self):
         ''' Load configuration from file
         '''
-        fn, __ = QFileDialog.getOpenFileName(None, 'Save PosiView configuration', '', 'Configuration (*.ini *.conf)')
+        fn, _ = QFileDialog.getOpenFileName(None, 'Save PosiView configuration', '', 'Configuration (*.ini *.conf)')
         self.projectProperties = self.project.read(fn)
         self.setupModelData(self.projectProperties)
         self.setupGeneralData(self.projectProperties)
@@ -190,7 +190,7 @@ class PosiviewProperties(QgsOptionsDialogBase, Ui_PosiviewPropertiesBase):
             mobile['showExtraText'] = self.checkBoxExtraText.isChecked()
             mobile['recordTrack'] = self.checkBoxRecordTrack.isChecked()
             mobile['recordTrackRepaint'] = self.checkBoxRecordTrackRepaint.isChecked()
-            provs = dict()
+            provs = {}
             for r in range(self.mobileProviderModel.rowCount()):
                 try:
                     fil = self.mobileProviderModel.item(r, 1).data(Qt.ItemDataRole.DisplayRole)
@@ -415,7 +415,7 @@ class PosiviewProperties(QgsOptionsDialogBase, Ui_PosiviewPropertiesBase):
     @pyqtSlot(name='on_toolButtonSelectLogPath_clicked')
     def selectRecorderPath(self):
         path = QFileDialog.getExistingDirectory(self, self.tr('Select Recorder Path'), self.lineEditRecorderPath.text(),
-                                                QFileDialog.ShowDirsOnly | QFileDialog.DontResolveSymlinks)
+                                                QFileDialog.Option.ShowDirsOnly | QFileDialog.Option.DontResolveSymlinks)
         if path != '':
             self.lineEditRecorderPath.setText(path)
 

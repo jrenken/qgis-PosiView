@@ -21,7 +21,7 @@ class SerialDevice(DataDevice):
         '''
         Constructor
         '''
-        super(SerialDevice, self).__init__(params, parent)
+        super().__init__(params, parent)
         self.iodevice = QSerialPort()
         self.reconnect = int(params.get('Reconnect', 1000))
         self.serialPort = params.get('SerialPort', None)

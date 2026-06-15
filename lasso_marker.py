@@ -91,7 +91,7 @@ class LassoMarker(QgsMapCanvasItem):
     def resetPosition(self):
         self.position = None
 
-    def newHeading(self, heading):
+    def newHeading(self, _):
         self.setRotation(self.canvas.rotation())
 
     def setTrack(self, _):
@@ -103,7 +103,7 @@ class LassoMarker(QgsMapCanvasItem):
     def removeFromCanvas(self):
         self.canvas.scene().removeItem(self)
 
-    def paint(self, painter, option, widget):
+    def paint(self, painter, _, __):
         if not self.paintCoords or not self.position:
             return
         pen = QPen(self.color)

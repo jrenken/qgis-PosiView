@@ -22,20 +22,15 @@ class PmtmParser(Parser):
                                $PMMTSPD,HROV,0.4,0.6,0.3*6F
     '''
 
-    def __init__(self):
-        '''
-        Constructor
-        '''
-        super(PmtmParser, self).__init__()
-
     def parse(self, data):
         data_id = data[5:8]
         if data_id == 'GPO':
             return self.decodeGpo(data)
-        elif data_id == 'ATT':
+        if data_id == 'ATT':
             return self.decodeAtt(data)
-        elif data_id == 'SPD':
+        if data_id == 'SPD':
             return self.decodeSpd(data)
+        return {}
 
     def decodeGpo(self, data):
         nmea = NmeaRecord(data)
@@ -62,7 +57,8 @@ class PmtmParser(Parser):
                 result['time'] = dt.timestamp()
                 return dict((k, v) for k, v in result.items() if v is not None)
             except ValueError:
-                return {}
+                pass
+        return {}
 
     def decodeAtt(self, data):
         nmea = NmeaRecord(data)
@@ -74,7 +70,8 @@ class PmtmParser(Parser):
                           'heading': nmea.value(4)}
                 return dict((k, v) for k, v in result.items() if v is not None)
             except ValueError:
-                return {}
+                pass
+        return {}
 
     def decodeSpd(self, data):
         nmea = NmeaRecord(data)
@@ -86,4 +83,5 @@ class PmtmParser(Parser):
                           'velup': nmea.value(4)}
                 return dict((k, v) for k, v in result.items() if v is not None)
             except ValueError:
-                return {}
+                pass
+        return {}

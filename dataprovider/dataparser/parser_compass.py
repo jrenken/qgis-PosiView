@@ -29,6 +29,7 @@ class CompassParser(Parser):
             data_id = data[3:6]
             if data_id in ('HDT', 'HDM'):
                 return self.decodeHeading(data)
+        return {}
 
     def decodeStandardCompassFrame(self, data):
         try:
@@ -41,11 +42,12 @@ class CompassParser(Parser):
             except (KeyError, ValueError):
                 return {}
         except IndexError:
-            return {}
+            pass
+        return {}
 
     def decodeHeading(self, data):
         nmea = NmeaRecord(data)
-        if (nmea.valid):
+        if nmea.valid:
             h = nmea.value(1)
             if h is not None:
                 return {'heading': h, 'id': nmea[0][1:3], 'type': 'true' if nmea[2] == 'T' else 'magnetic'}

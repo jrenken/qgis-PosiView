@@ -14,12 +14,6 @@ class CP16Parser(Parser):
     $PCI,<depth meter>,<depth feet>,<heading>,<CP data>,<pitch>,<roll><CR><LF>
     '''
 
-    def __init__(self):
-        '''
-        Constructor does nothing
-        '''
-        super(CP16Parser, self).__init__()
-
     def parse(self, data):
         if data.startswith('$PCI'):
             nmea = NmeaRecord(data)
@@ -31,4 +25,5 @@ class CP16Parser(Parser):
                               'roll': nmea.value(6)}
                     return dict((k, v) for k, v in result.items() if v is not None)
                 except ValueError:
-                    return {}
+                    pass
+        return {}

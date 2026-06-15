@@ -16,12 +16,6 @@ class GpsParser(Parser):
     $GPGGA,075222.00,3727.35636,N,01509.01712,E,1,07,1.8,17.35,M,40.17,M,,*5C
     '''
 
-    def __init__(self):
-        '''
-        Constructor
-        '''
-        super(GpsParser, self).__init__()
-
     def parse(self, data):
         try:
             data = data[data.index('$'):]
@@ -30,14 +24,15 @@ class GpsParser(Parser):
         data_id = data[3:6]
         if data_id == 'RMC':
             return self.decodeRmc(data)
-        elif data_id == 'VTG':
+        if data_id == 'VTG':
             return self.decodeVtg(data)
-        elif data_id == 'GLL':
+        if data_id == 'GLL':
             return self.decodeGll(data)
-        elif data_id == 'GGA':
+        if data_id == 'GGA':
             return self.decodeGga(data)
-        elif data_id == 'HDT':
+        if data_id == 'HDT':
             return self.decodeHdt(data)
+        return {}
 
     def decodeRmc(self, data):
         nmea = NmeaRecord(data)
@@ -56,7 +51,8 @@ class GpsParser(Parser):
                 result['time'] = dt.timestamp()
                 return dict((k, v) for k, v in result.items() if v is not None)
             except ValueError:
-                return {}
+                pass
+        return {}
 
     def decodeGll(self, data):
         nmea = NmeaRecord(data)
@@ -74,7 +70,8 @@ class GpsParser(Parser):
                 result['time'] = dt.timestamp()
                 return dict((k, v) for k, v in result.items() if v is not None)
             except ValueError:
-                return {}
+                pass
+        return {}
 
     def decodeGga(self, data):
         nmea = NmeaRecord(data)
@@ -94,7 +91,8 @@ class GpsParser(Parser):
                 result['time'] = dt.timestamp()
                 return dict((k, v) for k, v in result.items() if v is not None)
             except ValueError:
-                return {}
+                pass
+        return {}
 
     def decodeVtg(self, data):
         nmea = NmeaRecord(data)
@@ -110,11 +108,12 @@ class GpsParser(Parser):
                               'id': nmea[0][1:3]}
                 return dict((k, v) for k, v in result.items() if v is not None)
             except (TypeError, ValueError):
-                return {}
+                pass
+        return {}
 
     def decodeHdt(self, data):
         nmea = NmeaRecord(data)
-        if (nmea.valid):
+        if nmea.valid:
             h = nmea.value(1)
             if h is not None:
                 return {'heading': h, 'id': nmea[0][1:3]}

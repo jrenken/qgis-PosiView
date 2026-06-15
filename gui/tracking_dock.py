@@ -51,7 +51,7 @@ class TrackingDock(QDockWidget, FORM_CLASS):
         '''
         Constructor
         '''
-        super(TrackingDock, self).__init__(parent)
+        super().__init__(parent)
         self.setupUi(self)
         self.providerToolbar = ProviderToolBar()
         self.verticalLayoutWindow.insertWidget(0, self.providerToolbar)
@@ -108,7 +108,7 @@ class TrackingDisplay(QToolBar):
     ]
 
     def __init__(self, mobile, parent=None):
-        super(TrackingDisplay, self).__init__(parent)
+        super().__init__(parent)
         self.setMovable(True)
         self.setFloatable(True)
         self.mobile = mobile
@@ -246,7 +246,7 @@ class ProviderToolBar(QToolBar):
     triggered = pyqtSignal(str)
 
     def __init__(self, parent=None):
-        super(ProviderToolBar, self).__init__(parent)
+        super().__init__(parent)
         self.signalMapper = QSignalMapper(self)
         self.setMovable(True)
         self.setFloatable(True)
@@ -277,7 +277,7 @@ class TrackLenSlider(QWidget):
     valueChanged = pyqtSignal(int)
 
     def __init__(self, maxtl, vistl, parent=None):
-        super(TrackLenSlider, self).__init__(parent)
+        super().__init__(parent)
         self.layout = QVBoxLayout(self)
         self.slider = QSlider(Qt.Orientation.Vertical, self)
         self.layout.addWidget(self.slider, 0, Qt.AlignmentFlag.AlignCenter)
@@ -299,5 +299,5 @@ class TrackLenSlider(QWidget):
         self.label.setNum(nv)
         self.valueChanged.emit(nv)
 
-    def leaveEvent(self, event):
+    def leaveEvent(self, _):
         self.close()

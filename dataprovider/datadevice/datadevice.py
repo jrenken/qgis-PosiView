@@ -19,7 +19,7 @@ class DataDevice(QObject):
         '''
         Constructor
         '''
-        super(DataDevice, self).__init__(parent)
+        super().__init__(parent)
         self.buffered = False
 
     def readData(self):

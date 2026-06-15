@@ -17,21 +17,16 @@ class Ranger2Parser(Parser):
     $PSONALL,Ship 1,CRP,134446.175,650879.00,5688874.16,0.00,180.00,,G,0.00,0.00,,0.109,0.001*51
     '''
 
-    def __init__(self):
-        '''
-        constructor only calls the parents class constructor
-        '''
-        super(Ranger2Parser, self).__init__()
-
     def parse(self, data):
         if data.startswith('$PSONLLD'):
             return self.decodeLld(data)
-        elif data.startswith('$PSONALL'):
+        if data.startswith('$PSONALL'):
             return self.decodeAll(data)
+        return {}
 
     def decodeLld(self, data):
         nmea = NmeaRecord(data)
-        if (nmea.valid):
+        if nmea.valid:
             try:
                 if nmea[3] == 'V':
                     return {}
@@ -50,11 +45,12 @@ class Ranger2Parser(Parser):
                 result['time'] = dt.timestamp()
                 return dict((k, v) for k, v in result.items() if v is not None)
             except ValueError:
-                return {}
+                pass
+        return {}
 
     def decodeAll(self, data):
         nmea = NmeaRecord(data)
-        if (nmea.valid):
+        if nmea.valid:
             try:
                 result = {'id': nmea[1],
                           'easting': nmea.value(4),
@@ -76,4 +72,5 @@ class Ranger2Parser(Parser):
                 result['time'] = dt.timestamp()
                 return dict((k, v) for k, v in result.items() if v is not None)
             except ValueError:
-                return {}
+                pass
+        return {}

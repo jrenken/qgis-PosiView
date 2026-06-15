@@ -41,7 +41,7 @@ from .recorder import Recorder
 from .measure_maptool import MeasureMapTool
 
 
-class PosiView(object):
+class PosiView():
     """QGIS Plugin Implementation."""
 
     def __init__(self, iface):
@@ -474,7 +474,7 @@ class PosiView(object):
         if checked:
             self.iface.mapCanvas().setMapTool(self.mapTool)
 
-    def following(self, checked=False):
+    def following(self, _):
         self.followingDlg.show()
 
     def setupLassoTool(self):

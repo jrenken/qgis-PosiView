@@ -19,5 +19,5 @@ class Parser():
         self.id = None
         self.state = {}
 
-    def parse(self, data):
+    def parse(self, _):
         return {}

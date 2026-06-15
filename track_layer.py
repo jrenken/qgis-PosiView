@@ -23,7 +23,7 @@ class TrackLayer(QObject):
         '''
         Constructor
         '''
-        super(TrackLayer, self).__init__(parent)
+        super().__init__(parent)
 
         self.layer = self.getLayer(name)
         QgsProject.instance().layersWillBeRemoved.connect(self.onLayersWillBeRemoved)
@@ -51,6 +51,7 @@ class TrackLayer(QObject):
             else:
                 lr = None
             return lr
+        return None
 
     @pyqtSlot(float, QgsPointXY, float, float)
     def onNewPosition(self, fix, pos, depth, altitude):

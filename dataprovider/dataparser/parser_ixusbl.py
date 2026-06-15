@@ -14,21 +14,18 @@ class IxUsblParser(Parser):
     Sentence parser for IXBlue USBL Sensors (Posidonia, Gaps)
     '''
 
-    def __init__(self):
-        super(IxUsblParser, self).__init__()
-
     def parse(self, data):
         if data.startswith('$PTSAG'):
             return self.decodePtsag(data)
-        elif data.startswith('$PTSAH'):
+        if data.startswith('$PTSAH'):
             return self.decodePtsah(data)
-        elif data.startswith('$HEHDT'):
+        if data.startswith('$HEHDT'):
             return self.decodeHehdt(data)
-#         return {}
+        return {}
 
     def decodePtsag(self, data):
         nmea = NmeaRecord(data)
-        if (nmea.valid):
+        if nmea.valid:
             try:
                 result = {'id': nmea.value(6), 'lat': nmea.fromDDM(7, 8),
                           'lon': nmea.fromDDM(9, 10), 'depth': nmea.value(12)}
@@ -44,7 +41,8 @@ class IxUsblParser(Parser):
                 result['time'] = dt.timestamp()
                 return dict((k, v) for k, v in result.items() if v is not None)
             except ValueError:
-                return {}
+                pass
+        return {}
 
     def decodePtsah(self, data):
         nmea = NmeaRecord(data)
@@ -52,7 +50,7 @@ class IxUsblParser(Parser):
             h = nmea.value(2)
             if h is not None:
                 return {'id': 0, 'heading': h}
-            return {}
+        return {}
 
     def decodeHehdt(self, data):
         nmea = NmeaRecord(data)
@@ -60,4 +58,4 @@ class IxUsblParser(Parser):
             h = nmea.value(1)
             if h is not None:
                 return {'id': 0, 'heading': h}
-            return {}
+        return {}

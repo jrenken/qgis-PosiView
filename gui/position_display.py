@@ -30,7 +30,7 @@ class PositionDisplay(QWidget):
             application at run time.
         :type iface: QgsInterface
         '''
-        super(PositionDisplay, self).__init__(parent)
+        super().__init__(parent)
         self.setObjectName('positionDisplay')
         layout = QHBoxLayout()
         layout.setContentsMargins(0, 0, 0, 0)

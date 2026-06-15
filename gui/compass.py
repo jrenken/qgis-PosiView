@@ -16,7 +16,7 @@ class CompassWidget(QWidget):
     angle2Changed = pyqtSignal(float)
 
     def __init__(self, parent=None):
-        QWidget.__init__(self, parent)
+        super().__init__(parent)
         self._angle = -9999.9
         self._angle2 = -9999.9
         self._margins = 10
@@ -122,6 +122,7 @@ class CompassWidget(QWidget):
     def angle2(self):
         return self._angle2
 
+    @pyqtSlot(int)
     @pyqtSlot(float)
     def setAngle(self, angle):
         if angle != self._angle:
@@ -131,6 +132,7 @@ class CompassWidget(QWidget):
 
     angle = pyqtProperty(float, angle, setAngle)
 
+    @pyqtSlot(int)
     @pyqtSlot(float)
     def setAngle2(self, angle):
         if angle != self._angle2:
@@ -152,7 +154,7 @@ class CompassWidget(QWidget):
 
 
 if __name__ == "__main__":
-    from qgis.PyQt.QtCore import QApplication
+    from qgis.PyQt.QtWidgets import QApplication
 
     app = QApplication(sys.argv)
 

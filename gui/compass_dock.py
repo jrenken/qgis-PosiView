@@ -23,10 +23,7 @@ class CompassDock(QDockWidget, FORM_CLASS):
         '''
         Constructor
         '''
-        '''
-        Constructor
-        '''
-        super(CompassDock, self).__init__(parent)
+        super().__init__(parent)
 
         self.setupUi(self)
         self.setStyleSheet("QLabel { padding-left: 5px; padding-right: 5px; }")
@@ -39,6 +36,7 @@ class CompassDock(QDockWidget, FORM_CLASS):
         self.target = None
         self.srcHeading = 0.0
         self.trgHeading = 0.0
+        self.mobiles = []
 
     def setMobiles(self, mobiles):
         self.reset()
@@ -95,14 +93,14 @@ class CompassDock(QDockWidget, FORM_CLASS):
         self.resetTarget()
 
     @pyqtSlot(float, float, float)
-    def onNewTargetAttitude(self, heading, pitch, roll):
+    def onNewTargetAttitude(self, heading, _, __):
         if self.trgHeading != heading:
             self.trgHeading = heading
             self.labelTargetHeading.setText('{:.1f}\xb0'.format(heading))
             self.compass.setAngle2(heading)
 
     @pyqtSlot(float, float, float)
-    def onNewSourceAttitude(self, heading, pitch, roll):
+    def onNewSourceAttitude(self, heading, _, __):
         if self.srcHeading != heading:
             self.srcHeading = heading
             self.labelSourceHeading.setText('{:.1f}\xb0'.format(heading))

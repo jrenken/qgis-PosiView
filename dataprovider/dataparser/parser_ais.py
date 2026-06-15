@@ -19,7 +19,7 @@ class AisParser(Parser):
         '''
         Constructor
         '''
-        super(AisParser, self).__init__()
+        super().__init__()
         self.binaryPayload = ''
         self.fragment = 0
         self.fragmentcount = 0
@@ -31,19 +31,19 @@ class AisParser(Parser):
                 return {}
         except ValueError:
             return {}
-        self.nmea = NmeaRecord(data)
-        if self.nmea.valid:
-            fcnt = self.nmea.value(1)
-            frag = self.nmea.value(2)
+        nmea = NmeaRecord(data)
+        if nmea.valid:
+            fcnt = nmea.value(1)
+            frag = nmea.value(2)
 
             if frag == 1:
-                self.binaryPayload = self.nmea[5]
+                self.binaryPayload = nmea[5]
             else:
-                self.binaryPayload += self.nmea[5]
+                self.binaryPayload += nmea[5]
 
             if frag == fcnt:
                 return self.decodePayload(self.binaryPayload)
-            return {}
+        return {}
 
     def decodePayload(self, payload):
         binPayload = BitVector(payload)
@@ -81,10 +81,11 @@ class AisParser(Parser):
                 result['heading'] = head
             return dict((k, v) for k, v in result.items() if v is not None)
         except (ValueError, KeyError, IndexError):
-            return {}
+            pass
+        return {}
 
 
-class BitVector(object):
+class BitVector():
     '''
     Helper class for handling AIS binary payload data
     '''
@@ -173,7 +174,7 @@ class BitVector(object):
         '''
         result = ''
         for st in range(start, size * bpc, bpc):
-            c = self.get_int(st, bpc)
+            c = self.getInt(st, bpc)
             if c < 64:
                 result += self.SIX_BIT_CHARS[c]
             else:

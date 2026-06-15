@@ -14,9 +14,6 @@ class TargetPosParser(Parser):
     <target>,<lat>,<lon>[,<depth>,<altitude>,<heading>]\r\n
     '''
 
-    def __init__(self):
-        super(TargetPosParser, self).__init__()
-
     def parse(self, data):
         try:
             fields = data.split(',')

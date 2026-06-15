@@ -20,7 +20,7 @@ class UdpDevice(DataDevice):
         '''
         Constructor
         '''
-        super(UdpDevice, self).__init__(params, parent)
+        super().__init__(params, parent)
 
         self.iodevice = QUdpSocket()
         self.reconnect = int(params.get('Reconnect', 1000))
@@ -29,6 +29,8 @@ class UdpDevice(DataDevice):
         self.reuse = bool(params.get('ReuseAddr', False))
         self.iodevice.readyRead.connect(self.readyRead)
         self.buffer = bytearray()
+        self.remoteHost = ''
+        self.remotePort = 0
 
     def connectDevice(self):
         result = False

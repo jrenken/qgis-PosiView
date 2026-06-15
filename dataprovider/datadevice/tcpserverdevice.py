@@ -20,7 +20,7 @@ class TcpServerDevice(DataDevice):
         '''
         Constructor
         '''
-        super(TcpServerDevice, self).__init__(params, parent)
+        super().__init__(params, parent)
 
         self.server = QTcpServer(self)
         self.server.setMaxPendingConnections(1)

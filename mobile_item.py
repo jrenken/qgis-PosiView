@@ -48,7 +48,7 @@ class MobileItem(QObject):
         :param parent: Parent object for the new item. Defaults None.
         :type parent: QObject
         '''
-        super(MobileItem, self).__init__(parent)
+        super().__init__(parent)
 
         self.iface = iface
         self.canvas = iface.mapCanvas()
@@ -155,7 +155,7 @@ class MobileItem(QObject):
         if not self.enabled:
             return
 
-        flags = list()
+        flags = []
         try:
             pname = data['name']
             flags = self.messageFilter[pname]['flags']
@@ -338,6 +338,7 @@ class MobileItem(QObject):
             if hasattr(m, 'track'):
                 tr = [e[1] for e in m.track]
                 return tr
+        return []
 
     def applyTrack(self, track):
         for m in self.markers.values():

@@ -5,12 +5,12 @@ Created on 03.06.2015
 '''
 
 
-class NmeaRecord(object):
+class NmeaRecord():
     '''Handle NMEA Records'''
 
     def __init__(self, data=None):
         self.valid = True
-        if (data is None):
+        if data is None:
             self.fields = []
         else:
             try:
@@ -62,7 +62,7 @@ class NmeaRecord(object):
         :returns: Converted value or default value.
         :rtype: float
         """
-        f = self.__getitem__(key)
+        f = self[key]
         if not f:
             return defaultValue
         try:

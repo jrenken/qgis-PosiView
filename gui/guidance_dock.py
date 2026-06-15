@@ -27,7 +27,7 @@ class GuidanceDock(QDockWidget, FORM_CLASS):
         '''
         Constructor
         '''
-        super(GuidanceDock, self).__init__(parent)
+        super().__init__(parent)
 
         self.setupUi(self)
         self.setStyleSheet("QLabel { padding-left: 5px; padding-right: 5px; }")
@@ -111,11 +111,11 @@ class GuidanceDock(QDockWidget, FORM_CLASS):
                                cf.FlagDegreesUseStringSuffix),
                     cf.formatY(pos.y(), cf.FormatDegreesMinutes, 4,
                                cf.FlagDegreesUseStringSuffix))
-        if self.format == 2:
-            return (cf.formatX(pos.x(), cf.FormatDegreesMinutesSeconds, 2,
-                               cf.FlagDegreesUseStringSuffix),
-                    cf.formatY(pos.y(), cf.FormatDegreesMinutesSeconds, 2,
-                               cf.FlagDegreesUseStringSuffix))
+        # if self.format == 2:
+        return (cf.formatX(pos.x(), cf.FormatDegreesMinutesSeconds, 2,
+                           cf.FlagDegreesUseStringSuffix),
+                cf.formatY(pos.y(), cf.FormatDegreesMinutesSeconds, 2,
+                           cf.FlagDegreesUseStringSuffix))
 
     @pyqtSlot(str, name='on_comboBoxSource_currentTextChanged')
     def sourceChanged(self, mob):
@@ -170,7 +170,7 @@ class GuidanceDock(QDockWidget, FORM_CLASS):
                     self.onNewTargetPosition(None, pos, -9999, -9999)
 
     @pyqtSlot(float, QgsPointXY, float, float)
-    def onNewSourcePosition(self, fix, pos, depth, altitude):
+    def onNewSourcePosition(self, _, pos, depth, __):
         if [pos, depth] != self.srcPos:
             lon, lat = self.posToStr(pos)
             self.labelSourceLat.setText(lat)
@@ -192,7 +192,7 @@ class GuidanceDock(QDockWidget, FORM_CLASS):
             self.srcPos = [pos, depth]
 
     @pyqtSlot(float, QgsPointXY, float, float)
-    def onNewTargetPosition(self, fix, pos, depth, altitude):
+    def onNewTargetPosition(self, _, pos, depth, __):
         if [pos, depth] != self.trgPos:
             lon, lat = self.posToStr(pos)
             self.labelTargetLat.setText(lat)
@@ -214,14 +214,14 @@ class GuidanceDock(QDockWidget, FORM_CLASS):
             self.trgPos = [pos, depth]
 
     @pyqtSlot(float, float, float)
-    def onNewTargetAttitude(self, heading, pitch, roll):
+    def onNewTargetAttitude(self, heading, _, __):
         if self.trgHeading != heading:
             self.trgHeading = heading
             self.labelTargetHeading.setText('{:.1f}'.format(heading))
             self.compass.setAngle2(heading)
 
     @pyqtSlot(float, float, float)
-    def onNewSourceAttitude(self, heading, pitch, roll):
+    def onNewSourceAttitude(self, heading, _, __):
         if self.srcHeading != heading:
             self.srcHeading = heading
             self.labelSourceHeading.setText('{:.1f}'.format(heading))
@@ -313,6 +313,6 @@ class GuidanceDock(QDockWidget, FORM_CLASS):
             self.dockWidgetContents.setStyleSheet("font-weight: bold; font-size: {}pt;".format(self.fontSize))
         return QDockWidget.resizeEvent(self, event)
 
-    def timerEvent(self, event):
+    def timerEvent(self, _):
         dt = datetime.now(tz=timezone.utc)
         self.labelTimeUtc.setText(dt.strftime("%H:%M:%S"))
