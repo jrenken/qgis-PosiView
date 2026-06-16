@@ -51,6 +51,7 @@ class GuidanceDock(QDockWidget, FORM_CLASS):
         self.timer = 0
         self.setUtcClock()
         self.layer = None
+        self.mobiles = []
 
     def setUtcClock(self):
         if self.showUtc:
@@ -106,15 +107,15 @@ class GuidanceDock(QDockWidget, FORM_CLASS):
                                cf.FormatFlag(0)),
                     cf.formatY(pos.y(), cf.FormatDecimalDegrees, 6,
                                cf.FormatFlag(0)))
-        if self.format == 1:
-            return (cf.formatX(pos.x(), cf.FormatDegreesMinutes, 4,
+        if self.format == 2:
+            return (cf.formatX(pos.x(), cf.FormatDegreesMinutesSeconds, 2,
                                cf.FlagDegreesUseStringSuffix),
-                    cf.formatY(pos.y(), cf.FormatDegreesMinutes, 4,
+                    cf.formatY(pos.y(), cf.FormatDegreesMinutesSeconds, 2,
                                cf.FlagDegreesUseStringSuffix))
-        # if self.format == 2:
-        return (cf.formatX(pos.x(), cf.FormatDegreesMinutesSeconds, 2,
+
+        return (cf.formatX(pos.x(), cf.FormatDegreesMinutes, 4,
                            cf.FlagDegreesUseStringSuffix),
-                cf.formatY(pos.y(), cf.FormatDegreesMinutesSeconds, 2,
+                cf.formatY(pos.y(), cf.FormatDegreesMinutes, 4,
                            cf.FlagDegreesUseStringSuffix))
 
     @pyqtSlot(str, name='on_comboBoxSource_currentTextChanged')

@@ -18,15 +18,16 @@ supportsQt6=True
 author=Jens Renken (Marum, University of Bremen)
 email=renken@marum.de
 
-version=2.0.0rc1
+version=2.0.0
 
 # End of mandatory metadata
 
 # Recommended items:
 
 # Uncomment the following line and add your changelog:
-changelog=2.0.0rc (2026-05-07)
+changelog=2.0.0 (2026-06-16)
     - First version for QGIS4 and Qt6
+    - Minor fixes and improvements
   1.4.0 (2026-06-08)
     - Add Log Layer: write vehicle positions to a point layer
     - Implement a Follow or Lasso Tool to define a working area relative to a vehicle.

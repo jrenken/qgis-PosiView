@@ -297,6 +297,8 @@ class PosiView():
            Unloads and removes also the project.
         """
         self.project.stopTracking()
+        if self.recorder:
+            self.recorder.stopRecording()
         self.tracking.removeMobiles()
         self.tracking.removeProviders()
         self.project.unload()
