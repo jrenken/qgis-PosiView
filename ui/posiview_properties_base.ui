@@ -162,7 +162,7 @@
           </sizepolicy>
          </property>
          <property name="currentIndex">
-          <number>1</number>
+          <number>0</number>
          </property>
          <widget class="QWidget" name="mOptsPage_01">
           <layout class="QVBoxLayout" name="verticalLayout_14">
@@ -409,51 +409,11 @@
                        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Select the radii for Quick Lasso (max. 4)&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                       </property>
                       <property name="currentText">
-                       <string>10m</string>
-                      </property>
-                      <property name="defaultText" stdset="0">
                        <string>Select Radius</string>
                       </property>
-                      <item>
-                       <property name="text">
-                        <string>10m</string>
-                       </property>
-                      </item>
-                      <item>
-                       <property name="text">
-                        <string>20m</string>
-                       </property>
-                      </item>
-                      <item>
-                       <property name="text">
-                        <string>30m</string>
-                       </property>
-                      </item>
-                      <item>
-                       <property name="text">
-                        <string>50m</string>
-                       </property>
-                      </item>
-                      <item>
-                       <property name="text">
-                        <string>75m</string>
-                       </property>
-                      </item>
-                      <item>
-                       <property name="text">
-                        <string>100m</string>
-                       </property>
-                      </item>
-                      <item>
-                       <property name="text">
-                        <string>125m</string>
-                       </property>
-                      </item>
-                      <item>
-                       <property name="text">
-                        <string>150m</string>
-                       </property>
-                      </item>
+                      <property name="defaultText">
+                       <string>Select Radius</string>
+                      </property>
                      </widget>
                     </item>
                    </layout>
@@ -550,8 +510,8 @@
                <rect>
                 <x>0</x>
                 <y>0</y>
-                <width>618</width>
-                <height>399</height>
+                <width>811</width>
+                <height>848</height>
                </rect>
               </property>
               <layout class="QVBoxLayout" name="verticalLayout_8">
@@ -1153,7 +1113,7 @@
                  <property name="title">
                   <string>Mobile Properties</string>
                  </property>
-                 <property name="collapsed" stdset="0">
+                 <property name="collapsed">
                   <bool>false</bool>
                  </property>
                  <layout class="QGridLayout" name="gridLayout_3" columnstretch="0,1,1">
@@ -1233,7 +1193,7 @@
                       <height>25</height>
                      </size>
                     </property>
-                    <property name="allowOpacity" stdset="0">
+                    <property name="allowOpacity">
                      <bool>true</bool>
                     </property>
                     <property name="allowAlpha" stdset="0">
@@ -1307,7 +1267,7 @@
                     <property name="layoutDirection">
                      <enum>Qt::LayoutDirection::LeftToRight</enum>
                     </property>
-                    <property name="defaultText" stdset="0">
+                    <property name="defaultText">
                      <string>none</string>
                     </property>
                    </widget>
@@ -1426,7 +1386,7 @@
                       <height>25</height>
                      </size>
                     </property>
-                    <property name="allowOpacity" stdset="0">
+                    <property name="allowOpacity">
                      <bool>true</bool>
                     </property>
                     <property name="allowAlpha" stdset="0">
@@ -1512,7 +1472,7 @@
                       <verstretch>0</verstretch>
                      </sizepolicy>
                     </property>
-                    <property name="allowOpacity" stdset="0">
+                    <property name="allowOpacity">
                      <bool>true</bool>
                     </property>
                     <property name="allowAlpha" stdset="0">

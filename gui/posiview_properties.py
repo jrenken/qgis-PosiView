@@ -15,6 +15,7 @@ from PosiView.dataprovider.dataparser import PARSERS
 from PosiView.dataprovider.datadevice import DEVICE_TYPES, NETWORK_TYPES
 from PosiView.gui.ui_posiview_properties_base import Ui_PosiviewPropertiesBase
 from PosiView.mobile_item import FILTER_FLAGS
+from PosiView.lasso_marker import LASSO_RADII
 
 
 class PosiviewProperties(QgsOptionsDialogBase, Ui_PosiviewPropertiesBase):
@@ -43,7 +44,7 @@ class PosiviewProperties(QgsOptionsDialogBase, Ui_PosiviewPropertiesBase):
         self.restoreOptionsBaseUi()
         self.comboBoxParser.addItems(PARSERS)
         self.comboBoxProviderType.addItems(DEVICE_TYPES)
-        self.comboBoxLassoRadii.addItems(['10m', '20m', '30m', '50m', '75m', '100m', '125m', '150m'])
+        self.comboBoxLassoRadii.addItems(LASSO_RADII)
         self.project = project
         self.projectProperties = project.properties()
         self.mToolButtonLoad.setDefaultAction(self.actionLoadConfiguration)

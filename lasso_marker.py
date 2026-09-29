@@ -16,6 +16,8 @@ from qgis.core import (
 )
 from qgis.gui import QgsMapCanvasItem
 
+LASSO_RADII = ['2m', '5m', '10m', '20m', '30m', '50m', '75m', '100m', '125m', '150m']
+
 
 class LassoMarker(QgsMapCanvasItem):
     '''

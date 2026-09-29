@@ -19,7 +19,7 @@ class CompassParser(Parser):
         '''
         Constructor does nothing
         '''
-        super(CompassParser, self).__init__()
+        super().__init__()
         self.pat = re.compile(r'([CPR])([\+\-\d.]+)')
 
     def parse(self, data):
