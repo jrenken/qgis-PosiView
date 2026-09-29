@@ -324,62 +324,62 @@
 <context>
     <name>PosiviewProperties</name>
     <message>
-        <location filename="../gui/posiview_properties.py" line="426"/>
+        <location filename="../gui/posiview_properties.py" line="427"/>
         <source>Vessel</source>
         <translation>Schiff</translation>
     </message>
     <message>
-        <location filename="../gui/posiview_properties.py" line="427"/>
+        <location filename="../gui/posiview_properties.py" line="428"/>
         <source>ROV</source>
         <translation>ROV</translation>
     </message>
     <message>
-        <location filename="../gui/posiview_properties.py" line="428"/>
+        <location filename="../gui/posiview_properties.py" line="429"/>
         <source>AUV</source>
         <translation>AUV</translation>
     </message>
     <message>
-        <location filename="../gui/posiview_properties.py" line="429"/>
+        <location filename="../gui/posiview_properties.py" line="430"/>
         <source>Arrow</source>
         <translation>Pfeil</translation>
     </message>
     <message>
-        <location filename="../gui/posiview_properties.py" line="418"/>
+        <location filename="../gui/posiview_properties.py" line="419"/>
         <source>Select Recorder Path</source>
         <translation>Recorder-Pfad wählen</translation>
     </message>
     <message>
-        <location filename="../gui/posiview_properties.py" line="36"/>
+        <location filename="../gui/posiview_properties.py" line="37"/>
         <source>ignore heading</source>
         <translation>Ignoriere Heading</translation>
     </message>
     <message>
-        <location filename="../gui/posiview_properties.py" line="37"/>
+        <location filename="../gui/posiview_properties.py" line="38"/>
         <source>ignore position</source>
         <translation>Ignoriere Position</translation>
     </message>
     <message>
-        <location filename="../gui/posiview_properties.py" line="38"/>
+        <location filename="../gui/posiview_properties.py" line="39"/>
         <source>course as heading</source>
         <translation>Kurs als Heading</translation>
     </message>
     <message>
-        <location filename="../gui/posiview_properties.py" line="56"/>
+        <location filename="../gui/posiview_properties.py" line="57"/>
         <source>Provider</source>
         <translation>Datenquelle</translation>
     </message>
     <message>
-        <location filename="../gui/posiview_properties.py" line="56"/>
+        <location filename="../gui/posiview_properties.py" line="57"/>
         <source>Filter</source>
         <translation>Filter</translation>
     </message>
     <message>
-        <location filename="../gui/posiview_properties.py" line="56"/>
+        <location filename="../gui/posiview_properties.py" line="57"/>
         <source>Advanced Filter</source>
         <translation>Erweiterte Filter</translation>
     </message>
     <message>
-        <location filename="../gui/posiview_properties.py" line="39"/>
+        <location filename="../gui/posiview_properties.py" line="40"/>
         <source>decode easting/northing</source>
         <translation>Dekodiere UTM-Ostwert/Nordwert</translation>
     </message>
@@ -895,46 +895,6 @@
         <location filename="../gui/ui_posiview_properties_base.py" line="786"/>
         <source>Select Radius</source>
         <translation>Radien auswählen</translation>
-    </message>
-    <message>
-        <location filename="../ui/posiview_properties_base.ui" line="419"/>
-        <source>10m</source>
-        <translation>10m</translation>
-    </message>
-    <message>
-        <location filename="../ui/posiview_properties_base.ui" line="424"/>
-        <source>20m</source>
-        <translation>20m</translation>
-    </message>
-    <message>
-        <location filename="../ui/posiview_properties_base.ui" line="429"/>
-        <source>30m</source>
-        <translation>30m</translation>
-    </message>
-    <message>
-        <location filename="../ui/posiview_properties_base.ui" line="434"/>
-        <source>50m</source>
-        <translation>50m</translation>
-    </message>
-    <message>
-        <location filename="../ui/posiview_properties_base.ui" line="439"/>
-        <source>75m</source>
-        <translation>75m</translation>
-    </message>
-    <message>
-        <location filename="../ui/posiview_properties_base.ui" line="444"/>
-        <source>100m</source>
-        <translation>100m</translation>
-    </message>
-    <message>
-        <location filename="../ui/posiview_properties_base.ui" line="449"/>
-        <source>125m</source>
-        <translation>125m</translation>
-    </message>
-    <message>
-        <location filename="../ui/posiview_properties_base.ui" line="454"/>
-        <source>150m</source>
-        <translation>150m</translation>
     </message>
     <message>
         <location filename="../gui/ui_posiview_properties_base.py" line="784"/>

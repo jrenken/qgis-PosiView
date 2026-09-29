@@ -162,7 +162,7 @@
           </sizepolicy>
          </property>
          <property name="currentIndex">
-          <number>1</number>
+          <number>0</number>
          </property>
          <widget class="QWidget" name="mOptsPage_01">
           <layout class="QVBoxLayout" name="verticalLayout_14">
@@ -414,46 +414,6 @@
                       <property name="defaultText">
                        <string>Select Radius</string>
                       </property>
-                      <item>
-                       <property name="text">
-                        <string>10m</string>
-                       </property>
-                      </item>
-                      <item>
-                       <property name="text">
-                        <string>20m</string>
-                       </property>
-                      </item>
-                      <item>
-                       <property name="text">
-                        <string>30m</string>
-                       </property>
-                      </item>
-                      <item>
-                       <property name="text">
-                        <string>50m</string>
-                       </property>
-                      </item>
-                      <item>
-                       <property name="text">
-                        <string>75m</string>
-                       </property>
-                      </item>
-                      <item>
-                       <property name="text">
-                        <string>100m</string>
-                       </property>
-                      </item>
-                      <item>
-                       <property name="text">
-                        <string>125m</string>
-                       </property>
-                      </item>
-                      <item>
-                       <property name="text">
-                        <string>150m</string>
-                       </property>
-                      </item>
                      </widget>
                     </item>
                    </layout>

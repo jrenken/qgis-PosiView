@@ -12,7 +12,7 @@ from qgis.PyQt.QtCore import pyqtSlot, QSettings, Qt
 from qgis.PyQt.QtWidgets import QDialog, QStatusBar
 from qgis.gui import QgsMapToolEmitPoint
 from qgis.core import QgsPointXY, QgsDistanceArea, QgsProject
-from ..lasso_marker import LassoMarker
+from PosiView.lasso_marker import LassoMarker, LASSO_RADII
 
 FORM_CLASS, _ = uic.loadUiType(os.path.join(
     os.path.split(os.path.dirname(__file__))[0], 'ui', 'following_dialog_base.ui'))
@@ -32,7 +32,7 @@ class FollowingDialog(QDialog, FORM_CLASS):
         self.statusBar = QStatusBar()
         self.statusBar.setStyleSheet('background: lightgray;')
         self.gridLayout.addWidget(self.statusBar, 10, 0, 1, -1)
-        self.comboBoxRadius.insertItems(0, ['10', '20', '30', '50', '75', '100', '125', '150'])
+        self.comboBoxRadius.insertItems(0, LASSO_RADII)
         self.comboBoxRadius.setCurrentIndex(4)
         self.labelInfo.setText(self.tr('Click on the canvas or select a target vehicle'))
         self.iface = iface
@@ -129,7 +129,7 @@ class FollowingDialog(QDialog, FORM_CLASS):
         if radius > 0:
             rad = radius
         else:
-            rad = int(self.comboBoxRadius.currentText())
+            rad = int(self.comboBoxRadius.currentText()[:-1])
         if self.clickPos and mobs.coordinates:
             lm = LassoMarker(self.iface.mapCanvas(),
                              src=mobs.coordinates,
