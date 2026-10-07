@@ -28,6 +28,7 @@ class LassoMarker(QgsMapCanvasItem):
         super().__init__(canvas)
         self.canvas = canvas
         self.position = src
+        self.origin = src
         self.targetPos = target
         self.distance = None
         self.bearing = None
@@ -53,7 +54,7 @@ class LassoMarker(QgsMapCanvasItem):
     def updateSize(self):
         if self.distance and self.bearing:
             trg = self.toCanvasCoordinates(self.targetPos)
-            trg -= self.toCanvasCoordinates(self.position)
+            trg -= self.toCanvasCoordinates(self.origin)
             dist = hypot(trg.x(), trg.y())
             f = dist / self.distance
             bear = atan2(trg.x(), -trg.y())
