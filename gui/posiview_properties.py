@@ -129,7 +129,7 @@ class PosiviewProperties(QgsOptionsDialogBase, Ui_PosiviewPropertiesBase):
     def onActionLoadConfigurationTriggered(self):
         ''' Load configuration from file
         '''
-        fn, __ = QFileDialog.getOpenFileName(None, 'Save PosiView configuration', '', 'Configuration (*.ini *.conf)')
+        fn, __ = QFileDialog.getOpenFileName(None, 'Load PosiView configuration', '', 'Configuration (*.ini *.conf)')
         self.projectProperties = self.project.read(fn)
         self.setupModelData(self.projectProperties)
         self.setupGeneralData(self.projectProperties)

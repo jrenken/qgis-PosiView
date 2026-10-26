@@ -42,7 +42,7 @@ class TcpDevice(DataDevice):
         self.iodevice.connectToHost(self.host, self.port)
 
     def disconnectDevice(self):
-        if self.iodevice.state() is QAbstractSocket.ConnectedState:
+        if self.iodevice.state() == QAbstractSocket.ConnectedState:
             self.iodevice.disconnectFromHost()
 
     def readData(self):
@@ -72,3 +72,6 @@ class TcpDevice(DataDevice):
     @pyqtSlot()
     def socketDisconnected(self):
         self.deviceDisconnected.emit(True)
+        if self.iodevice.error() != QAbstractSocket.UnknownSocketError:
+            if self.reconnect > 0:
+                QTimer.singleShot(self.reconnect, self.onReconnectTimer)

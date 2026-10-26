@@ -146,6 +146,8 @@ class PositionMarker(QgsMapCanvasItem):
         if self.type != 'SHAPE':
             return
         s = self.canvas.mapSettings()
+        if not s.destinationCrs().isValid():
+            return
         self.distArea.setSourceCrs(s.destinationCrs(), QgsProject.instance().transformContext())
         try:
             if self.position:
