@@ -162,7 +162,7 @@ class MobileItem(QObject):
             if not self.messageFilter[pname]['id'] in (None, 'None'):
                 if not data['id'] in (self.messageFilter[pname]['id'], str(self.messageFilter[pname]['id'])):
                     return
-        except Exception:
+        except KeyError:
             pass
 
         self.extData.update(data)

@@ -14,7 +14,7 @@ about=Track multiple objects and vehicles and display them as shapes and points 
 description=PosiView tracks multiple mobile objects and vehicles and displays their position on the canvas
 qgisMinimumVersion=3.4
 qgisMaximumVersion=3.99
-version=1.4.0
+version=1.4.1
 author=Jens Renken (Marum, University of Bremen)
 email=renken@marum.de
 
@@ -23,7 +23,11 @@ email=renken@marum.de
 # Recommended items:
 
 # Uncomment the following line and add your changelog:
-changelog=1.4.0 (2026-06-08)
+changelog=changelog=1.4.1 (2026-10-30)
+    - fix errors in the lasso tool
+    - ensure TCP reconnection
+    - bug fixes
+  1.4.0 (2026-06-08)
     - Add Log Layer: write vehicle positions to a point layer
     - Implement a Follow or Lasso Tool to define a working area relative to a vehicle.
     - Bugfixes and improvements
