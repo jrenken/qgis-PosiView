@@ -132,7 +132,7 @@ class PosiViewProject():
                 except KeyError:
                     self.iface.messageBar().pushMessage(self.tr(u'Error'),
                                                         self.tr(u"Can't subscribe dataprovider: ") + k1 + self.tr(u' for ') + m.name,
-                                                        level=Qgis.Critical, duration=5)
+                                                        level=Qgis.MessageLevel.Critical, duration=5)
         self.trackCache.clear()
 
     def unload(self):

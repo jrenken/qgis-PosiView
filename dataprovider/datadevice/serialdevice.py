@@ -42,7 +42,7 @@ class SerialDevice(DataDevice):
         self.iodevice.setParity(self.parity)
         self.iodevice.setStopBits(self.stopbits)
         self.iodevice.setFlowControl(self.flowControl)
-        if not self.iodevice.open(QIODevice.ReadOnly):
+        if not self.iodevice.open(QIODevice.OpenModeFlag.ReadOnly):
             if self.reconnect > 0:
                 QTimer.singleShot(self.reconnect, self.onReconnectTimer)
         else:

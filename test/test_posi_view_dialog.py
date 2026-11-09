@@ -39,24 +39,24 @@ class PosiViewDialogTest(unittest.TestCase):
     def test_dialog_ok(self):
         """Test we can click OK."""
 
-        button = self.dialog.buttonBox.button(QDialogButtonBox.Ok)
+        button = self.dialog.buttonBox.button(QDialogButtonBox.StandardButton.Ok)
         button.click()
         result = self.dialog.result()
-        self.assertEqual(result, QDialog.Accepted)
+        self.assertEqual(result, QDialog.DialogCode.Accepted)
 
     def test_dialog_cancel(self):
         """Test we can click cancel."""
-        button = self.dialog.buttonBox.button(QDialogButtonBox.Cancel)
+        button = self.dialog.buttonBox.button(QDialogButtonBox.StandardButton.Cancel)
         button.click()
         result = self.dialog.result()
-        self.assertEqual(result, QDialog.Rejected)
+        self.assertEqual(result, QDialog.DialogCode.Rejected)
 
     def test_dialog_apply(self):
         """Test we can click apply."""
-        button = self.dialog.buttonBox.button(QDialogButtonBox.Apply)
+        button = self.dialog.buttonBox.button(QDialogButtonBox.StandardButton.Apply)
         button.click()
         result = self.dialog.result()
-        self.assertEqual(result, QDialog.Rejected)
+        self.assertEqual(result, QDialog.DialogCode.Rejected)
 
 
 if __name__ == "__main__":

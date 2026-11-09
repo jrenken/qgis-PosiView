@@ -239,7 +239,7 @@ class GuidanceDock(QDockWidget, FORM_CLASS):
         self.layer = None
         if not layer:
             return
-        if layer.type() == QgsMapLayer.VectorLayer and layer.wkbType() == QgsWkbTypes.Point:
+        if layer.type() == QgsMapLayer.LayerType.VectorLayer and layer.wkbType() == QgsWkbTypes.Type.Point:
             if layer.fields().indexOf('name') != -1:
                 self.layer = layer
                 self.comboBoxSource.blockSignals(True)

@@ -449,11 +449,11 @@ class PosiView():
         if success:
             self.iface.messageBar().pushMessage(self.tr(u'PosiView Recorder'),
                                                 self.tr(u'Recording started: ') + fileName,
-                                                level=Qgis.Info, duration=20)
+                                                level=Qgis.MessageLevel.Info, duration=20)
         else:
             self.iface.messageBar().pushMessage(self.tr(u'PosiView Recorder'),
                                                 self.tr(u'Start recording failed: ') + fileName,
-                                                level=Qgis.Critical, duration=20)
+                                                level=Qgis.MessageLevel.Critical, duration=20)
             self.actions['recordAction'].setChecked(False)
 
 #     @pyqtSlot()

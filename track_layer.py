@@ -36,7 +36,7 @@ class TrackLayer(QObject):
         if lrs:
             for lr in lrs:
                 if isinstance(lr, QgsVectorLayer) and lr.geometryType() == Qgis.GeometryType.Point:
-                    if lr.dataProvider().capabilities() & QgsVectorDataProvider.AddAttributes:
+                    if lr.dataProvider().capabilities() & QgsVectorDataProvider.Capability.AddAttributes:
                         field_names = [field.name() for field in lr.fields()]
                         for field in self.FIELD_TYPES:
                             if field not in field_names:

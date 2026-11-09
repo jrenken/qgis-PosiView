@@ -181,7 +181,7 @@ class PositionMarker(QgsMapCanvasItem):
     def newTrackPoint(self, pos):
         tp = QgsVertexMarker(self.canvas)
         tp.setCenter(pos)
-        tp.setIconType(QgsVertexMarker.ICON_CROSS)
+        tp.setIconType(QgsVertexMarker.IconType.ICON_CROSS)
         tp.setColor(self.trackColor)
         tp.setZValue(self.zValue() - 0.1)
         tp.setIconSize(3)

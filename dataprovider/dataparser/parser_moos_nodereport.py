@@ -64,7 +64,7 @@ class MoosNodeReportParser(Parser):
                     pass
             except Exception:
                 if log_error:
-                    QgsMessageLog.logMessage(f"Unable to parse '{var}' from NODE_REPORT '{data}'", tag="PosiView", level=Qgis.Critical)
+                    QgsMessageLog.logMessage(f"Unable to parse '{var}' from NODE_REPORT '{data}'", tag="PosiView", level=Qgis.MessageLevel.Critical)
                 else:
                     raise
         return result

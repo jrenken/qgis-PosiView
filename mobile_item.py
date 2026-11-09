@@ -331,7 +331,7 @@ class MobileItem(QObject):
                 m.setParent(label)
                 m.start()
                 w.layout().addWidget(label)
-                self.iface.messageBar().pushWidget(w, level=Qgis.Critical, duration=self.notifyDuration)
+                self.iface.messageBar().pushWidget(w, level=Qgis.MessageLevel.Critical, duration=self.notifyDuration)
 
     def getTrack(self):
         for m in self.markers.values():
